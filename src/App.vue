@@ -22,8 +22,8 @@
     </div>
     <CentralMaintenance v-if="getVisibility('CentralMaintenance')" />
     <ConditionMonitoring v-if="getVisibility('ConditionMonitoring')" />
-    <data-load v-if="getVisibility('dataLoad')" />
-    <utility v-if="getVisibility('utility')" />
+    <DataLoad v-if="getVisibility('DataLoad')" />
+    <Utility v-if="getVisibility('Utility')" />
 
   </div>
 </template>
@@ -43,22 +43,22 @@
           CentralMaintenance: {
             name: "CENTRAL MAINTENANCE",
             isActive: true,
-            routeName: "failureRep"
+            routeName: "FailureReport"
           },
           ConditionMonitoring: {
             name: "CONDITION MONITORING",
             isActive: false,
-            routeName: "paramDisplay"
+            routeName: "ParameterDisplay"
           },
-          dataLoad: {
+          DataLoad: {
             name: "DATA LOAD",
             isActive: false,
-            routeName: "dataLoadRoute"
+            routeName: "DataLoad"
           },
-          utility: {
+          Utility: {
             name: "UTILITY",
             isActive: false,
-            routeName: "utilityRoute"
+            routeName: "Utility"
           }
         }
       };

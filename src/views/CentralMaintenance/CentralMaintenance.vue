@@ -32,30 +32,30 @@
       return {
         activeIndex: '',
         menus: {
-          failureRep: {
+          FailureReport: {
             name: "failure report",
             isActive: true,
-            routeName: "failureRep"
+            routeName: "FailureReport"
           },
-          groundTest: {
+          GroundTest: {
             name: "ground test",
             isActive: false,
-            routeName: "groundTest"
+            routeName: "GroundTest"
           },
-          config: {
+          Configuration: {
             name: "configuration",
             isActive: false,
-            routeName: "config"
+            routeName: "Configuration"
           },
-          nvmData: {
+          NVMData: {
             name: "NVM Data",
             isActive: false,
-            routeName: "nvmData"
+            routeName: "NVMData"
           },
-          extendedFunctions: {
+          ExtendedFunctions: {
             name: "Extended Functions",
             isActive: false,
-            routeName: "extendedFunctions"
+            routeName: "ExtendedFunctions"
           },
         },
       };

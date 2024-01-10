@@ -32,20 +32,20 @@
       return {
         activeIndex: '',
         menus: {
-          paramDisplay: {
+          ParameterDisplay: {
             name: "parameter display",
             isActive: true,
-            routeName: "paramDisplay"
+            routeName: "ParameterDisplay"
           },
-          paramGrapDisplay: {
+          ParameterRecording: {
             name: "parameter recording",
             isActive: false,
-            routeName: "paramGrapDisplay"
+            routeName: "ParameterRecording"
           },
-          eventMonitoring: {
+          EventMonitoring: {
             name: "event monitoring",
             isActive: false,
-            routeName: "eventMonitoring"
+            routeName: "EventMonitoring"
           },
         },
       };

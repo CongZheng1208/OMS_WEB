@@ -1,42 +1,45 @@
-import FailureRep from '../components/subViews/centralMain/FailureRep.vue';
-import GroundTest from '../components/subViews/centralMain/GroundTest.vue';
-import GroundTestPage from '../components/subViews/centralMain/GroundTestPage.vue';
+import FailureReport from '../../views/CentralMaintenance/FailureReport/FailureReport.vue';
 
-import Config from '../components/subViews/centralMain/Config.vue';
-import NVMData from '../components/subViews/centralMain/NVMData.vue';
-import ExtendedFunctions from '../components/subViews/centralMain/ExtendedFunctions.vue';
+import GroundTest from '../../views/CentralMaintenance/GroundTest/GroundTest.vue';
+import GroundTestPage from '../../views/CentralMaintenance/GroundTest/GroundTestPage.vue';
+
+import Configuration from '../../views/CentralMaintenance/Configuration/Configuration.vue';
+
+import NVMData from '../../views/CentralMaintenance/NVMData/NVMData.vue';
+
+import ExtendedFunctions from '../../views/CentralMaintenance/ExtendedFunctions/ExtendedFunctions.vue';
 
 
 const routes = [
   {
     path: '/CentralMaintenance/FailureReport',
-    name: 'failureRep',
-    component: FailureRep
+    name: 'FailureReport',
+    component: FailureReport
   },
 
   {
     path: '/CentralMaintenance/GroundTest',
-    name: 'groundTest',
+    name: 'GroundTest',
     component: GroundTest
   },
   {
     path: '/CentralMaintenance/GroundTestPage',
-    name: 'groundTestPage',
+    name: 'GroundTestPage',
     component: GroundTestPage
   },
   {
-    path: '/CentralMaintenance/Config',
-    name: 'config',
-    component: Config
+    path: '/CentralMaintenance/Configuration',
+    name: 'Configuration',
+    component: Configuration
   },
   {
     path: '/CentralMaintenance/NVMData',
-    name: 'nvmData',
+    name: 'NVMData',
     component: NVMData
   },
   {
     path: '/CentralMaintenance/ExtendedFunctions',
-    name: 'extendedFunctions',
+    name: 'ExtendedFunctions',
     component: ExtendedFunctions
   },
 ];

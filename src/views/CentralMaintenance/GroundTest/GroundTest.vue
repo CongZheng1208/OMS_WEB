@@ -4,9 +4,8 @@
       padding-top: 3vh; padding-left: 4vh; font-size: 16px;">
       Test Status: {{ selectedRowStatus }}
     </el-header>
-    <el-main style="height:62vh; flex: 1; padding: 0;">
+    <el-main style=" flex: 1; padding: 0;">
       <el-table
-        height="62vh"
         highlight-current-row
         style="width: 100%; background-color: rgb(46, 45, 45)"
         @row-click="handleRowClick"
@@ -34,7 +33,7 @@
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
     </el-main>
-    <el-footer height="10vh" style="border: none; display: flex; justify-content: space-between; align-items: center;">
+    <el-footer style="border: none; display: flex; justify-content: space-between; align-items: center;">
       <div>
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
@@ -192,26 +191,46 @@
       }
     },
     methods: {
+
+      /**
+       * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
+       * @param {string} row - menus数据的name属性
+       */
       handleRowClick(row) {
-        this.selectedRowStatus = row.status; // 更新选中行的status属性到selectedRowStatus变量
+        this.selectedRowStatus = row.status;
       },
+
+      /**
+       * 本函数用于返回进度对应的进度条颜色
+       * @param {number} progress - 进度值
+       * @returns {number} 该进度值对应的颜色rgb值
+       */
       getProgressColor(progress) {
         if (progress < 20) {
-          return '#ff4500'; // 红色
+          return '#ff4500';
         } else if (progress >= 20 && progress < 40) {
-          return '#ffd700'; // 黄色
+          return '#ffd700';
         } else if (progress >= 40 && progress < 100) {
-          return '#00ced1'; // 青色
+          return '#00ced1';
         } else {
-          return '#51cef1'; // 绿色
+          return '#51cef1';
         }
       },
+
+      /**
+       * 本函数用于打印页面
+       */
       printPage() {
-        // 调用window.print()来触发打印
         window.print();
       },
-      customSortMethodForProgressColumn(a, b) {
 
+      /**
+       * 本函数用于根据排序对象确定排序逻辑
+       * @param {number/string} a - 排序对象1
+       * @param {number/string} b - 排序对象2
+       * @returns {number/string} 排序逻辑
+       */
+      customSortMethodForProgressColumn(a, b) {
         // 判断a和b的类型
         if (typeof a === 'string' && typeof b === 'string') {
           // 字符串类型，使用localeCompare进行字典序排序
@@ -221,10 +240,13 @@
           return a - b;
         }
       },
-      goPage() {
-        this.$router.push({ name: "groundTestPage" });
-      }
 
+      /**
+       * 本函数用于跳转页面
+       */
+      goPage() {
+        this.$router.push({ name: "GroundTestPage" });
+      }
     }
   }
 

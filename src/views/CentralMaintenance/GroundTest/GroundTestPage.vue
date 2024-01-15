@@ -6,7 +6,7 @@
     </el-header>
     <el-main style="height:62vh; flex: 1; padding: 0;">
       <el-table
-        height="62vh"
+        height="100vh"
         highlight-current-row
         style="width: 100%; background-color: rgb(46, 45, 45)"
         @row-click="handleRowClick"
@@ -34,7 +34,7 @@
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
     </el-main>
-    <el-footer height="10vh" style="border: none; display: flex; justify-content: space-between; align-items: center;">
+    <el-footer>
       <div>
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>

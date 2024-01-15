@@ -1,4 +1,4 @@
-const routes = [
+const UtilityRoutes = [
 ];
 
-export default routes;
+export default UtilityRoutes;

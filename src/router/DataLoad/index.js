@@ -1,4 +1,4 @@
-const routes = [
+const DataLoadRoutes = [
 ];
 
-export default routes;
+export default DataLoadRoutes;

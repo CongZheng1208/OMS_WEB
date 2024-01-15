@@ -1,6 +1,5 @@
 <template>
-  <div class="container-fluid">
-
+  <div class="container-fluid  full-height">
     <el-menu
       :default-active="activeIndex"
       mode="horizontal"
@@ -15,11 +14,12 @@
         :index="key"
         :class="{'el-menu-demo-active': menu.isActive, 'el-menu-demo': !menu.isActive, 'disabled': menu.disabled}"
         :disabled="menu.disabled"
-        @click="navigateToRoute(key)"
+        @click="changeSubView(key)"
       >
         {{ menu.name.toUpperCase() }}
       </el-menu-item>
     </el-menu>
+
     <router-view/>
 
   </div>
@@ -61,21 +61,24 @@
       };
     },
     methods: {
-      async navigateToRoute(key) {
-        const routeName = key
-
-        if (this.$route.name !== routeName) {
-          await this.$router.push({ name: routeName });
+      /**
+       * 本函数用于触发对一级菜单项目的点击回调事件，改变展示页面的路由
+       * @param {viewKey} string - menus数据的name属性
+       */
+      async changeSubView(viewKey) {
+        // 更新页面路由
+        if (this.$route.name !== viewKey) {
+          await this.$router.push({ name: viewKey });
         }
 
         // 遍历 menus 对象，更新 isActive 属性
-        for (const menuKey in this.menus) {
-          if (menuKey === key) {
-            this.$set(this.menus[menuKey], 'isActive', true); // 使用 $set 方法更新响应式数据
+        Object.keys(this.menus).forEach((menuKey, index) => {
+          if (menuKey === viewKey) {
+            this.$set(this.menus[menuKey], 'isActive', true);
           } else {
             this.$set(this.menus[menuKey], 'isActive', false);
           }
-        }
+        });
       }
     },
   }
@@ -86,16 +89,17 @@
   .el-menu-demo {
     background-image: linear-gradient(rgb(24, 24, 24), rgb(66, 66, 66));
     border: 1px solid rgb(85, 85, 85);
-
-    /* height: 6vh; */
     width: 20%
   }
   .el-menu-demo-active {
     background-image: linear-gradient(#363636, rgb(97, 97, 97));
     box-shadow: 5px 5px 30px 0px #17bef1;
     border: none;
-    /* height: 6vh; */
     width: 20%
+  }
+
+  .container-fluid.full-height {
+    height: 62vh;
   }
 </style>
 

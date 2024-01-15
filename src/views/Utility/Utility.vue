@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
     utility
+    <router-view/>
   </div>
 </template>
 

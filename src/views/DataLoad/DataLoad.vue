@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
     data load
+    <router-view/>
   </div>
 </template>
 

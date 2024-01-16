@@ -18,9 +18,17 @@ export default new Vuex.Store({
         addcount(state, num) { 
             state.count = state.count + num;
             
+      },
+      
+      timeTest(state) { 
+        setTimeout(() => {
+          state.count = state.count + 10;
+          console.log("state.count:", state.count);
+             }, 100)
         },
         
       myarray(state) { 
+    
     var urlRoot = "http://localhost:8080/php/centralMaintenance/failureReport/existingFailures.php";
 
       axios.get( urlRoot).then(

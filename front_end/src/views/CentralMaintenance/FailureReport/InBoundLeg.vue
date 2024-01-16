@@ -84,6 +84,7 @@
     </div>
     <div>
       <button class="text-white" @click="btn">点击我增加count</button>
+      <button class="text-white" @click="btn2">点击重写count的值</button>
     </div>
   </div>
 </template>
@@ -146,6 +147,7 @@ export default {
     findURL() {},
     btn() {
       this.$store.commit("addcount", 10);
+      this.$store.commit("timeTest");
 
       //this.$store.dispatch("myarray");
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -155,7 +157,10 @@ export default {
       this.sortCurrentArray = this.$store.state.res;
       console.log("sortCurrentArray:", this.sortCurrentArray);
     },
-
+    btn2() {
+      this.$store.state.count = 10000;
+      console.log("this.$store.state.count:", this.$store.state.count);
+    },
     changeType(type) {
       var vm = this;
       if (vm.sortType == type) {

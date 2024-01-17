@@ -22,33 +22,36 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 
 
-## Code Structure
+## Project Structure
 
 
 ``` bash
-├── build                      # 构建相关
-├── config                     # 项目配置
-├── node_modules               # 构建配置
-├── src                        # 源代码
-│   ├── api                    # 存放与后端API交互相关的文件，如封装的接口请求、拦截器等。
-│   ├── assets                 # 存放静态资源文件，如图片、字体图标等。
-│   ├── components             # 存放项目中的组件，可以按功能或页面进行组织，每个组件包含自己的.vue文件和相关的样式、脚本或测试文件。
-│   ├── mixins                 # 存放全局mixins。
-│   ├── plugins                # 存放一些第三方插件如axios、vuex、element-ui等。
-│   ├── router                 # 路由
-│   ├── store                  # 全局 store管理
-│   ├── styles                 # 全局样式
-│   ├── utils                  # 全局公用方法
-│   ├── views                  # views 所有页面
-│   ├── App.vue                # 入口页面
-│   └── main.js                # 入口文件 加载组件 初始化等
-├── tests                      # 测试
-├── .env.xxx                   # 环境变量配置
-├── .eslintrc.js               # eslint 配置项
-├── .babelrc                   # babel-loader 配置
-├── vue.config.js              # vue-cli 配置
-├── postcss.config.js          # postcss 配置
-└── package.json               # package.json
+├──font_end						# 前端相关
+	├── build                      # 构建相关
+	├── config                     # 项目配置
+	├── node_modules               # 构建配置
+	├── src                        # 源代码
+	│   ├── api                    # 存放与后端API交互相关的文件，如封装的接口请求、拦截器等。
+	│   ├── assets                 # 存放静态资源文件，如图片、字体图标等。
+	│   ├── components             # 存放项目中的组件，可以按功能或页面进行组织，每个组件包含自己的.vue文件和相关的样式、脚本或测试文件。
+	│   ├── mixins                 # 存放全局mixins。
+	│   ├── plugins                # 存放一些第三方插件如axios、vuex、element-ui等。
+	│   ├── router                 # 路由
+	│   ├── store                  # 全局 store管理
+	│   ├── styles                 # 全局样式
+	│   ├── utils                  # 全局公用方法
+	│   ├── views                  # views 所有页面
+	│   ├── App.vue                # 入口页面
+	│   └── main.js                # 入口文件 加载组件 初始化等
+	├── tests                      # 测试
+	├── .env.xxx                   # 环境变量配置
+	├── .eslintrc.js               # eslint 配置项
+	├── .babelrc                   # babel-loader 配置
+	├── vue.config.js              # vue-cli 配置
+	├── postcss.config.js          # postcss 配置
+	└── package.json               # package.json
+├──back_end						# 后端相关
+	├── php                      # php脚本
 ```
 
 

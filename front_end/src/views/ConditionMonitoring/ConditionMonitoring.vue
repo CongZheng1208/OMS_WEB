@@ -8,17 +8,14 @@
       active-text-color="#17bef1"
       style="margin-top: 1vh; font-weight: bold"
     >
-      <el-menu-item
-        v-for="(menu, key) in menus"
-        :key="key"
-        :index="key"
+    <el-menu-item
+        v-for="(menu, index) in menus"
+        :key="index"
         :class="{
           'el-menu-demo-active': menu.isActive,
           'el-menu-demo': !menu.isActive,
-          disabled: menu.disabled,
         }"
-        :disabled="menu.disabled"
-        @click="navigateToRoute(key)"
+        @click="changeSubView(index)"
       >
         {{ menu.name.toUpperCase() }}
       </el-menu-item>
@@ -33,42 +30,44 @@ export default {
   data() {
     return {
       activeIndex: "",
-      menus: {
-        ParameterDisplay: {
+      menus: [
+        {
           name: "parameter display",
           isActive: true,
           routeName: "ParameterDisplay",
         },
-        ParameterRecording: {
+        {
           name: "parameter recording",
           isActive: false,
           routeName: "ParameterRecording",
         },
-        EventMonitoring: {
+        {
           name: "event monitoring",
           isActive: false,
           routeName: "EventMonitoring",
         },
-      },
+      ],
     };
   },
   methods: {
-    async navigateToRoute(key) {
-      const routeName = key;
-
-      if (this.$route.name !== routeName) {
-        await this.$router.push({ name: routeName });
+    /**
+     * 本函数用于触发对一级菜单项目的点击回调事件，改变展示页面的路由
+     * @param {viewKey} string - menus数据的name属性
+     */
+      async changeSubView(viewKey) {
+      // 更新页面路由
+      if (!this.$route.path.includes(viewKey)) {
+        await this.$router.push({ name: this.menus[viewKey].routeName });
       }
-
-      // 遍历 menus 对象，更新 isActive 属性
-      for (const menuKey in this.menus) {
-        if (menuKey === key) {
-          this.$set(this.menus[menuKey], "isActive", true); // 使用 $set 方法更新响应式数据
+      // 遍历 menus 对象，更新 isActive 属性，改变菜单被点击项目的样式
+      this.menus.forEach((menu, index) => {
+        if (index === viewKey) {
+          menu.isActive = true;
         } else {
-          this.$set(this.menus[menuKey], "isActive", false);
+          menu.isActive = false;
         }
-      }
-    },
+      });
+    }
   },
 };
 </script>

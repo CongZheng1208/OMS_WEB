@@ -15,8 +15,12 @@ import Utility from '../views/Utility/Utility.vue';
 
 
 import FailureReport from '../views/CentralMaintenance/FailureReport/FailureReport.vue';
-import GroundTest from '../views/CentralMaintenance/GroundTest/GroundTest.vue';
-import GroundTestPage from '../views/CentralMaintenance/GroundTest/GroundTestPage.vue';
+import GroundTestDefaultPage from '../views/CentralMaintenance/GroundTest/GroundTestDefaultPage.vue';
+import GroundTestSelectATAandEquipmentPage from '../views/CentralMaintenance/GroundTest/GroundTestSelectATAandEquipmentPage.vue';
+import GroundTestSelectTestPage from '../views/CentralMaintenance/GroundTest/GroundTestSelectTestPage.vue';
+import GroundTestThreeTestsPage from '../views/CentralMaintenance/GroundTest/GroundTestThreeTestsPage.vue';
+import GroundTestInteractiveTestPage from '../views/CentralMaintenance/GroundTest/GroundTestInteractiveTestPage.vue';
+import GroundTestViewDetailPage from '../views/CentralMaintenance/GroundTest/GroundTestViewDetailPage.vue';
 import Configuration from '../views/CentralMaintenance/Configuration/Configuration.vue';
 import NVMData from '../views/CentralMaintenance/NVMData/NVMData.vue';
 import ExtendedFunctions from '../views/CentralMaintenance/ExtendedFunctions/ExtendedFunctions.vue';
@@ -40,16 +44,38 @@ const routes = [
         name: 'FailureReport',
         component: FailureReport
       },
+
       {
-        path: 'GroundTest',
-        name:'GroundTest',
-        component: GroundTest
+        path: 'GroundTestDefaultPage',
+        name:'GroundTestDefaultPage',
+        component: GroundTestDefaultPage
       },
       {
-        path: 'GroundTestPage',
-        name:'GroundTestPage',
-        component: GroundTestPage
+        path: 'GroundTestSelectATAandEquipmentPage',
+        name:'GroundTestSelectATAandEquipmentPage',
+        component: GroundTestSelectATAandEquipmentPage
       },
+      {
+        path: 'GroundTestSelectTestPage',
+        name:'GroundTestSelectTestPage',
+        component: GroundTestSelectTestPage
+      },
+      {
+        path: 'GroundTestThreeTestsPage',
+        name:'GroundTestThreeTestsPage',
+        component: GroundTestThreeTestsPage
+      },
+      {
+        path: 'GroundTestInteractiveTestPage',
+        name:'GroundTestInteractiveTestPage',
+        component: GroundTestInteractiveTestPage
+      },
+      {
+        path: 'GroundTestViewDetailPage',
+        name:'GroundTestViewDetailPage',
+        component: GroundTestViewDetailPage
+      },
+
       {
         path: 'Configuration',
         name:'Configuration',

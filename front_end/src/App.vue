@@ -1,29 +1,25 @@
 <template>
   <div id="app">
-    <div class="homeHeader-menus-bg" style="margin-top: 0px">
-      <el-menu
-        mode="horizontal"
-        background-color="rgb(66, 66, 66)"
-        text-color="#fff"
-        active-text-color="#17bef1"
-        style="font-weight: bold; font-size: 20px"
+
+    <el-menu
+      mode="horizontal"
+      background-color="rgb(66, 66, 66)"
+      text-color="#fff"
+      active-text-color="#17bef1"
+      style="font-weight: bold; font-size: 20px"
+    >
+      <el-menu-item
+        v-for="(menu, index) in menus"
+        :key="index"
+        :class="{
+          'el-menu-item-active': menu.isActive,
+          'el-menu-item': !menu.isActive,
+        }"
+        @click="changeView(index)"
       >
-        <el-menu-item
-          v-for="(menu, key) in menus"
-          :key="key"
-          :index="key"
-          :class="{
-            'el-menu-item-active': menu.isActive,
-            'el-menu-item': !menu.isActive,
-            disabled: menu.disabled,
-          }"
-          :disabled="menu.disabled"
-          @click="changeView(key)"
-        >
-          {{ menu.name }}
-        </el-menu-item>
-      </el-menu>
-    </div>
+        {{ menu.name }}
+      </el-menu-item>
+    </el-menu>
 
     <router-view />
   </div>
@@ -35,28 +31,28 @@ export default {
   data() {
     return {
       activeIndex: "",
-      menus: {
-        CentralMaintenance: {
+      menus: [
+        {
           name: "CENTRAL MAINTENANCE",
           isActive: true,
           routeName: "FailureReport",
         },
-        ConditionMonitoring: {
+        {
           name: "CONDITION MONITORING",
           isActive: false,
           routeName: "ParameterDisplay",
         },
-        DataLoad: {
+        {
           name: "DATA LOAD",
           isActive: false,
           routeName: "DataLoad",
         },
-        Utility: {
+        {
           name: "UTILITY",
           isActive: false,
           routeName: "Utility",
         },
-      },
+      ],
     };
   },
   methods: {
@@ -70,11 +66,11 @@ export default {
         await this.$router.push({ name: this.menus[viewKey].routeName });
       }
       // 遍历 menus 对象，更新 isActive 属性，改变菜单被点击项目的样式
-      Object.keys(this.menus).forEach((key, index) => {
-        if (key === viewKey) {
-          this.menus[key].isActive = true;
+      this.menus.forEach((menu, index) => {
+        if (index === viewKey) {
+          menu.isActive = true;
         } else {
-          this.menus[key].isActive = false;
+          menu.isActive = false;
         }
       });
     },

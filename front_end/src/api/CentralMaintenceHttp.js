@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const CentralMaintenceHttp = axios.create({
-  baseURL: 'https://api.centralman.example.com'
+  baseURL: 'http://localhost:8888/oms/php/'
 });
 
 // 请求拦截器

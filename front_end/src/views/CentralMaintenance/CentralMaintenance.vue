@@ -9,12 +9,13 @@
       style="margin-top: 1vh; font-weight: bold;"
     >
       <el-menu-item
-        v-for="(menu, key) in menus"
-        :key="key"
-        :index="key"
-        :class="{'el-menu-demo-active': menu.isActive, 'el-menu-demo': !menu.isActive, 'disabled': menu.disabled}"
-        :disabled="menu.disabled"
-        @click="changeSubView(key)"
+        v-for="(menu, index) in menus"
+        :key="index"
+        :class="{
+          'el-menu-demo-active': menu.isActive,
+          'el-menu-demo': !menu.isActive,
+        }"
+        @click="changeSubView(index)"
       >
         {{ menu.name.toUpperCase() }}
       </el-menu-item>
@@ -31,33 +32,33 @@
     data() {
       return {
         activeIndex: '',
-        menus: {
-          FailureReport: {
+        menus: [
+          {
             name: "failure report",
             isActive: true,
             routeName: "FailureReport"
           },
-          GroundTest: {
+          {
             name: "ground test",
             isActive: false,
-            routeName: "GroundTest"
+            routeName: "GroundTestDefaultPage"
           },
-          Configuration: {
+          {
             name: "configuration",
             isActive: false,
             routeName: "Configuration"
           },
-          NVMData: {
+          {
             name: "NVM Data",
             isActive: false,
             routeName: "NVMData"
           },
-          ExtendedFunctions: {
+          {
             name: "Extended Functions",
             isActive: false,
             routeName: "ExtendedFunctions"
           },
-        },
+        ],
       };
     },
     methods: {
@@ -67,16 +68,15 @@
        */
       async changeSubView(viewKey) {
         // 更新页面路由
-        if (this.$route.name !== viewKey) {
-          await this.$router.push({ name: viewKey });
+        if (!this.$route.path.includes(viewKey)) {
+          await this.$router.push({ name: this.menus[viewKey].routeName });
         }
-
-        // 遍历 menus 对象，更新 isActive 属性
-        Object.keys(this.menus).forEach((menuKey, index) => {
-          if (menuKey === viewKey) {
-            this.$set(this.menus[menuKey], 'isActive', true);
+        // 遍历 menus 对象，更新 isActive 属性，改变菜单被点击项目的样式
+        this.menus.forEach((menu, index) => {
+          if (index === viewKey) {
+            menu.isActive = true;
           } else {
-            this.$set(this.menus[menuKey], 'isActive', false);
+            menu.isActive = false;
           }
         });
       }

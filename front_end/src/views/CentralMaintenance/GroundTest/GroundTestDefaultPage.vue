@@ -47,7 +47,7 @@
           <el-button class="footer-btn" @click="sendAbortAll()">ABORT ALL</el-button> -->
           <el-button class="footer-btn" >VIEW DETAIL</el-button>
           <el-button class="footer-btn" :disabled="true">RESPOND</el-button>
-          <el-button class="footer-btn" @click="goSelectATAandEquipmentPage()">NEW TEST</el-button>
+          <el-button class="footer-btn" @click="createNewTest">NEW TEST</el-button>
           <el-button class="footer-btn" :disabled="true">ABORT TEST</el-button>
           <el-button class="footer-btn" >ABORT ALL</el-button>
       </div>
@@ -249,8 +249,8 @@
       /**
        * 本函数用于跳转页面
        */
-      goSelectATAandEquipmentPage() {
-        this.$router.push({ name: "GroundTestSelectATAandEquipmentPage" });
+       createNewTest() {
+        this.$router.push({ name: "NewTest" });
       }
     }
   }

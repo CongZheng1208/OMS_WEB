@@ -1,4 +1,5 @@
-const UtilityRoutes = [
-];
+const UtilityRoutes = {
+  
+}
 
 export default UtilityRoutes;

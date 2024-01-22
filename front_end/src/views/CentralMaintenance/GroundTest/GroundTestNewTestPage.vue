@@ -177,7 +177,7 @@
        * 本函数用于跳转页面
        */
        goDefaultPage() {
-        this.$router.push({ name: "GroundTestDefaultPage" });
+        this.$router.push({ name: "TestList" });
       }
     },
 

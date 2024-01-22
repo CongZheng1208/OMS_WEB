@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-
     <el-menu
       mode="horizontal"
       background-color="rgb(66, 66, 66)"
@@ -11,10 +10,7 @@
       <el-menu-item
         v-for="(menu, index) in menus"
         :key="index"
-        :class="{
-          'el-menu-item-active': menu.isActive,
-          'el-menu-item': !menu.isActive,
-        }"
+        :class="menu.isActive ? 'el-menu-item-active' : 'el-menu-item'"
         @click="changeView(index)"
       >
         {{ menu.name }}
@@ -30,7 +26,6 @@ export default {
   name: "App",
   data() {
     return {
-      activeIndex: "",
       menus: [
         {
           name: "CENTRAL MAINTENANCE",

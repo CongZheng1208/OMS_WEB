@@ -107,7 +107,7 @@ export default {
      * 本函数用于跳转页面
      */
     goSelectATAandEquipmentPage() {
-      this.$router.push({ name: "GroundTestSelectATAandEquipmentPage" });
+      this.$router.push({ name: "NewTest" });
     }
   },
 

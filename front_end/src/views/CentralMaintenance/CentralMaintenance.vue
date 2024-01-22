@@ -20,9 +20,7 @@
         {{ menu.name.toUpperCase() }}
       </el-menu-item>
     </el-menu>
-
-    <router-view/>
-
+    <router-view />
   </div>
 </template>
 
@@ -36,12 +34,12 @@
           {
             name: "failure report",
             isActive: true,
-            routeName: "FailureReport"
+            routeName: "FailureList"
           },
           {
             name: "ground test",
             isActive: false,
-            routeName: "GroundTestDefaultPage"
+            routeName: "TestList"
           },
           {
             name: "configuration",

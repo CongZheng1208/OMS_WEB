@@ -1,4 +1,5 @@
-const DataLoadRoutes = [
-];
+const DataLoadRoutes = {
+  
+}
 
 export default DataLoadRoutes;

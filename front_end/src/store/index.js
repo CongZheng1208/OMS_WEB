@@ -12,23 +12,23 @@ export default new Vuex.Store({
     count: 0,
     res: {},
     },
-    
+
     mutations: {
-        
-        addcount(state, num) { 
+
+        addcount(state, num) {
             state.count = state.count + num;
-            
+
       },
-      
-      timeTest(state) { 
+
+      timeTest(state) {
         setTimeout(() => {
           state.count = state.count + 10;
           console.log("state.count:", state.count);
              }, 100)
         },
-        
-      myarray(state) { 
-    
+
+      myarray(state) {
+
     var urlRoot = "http://localhost:8080/php/centralMaintenance/failureReport/existingFailures.php";
 
       axios.get( urlRoot).then(
@@ -144,13 +144,13 @@ export default new Vuex.Store({
       );
         },
 
-  
+
     },
 
 
 
     actions: {
-       actAddcount(state, num) { 
+       actAddcount(state, num) {
             state.count = state.count + num*100;
         },
 
@@ -163,10 +163,10 @@ export default new Vuex.Store({
                 return Promise.reject(new Error(false))
             }
         }, */
-        
 
-                
-                
-                
+
+
+
+
     }
 })

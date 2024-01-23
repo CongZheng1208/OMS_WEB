@@ -14,6 +14,7 @@
   color: #2c3e50;
 }
 
+
 .el-menu-item {
   background-image: linear-gradient(rgb(24, 24, 24), rgb(66, 66, 66));
   border: 1px solid rgb(85, 85, 85);
@@ -40,7 +41,6 @@
   line-height: 6vh;
 }
 
-
 .el-table td {
   padding: 2vh 2vh;
   height: 20px;
@@ -60,6 +60,26 @@
 }
 
 
+.el-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.el-header {
+  text-align: left;
+  font-weight: bold;
+  color: white;
+
+  text-shadow: 2px 2px 2px #000;
+  padding-top: 3vh;
+  padding-left: 4vh;
+  font-size: 16px
+}
+
+.el-main {
+  flex: 1;
+  padding: 0;
+}
 
 .el-footer {
   display: flex;
@@ -70,17 +90,38 @@
   bottom: 0;
   width: 100%;
 
-  border: 1px solid rgb(255, 255, 255);
+  /* border: 1px solid rgb(255, 255, 255);
   border-left: none;
   border-right: none;
-  border-bottom: none;
+  border-bottom: none; */
 
   background-color: rgb(46, 45, 45);
+  box-shadow: 0px 0px 30px 0px #17bef1;
+}
+
+
+
+.el-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  /* border: 1px solid rgb(255, 255, 255);
+  border-left: none;
+  border-right: none;
+  border-bottom: none; */
+
+  background-color: rgb(46, 45, 45);
+  box-shadow: 0px 0px 30px 0px #17bef1;
 }
 
 .footer-btn {
   width: 20vh;
-  height: 6vh;
+  height: 5.5vh;
 
   color: white;
   font-size: 16px;
@@ -91,6 +132,7 @@
 
   box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
   background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
+  transition: box-shadow 0.3s ease;
 }
 
 .footer-btn:hover {

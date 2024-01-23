@@ -25,13 +25,33 @@ const CentralMaintenanceRoutes = {
         {
           path: 'testList',
           name: 'TestList',
-          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestDefaultPage.vue')
+          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestTestListPage.vue')
         },
         {
           path: 'newTest',
           name: 'NewTest',
           component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestNewTestPage.vue')
-        }
+        },
+        {
+          path: 'selectTest',
+          name: 'SelectTest',
+          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestSelectTestPage.vue')
+        },
+        {
+          path: 'threeTests',
+          name: 'ThreeTests',
+          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestThreeTestsPage.vue')
+        },
+        {
+          path: 'interactiveTest',
+          name: 'InteractiveTest',
+          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestInteractiveTestPage.vue')
+        },
+        {
+          path: 'viewDetail',
+          name: 'ViewDetail',
+          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestViewDetailPage.vue')
+        },
       ]
     },
     {

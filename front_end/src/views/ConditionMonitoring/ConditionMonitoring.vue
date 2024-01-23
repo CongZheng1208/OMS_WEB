@@ -34,7 +34,7 @@ export default {
         {
           name: "parameter display",
           isActive: true,
-          routeName: "ParameterDisplay",
+          routeName: "ParameterSelect",
         },
         {
           name: "parameter recording",

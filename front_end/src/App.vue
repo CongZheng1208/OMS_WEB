@@ -30,12 +30,12 @@ export default {
         {
           name: "CENTRAL MAINTENANCE",
           isActive: true,
-          routeName: "FailureReport",
+          routeName: "FailureList",
         },
         {
           name: "CONDITION MONITORING",
           isActive: false,
-          routeName: "ParameterDisplay",
+          routeName: "ParameterSelect",
         },
         {
           name: "DATA LOAD",

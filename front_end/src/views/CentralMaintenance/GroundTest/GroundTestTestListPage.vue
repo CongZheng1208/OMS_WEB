@@ -1,14 +1,12 @@
 <template>
-  <el-container style="display: flex; flex-direction: column;">
-
-
-    <el-header style="text-align: left; font-weight: bold; color: white; text-shadow: 2px 2px 2px #000;
-      padding-top: 3vh; padding-left: 4vh; font-size: 16px;">
+  <el-container>
+    <el-header>
       Test Status: {{ selectedRowStatus }}
     </el-header>
-    <el-main style=" flex: 1; padding: 0;">
+    <el-main>
       <el-table
         highlight-current-row
+        height="70vh"
         style="width: 100%; background-color: rgb(46, 45, 45)"
         @row-click="handleRowClick"
         :data="tableData"
@@ -40,16 +38,11 @@
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
       <div>
-          <!-- <el-button class="footer-btn" @click="switchCurve(1)">VIEW DETAIL</el-button>
-          <el-button class="footer-btn" @click="turnToInteractive()" :disabled="!IsRespondable" :style="{'background-image': !IsRespondable ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">RESPOND</el-button>
-          <el-button class="footer-btn" @click="goPage()">NEW TEST</el-button>
-          <el-button class="footer-btn" @click="sendAbort()" :disabled="!IsAbortable" :style="{'background-image': !IsAbortable ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">ABORT TEST</el-button>
-          <el-button class="footer-btn" @click="sendAbortAll()">ABORT ALL</el-button> -->
-          <el-button class="footer-btn" >VIEW DETAIL</el-button>
-          <el-button class="footer-btn" :disabled="true">RESPOND</el-button>
-          <el-button class="footer-btn" @click="createNewTest">NEW TEST</el-button>
-          <el-button class="footer-btn" :disabled="true">ABORT TEST</el-button>
-          <el-button class="footer-btn" >ABORT ALL</el-button>
+        <el-button class="footer-btn" @click="goViewDetailPage">VIEW DETAIL</el-button>
+        <el-button class="footer-btn" :disabled="true">RESPOND</el-button>
+        <el-button class="footer-btn" @click="goNewTestPage">NEW TEST</el-button>
+        <el-button class="footer-btn" :disabled="true">ABORT TEST</el-button>
+        <el-button class="footer-btn" >ABORT ALL</el-button>
       </div>
     </el-footer>
   </el-container>
@@ -110,6 +103,7 @@
             status: 'Scheduled',
             progress: 10
           },
+
           {
             ATA: '72',
             equiName: 'APU',
@@ -249,8 +243,15 @@
       /**
        * 本函数用于跳转页面
        */
-       createNewTest() {
+      goNewTestPage() {
         this.$router.push({ name: "NewTest" });
+      },
+
+      /**
+       * 本函数用于跳转页面
+       */
+      goViewDetailPage() {
+        this.$router.push({ name: "ViewDetail" });
       }
     }
   }

@@ -1,15 +1,14 @@
 <template>
-  <el-container style="display: flex; flex-direction: column;">
-    <el-header style="text-align: left; font-weight: bold; color: white; text-shadow: 2px 2px 2px #000;
-      padding-top: 3vh; padding-left: 4vh; font-size: 16px;">
+  <el-container>
+    <el-header>
       ATA and Equipment Selection
     </el-header>
-    <el-main style="flex: 1; padding: 0;">
+    <el-main>
       <el-row :gutter="2">
-        <el-col :span="9">
+        <el-col :span="8">
           <el-table
-
             highlight-current-row
+            height="70vh"
             style="width: 100%; background-color: rgb(46, 45, 45)"
             @row-click="handleRowClick"
             :data="rawData"
@@ -28,9 +27,10 @@
 
 
         </el-col>
-        <el-col :span="15">
+        <el-col :span="16">
           <el-table
             highlight-current-row
+            height="70vh"
             style="width: 100%; background-color: rgb(46, 45, 45)"
             @row-click="handleEquipmentRowClick"
             :data="selectedEquipments"
@@ -170,7 +170,10 @@
        * 本函数用于跳转页面
        */
        goSelectTestPage() {
-        this.$router.push({ name: "GroundTestSelectTestPage", params: { selectedEquipment: this.selectedEquipment } });
+        // selectedATANum: "",
+        // selectedEquipment: {},
+        console.log(this.selectedEquipment)
+        this.$router.push({ name: "SelectTest", params: { selectedEquipment: this.selectedEquipment } });
       },
 
       /**

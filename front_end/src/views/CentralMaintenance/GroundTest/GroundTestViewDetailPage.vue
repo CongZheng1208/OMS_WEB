@@ -1,10 +1,107 @@
 <template>
-  <div class="container-fluid">
-    config
-  </div>
+  <el-container>
+   <el-header style="height: 15vh">
+      <el-row>
+        <el-col>
+
+        </el-col>
+        <el-col>
+
+        </el-col>
+      </el-row>
+         ATA: {{  }}
+         Equipment Name: {{  }}
+         Test Name: {{  }}
+
+         Expected Duration(mins): {{  }}
+         Test Type: {{  }}
+         Test Status: {{  }}
+
+         Start Time: {{  }}
+         End Time: {{  }}
+   </el-header>
+
+   <el-main>
+     <el-row :gutter="20">
+      <div>
+        <el-card
+          header="Details"
+          shadow="hover"
+        >
+          <div v-for="o in 10" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+          </div>
+        </el-card>
+      </div>
+
+     </el-row>
+
+   </el-main>
+   <el-footer>
+     <div>
+     </div>
+     <div>
+       <el-button class="footer-btn" @click="goTestListPage()">BACK</el-button>
+     </div>
+   </el-footer>
+ </el-container>
 </template>
 
 <script>
+export default {
+ data() {
+   return {
+     selectedTestId: "",
+
+
+   }
+ },
+ computed: {
+
+ },
+ methods: {
+
+
+   /**
+    * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
+    * @param {string} row - rawData数据的ataNumber属性
+    */
+   handleRowClick(row) {
+
+     this.selectedTestId = row.T_ID;
+     // console.log(this.selectedTestId)
+   },
+
+
+   /**
+    * 本函数用于根据排序对象确定排序逻辑
+    * @param {number/string} a - 排序对象1
+    * @param {number/string} b - 排序对象2
+    * @returns {number/string} 排序逻辑
+    */
+   customSortMethodForProgressColumn(a, b) {
+     // 判断a和b的类型
+     if (typeof a === 'string' && typeof b === 'string') {
+       // 字符串类型，使用localeCompare进行字典序排序
+       return a.localeCompare(b);
+     } else {
+       // 数字类型，根据数值大小排序
+       return a - b;
+     }
+   },
+
+   /**
+    * 本函数用于跳转页面
+    */
+    goTestListPage() {
+     this.$router.push({ name: "TestList", params: { } });
+   },
+ },
+
+ mounted() {
+ }
+ // 其他组件逻辑
+}
 
 </script>
 

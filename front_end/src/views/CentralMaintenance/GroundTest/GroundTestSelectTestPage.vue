@@ -1,44 +1,51 @@
 <template>
-  <!-- <div class="container-fluid">
-    config
-    <h2>Ground Test Select Test Page</h2>
-    <p>Selected Equipment: {{ $route.params.selectedEquipment }}</p>
-  </div> -->
 
-  <el-container style="display: flex; flex-direction: column;">
-    <el-header style="text-align: left; font-weight: bold; color: white; text-shadow: 2px 2px 2px #000;
-      padding-top: 3vh; padding-left: 4vh; font-size: 16px;">
+  <el-container>
+    <el-header>
       Test Selection
-      <!-- ATA: {{ testDetails }}
-      <p>Selected Equipment: {{ $route.params.selectedEquipment }}</p> -->
+
+      ATA: {{ this.$route.params.selectedEquipment.ataNumber }} {{ this.$route.params.selectedEquipment.systemName }}
+      Equipment Name: {{ $route.params.selectedEquipment.equipmentName }}
+
+      <el-select
+        v-model="selectedType"
+        placeholder="Select test type"
+        @change="handleTypeChange"
+      >
+        <el-option v-for="(label, value) in testTypeDict" :key="value" :value="value" :label="label"></el-option>
+      </el-select>
+      <el-button class="footer-btn" @click="clearType()">Clear</el-button>
+
     </el-header>
 
-    <el-main style="flex: 1; padding: 0;">
+    <el-main>
       <el-table
-
         highlight-current-row
+        height="70vh"
         style="width: 100%; background-color: rgb(46, 45, 45)"
         @row-click="handleRowClick"
-        :data="testDetails"
+        :data="filteredTestData"
         :sort-method="customSortMethodForProgressColumn"
         :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
         :empty-text="'No Data Display'"
       >
         <el-table-column :width="null" :min-width="5"></el-table-column>
         <el-table-column prop="T_NA" label="Test Name" sortable :width="null" :min-width="120"></el-table-column>
-        <el-table-column prop="T_TP" label="Test Type" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="T_ED" label="Expected Duration (mins)" sortable :width="null" :min-width="80"></el-table-column>
-        <el-table-column label="Availability" :width="null" :min-width="50"></el-table-column>
+        <el-table-column prop="T_TP" label="Test Type" sortable :width="null" :min-width="80" :formatter="formatTestType"></el-table-column>
+        <el-table-column prop="T_ED" label="Expected Duration (mins)" sortable :width="null" :min-width="60"></el-table-column>
+        <el-table-column label="Availability" :width="null" :min-width="30"></el-table-column>
         <el-table-column label="Note" :width="null" :min-width="30"></el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
+
+      Number of Tests: {{ filteredTestDataLength }}
     </el-main>
     <el-footer>
       <div>
       </div>
       <div>
-          <el-button class="footer-btn" @click="goSelectATAandEquipmentPage()">BACK</el-button>
-          <el-button class="footer-btn" @click="goThreeTestsPage()">SELECT</el-button>
+        <el-button class="footer-btn" @click="goSelectATAandEquipmentPage()">BACK</el-button>
+        <el-button class="footer-btn" @click="goThreeTestsPage()">START TEST</el-button>
       </div>
     </el-footer>
   </el-container>
@@ -47,29 +54,58 @@
 <script>
 
 export default {
-
-
-
   data() {
     return {
       testDetails: [],
-      selectedTestId: ""
-
+      selectedTestId: "",
+      selectedType: '0',
+      testTypeDict : {
+          '0': 'All Tests',
+          '1': 'Operational Test',
+          '2': 'LRU Replacement Verification Test',
+          '3': 'System Test',
+          '4': 'Interactive Fault Location Test',
+          '5': 'Alignment and Rigging Test',
+          '6': 'Interface Monitoring',
+          '7': 'Hardware and Software Configuration Identification',
+        },
 
     }
   },
+  computed: {
+    filteredTestData() {
+      if (this.selectedType === '0') {
+        return this.testDetails;
+      } else {
+        return this.testDetails.filter(item => item.T_TP === this.selectedType);
+      }
+    },
+    filteredTestDataLength() {
+      return this.filteredTestData.length;
+    }
+  },
   methods: {
+    handleTypeChange(value) {
+      this.selectedType = value;
+    },
+
+    clearType(){
+      this.selectedType = "0";
+    },
+
     /**
      * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
      * @param {string} row - rawData数据的ataNumber属性
      */
     handleRowClick(row) {
 
-      this.selectedTestId = row.T_ID
-      console.log(this.selectedTestId)
-
+      this.selectedTestId = row.T_ID;
+      // console.log(this.selectedTestId)
     },
 
+    formatTestType(row) {
+      return this.testTypeDict[row.T_TP];
+    },
 
     /**
      * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
@@ -100,7 +136,7 @@ export default {
      * 本函数用于跳转页面
      */
     goThreeTestsPage() {
-      this.$router.push({ name: "GroundTestThreeTestsPage", params: { } });
+      this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
     },
 
     /**
@@ -113,7 +149,6 @@ export default {
 
   mounted() {
     this.testDetails = this.$route.params.selectedEquipment.testDetails
-    console.log(this.testDetails); // 访问从上一个页面传递而来的参数
   }
   // 其他组件逻辑
 }

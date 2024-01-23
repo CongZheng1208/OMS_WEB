@@ -1,3 +1,6 @@
+/**
+ * 全局样式
+ */
 #app {
   position: absolute;
   top: 0;
@@ -14,6 +17,10 @@
   color: #2c3e50;
 }
 
+
+/**
+ * 全局二级导航菜单栏相关样式
+ */
 
 .el-menu-item {
   background-image: linear-gradient(rgb(24, 24, 24), rgb(66, 66, 66));
@@ -41,6 +48,63 @@
   line-height: 6vh;
 }
 
+
+/**
+ * 全局容器样式
+ */
+
+.el-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/**
+ * 全局页面头部相关样式
+ */
+
+.el-header {
+  display: flex;
+  text-align: left;
+
+  color: white;
+  text-align: left;
+
+  padding-top: 2vh;
+  padding-left: 4vh;
+}
+
+.el-header-title {
+  font-weight: bold;
+  font-size: 18px;
+  text-shadow: 2px 2px 2px #000;
+}
+
+.el-header-subtitle {
+  font-size: 16px;
+}
+
+.el-select .el-input__inner {
+  background-color: rgb(46, 45, 45);
+  color: #ffffff;
+}
+
+
+
+/**
+ * 全局页面主体相关样式
+ */
+
+.el-main {
+  flex: 1;
+  padding: 0;
+}
+
+.el-table {
+  width: 100%;
+  background-color: rgb(46, 45, 45)
+}
+
 .el-table td {
   padding: 2vh 2vh;
   height: 20px;
@@ -59,27 +123,22 @@
   background-color: #2b2b2be7 !important;
 }
 
-
-.el-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.el-header {
-  text-align: left;
-  font-weight: bold;
+.test-number {
+  position: absolute;
+  bottom: 11vh;
+  right: 4vh;
   color: white;
-
-  text-shadow: 2px 2px 2px #000;
-  padding-top: 3vh;
-  padding-left: 4vh;
-  font-size: 16px
 }
 
-.el-main {
-  flex: 1;
-  padding: 0;
+.el-dialog {
+  background-color: black;
+  color: white;
 }
+
+
+/**
+ * 全局页面尾部相关样式
+ */
 
 .el-footer {
   display: flex;
@@ -89,31 +148,6 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-
-  /* border: 1px solid rgb(255, 255, 255);
-  border-left: none;
-  border-right: none;
-  border-bottom: none; */
-
-  background-color: rgb(46, 45, 45);
-  box-shadow: 0px 0px 30px 0px #17bef1;
-}
-
-
-
-.el-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-
-  /* border: 1px solid rgb(255, 255, 255);
-  border-left: none;
-  border-right: none;
-  border-bottom: none; */
 
   background-color: rgb(46, 45, 45);
   box-shadow: 0px 0px 30px 0px #17bef1;

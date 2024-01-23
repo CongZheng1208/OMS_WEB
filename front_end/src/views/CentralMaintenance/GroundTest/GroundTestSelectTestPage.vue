@@ -1,28 +1,40 @@
 <template>
-
   <el-container>
-    <el-header>
-      Test Selection
+    <el-header style="height: 10vh; display: flex; justify-content: space-between;">
 
-      ATA: {{ this.$route.params.selectedEquipment.ataNumber }} {{ this.$route.params.selectedEquipment.systemName }}
-      Equipment Name: {{ $route.params.selectedEquipment.equipmentName }}
+      <div class="el-header-title">
+        Test Selection
+      </div>
+
+      <div class="el-header-subtitle">
+        <div>
+          ATA: {{ this.$route.params.selectedEquipment.ataNumber }} {{ this.$route.params.selectedEquipment.systemName }}
+        </div>
+        <div>
+          Equipment Name: {{ $route.params.selectedEquipment.equipmentName }}
+        </div>
+      </div>
+
+      <div>
+      </div>
+
+      <div>
+      </div>
 
       <el-select
         v-model="selectedType"
         placeholder="Select test type"
         @change="handleTypeChange"
+        clearable
       >
         <el-option v-for="(label, value) in testTypeDict" :key="value" :value="value" :label="label"></el-option>
       </el-select>
-      <el-button class="footer-btn" @click="clearType()">Clear</el-button>
-
     </el-header>
 
     <el-main>
       <el-table
         highlight-current-row
-        height="70vh"
-        style="width: 100%; background-color: rgb(46, 45, 45)"
+        height="68vh"
         @row-click="handleRowClick"
         :data="filteredTestData"
         :sort-method="customSortMethodForProgressColumn"
@@ -37,8 +49,7 @@
         <el-table-column label="Note" :width="null" :min-width="30"></el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
-
-      Number of Tests: {{ filteredTestDataLength }}
+      <div class="test-number">Number of Tests: {{ filteredTestDataLength }}</div>
     </el-main>
     <el-footer>
       <div>
@@ -74,7 +85,7 @@ export default {
   },
   computed: {
     filteredTestData() {
-      if (this.selectedType === '0') {
+      if (this.selectedType === '0' || this.selectedType === '' ) {
         return this.testDetails;
       } else {
         return this.testDetails.filter(item => item.T_TP === this.selectedType);
@@ -87,10 +98,6 @@ export default {
   methods: {
     handleTypeChange(value) {
       this.selectedType = value;
-    },
-
-    clearType(){
-      this.selectedType = "0";
     },
 
     /**

@@ -1,15 +1,20 @@
 <template>
   <el-container>
     <el-header>
-      ATA and Equipment Selection
+      <div class="el-header-title">
+        ATA and Equipment Selection
+      </div>
     </el-header>
     <el-main>
+
+      <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+
       <el-row :gutter="2">
         <el-col :span="8">
           <el-table
             highlight-current-row
             height="70vh"
-            style="width: 100%; background-color: rgb(46, 45, 45)"
+            style=" background-color: rgb(46, 45, 45)"
             @row-click="handleRowClick"
             :data="rawData"
             :sort-method="customSortMethodForProgressColumn"
@@ -18,20 +23,15 @@
           >
             <el-table-column :width="null" :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber" label="ATA" sortable :width="null" :min-width="25"></el-table-column>
-
-
             <el-table-column prop="systemName" label="System Name" sortable :width="null" :min-width="50"></el-table-column>
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
-
-
 
         </el-col>
         <el-col :span="16">
           <el-table
             highlight-current-row
             height="70vh"
-            style="width: 100%; background-color: rgb(46, 45, 45)"
             @row-click="handleEquipmentRowClick"
             :data="selectedEquipments"
             :sort-method="customSortMethodForProgressColumn"
@@ -47,6 +47,17 @@
           </el-table>
         </el-col>
       </el-row>
+
+      <el-dialog
+        title="Error Message"
+        :visible.sync="isEquiSelected"
+        width="30%">
+        <span>Please select a equipment!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="isEquiSelected = false"> OK </el-button>
+        </span>
+      </el-dialog>
+
     </el-main>
     <el-footer>
       <div>
@@ -93,9 +104,13 @@
         selectedATANum: "",
         selectedEquipment: {},
         selectedEquipments: [],
+
+        isEquiSelected: true
       }
     },
     methods: {
+
+
       /**
        * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
        * @param {string} row - rawData数据的ataNumber属性

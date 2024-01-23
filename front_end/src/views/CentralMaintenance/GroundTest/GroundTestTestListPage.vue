@@ -1,13 +1,17 @@
 <template>
   <el-container>
     <el-header>
-      Test Status: {{ selectedRowStatus }}
+      <div>
+        <div class="el-header-title">
+          Test Status: {{ selectedRowStatus }}
+        </div>
+      </div>
+
     </el-header>
     <el-main>
       <el-table
         highlight-current-row
         height="70vh"
-        style="width: 100%; background-color: rgb(46, 45, 45)"
         @row-click="handleRowClick"
         :data="tableData"
         :sort-method="customSortMethodForProgressColumn"

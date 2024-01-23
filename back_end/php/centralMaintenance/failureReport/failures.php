@@ -2,7 +2,7 @@
    //echo phpinfo();
 	// 最终返回给前端的对象
 	class ReturnJson{
-		public $FDE=[];
+		public $fde=[];
 		public $flight_leg=[];
 		public $config_index="";
 		public $failure_time="";
@@ -12,19 +12,19 @@
 		public $root_fault_index=[];
 		public $root_fault_state=[];
 		public $failure_name_info="";
-		public $FIMCode_info="";
-		public $FDEText ="";
+		public $fimcode_info="";
+		public $fde_text ="";
 		public $fault_name="";
-		public $RP_name="";
-		public $RP_value="";
-		public $RP_Unit = "";
+		public $rp_name="";
+		public $rp_value="";
+		public $rp_unit = "";
 		public $maintence_time=[];
 		public $maitence_text="";
-		public $FDETime="";
-		public $FDEState=[];
-		public $FDEClass=[];
+		public $fde_time="";
+		public $fde_state=[];
+		public $fde_class=[];
 		public $id=[];
-		public $ATA=[];
+		public $ata=[];
 	}
 	// 在306的Centos系统里的mysql密码为
 	$con=mysqli_connect("127.0.0.1", "root", "", "omhms", "3306");	
@@ -50,11 +50,11 @@
 			$item->flight_phase = $jsonObj->{'flight_phase'};
 			$item->failure_state = $jsonObj->{'failure_state'};
 			$item->flight_leg = $jsonObj->{'flight_leg'};
-            $item->FDE = $jsonObj->{'FDE'};
+            $item->fde = $jsonObj->{'FDE'};
 			$item->root_fault_index=$jsonObj->root_fault_index;
 			$item->root_fault_state=$jsonObj->root_fault_state;
 			$item->asso_RP_index=$jsonObj->asso_RP_index;
-			$item->RP_value=$jsonObj->asso_RP_value;
+			$item->rp_value=$jsonObj->asso_RP_value;
 			$item->id = $row['idx'];
 			array_push($res, $item);
 		}
@@ -67,28 +67,28 @@
 				while($row=mysqli_fetch_assoc($result)){
 					// 插入数据
 					$res[$i]->failure_name_info = $row["failure_name_info"];
-					$res[$i]->FIMCode_info = $row["FIMCode_info"];
+					$res[$i]->fimcode_info = $row["FIMCode_info"];
 					$res[$i]->maintence_time = $row["MaintenanceTime"];
 					$res[$i]->maitence_text = $row["MaintenanceText"];
-					$res[$i]->ATA = $row["ATA"];
+					$res[$i]->ata = $row["ATA"];
 				}
 			}
 
-			$res[$i]->FDEText  = array();
-			$res[$i]->FDETime  = array();
-			$res[$i]->FDEState  = array();
-			$res[$i]->FDEClass  = array();
-			for($j=0; $j<count($res[$i]->FDE); $j++){
-				$FDEIndex = intval($res[$i]->FDE[$j]) ;
+			$res[$i]->fde_text  = array();
+			$res[$i]->fde_time  = array();
+			$res[$i]->fde_state  = array();
+			$res[$i]->fde_class  = array();
+			for($j=0; $j<count($res[$i]->fde); $j++){
+				$FDEIndex = intval($res[$i]->fde[$j]) ;
 				$query_fde = "select fde_text,fde_state,fde_level from fde_info where idx = $FDEIndex";
 				$result_fde = mysqli_query($con, $query_fde);
 				if (mysqli_num_rows($result_fde)>0){
 					while($row_fde=mysqli_fetch_assoc($result_fde)){
 						// 插入数据
-						array_push($res[$i]->FDEText,  $row_fde["fde_text"]);
-						array_push($res[$i]->FDETime,$res[$i]->failure_time);
-						array_push($res[$i]->FDEState,$row_fde["fde_state"]);
-						array_push($res[$i]->FDEClass,$row_fde["fde_level"]);
+						array_push($res[$i]->fde_text,  $row_fde["fde_text"]);
+						array_push($res[$i]->fde_time,$res[$i]->failure_time);
+						array_push($res[$i]->fde_state,$row_fde["fde_state"]);
+						array_push($res[$i]->fde_class,$row_fde["fde_level"]);
 					}
 				}
 			}
@@ -105,16 +105,16 @@
 				}
 			}
 
-			$res[$i]->RP_name = array();
-			$res[$i]->RP_Unit = array();
+			$res[$i]->rp_name = array();
+			$res[$i]->rp_unit = array();
 			for($j=0; $j<count($res[$i]->asso_RP_index); $j++){
 				$RP_index = intval($res[$i]->asso_RP_index[$j]);  
 				$query_RP = "select RP_NAME,RP_Unit_Name from RP_INFO where RP_index = $RP_index";
 				$result_RP = mysqli_query($con, $query_RP);
 				if (mysqli_num_rows($result_RP)>0){
 					while($row_RP=mysqli_fetch_assoc($result_RP)){
-						array_push($res[$i]->RP_name,  $row_RP["RP_NAME"]);
-						array_push($res[$i]->RP_Unit,  $row_RP["RP_Unit_Name"]);
+						array_push($res[$i]->rp_name,  $row_RP["RP_NAME"]);
+						array_push($res[$i]->rp_unit,  $row_RP["RP_Unit_Name"]);
 					}
 				}
 			}

@@ -7,7 +7,7 @@
     </el-header>
     <el-main>
 
-      <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+      <el-button type="text" @click="isEquiSelected = true">点击打开 Dialog</el-button>
 
       <el-row :gutter="2">
         <el-col :span="8">
@@ -105,7 +105,7 @@
         selectedEquipment: {},
         selectedEquipments: [],
 
-        isEquiSelected: true
+        isEquiSelected: false
       }
     },
     methods: {
@@ -185,10 +185,15 @@
        * 本函数用于跳转页面
        */
        goSelectTestPage() {
-        // selectedATANum: "",
-        // selectedEquipment: {},
+        console.log("test")
         console.log(this.selectedEquipment)
-        this.$router.push({ name: "SelectTest", params: { selectedEquipment: this.selectedEquipment } });
+        console.log(this.selectedEquipment == {})
+
+        if(this.selectedEquipment){
+          this.$router.push({ name: "SelectTest", params: { selectedEquipment: this.selectedEquipment } });
+        }else{
+          this.isEquiSelected = true
+        }
       },
 
       /**

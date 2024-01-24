@@ -1,39 +1,60 @@
 <template>
   <el-container>
-   <el-header style="height: 15vh">
-      <el-row>
-        <el-col>
-
-        </el-col>
-        <el-col>
-
-        </el-col>
-      </el-row>
-         ATA: {{  }}
-         Equipment Name: {{  }}
-         Test Name: {{  }}
-
-         Expected Duration(mins): {{  }}
-         Test Type: {{  }}
-         Test Status: {{  }}
-
-         Start Time: {{  }}
-         End Time: {{  }}
+   <el-header style="height: 15vh;">
+    <el-row style="width: 80%;">
+      <el-col :span="8">
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+          ATA: {{  }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+          Equipment Name: {{  }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+          Test Name: {{  }}
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+           Expected Duration(mins): {{  }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+          Test Type: {{  }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+           Test Status: {{  }}
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+           Start Time: {{  }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot" ></span>
+          End Time: {{  }}
+        </div>
+      </el-col>
+    </el-row>
    </el-header>
 
-   <el-main>
-     <el-row :gutter="20">
+   <el-main style="padding:2vh">
+     <el-row>
       <div>
-        <el-card
-          header="Details"
-          shadow="hover"
-        >
-          <div v-for="o in 10" :key="o" class="text item">
-            {{'列表内容 ' + o }}
+        <el-card class="custom-card" shadow="hover" style="height: 60vh">
+          <div class="custom-header">DETAILS</div>
+          <div class="custom-content">
+            <div v-for="o in 50" :key="o" class="content-item">
+              {{'列表内容 ' + o }}
+            </div>
           </div>
         </el-card>
       </div>
-
      </el-row>
 
    </el-main>
@@ -60,18 +81,13 @@ export default {
 
  },
  methods: {
-
-
    /**
     * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
     * @param {string} row - rawData数据的ataNumber属性
     */
    handleRowClick(row) {
-
      this.selectedTestId = row.T_ID;
-     // console.log(this.selectedTestId)
    },
-
 
    /**
     * 本函数用于根据排序对象确定排序逻辑
@@ -100,7 +116,6 @@ export default {
 
  mounted() {
  }
- // 其他组件逻辑
 }
 
 </script>

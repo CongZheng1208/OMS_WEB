@@ -50,12 +50,12 @@ export default new Vuex.Store({
       4: "WARN",
     },
     },
-    
-  mutations: {   
-      
+
+  mutations: {
+
     failurePhp(state) {
       state.resFailureData = {};
-      var urlRoot = "http://localhost:8080/php/centralMaintenance/failureReport/failures.php";
+      var urlRoot = "http://localhost:8888/oms/php/centralMaintenance/failureReport/failures.php";
       axios.get( urlRoot).then(
         (response) => {
           console.log("response.data:", response.data);
@@ -100,11 +100,11 @@ export default new Vuex.Store({
             if (item.first_time == item.failure_time) {
               item.is_parent = true;
             }
-            else { 
+            else {
               item.is_parent = false;
             }
 
-          } 
+          }
           console.log("in store:failureReportNew:", failureReportNew);
           state.resFailureData = failureReportNew;
         },
@@ -112,9 +112,9 @@ export default new Vuex.Store({
           // alert('发送请求失败！', error.message)
         }
       );
-    },    
+    },
   },
 
-    actions: {  
+    actions: {
     }
 })

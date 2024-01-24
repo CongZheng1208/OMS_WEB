@@ -67,6 +67,7 @@ export default {
      */
     async changeSubView(viewKey) {
       // 更新页面路由
+
       if (!this.$route.path.includes(viewKey)) {
         await this.$router.push({ name: this.menus[viewKey].routeName });
       }
@@ -79,6 +80,7 @@ export default {
         }
       });
     },
+
     /**
      * 本函数用于mounted和menus中：调用store中mutations的failurePhp函数，初始化、更新failure数据
      *

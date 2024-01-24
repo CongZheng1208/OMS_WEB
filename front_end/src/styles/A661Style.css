@@ -84,9 +84,43 @@
   font-size: 16px;
 }
 
+.el-header-subcontainer{
+  display: flex;
+  align-items: center;
+}
+
+.el-header-dot {
+  display: inline-block;
+  width: 0.7vh;
+  height: 0.7vh;
+  margin-right: 1vh;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  align-self: center;
+}
+
 .el-select .el-input__inner {
   background-color: rgb(46, 45, 45);
   color: #ffffff;
+}
+
+.el-radio__inner {
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  width: 18px;
+  height: 18px;
+
+  border: 2px solid rgb(111, 111, 111);
+  border-radius: 50%; /* 让边框变为一个圆形 */
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s, border-color 0.3s; /* 变色时间 */
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  border: 2px solid rgb(111, 111, 111);
+  background-color: rgb(32,255,255);
 }
 
 
@@ -98,6 +132,7 @@
 .el-main {
   flex: 1;
   padding: 0;
+
 }
 
 .el-table {
@@ -135,6 +170,65 @@
   color: white;
 }
 
+.custom-card {
+  overflow: auto;
+  height: 65vh;
+
+  background-color: #404040;
+
+  color: white;
+  margin-left: 0.5vh;
+  margin-right: 0.5vh;
+
+  border: 1px solid rgb(111, 111, 111);
+  border-radius: 1vh;
+}
+
+.custom-header {
+  position: sticky;
+  top: 3vh;
+  padding: 1vh;
+
+  background-color: #646464;
+
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+
+  border: 1px solid rgb(111, 111, 111);
+  border-radius: 1vh;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
+}
+
+.custom-content {
+  padding-top: 5vh; /* 确保内容不被表头部分遮挡 */
+  padding: 1vh; /* 为内容区域添加内边距 */
+}
+
+.content-item {
+  text-align: left; /* 文字左对齐 */
+  margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
+}
+
+
+.el-main-subtitle {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.vertical-radio-group {
+  display: flex;
+  /* flex-direction: column; */
+  /*justify-content: flex-start;  */
+  margin-top: 2vh;
+}
+
+.vertical-radio-item {
+  margin-bottom: 2vh; /* 控制选项的间距 */
+}
+
+
 
 /**
  * 全局页面尾部相关样式
@@ -162,7 +256,6 @@
   font-weight: bold;
 
   border: 1px solid rgb(111, 111, 111);
-  border-radius: 0;
 
   box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
   background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));

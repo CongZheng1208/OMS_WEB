@@ -1,23 +1,62 @@
 <template>
    <el-container>
-    <el-header>
-        ATA: {{  }}
-        Equipment Name: {{  }}
-        Test Name: {{  }}
-        Test Type: {{  }}
-        Expected Duration(mins): {{  }}
+    <el-header style="height: 12vh;">
+      <el-row style="width: 80%;">
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            ATA: {{  }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Equipment Name: {{  }}
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Test Name: {{  }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Test Type: {{  }}
+          </div>
+
+        </el-col>
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Expected Duration(mins): {{  }}
+          </div>
+        </el-col>
+      </el-row>
     </el-header>
 
-    <el-main>
-      <el-row :gutter="20">
+    <el-main style="padding:2vh">
+      <el-row>
+        <el-col :span="8">
+
+          <div>
+            <el-card class="custom-card" shadow="hover">
+              <div class="custom-header">Pre-conditions</div>
+              <div class="custom-content">
+                <div v-for="o in 50" :key="o" class="content-item">
+                  {{'列表内容 ' + o }}
+                </div>
+              </div>
+            </el-card>
+          </div>
+
+        </el-col>
+
         <el-col :span="8">
           <div>
-            <el-card
-              header="Pre-conditions"
-              shadow="hover"
-            >
-              <div v-for="o in 4" :key="o" class="text item">
-                {{'列表内容 ' + o }}
+            <el-card class="custom-card" shadow="hover">
+              <div class="custom-header">Inhibit Conditions</div>
+              <div class="custom-content">
+                <div v-for="o in 50" :key="o" class="content-item">
+                  {{'列表内容 ' + o }}
+                </div>
               </div>
             </el-card>
           </div>
@@ -25,29 +64,15 @@
         </el-col>
         <el-col :span="8">
           <div>
-            <el-card
-              header="Inhibit Conditions"
-              shadow="hover"
-            >
-              <div v-for="o in 4" :key="o" class="text item">
-                {{'列表内容 ' + o }}
+            <el-card class="custom-card" shadow="hover">
+              <div class="custom-header">Interfering Tests</div>
+              <div class="custom-content">
+                <div v-for="o in 50" :key="o" class="content-item">
+                  {{'列表内容 ' + o }}
+                </div>
               </div>
             </el-card>
           </div>
-
-        </el-col>
-        <el-col :span="8">
-          <div>
-            <el-card
-              header="Interfering Tests"
-              shadow="hover"
-            >
-              <div v-for="o in 4" :key="o" class="text item">
-                {{'列表内容 ' + o }}
-              </div>
-            </el-card>
-          </div>
-
         </el-col>
       </el-row>
 

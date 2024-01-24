@@ -1,32 +1,61 @@
 <template>
    <el-container>
-    <el-header>
-          ATA: {{  }}
-          Equipment Name: {{  }}
-          Test Name: {{  }}
-          Test Type: {{  }}
-          Expected Duration(mins): {{  }}
+    <el-header style="height: 12vh;">
+      <el-row style="width: 80%;">
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            ATA: {{  }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Equipment Name: {{  }}
+          </div>
+        </el-col>
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Test Name: {{  }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Test Type: {{  }}
+          </div>
+
+        </el-col>
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Expected Duration(mins): {{  }}
+          </div>
+        </el-col>
+      </el-row>
     </el-header>
 
-    <el-main>
-      <el-row :gutter="20">
+    <el-main style="padding:2vh">
+      <el-row>
         <el-col :span="14">
           <div>
-            <el-card
-              header="Interactive Test"
-              shadow="hover"
-            >
-              <div v-for="o in 10" :key="o" class="text item">
-                {{'列表内容 ' + o }}
+            <el-card class="custom-card" shadow="hover">
+              <div class="custom-header">Interactive Test</div>
+              <div class="custom-content">
+                <div v-for="o in 50" :key="o" class="content-item">
+                  {{'列表内容 ' + o }}
+                </div>
               </div>
             </el-card>
-
           </div>
         </el-col>
         <el-col :span="10">
           <div>
-            Select an option and press continue
+            <div class="el-main-subtitle">
+              Select an option and press continue
+            </div>
 
+            <el-radio-group v-model="selectedOption" class="vertical-radio-group">
+              <el-radio v-for="option in options" :key="option.id" :label="option.id" class="vertical-radio-item">{{ option.name }}</el-radio>
+            </el-radio-group>
+            <p>你选择的选项是: {{ selectedOption }}</p>
           </div>
 
         </el-col>
@@ -50,8 +79,14 @@ export default {
   data() {
     return {
       selectedTestId: "",
-
-
+      selectedOption: 1,
+      options: [
+        { id: 1, name: '选项1' },
+        { id: 2, name: '选项2' },
+        { id: 3, name: '选项3' },
+        { id: 4, name: '选项4' },
+        { id: 5, name: '选项5' }
+      ]
     }
   },
   computed: {

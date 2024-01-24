@@ -1,34 +1,35 @@
 <template>
   <el-container>
-    <el-header style="height: 10vh; display: flex; justify-content: space-between;">
-
-      <div class="el-header-title">
-        Test Selection
-      </div>
-
-      <div class="el-header-subtitle">
-        <div>
-          ATA: {{ this.$route.params.selectedEquipment.ataNumber }} {{ this.$route.params.selectedEquipment.systemName }}
-        </div>
-        <div>
-          Equipment Name: {{ $route.params.selectedEquipment.equipmentName }}
-        </div>
-      </div>
-
-      <div>
-      </div>
-
-      <div>
-      </div>
-
-      <el-select
-        v-model="selectedType"
-        placeholder="Select test type"
-        @change="handleTypeChange"
-        clearable
-      >
-        <el-option v-for="(label, value) in testTypeDict" :key="value" :value="value" :label="label"></el-option>
-      </el-select>
+    <el-header style="height: 10vh;">
+      <el-row style="width: 100%;">
+        <el-col :span="4">
+          <div class="el-header-title">
+            Test Selection
+          </div>
+        </el-col>
+        <el-col :span="16">
+          <div class="el-header-subtitle">
+            <div class="el-header-subcontainer">
+              <span class="el-header-dot" ></span>
+              ATA: {{ this.$route.params.selectedEquipment.ataNumber }} {{ this.$route.params.selectedEquipment.systemName }}
+            </div>
+            <div class="el-header-subcontainer">
+              <span class="el-header-dot" ></span>
+              Equipment Name: {{ $route.params.selectedEquipment.equipmentName }}
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <el-select
+            v-model="selectedType"
+            placeholder="Select test type"
+            @change="handleTypeChange"
+            clearable
+          >
+            <el-option v-for="(label, value) in testTypeDict" :key="value" :value="value" :label="label"></el-option>
+          </el-select>
+        </el-col>
+      </el-row>
     </el-header>
 
     <el-main>
@@ -50,6 +51,16 @@
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
       <div class="test-number">Number of Tests: {{ filteredTestDataLength }}</div>
+
+      <el-dialog
+        title="Error Message"
+        :visible.sync="isTestNotBeSelected"
+        width="30%">
+        <span style="  font-size: 15px;">Please select a test!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="isTestNotBeSelected = false"> OK </el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -80,6 +91,7 @@ export default {
           '6': 'Interface Monitoring',
           '7': 'Hardware and Software Configuration Identification',
         },
+        isTestNotBeSelected: false
 
     }
   },
@@ -96,6 +108,10 @@ export default {
     }
   },
   methods: {
+    /**
+     * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
+     * @param {string} row - rawData数据的ataNumber属性
+     */
     handleTypeChange(value) {
       this.selectedType = value;
     },
@@ -107,7 +123,6 @@ export default {
     handleRowClick(row) {
 
       this.selectedTestId = row.T_ID;
-      // console.log(this.selectedTestId)
     },
 
     formatTestType(row) {
@@ -143,8 +158,13 @@ export default {
      * 本函数用于跳转页面
      */
     goThreeTestsPage() {
-      this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
-    },
+
+        if(this.selectedTestId){
+          this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
+        }else{
+          this.isTestNotBeSelected = true
+        }
+      },
 
     /**
      * 本函数用于跳转页面

@@ -6,9 +6,6 @@
       </div>
     </el-header>
     <el-main>
-
-      <el-button type="text" @click="isEquiSelected = true">点击打开 Dialog</el-button>
-
       <el-row :gutter="2">
         <el-col :span="8">
           <el-table
@@ -50,11 +47,11 @@
 
       <el-dialog
         title="Error Message"
-        :visible.sync="isEquiSelected"
+        :visible.sync="isEquiNotBeSelected"
         width="30%">
-        <span>Please select a equipment!</span>
+        <span style="  font-size: 15px;">Please select a equipment!</span>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="isEquiSelected = false"> OK </el-button>
+          <el-button type="primary" @click="isEquiNotBeSelected = false"> OK </el-button>
         </span>
       </el-dialog>
 
@@ -105,7 +102,7 @@
         selectedEquipment: {},
         selectedEquipments: [],
 
-        isEquiSelected: false
+        isEquiNotBeSelected: false
       }
     },
     methods: {
@@ -185,14 +182,10 @@
        * 本函数用于跳转页面
        */
        goSelectTestPage() {
-        console.log("test")
-        console.log(this.selectedEquipment)
-        console.log(this.selectedEquipment == {})
-
-        if(this.selectedEquipment){
+        if(Object.keys(this.selectedEquipment ).length !== 0){
           this.$router.push({ name: "SelectTest", params: { selectedEquipment: this.selectedEquipment } });
         }else{
-          this.isEquiSelected = true
+          this.isEquiNotBeSelected = true
         }
       },
 

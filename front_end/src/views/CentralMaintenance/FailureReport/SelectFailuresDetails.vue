@@ -187,6 +187,7 @@
 import RootCause from "./SelectFailuresRadios/RootCause";
 import FlightDeckEffects from "./SelectFailuresRadios/FlightDeckEffects";
 import Parameters from "./SelectFailuresRadios/Parameters";
+import {flightPhaseEnum} from '@/globals/enums.js'
 
 export default {
   components: { RootCause, FlightDeckEffects, Parameters },
@@ -209,7 +210,7 @@ export default {
      */
     FlightPhaseData(row) {
       let fpIndex = row.flight_phase;
-      return this.$store.state.flightPhaseEnum[fpIndex];
+      return flightPhaseEnum[fpIndex];
     },
     /**
      * 本函数用于打印页面

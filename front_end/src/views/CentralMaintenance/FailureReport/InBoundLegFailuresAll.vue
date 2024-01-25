@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import {flightPhaseEnum, failureStateEnum} from '@/globals/enums.js'
 export default {
   components: {},
   name: "InBoundLegFailuresAll",
@@ -99,7 +100,7 @@ export default {
     FlightPhaseData(row) {
       let fpIndex = row.flight_phase;
 
-      return this.$store.state.flightPhaseEnum[fpIndex];
+      return flightPhaseEnum[fpIndex];
     },
     /**
      * 本函数用于设置Current State列中failure_state的显示格式
@@ -109,7 +110,7 @@ export default {
     CurrentStateData(row) {
       let fsIndex = row.failure_state;
       //return this.failureStateEnum[fsIndex];
-      return this.$store.state.failureStateEnum[fsIndex];
+      return failureStateEnum[fsIndex];
     },
     /**
      * 更新store的选中行数据

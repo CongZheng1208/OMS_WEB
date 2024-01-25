@@ -1,7 +1,6 @@
 <template>
 
-
-  <div>
+  <el-row>
     <div class="table-container">
       <span class="main-title">LANDING GEAR</span>
     </div>
@@ -53,9 +52,8 @@
         </tbody>
       </table>
     </div>
+  </el-row>
 
-
-  </div>
 
 </template>
 

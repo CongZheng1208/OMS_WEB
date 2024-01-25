@@ -1,117 +1,113 @@
 <template>
 
-  <div class="container-fluid">
-    <div class="controller" >
-      <select class="top-bar-btn" v-model="parameterSelected"  @change="clearFilter()">
-        <option v-for="x in testData" :value="x.value" style="background-color:grey">{{x.name}}</option>
-      </select>
-    </div>
+  <div>
+    <el-main>
 
 
-    <div class="row segment-bottom">
-      <div class="col-3">
-
-        <div class="row" style="padding: 4px">
-          <div class="segment-title">
-            Filter
-          </div>
-        </div>
-
-        <div style="height: 48vh">
-          <div class="input-row">
-            <span class="label">Source Port</span>
-            <input type="text" class="search-input" placeholder="e.g. 8080" v-model="sourcePortKey" />
-          </div>
-          <div class="input-row">
-            <span class="label">Des Port</span>
-            <input type="text" class="search-input" placeholder="e.g. 8080" v-model="desPortKey" />
-          </div>
-
-          <div v-if="parameterSelected==1">
-            <div class="input-row">
-              <span class="label">Byte Offset(Byte)</span>
-              <input type="text" class="search-input" placeholder="e.g. 3  Unit: Byte" v-model="byteOffsetKey" />
-              <!-- <span class="units">Bit</span> -->
-            </div>
-            <div class="input-row">
-              <span class="label">Length(Byte)</span>
-              <input type="text" class="search-input" placeholder="e.g. 5  Unit: Byte" v-model="lengthKey" />
-            </div>
-          </div>
-
-          <div v-if="parameterSelected==2">
-            <div class="input-row">
-              <span class="label">Key Field</span>
-              <input type="text" class="search-input" placeholder="e.g. 3C" v-model="keyFieldKey" />
-            </div>
-          </div>
-        </div>
-
-        <button class="page-btn" @click="clearFilter()">Clear</button>
+      <div class="controller" >
+        <el-select v-model="parameterSelected"  @change="clearFilter()">
+          <el-option v-for="x in testData" :value="x.value" :key="x.value" :label="x.name"></el-option>
+        </el-select>
       </div>
 
+      <el-row>
+        <el-col :span="6">
 
-      <div class="col-9">
-
-        <div class="row" style="padding: 4px">
-          <div class="col-3 segment-middle">
-            <div class="segment-title">Timestamp </div>
-            <div>
-              <vue-custom-scrollbar class="mid-table-area">
-                <div class="param-wrapper" v-for="(ele, index) in curRawDatas.slice(0, 15)" :key="index"
-                :class="{ 'selected': selectedRawData && selectedRawData.idx==ele.idx }"
-                 @click="addParamToStart(ele)">
-                  <label>{{ ele.timestamp }}</label>
-                </div>
-              </vue-custom-scrollbar>
-            </div>
-            <div class="mid-btn-group">
-              <button class="page-btn"  @click="clearTimestamp()">Clear</button>
-            </div>
-          </div>
-
-          <div class="col-9">
+          <div class="row" style="padding: 4px">
             <div class="segment-title">
-               Raw Data
-            </div>
-            <div>
-              <vue-custom-scrollbar class="mid-table-area">
-                <div class="raw-data-display">
-
-                  <div v-if="rawDataChunks" v-for="(chunk, index) in rawDataChunks" :key="index" class="hex-chunk"
-                  :class="{ 'selected': index >= startIndex && index < endIndex }">
-                    {{ chunk }}
-                  </div>
-                  <div v-if="!rawDataChunks">
-                    No Parameter Found
-                  </div>
-                </div>
-                <!-- <label v-if="selectedRawData" class="check-button">{{ selectedRawData.raw_data }}</label> -->
-              </vue-custom-scrollbar>
+              Filter
             </div>
           </div>
-        </div>
 
-      </div>
-    </div>
-    <!-- 底部按钮栏 -->
-    <div class="row">
-      <div class="col">
-        <div class="button-bar">
-          <div style="float: left">
-            <button class="button-bar-btn" @click="printPage">Print</button>
+          <div style="height: 48vh">
+            <div class="input-row">
+              <span class="label">Source Port</span>
+              <input type="text" class="search-input" placeholder="e.g. 8080" v-model="sourcePortKey" />
+            </div>
+            <div class="input-row">
+              <span class="label">Des Port</span>
+              <input type="text" class="search-input" placeholder="e.g. 8080" v-model="desPortKey" />
+            </div>
+
+            <div v-if="parameterSelected==1">
+              <div class="input-row">
+                <span class="label">Byte Offset(Byte)</span>
+                <input type="text" class="search-input" placeholder="e.g. 3  Unit: Byte" v-model="byteOffsetKey" />
+                <!-- <span class="units">Bit</span> -->
+              </div>
+              <div class="input-row">
+                <span class="label">Length(Byte)</span>
+                <input type="text" class="search-input" placeholder="e.g. 5  Unit: Byte" v-model="lengthKey" />
+              </div>
+            </div>
+
+            <div v-if="parameterSelected==2">
+              <div class="input-row">
+                <span class="label">Key Field</span>
+                <input type="text" class="search-input" placeholder="e.g. 3C" v-model="keyFieldKey" />
+              </div>
+            </div>
           </div>
-          <div style="float: right">
-            <button class="button-bar-btn" @click="stopTimestamp()" :disabled="isStop" :style="{'background-image': isStop ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">
-              Stop View
-            </button>
-            <button class="button-bar-btn" @click="startRefresh()" :disabled="!isStop" :style="{'background-image': !isStop ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">
-              Start View
-            </button>
-          </div>
-        </div>
-      </div>
+
+          <button class="page-btn" @click="clearFilter()">Clear</button>
+        </el-col>
+
+
+        <el-col :span="18">
+
+          <el-row style="padding: 4px">
+            <el-col :span="6">
+              <div class="segment-title">Timestamp </div>
+              <div>
+                <vue-custom-scrollbar class="mid-table-area">
+                  <div class="param-wrapper" v-for="(ele, index) in curRawDatas.slice(0, 15)" :key="index"
+                  :class="{ 'selected': selectedRawData && selectedRawData.idx==ele.idx }"
+                  @click="addParamToStart(ele)">
+                    <label>{{ ele.timestamp }}</label>
+                  </div>
+                </vue-custom-scrollbar>
+              </div>
+              <div class="mid-btn-group">
+                <button class="page-btn"  @click="clearTimestamp()">Clear</button>
+              </div>
+            </el-col>
+
+            <el-col :span="18">
+              <div class="segment-title">
+                Raw Data
+              </div>
+              <div>
+                <vue-custom-scrollbar class="mid-table-area">
+                  <div class="raw-data-display">
+
+                    <div v-if="rawDataChunks" v-for="(chunk, index) in rawDataChunks" :key="index" class="hex-chunk"
+                    :class="{ 'selected': index >= startIndex && index < endIndex }">
+                      {{ chunk }}
+                    </div>
+                    <div v-if="!rawDataChunks">
+                      No Parameter Found
+                    </div>
+                  </div>
+                  <!-- <label v-if="selectedRawData" class="check-button">{{ selectedRawData.raw_data }}</label> -->
+                </vue-custom-scrollbar>
+              </div>
+            </el-col>
+          </el-row>
+
+        </el-col>
+      </el-row>
+    </el-main>
+
+  <el-footer>
+    <div>
+      <el-button class="footer-btn" @click="printPage">PRINT</el-button>
     </div>
+    <div>
+      <el-button class="footer-btn" :disabled="isStop" @click="stopTimestamp()">STOP VIEW</el-button>
+      <el-button class="footer-btn" :disabled="!isStop" @click="startRefresh()">START TEST</el-button>
+    </div>
+  </el-footer>
+
   </div>
 </template>
 
@@ -154,7 +150,7 @@
       };
     },
     components: {
-      vueCustomScrollbar
+    // vueCustomScrollbar
     },
     methods: {
       printPage() {
@@ -307,7 +303,7 @@
     margin-top: -6.5%;
     margin-left: 30%;
     position: absolute;
-    width: 60%;
+    width: 10%;
   }
 
   .top-bar-btn{

@@ -1,5 +1,64 @@
 <template>
-  <div class="container-fluid">
+  <el-container>
+    <el-header style="height: 15vh;">
+      <el-row style="width: 100%;">
+        <el-col :span="2">
+          <div class="el-header-title">
+            Select Option
+          </div>
+        </el-col>
+        <el-col :span="5">
+          <div class="radio"  @click="changeRadio('list')">
+            <input
+              name="param-display-radio1"
+              type="radio"
+              :checked="isAll"
+            />
+            <label class="form-check-label">Parameter List Display</label>
+          </div>
+          <div class="radio"   @click="changeRadio('graphic')">
+            <input
+              name="param-display-radio1"
+              type="radio"
+              :checked="isATA"
+
+            />
+            <label class="form-check-label">Parameter Graphics Display</label>
+          </div>
+          <div class="radio" @click="changeRadio('raw')">
+            <input
+              name="param-display-radio1"
+              type="radio"
+              :checked="isFlight"
+            />
+            <label class="form-check-label">Raw Data Display</label>
+          </div>
+
+        </el-col>
+        <el-col :span="14">
+          <div>
+            .
+          </div>
+
+        </el-col>
+        <el-col :span="3">
+          <div class="col status-bar">
+            A/C Reg: {{ acReg }} <br>
+            {{currentDate}} {{ currentTime }}
+          </div>
+
+        </el-col>
+      </el-row>
+    </el-header>
+
+    <ParamListDisplay v-if="displaySelected == 'list'"></ParamListDisplay>
+    <ParamGraphicDisplay v-if="displaySelected == 'graphic'"></ParamGraphicDisplay>
+    <RawDataDisplay v-if="displaySelected == 'raw'"></RawDataDisplay>
+
+ </el-container>
+
+
+  <!-- <div class="container-fluid">
     <div class="row segment-top">
       <div class="col-1">Select Option</div>
       <div class="col-3">
@@ -44,7 +103,7 @@
         <ParamGraphicDisplay v-if="displaySelected == 'graphic'"></ParamGraphicDisplay>
         <RawDataDisplay v-if="displaySelected == 'raw'"></RawDataDisplay>
       </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -107,56 +166,6 @@
 
 
 <style scoped>
-.radio {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-margin-top: 5px;
-}
-.radio input[type="radio"] {
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid rgb(111, 111, 111);
-  margin-right: 10px;
-  cursor: pointer;
-  position: relative;
-}
-.radio input[type="radio"]:before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: rgb(37,37,37);
-  transition: background-color 0.2s ease-in;
-}
-.radio input[type="radio"]:checked:before {
-  background-color: rgb(32,255,255);
-}
-
-  .segment-top {
-    border: 1.5px solid lightgray;
-    border-bottom: none;
-    padding: 0.5rem;
-  }
-
-  .segment-bottom {
-    border: 1.5px solid lightgray;
-    height: 65vh;
-  }
-
-  .status-bar {
-    height: 6vh;
-    text-align: right;
-  }
 
 
 </style>

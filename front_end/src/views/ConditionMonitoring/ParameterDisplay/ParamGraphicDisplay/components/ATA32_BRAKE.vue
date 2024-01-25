@@ -1,195 +1,193 @@
 <template>
-  <div class="row segment-bottom">
-      <div class="col-6">
-        <div class="first-table-container">
-          <span class="main-title">LANDING GEAR BRAKES</span>
-        </div>
+  <el-row>
+    <el-col :span="12">
+      <div class="first-table-container">
+        <span class="main-title">LANDING GEAR BRAKES</span>
+      </div>
 
-        <div class="table-container">
-          <div class="border-table-container-1">
-            <span class="title-1">NOSE GEAR TIRE PRESS(PSI)</span>
-          </div>
+      <div class="table-container">
+        <div class="border-table-container-1">
+          <span class="title-1">NOSE GEAR TIRE PRESS(PSI)</span>
         </div>
-        <div class="capsule-container">
-          <div class="capsule">
-            <div class="line" />
-            <span class="data">{{ flattenData3[0] }}</span>
-            <div class="line" />
-          </div>
-          <div class="capsule">
-            <div class="line" />
-            <span class="data">{{ flattenData3[1] }}</span>
-            <div class="line" />
-          </div>
+      </div>
+      <div class="capsule-container">
+        <div class="capsule">
+          <div class="line" />
+          <span class="data">{{ flattenData3[0] }}</span>
+          <div class="line" />
         </div>
+        <div class="capsule">
+          <div class="line" />
+          <span class="data">{{ flattenData3[1] }}</span>
+          <div class="line" />
+        </div>
+      </div>
 
-        <div class="table-container">
-          <div class="border-table-container">
-            <div class="title-container">
-              <div class="title-inner-container">
-                <span class="title-2">MAIN GEAR</span>
-                <span class="title-2">BRAKE TEMP(%)</span>
-                <span class="title-2">TIRE PRESS(PSI)</span>
-                <span class="title-2">BRAKE PRESS(PSI)</span>
-              </div>
+      <div class="table-container">
+        <div class="border-table-container">
+          <div class="title-container">
+            <div class="title-inner-container">
+              <span class="title-2">MAIN GEAR</span>
+              <span class="title-2">BRAKE TEMP(%)</span>
+              <span class="title-2">TIRE PRESS(PSI)</span>
+              <span class="title-2">BRAKE PRESS(PSI)</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="capsule-container">
+      <div class="capsule-container">
 
-          <div class="capsule-1">
-            <div class="line" />
-            <span class="data">{{ flattenData4[0] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData4[1] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData4[2] }}</span>
-            <div class="line" />
-          </div>
-
-          <div class="capsule-left">
-            <div class="line" />
-            <span class="data">{{ flattenData4[3] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData4[4] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData4[5] }}</span>
-            <div class="line" />
-          </div>
-
-          <div class="capsule-right">
-            <div class="line" />
-            <span class="data">{{ flattenData5[0] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData5[1] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData5[2] }}</span>
-            <div class="line" />
-          </div>
-
-          <div class="capsule-1">
-            <div class="line" />
-            <span class="data">{{ flattenData5[3] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData5[4] }}</span>
-            <div class="line" />
-            <div class="empty-data" />
-            <div class="line" />
-            <span class="data">{{ flattenData5[5] }}</span>
-            <div class="line" />
-          </div>
+        <div class="capsule-1">
+          <div class="line" />
+          <span class="data">{{ flattenData4[0] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData4[1] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData4[2] }}</span>
+          <div class="line" />
         </div>
 
+        <div class="capsule-left">
+          <div class="line" />
+          <span class="data">{{ flattenData4[3] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData4[4] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData4[5] }}</span>
+          <div class="line" />
+        </div>
 
+        <div class="capsule-right">
+          <div class="line" />
+          <span class="data">{{ flattenData5[0] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData5[1] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData5[2] }}</span>
+          <div class="line" />
+        </div>
+
+        <div class="capsule-1">
+          <div class="line" />
+          <span class="data">{{ flattenData5[3] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData5[4] }}</span>
+          <div class="line" />
+          <div class="empty-data" />
+          <div class="line" />
+          <span class="data">{{ flattenData5[5] }}</span>
+          <div class="line" />
+        </div>
       </div>
 
 
+    </el-col>
+    <el-col :span="12">
+      <div class="first-table-container">
+        <span class="main-title">LANDING GEAR BRAKES</span>
+      </div>
+      <div class="table-container">
+        <table class="centered-table">
+          <tbody>
+            <tr>
+              <td class="table-name">{{ flattenNameData0[0] }}</td> <!-- 属性名行 -->
+              <td class="table-item">
+                <div class="item-word">
+                  <span>
+                    {{ flattenData0[0] }}
+                  </span>
+                </div>
+              </td>
+              <td class="table-name">{{ flattenNameData0[1] }}</td>
+              <td class="table-item">
+                <div class="item-word">
+                  <span>
+                    {{ flattenData0[1] }}
+                  </span>
+                  <!-- <span class="item-unit">
+                    {{ "PSI" }}
+                  </span> -->
+                </div>
 
-      <div class="col-6">
-        <div class="first-table-container">
-          <span class="main-title">LANDING GEAR BRAKES</span>
-        </div>
-        <div class="table-container">
-          <table class="centered-table">
-            <tbody>
-              <tr>
-                <td class="table-name">{{ flattenNameData0[0] }}</td> <!-- 属性名行 -->
-                <td class="table-item">
-                  <div class="item-word">
-                    <span>
-                      {{ flattenData0[0] }}
-                    </span>
-                  </div>
-                </td>
-                <td class="table-name">{{ flattenNameData0[1] }}</td>
-                <td class="table-item">
-                  <div class="item-word">
-                    <span>
-                      {{ flattenData0[1] }}
-                    </span>
-                    <!-- <span class="item-unit">
-                      {{ "PSI" }}
-                    </span> -->
-                  </div>
 
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="table-container">
-          <div class="border-table-container">
-            <span class="title">BRAKE PRESS CMD</span>
-            <div class="bottom-title">
-              <span class="bottom-table-name">LEFT OUTBD</span>
-              <span class="bottom-table-name">LEFT INBD</span>
-              <span class="bottom-table-name">RIGHT OUTBD</span>
-              <span class="bottom-table-name">RIGHT INBD</span>
-            </div>
+      <div class="table-container">
+        <div class="border-table-container">
+          <span class="title">BRAKE PRESS CMD</span>
+          <div class="bottom-title">
+            <span class="bottom-table-name">LEFT OUTBD</span>
+            <span class="bottom-table-name">LEFT INBD</span>
+            <span class="bottom-table-name">RIGHT OUTBD</span>
+            <span class="bottom-table-name">RIGHT INBD</span>
           </div>
-        </div>
-
-        <div class="data-table-container">
-          <table class="centered-table">
-            <tbody>
-              <tr>
-                <td class="table-item" v-for="(cell, cellIndex) in flattenData1" :key="cellIndex">
-                  <div class="item-word">
-                    <span>
-                      {{ cell }}
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-
-        <div class="table-container">
-          <div class="border-table-container">
-            <span class="title">BRAKE PEDAL POSITION(%)</span>
-            <div class="bottom-title">
-              <span class="bottom-table-name-1">L -PILOT- R</span>
-              <span class="bottom-table-name-1">L -COPILOT- R</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-table-container">
-          <table class="centered-table">
-            <tbody>
-              <tr>
-                <td class="table-item" v-for="(cell, cellIndex) in flattenData2" :key="cellIndex">
-                  <div class="item-word">
-                    <span>
-                      {{ cell }}
-                    </span>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
-    </div>
+
+      <div class="data-table-container">
+        <table class="centered-table">
+          <tbody>
+            <tr>
+              <td class="table-item" v-for="(cell, cellIndex) in flattenData1" :key="cellIndex">
+                <div class="item-word">
+                  <span>
+                    {{ cell }}
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div class="table-container">
+        <div class="border-table-container">
+          <span class="title">BRAKE PEDAL POSITION(%)</span>
+          <div class="bottom-title">
+            <span class="bottom-table-name-1">L -PILOT- R</span>
+            <span class="bottom-table-name-1">L -COPILOT- R</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="data-table-container">
+        <table class="centered-table">
+          <tbody>
+            <tr>
+              <td class="table-item" v-for="(cell, cellIndex) in flattenData2" :key="cellIndex">
+                <div class="item-word">
+                  <span>
+                    {{ cell }}
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </el-col>
+  </el-row>
 
 </template>
 
@@ -296,11 +294,6 @@ import axios from 'axios'
 
 
 <style scoped>
-  .segment-bottom {
-    /* border: 0.2vh solid lightgray;
-    border-top: none; */
-    height: 70vh;
-  }
 
   .title {
     width: 60%;
@@ -309,7 +302,7 @@ import axios from 'axios'
 
     margin-top: -2vh;
     border: none;
-    background-color: rgb(37,37,37);
+    background-color: rgb(45, 45, 45);
   }
   .title-1 {
     width: 60%;
@@ -318,14 +311,14 @@ import axios from 'axios'
 
     margin-top: -2vh;
     border: none;
-    background-color: rgb(37,37,37);
+    background-color: rgb(45, 45, 45);
   }
   .title-2 {
     width: 29.5vh;
     text-align: center;
     font-weight: bold;
     margin-top: 0.2vh;
-    background-color: rgb(37,37,37);
+    background-color: rgb(45, 45, 45);
   }
   .main-title {
     margin-top: 1vh;

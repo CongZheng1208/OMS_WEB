@@ -1,6 +1,207 @@
 <template>
+  <div>
 
-  <div class="container-fluid">
+
+    <el-main>
+      <div class="controller" >
+        <el-select
+          v-model="listSelected"
+          placeholder="Select parameter pattern"
+          @change="changeRadio"
+          clearable
+        >
+          <el-option v-for="x in testData" :key="x.value" :value="x.name" :label="x.name"></el-option>
+        </el-select>
+      </div>
+
+      <el-row>
+        <el-col :span="6">
+          <div v-if="listSelected==1" >
+            <el-table
+              highlight-current-row
+              height="70vh"
+              style=" background-color: rgb(46, 45, 45)"
+              @row-click="showParameters"
+              :data="sortCurrentArray"
+              :sort-method="customSortMethodForProgressColumn"
+              :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+              :empty-text="'No Data Display'"
+
+            >
+              <el-table-column :width="null" :min-width="5"></el-table-column>
+              <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="25"></el-table-column>
+              <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="50"></el-table-column>
+              <el-table-column :width="null" :min-width="5"></el-table-column>
+            </el-table>
+
+            <!-- <el-row style="height: 6vh">
+              <table class="table-sm text-white text-left">
+                <thead class="segment-title">
+                  <tr>
+                    <th scope="col" style="width: 5%"></th>
+                    <th class="click" style="width: 20%"  @click="changeType('ATA')">
+                      ATA
+                      <span class="icon"
+                        :class="{
+                          'inverse': isReverse && sortType === 'ATA',
+                          'gray': sortType !== 'ATA'
+                        }"
+                      >
+                        <span v-if="sortType === 'ATA' && !isReverse">▼</span>
+                        <span v-else-if="sortType === 'ATA' && isReverse">▲</span>
+                        <span v-else>&#9650;</span>
+                      </span>
+                    </th>
+                    <th scope="col" style="width: 75%">System Name</th>
+                  </tr>
+                </thead>
+              </table>
+            </el-row>
+
+            <vue-custom-scrollbar class="left-table-area"  :settings="settings">
+              <div class="param-wrapper" v-for="(ata, index) in sortCurrentArray" :key="index"
+                @click="showParameters(ata)" :class="{ 'selected': selectedATA==ata.ATA }">
+                <label class="form-check-label" style="width: 10%">{{ ata.ATA }}</label>
+                <label class="form-check-label" style="width: 80%">{{ ata.name }}</label>
+              </div>
+            </vue-custom-scrollbar> -->
+          </div>
+
+          <div v-if="listSelected==2">
+            <el-table
+              highlight-current-row
+              height="70vh"
+              style=" background-color: rgb(46, 45, 45)"
+              @row-click="showListParameters"
+              :data="params"
+              :sort-method="customSortMethodForProgressColumn"
+              :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+              :empty-text="'No Data Display'"
+
+            >
+              <el-table-column :width="null" :min-width="5"></el-table-column>
+              <el-table-column prop="name" label="Display List Name" sortable :width="null" :min-width="35"></el-table-column>
+              <el-table-column prop="createdDate" label="Date Created" sortable :width="null" :min-width="40"></el-table-column>
+              <el-table-column :width="null" :min-width="5"></el-table-column>
+            </el-table>
+
+
+
+
+
+            <!-- <el-row style="height: 6vh">
+              <table class="table-sm text-white">
+                <thead class="segment-title">
+                  <tr>
+                    <th scope="col" style="width: 5%"></th>
+                    <th class="click" style="width: 50%">Display List Name</th>
+                    <th scope="col" style="width: 45%">Date Created</th>
+                  </tr>
+                </thead>
+              </table>
+            </el-row >
+
+            <vue-custom-scrollbar class="left-table-area"  :settings="settings">
+              <div class="param-wrapper" v-for="(param, index) in params" :key="index"
+                @click="showListParameters(param)" :class="{ 'selected': selectedList==param.id }">
+                <label class="form-check-label" style="width: 30%"> {{ param.name }}</label>
+                <label class="form-check-label" style="width: 60%">{{ param.createdDate }}</label>
+              </div>
+            </vue-custom-scrollbar> -->
+          </div>
+
+        </el-col>
+
+
+        <el-col :span="9">
+          <el-row>
+            <table class="table-sm text-white">
+              <thead class="segment-title">
+                <tr>
+                  <th scope="col"  v-if="listSelected==1" style="width: 45%">Parameter Selection</th>
+                  <th scope="col"  v-if="listSelected==2" style="width: 100%">Parameter Selection</th>
+                  <th scope="col" style="width: 35%">
+                    <input v-if="listSelected==1" class="search-input" placeholder="Enter here" v-model="searchInput"/>
+                  </th>
+                  <th scope="col" style="width: 20%">
+                    <button v-if="listSelected==1" class="button-bar-btn1" @click="clearAll">Clear</button>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+
+            <div style="margin-top: 0.5rem; text-align: left" id="checkParamContainer">
+              <vue-custom-scrollbar class="mid-table-area"  :settings="settings">
+                <div class="param-wrapper" v-for="(param, index) in currentNewPaArray" :key="index"
+                  v-on:click="updateCheckedParams(param, $event)">
+                  <label class="form-check-label">{{ param.para }}</label>
+                  <span v-if="!param.isChecked" class="add-button" @click="addParam(param)">+</span>
+                </div>
+              </vue-custom-scrollbar>
+            </div>
+            <div class="mid-btn-group">
+              Total Number: {{ parameterCountTotal }}
+            </div>
+          </el-row>
+        </el-col>
+
+
+        <el-col :span="9">
+
+          <el-row style="height: 6vh">
+            <div class="segment-title-right">
+              <table class="table-sm text-white text-left">
+                <thead >
+                  <tr>
+                    <th scope="col">Parameter to Display</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </el-row>
+
+          <div style="margin-top: 0.5rem; text-align: left">
+            <vue-custom-scrollbar class="mid-table-area"  :settings="settings">
+              <div class="param-wrapper" v-for="(ele, index) in currentNewAddedArray" :key="index">
+                <label class="check-button">{{ ele.para }}</label>
+                <span class="add-button" @click="removeParam(ele)">-</span>
+              </div>
+            </vue-custom-scrollbar>
+          </div>
+
+          <div class="add-btn-group" v-if="listSelected==2">
+            <button class="page-btn" @click="addParametersToShow">ADD</button>
+          </div>
+
+          <div class="mid-btn-group">
+            Total Number: {{ this.addedParams.length }}
+          </div>
+
+
+
+        </el-col>
+
+      </el-row>
+
+
+
+    </el-main>
+    <el-footer>
+      <div>
+      </div>
+      <div>
+        <el-button class="footer-btn" @click="saveSele()">SAVE</el-button>
+        <el-button class="footer-btn" @click="clearSele()">CLEAR</el-button>
+        <el-button class="footer-btn" @click="startView">START VIEW</el-button>
+      </div>
+    </el-footer>
+
+
+  </div>
+
+
+
+  <!-- <div class="container-fluid">
     <div class="controller" >
       <select class="top-bar-btn" v-model="listSelected" @change="changeRadio()">
         <option v-for="x in testData" :value="x.value" style="background-color:grey">{{x.name}}</option>
@@ -131,20 +332,8 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col">
-        <div class="button-bar">
-          <div style="float: right">
-            <button class="button-bar-btn" @click="saveSele">Save Selection</button>
-            <button class="button-bar-btn" @click="clearSele">Clear Selection</button>
-            <button class="button-bar-btn" @click="startView">
-              Start View
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  </div> -->
 </template>
 
 <script>
@@ -220,7 +409,7 @@
       };
     },
     components: {
-      vueCustomScrollbar
+    //  vueCustomScrollbar
     },
     methods: {
       changeRadio() {
@@ -236,13 +425,21 @@
       },
       startView() {
 
+        // if(this.selectedTestId){
+        //   this.$router.push({ name: "StartView", params: { selectedParameter: tmp } });
+        // }else{
+        //   // this.isTestNotBeSelected = true
+        // }
+
         if( this.addedParams.length > 0){
-          this.$bus.$emit("selectPtoShow", false);
+          // this.$bus.$emit("selectPtoShow", false);
           var tmp = []
           this.addedParams.forEach(ele => {
             tmp.push(ele)
           })
-          this.$bus.$emit('sendIndexArray1', tmp)
+          // this.$bus.$emit('sendIndexArray1', tmp)
+          this.$router.push({ name: "StartView", params: { selectedParameter: tmp } });
+
         }else{
           alert("Please select at least one parameter to show!");
         }
@@ -361,8 +558,7 @@
       },
 
       flashData(){
-        var urlRoot1 = 'php/conditionMonitoring/paramerDisplay/paramerList.php';
-        axios.get(urlHeads[pattern]+urlRoot1).then(
+        axios.get("http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/paramerList.php").then(
           response => {
             response.data.forEach(ele => {
               var boolArray = new Array(ele.RPName.length).fill(false)
@@ -383,8 +579,7 @@
 
       flashListData(){
         this.params = []
-        var urlRoot2 = 'php/conditionMonitoring/paramerDisplay/getParaList.php';
-        axios.get(urlHeads[pattern]+urlRoot2).then(
+        axios.get("http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getParaList.php").then(
           response => {
             response.data.forEach(ele => {
               this.params.push({
@@ -473,45 +668,6 @@
 
 
 <style scoped>
-  .mid-btn-group {
-    position: absolute;
-    bottom: 0;
-    display: inline-block;
-    margin-bottom: 0.5rem;
-    margin-left: 3.5rem;
-  }
-
-  .add-btn-group {
-    position: absolute;
-    bottom: 0;
-    display: inline-block;
-    margin-bottom: 0.5rem;
-    margin-left: -10.5rem;
-  }
-
-  .controller{
-    margin-top: -6.5%;
-    margin-left: 30%;
-    position: absolute;
-    width: 60%;
-  }
-
-  .top-bar-btn{
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 20%;
-    height: 5vh;
-  }
-
-  .page-btn {
-    color: white;
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-  }
-
-  .param-tables {
-    position: relative;
-    text-align: left;
-  }
 
   .left-table-area {
     position: relative;
@@ -520,35 +676,12 @@
     height: 52vh;
     margin-top: 1vh;
   }
-  .mid-table-area{
-    position: relative;
-    margin: auto;
-    width: auto;
-    height: 52vh;
-  }
   .segment-title {
     width: 100%;
     border: 1.5px solid lightgray;
     border-left: none;
     border-right: none;
     height: 6vh;
-
-  }
-
-  .segment-title-right{
-    width: 100%;
-    border: 1.5px solid lightgray;
-    height: 6vh;
-    border-left: none;
-    border-right: none;
-    display: flex;
-  }
-
-  .button-bar-btn{
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 22vh;
-    height: 5vh;
   }
   .param-wrapper {
     position: relative;
@@ -562,46 +695,9 @@
     /* 添加悬浮样式 */
     border: 1px solid #006EAA;
   }
-  .add-button{
-    position: absolute; /* 设置按钮的定位为 absolute */
-    right: 3vh; /* 将按钮定位到父元素的最右边 */
-    /* top: 50%; */
-    width: 5%;
-  }
-  .check-button{
-    width: 91%;
-  }
 
   .selected {
     background-color: rgb(70, 72, 73);
-  }
-
-  .button-bar-btn1{
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 8vh;
-  }
-  .segment-bottom {
-    height: 65vh;
-  }
-
-  .segment-middle {
-    border: 1.5px solid lightgray;
-    border-top: none;
-    border-bottom: none;
-    height: 64vh;
-  }
-
-  .search-input {
-    border: 1.5px solid lightgray;
-    background-color: black;
-    margin-left: 0.5vh;
-    color: white;
-    height: auto;
-  }
-
-  .button-bar {
-    margin-top: 0.5rem;
   }
 
   .icon {

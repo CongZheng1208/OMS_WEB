@@ -1,57 +1,60 @@
 <template>
-  <div class="container-fluid">
-    <div class="segment-top">
-      <div class="select-item">
-        <select v-model="currentScreen" class="button-bar-btn">
-          <option v-for="x in testData1" :value="x.value" style="background-color:grey">{{x.name}}</option>
-        </select><br>
-      </div>
-      <div class="select-item" v-if="currentScreen == 'full'">
-        <select v-model="leftAtaSelected" class="button-bar-btn">
-          <option v-for="x in testData" :value="x.value" style="background-color:grey">{{x.name}}</option>
-        </select><br>
-      </div>
-      <div class="select-item" v-if="currentScreen == 'half'">
-        <select v-model="leftAtaSelected" class="button-bar-btn">
-          <option v-for="x in testDataHalf" :value="x.value" style="background-color:grey">{{x.name}}</option>
-        </select><br>
-      </div>
-      <div class="select-item" v-if="currentScreen == 'half'">
-        <select v-model="rightAtaSelected" class="button-bar-btn">
-          <option v-for="x in testDataHalf" :value="x.value" style="background-color:grey">{{x.name}}</option>
-        </select><br>
+  <div>
+
+    <el-main>
+      <div class="segment-top">
+        <div class="select-item">
+          <el-select v-model="currentScreen" class="button-bar-btn">
+            <el-option v-for="x in testData1" :value="x.value" :key="x.name" :label="x.name"></el-option>
+          </el-select><br>
+        </div>
+        <div class="select-item" v-if="currentScreen == 'full'">
+          <el-select v-model="leftAtaSelected" class="button-bar-btn">
+            <el-option v-for="x in testData" :value="x.value" :key="x.name" :label="x.name"></el-option>
+          </el-select><br>
+        </div>
+        <div class="select-item" v-if="currentScreen == 'half'">
+          <el-select v-model="leftAtaSelected" class="button-bar-btn">
+            <el-option v-for="x in testDataHalf" :value="x.value" :key="x.name" :label="x.name"></el-option>
+          </el-select><br>
+        </div>
+        <div class="select-item" v-if="currentScreen == 'half'">
+          <el-select v-model="rightAtaSelected" class="button-bar-btn">
+            <el-option v-for="x in testDataHalf" :value="x.value" :key="x.name" :label="x.name"></el-option>
+          </el-select><br>
+        </div>
       </div>
 
-    </div>
-    <div>
+
+
       <div v-if="currentScreen == 'full'">
-        <div class="row segment-bottom">
-          <div class="col-12">
-            <ATA29 v-if="leftAtaSelected == '29'"></ATA29>
-            <ATA32_LG v-if="leftAtaSelected == '321'"></ATA32_LG>
-            <ATA32_BRAKE v-if="leftAtaSelected == '322'"></ATA32_BRAKE>
-          </div>
-        </div>
+        <el-row>
+          <ATA29 v-if="leftAtaSelected == '29'"></ATA29>
+          <ATA32_LG v-if="leftAtaSelected == '321'"></ATA32_LG>
+          <ATA32_BRAKE v-if="leftAtaSelected == '322'"></ATA32_BRAKE>
+        </el-row>
       </div>
 
       <div v-if="currentScreen == 'half'">
-        <div class="row segment-bottom" >
-
-          <div class="col-6">
+        <el-row>
+          <el-col :span="12">
             <ATA29 v-if="leftAtaSelected == '29'"></ATA29>
             <ATA32_LG v-if="leftAtaSelected == '321'"></ATA32_LG>
+          </el-col>
 
-          </div>
-          <div class="col-6">
-
+          <el-col :span="12">
             <ATA29 v-if="rightAtaSelected == '29'"></ATA29>
             <ATA32_LG v-if="rightAtaSelected == '321'"></ATA32_LG>
+          </el-col>
+        </el-row>
 
-          </div>
-        </div>
       </div>
-    </div>
+    </el-main>
+
+    <el-footer>
+    </el-footer>
   </div>
+
 </template>
 
 <script>
@@ -135,18 +138,8 @@
   }
 
   .select-item {
+    width: 15%;
     padding-right: 3vh;
-  }
-
-  .segment-bottom {
-    height: 62vh;
-  }
-
-  .button-bar-btn {
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 16vh;
-    height: 5vh;
   }
 
   th,

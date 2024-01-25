@@ -1,113 +1,196 @@
 <template>
-  <div class="container-fluid">
-    <div class="row segment-top">
-      <div class="col-1">Select Option</div>
+  <div>
 
-      <div class="col">
-        <div class="radio">
-          <input  name="param-display-radio" type="radio" :checked="listSelected"
-            v-on:change="changeRadio('list')" />
-          <label class="form-check-label">List Display</label>
-        </div>
-        <div class="radio">
-          <input  name="param-display-radio" type="radio" :checked="figureSelected"
-            v-on:change="changeRadio('figure')" />
-          <label class="form-check-label">Curve Display</label>
-        </div>
-      </div>
+    <el-header style="height: 12vh">
 
-      <div class="col status-bar">
-        Display Type: {{ displayType }} <br>
-        Parameter Set Received at: {{ currParamUpdateTime }}
-      </div>
+      <el-row style="width: 100%;">
+        <el-col :span="3">
+          <div class="el-header-title">
+            Test Selection
+          </div>
+        </el-col>
+        <el-col :span="4">
+          <div class="radio">
+            <input  name="param-display-radio" type="radio" :checked="listSelected"
+              v-on:change="changeRadio('list')" />
+            <label class="form-check-label">List Display</label>
+          </div>
+          <div class="radio">
+            <input  name="param-display-radio" type="radio" :checked="figureSelected"
+              v-on:change="changeRadio('figure')" />
+            <label class="form-check-label">Curve Display</label>
+          </div>
 
-      <div class="col date-bar">
-        A/C Reg: {{ acReg }} <br>
-        {{currentDate}} {{ currentTime }}
-      </div>
-    </div>
+        </el-col>
+
+        <el-col :span="13">
+          Display Type: {{ displayType }} <br>
+          Parameter Set Received at: {{ currParamUpdateTime }}
+        </el-col>
 
 
-    <div class="row segment-bottom" v-show="listSelected">
-      <!-- <div class="col-12"> -->
-        <div class="table-test">
-          <table class="table table-sm text-white" style=" table-layout: fixed;">
-            <thead>
-              <tr>
-                <th scope="col" style="width: 80%">Parameter</th>
-                <th scope="col" style="width: 10%">Value</th>
-                <th scope="col" style="width: 10%">Units</th>
-              </tr>
-            </thead>
-          </table>
-          <vue-custom-scrollbar class="list-selected-area" :settings="settings">
+        <el-col :span="4">
+          A/C Reg: {{ acReg }} <br>
+          {{currentDate}} {{ currentTime }}
+        </el-col>
+
+      </el-row>
+    </el-header>
+
+    <el-main>
+      <el-row v-show="listSelected">
+
+        <el-table
+          highlight-current-row
+          height="65vh"
+          style=" background-color: rgb(46, 45, 45)"
+          @row-click="showParameters"
+          :data="selectedParams"
+          :sort-method="customSortMethodForProgressColumn"
+          :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+          :empty-text="'No Data Display'"
+
+        >
+          <el-table-column :width="null" :min-width="5"></el-table-column>
+          <el-table-column prop="para" label="Parameter" sortable :width="null" :min-width="80"></el-table-column>
+          <el-table-column prop="curData" label="Value" sortable :width="null" :min-width="10"></el-table-column>
+          <el-table-column prop="unit" label="Units" sortable :width="null" :min-width="10"></el-table-column>
+          <el-table-column :width="null" :min-width="5"></el-table-column>
+        </el-table>
+
+
+          <!-- <div class="table-test">
             <table class="table table-sm text-white" style=" table-layout: fixed;">
-              <tbody>
-                <tr v-for="(param, index) in selectedParams" :key="index" class="scroll-item">
-                  <td style="width: 80%">{{ param.para }}</td>
-                  <td style="width: 10%">{{ param.curData }}</td>
-                  <!-- <td style="width: 10%">{{ param.isChecked }}</td> -->
-                  <td style="width: 10%">{{ param.unit }}</td>
+              <thead>
+                <tr>
+                  <th scope="col" style="width: 80%">Parameter</th>
+                  <th scope="col" style="width: 10%">Value</th>
+                  <th scope="col" style="width: 10%">Units</th>
                 </tr>
-              </tbody>
+              </thead>
             </table>
-          </vue-custom-scrollbar>
-        </div>
-    </div>
-
-    <div class="row segment-bottom" v-show="figureSelected">
-      <div class="col-4 segment-left-middle">
-        <div class="param-tables">
-          <div class="custom-scrollbar-wrapper" style="width: 100%; display: block; overflow: auto;">
-
-              <table class="table-sm text-white" style="width:100%">
-                <thead class="segment-title">
-                  <tr>
-                    <th scope="col">Parameter to Display</th>
-                  </tr>
-                </thead>
+            <vue-custom-scrollbar class="list-selected-area" :settings="settings">
+              <table class="table table-sm text-white" style=" table-layout: fixed;">
                 <tbody>
-                  <vue-custom-scrollbar class="scroll-selected-area" :settings="settings">
-                    <tr v-for="para in selectedParams">
-                      <th>
-                        <span class="param-wrapper" :class="{ 'selected': showedParams.includes(para) }" @click="addParamToShow(para)">
-                          {{para.para}}
-                        </span>
-                      </th>
-                    </tr>
-                  </vue-custom-scrollbar>
+                  <tr v-for="(param, index) in selectedParams" :key="index" class="scroll-item">
+                    <td style="width: 80%">{{ param.para }}</td>
+                    <td style="width: 10%">{{ param.curData }}</td>
+                    <td style="width: 10%">{{ param.unit }}</td>
+                  </tr>
                 </tbody>
               </table>
+            </vue-custom-scrollbar>
+          </div> -->
 
-          </div>
-        </div>
-      </div>
 
-      <div class="col-8 mid-chart" >
-        <div style="background-color: #252525;border-radius: 10px; border-color:aliceblue">
-          <vue-custom-scrollbar class="scroll-chart-area"  :settings="settings">
 
-            <div v-if="showedParams.length==1" class="echarts" style="height: 70vh" id="mychart0" :style="myChartStyle"></div>
+      </el-row>
 
-            <div v-if="showedParams.length>=2">
-              <div class="echarts" style="height: 35vh" id="mychart0" :style="myChartStyle"></div>
-              <div class="echarts" style="height: 35vh" id="mychart1" :style="myChartStyle"></div>
-              <div v-if="showedParams.length>=3" class="echarts" style="height: 35vh" id="mychart2" :style="myChartStyle"></div>
-              <div v-if="showedParams.length>=4" class="echarts" style="height: 35vh" id="mychart3" :style="myChartStyle"></div>
-              <div v-if="showedParams.length>=5" class="echarts" style="height: 35vh" id="mychart4" :style="myChartStyle"></div>
+      <el-row v-show="figureSelected">
+        <el-col :span="8">
+
+          <el-table
+            highlight-current-row
+            height="65vh"
+            style=" background-color: rgb(46, 45, 45)"
+            @row-click="showParameters"
+            :data="selectedParams"
+            :sort-method="customSortMethodForProgressColumn"
+            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+            :empty-text="'No Data Display'"
+
+          >
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+            <el-table-column prop="para" label="Parameter to Display" sortable :width="null" :min-width="80"></el-table-column>
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+          </el-table>
+
+
+
+          <!-- <div class="param-tables">
+            <div class="custom-scrollbar-wrapper" style="width: 100%; display: block; overflow: auto;">
+
+                <table class="table-sm text-white" style="width:100%">
+                  <thead class="segment-title">
+                    <tr>
+                      <th scope="col">Parameter to Display</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <vue-custom-scrollbar class="scroll-selected-area" :settings="settings">
+                      <tr v-for="para in selectedParams">
+                        <th>
+                          <span class="param-wrapper" :class="{ 'selected': showedParams.includes(para) }" @click="addParamToShow(para)">
+                            {{para.para}}
+                          </span>
+                        </th>
+                      </tr>
+                    </vue-custom-scrollbar>
+                  </tbody>
+                </table>
 
             </div>
+          </div> -->
+        </el-col>
 
-          </vue-custom-scrollbar>
-        </div>
+        <el-col :span="16">
+
+          <el-card class="custom-card" shadow="hover" style="height: 65vh">
+            <!-- <div class="custom-header">DETAILS</div> -->
+            <div class="custom-content">
+              <div v-if="showedParams.length==1" class="echarts" style="height: 70vh" id="mychart0" :style="myChartStyle"></div>
+
+              <div v-if="showedParams.length>=2">
+                <div class="echarts" style="height: 35vh" id="mychart0" :style="myChartStyle"></div>
+                <div class="echarts" style="height: 35vh" id="mychart1" :style="myChartStyle"></div>
+                <div v-if="showedParams.length>=3" class="echarts" style="height: 35vh" id="mychart2" :style="myChartStyle"></div>
+                <div v-if="showedParams.length>=4" class="echarts" style="height: 35vh" id="mychart3" :style="myChartStyle"></div>
+                <div v-if="showedParams.length>=5" class="echarts" style="height: 35vh" id="mychart4" :style="myChartStyle"></div>
+              </div>
+            </div>
+          </el-card>
+
+
+
+
+          <div style="background-color: #837272;border-radius: 10px; border-color:aliceblue">
+
+              <div v-if="showedParams.length==1" class="echarts" style="height: 70vh" id="mychart0" :style="myChartStyle"></div>
+
+              <div v-if="showedParams.length>=2">
+                <div class="echarts" style="height: 35vh" id="mychart0" :style="myChartStyle"></div>
+                <div class="echarts" style="height: 35vh" id="mychart1" :style="myChartStyle"></div>
+                <div v-if="showedParams.length>=3" class="echarts" style="height: 35vh" id="mychart2" :style="myChartStyle"></div>
+                <div v-if="showedParams.length>=4" class="echarts" style="height: 35vh" id="mychart3" :style="myChartStyle"></div>
+                <div v-if="showedParams.length>=5" class="echarts" style="height: 35vh" id="mychart4" :style="myChartStyle"></div>
+              </div>
+
+          </div>
+        </el-col>
+      </el-row>
+    </el-main>
+
+    <el-footer>
+      <div>
+        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
-    </div>
+      <div>
+        <el-button class="footer-btn" @click="backToParaPage()">BACK</el-button>
+
+        <el-button v-if="listSelected" class="footer-btn" :disabled="!isListRefreshing" @click="stopListRefresh()">STOP VIEW</el-button>
+        <el-button v-else class="footer-btn" :disabled="!isRefreshing" @click="stopRefresh()">STOP VIEW</el-button>
 
 
+        <el-button v-if="listSelected" class="footer-btn" :disabled="isListRefreshing" @click="startListRefresh">START VIEW</el-button>
+        <el-button v-else class="footer-btn" :disabled="isRefreshing||showedParams.length==0"  @click="startRefresh">START VIEW</el-button>
 
-    <div class="row">
+
+      </div>
+    </el-footer>
+
+
+    <!-- <div class="row">
       <div class="col">
-        <!-- <div v-show="curViewGroup"> -->
           <div style="float: left">
             <button class="button-bar-btn" @click="printPage">Print</button>
           </div>
@@ -121,7 +204,7 @@
             <button v-if="!listSelected" class="button-bar-btn" @click="startRefresh"  :disabled="isRefreshing||showedParams.length==0" :style="{'background-image': isRefreshing||showedParams.length==0 ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">Start View</button>
           </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -187,7 +270,7 @@ export default {
     };
   },
   components: {
-    vueCustomScrollbar
+    // vueCustomScrollbar
   },
 
   methods: {
@@ -210,8 +293,8 @@ export default {
           index: this.selectedParamsIndex
         });
 
-        var urlRoot5 = 'php/conditionMonitoring/paramerDisplay/getUnitInTime.php';
-        axios.post(urlHeads[pattern]+urlRoot5, tmp).then(
+        var urlRoot5 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getUnitInTime.php';
+        axios.post(urlRoot5, tmp).then(
           response => {
             for (var i = 0; i < response.data.length; i++) {
               this.selectedParams[i].unit = response.data[i]['unit']
@@ -222,9 +305,9 @@ export default {
           }
         )
 
-        var urlRoot4 = 'php/conditionMonitoring/paramerDisplay/getDataInTime.php';
+        var urlRoot4 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
 
-        axios.post(urlHeads[pattern]+urlRoot4, tmp).then(
+        axios.post(urlRoot4, tmp).then(
           response => {
             for (var i = 0; i < response.data.length; i++) {
               if(response.data[i].length > 0){
@@ -276,8 +359,8 @@ export default {
           let tmp = qs.stringify({
             index: [parameter.id]
           })
-          var urlRoot1 = 'php/conditionMonitoring/paramerDisplay/getDataInTime.php';
-          axios.post(urlHeads[pattern]+urlRoot1, tmp).then(
+          var urlRoot1 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
+          axios.post(urlRoot1, tmp).then(
             response => {
 
               // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
@@ -328,9 +411,9 @@ export default {
             index: this.selectedParamsIndex
           });
 
-          var urlRoot4 = 'php/conditionMonitoring/paramerDisplay/getDataInTime.php';
+          var urlRoot4 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
 
-          axios.post(urlHeads[pattern]+urlRoot4, tmp).then(
+          axios.post(urlRoot4, tmp).then(
             response => {
               for (var i = 0; i < response.data.length; i++) {
                 if(response.data[i].length > 0){
@@ -359,8 +442,8 @@ export default {
             index: this.showedParamsIndex
           });
 
-          var urlRoot1 = 'php/conditionMonitoring/paramerDisplay/getDataInTime.php';
-          const response = await axios.post(urlHeads[pattern] + urlRoot1, tmp);
+          var urlRoot1 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
+          const response = await axios.post( urlRoot1, tmp);
 
           // var flag = response.data[0][0]['data']
 
@@ -547,7 +630,11 @@ export default {
     }
   },
   mounted() {
-    this.$bus.$on('sendIndexArray1', this.parameterInit);
+    // this.$bus.$on('sendIndexArray1', this.parameterInit);
+
+    this.parameterInit($route.params.selectedParameter)
+
+
   },
   created() {
     this.updateCurrentTime()
@@ -590,8 +677,6 @@ export default {
   .radio {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
-    margin-top: 5px;
   }
   .radio input[type="radio"] {
     appearance: none;

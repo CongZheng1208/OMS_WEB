@@ -159,12 +159,12 @@ export default {
      */
     goThreeTestsPage() {
 
-        if(this.selectedTestId){
-          this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
-        }else{
-          this.isTestNotBeSelected = true
-        }
-      },
+      if(this.selectedTestId){
+        this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
+      }else{
+        this.isTestNotBeSelected = true
+      }
+    },
 
     /**
      * 本函数用于跳转页面

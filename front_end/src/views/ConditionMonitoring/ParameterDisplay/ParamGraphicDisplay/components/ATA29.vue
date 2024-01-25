@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <el-row>
     <div class="table-container">
       <span class="main-title">HYDRAULIC</span>
     </div>
@@ -31,7 +31,7 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </el-row>
 
 </template>
 

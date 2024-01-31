@@ -19,14 +19,12 @@
 
 
 /**
- * 全局二级导航菜单栏相关样式
+ * 全局导航菜单栏相关样式
  */
 
 .el-menu-item {
   background-image: linear-gradient(rgb(24, 24, 24), rgb(66, 66, 66));
   border: 1px solid rgb(85, 85, 85);
-  width: 25%;
-  font-size: 16px;
 }
 
 .el-menu-item-active {
@@ -34,20 +32,7 @@
   box-shadow: 5px 5px 30px 0px #17bef1;
   border: none;
   height: 6vh;
-  width: 25%;
-  font-size: 16px;
 }
-
-.el-menu--horizontal {
-  height: 6vh;
-  line-height: 6vh;
-}
-
-.el-menu--horizontal .el-menu-item {
-  height: 6vh;
-  line-height: 6vh;
-}
-
 
 /**
  * 全局容器样式
@@ -62,6 +47,9 @@
   color:white
 }
 
+.container-fluid {
+  height: 62vh;
+}
 /**
  * 全局页面头部相关样式
  */

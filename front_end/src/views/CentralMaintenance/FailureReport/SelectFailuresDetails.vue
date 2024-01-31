@@ -187,7 +187,9 @@
 import RootCause from "./SelectFailuresRadios/RootCause";
 import FlightDeckEffects from "./SelectFailuresRadios/FlightDeckEffects";
 import Parameters from "./SelectFailuresRadios/Parameters";
+
 import {flightPhaseEnum} from '@/globals/enums.js'
+import {printPage} from '@/utils/utils.js'
 
 export default {
   components: { RootCause, FlightDeckEffects, Parameters },
@@ -211,13 +213,6 @@ export default {
     FlightPhaseData(row) {
       let fpIndex = row.flight_phase;
       return flightPhaseEnum[fpIndex];
-    },
-    /**
-     * 本函数用于打印页面
-     */
-    printPage() {
-      window.print();
-      console.log("null");
     },
     /**
      * 本函数用于select-details-radio单选按钮选择左下角的信息展示：
@@ -277,6 +272,7 @@ export default {
         item.equipment_name = "TBD";
       }
     },
+    printPage
   },
   mounted() {
     //调用获取getSelectedData的函数

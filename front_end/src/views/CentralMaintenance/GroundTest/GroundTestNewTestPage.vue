@@ -46,16 +46,16 @@
       </el-row>
 
       <el-dialog
-  title="Error Message"
-  style="font-size: 15px; color: white;"
-  :visible.sync="isEquiNotBeSelected"
-  width="30%"
->
-  <span style="font-size: 15px; color: white;">Please select a equipment!</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button type="primary" @click="isEquiNotBeSelected = false">OK</el-button>
-  </span>
-</el-dialog>
+        title="Error Message"
+        style="font-size: 15px; color: white;"
+        :visible.sync="isEquiNotBeSelected"
+        width="30%"
+      >
+        <span style="font-size: 15px; color: white;">Please select a equipment!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="isEquiNotBeSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
 
     </el-main>
     <el-footer>
@@ -72,33 +72,13 @@
 <script>
 
   import CentralMaintenceHttp from '../../../api/CentralMaintenceHttp.js'
+  import {ataNameDict} from '@/globals/enums.js'
+  import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 
   export default {
     data() {
       return {
-        ataNameDict : {
-          '21': 'Air Conditioning',
-          '22': 'Auto Flight',
-          '23': 'Communications',
-          '24': 'Electrical Power',
-          '25': 'Equipment/Furnishings',
-          '26': 'Fire Protection',
-          '27': 'Flight Controls',
-          '28': 'Fuel',
-          '73': 'Engine Fuel and Control',
-          '32': 'Landing Gear',
-          '45': 'Central Maintenance System',
-          '42': 'Integranted Module Avionics',
-          '34': 'Navigation',
-          '49': 'Airborne Auxiliary Power',
-          '29': 'Hydraulic Power',
-          '71': 'Power Plant',
-          '30': 'Ice and Rain Protection',
-          '31': 'Indications/Recording',
-          '38': 'WWS',
-          '47': 'Inert Gas System',
-          '52': 'Doors'
-        },
+
         rawData: [],
         selectedATANum: "",
         selectedEquipment: {},
@@ -160,28 +140,10 @@
         return this.selectedEquipments.find(item => item.equipmentName === selectEequipmentName);
       },
 
-
-      /**
-       * 本函数用于根据排序对象确定排序逻辑
-       * @param {number/string} a - 排序对象1
-       * @param {number/string} b - 排序对象2
-       * @returns {number/string} 排序逻辑
-       */
-      customSortMethodForProgressColumn(a, b) {
-        // 判断a和b的类型
-        if (typeof a === 'string' && typeof b === 'string') {
-          // 字符串类型，使用localeCompare进行字典序排序
-          return a.localeCompare(b);
-        } else {
-          // 数字类型，根据数值大小排序
-          return a - b;
-        }
-      },
-
       /**
        * 本函数用于跳转页面
        */
-       goSelectTestPage() {
+      goSelectTestPage() {
         if(Object.keys(this.selectedEquipment ).length !== 0){
           this.$router.push({ name: "SelectTest", params: { selectedEquipment: this.selectedEquipment } });
         }else{
@@ -194,7 +156,9 @@
        */
        goDefaultPage() {
         this.$router.push({ name: "TestList" });
-      }
+      },
+
+      customSortMethodForProgressColumn,
     },
 
     mounted() {
@@ -216,7 +180,7 @@
 
             this.rawData.push({
               ataNumber: element.ata,
-              systemName: this.ataNameDict[element.ata],
+              systemName: ataNameDict[element.ata],
               equipmentName: equipments,
               availability: element.avai,
               testDetails: details,

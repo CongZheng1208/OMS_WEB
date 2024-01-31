@@ -122,9 +122,7 @@
 
 <script>
   import axios from 'axios'
-  // import {pattern, urlHeads} from '../../../config/url.js'
-  // import vueCustomScrollbar from 'vue-custom-scrollbar'
-  // import "vue-custom-scrollbar/dist/vueScrollbar.css"
+  import {printPage} from '@/utils/utils.js'
   export default {
     name: "ParamSelect",
     data() {
@@ -142,7 +140,6 @@
             value: 2
           }
         ],
-
         sourcePortKey: '',
         desPortKey: '',
         byteOffsetKey: '',
@@ -158,14 +155,7 @@
 
       };
     },
-    components: {
-    // vueCustomScrollbar
-    },
     methods: {
-      printPage() {
-      // 调用window.print()来触发打印
-        window.print();
-      },
       addParamToStart(ele){
         this.selectedRawData = ele
         this.byteOffsetKey = ''
@@ -236,6 +226,7 @@
         this.lengthKey = ''
         this.keyFieldKey = ''
       },
+      printPage
 
     },
     mounted() {
@@ -270,7 +261,6 @@
         }
       },
       rawDataChunks() {
-
         if (isNaN(this.byteOffsetKey) || isNaN(this.lengthKey)) {
           // 如果输入的byteOffsetKey和lengthKey参数不是数据
           alert("Please enter valid numerical values for Byte Offset and Length.");
@@ -307,42 +297,6 @@
     width: 10%;
   }
 
-  .top-bar-btn{
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 20%;
-    height: 5vh;
-  }
-
-  .segment-title {
-    border: 1.5px solid lightgray;
-    position: relative;
-    text-align: center;
-    font-weight: bold;
-    padding-top: 0.5vh;
-    padding-bottom: 0.5vh;
-  }
-
-  .button-bar-btn{
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 22vh;
-    height: 5vh;
-  }
-
-  .segment-bottom {
-    /* border: 1.5px solid lightgray; */
-    height: 65vh;
-    /* margin-top: 8vh; */
-  }
-
-  .segment-middle {
-    border: 1.5px solid lightgray;
-    border-top: none;
-    border-bottom: none;
-    height: 64vh;
-  }
-
   .search-input {
     background-color: black;
     color: white;
@@ -350,58 +304,49 @@
     height: 5vh;
     width: 15vh
   }
-  .button-bar {
-    margin-top: 0.5rem;
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2vh;
+    margin-top: 3vh;
+    margin-left: 1vh;
+    margin-right: 1vh;
   }
 
-.input-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2vh;
-  margin-top: 3vh;
-  margin-left: 1vh;
-  margin-right: 1vh;
-}
-.mid-table-area{
-  position: relative;
-  margin: auto;
-  width: auto;
-  height: 52vh;
-}
+  .label {
+    width: 50vh;
+    margin-right: 2vh;
+  }
 
-.label {
-  width: 50vh;
-  margin-right: 2vh;
-}
+  input {
+    flex: 1;
+  }
+  .param-wrapper {
+    margin: 2vh;
+    transition: background-color 0.3s;
+  }
+  .param-wrapper:hover {
+    border: 1px solid #006EAA;
+  }
+  .selected {
+    background-color: rgb(108, 111, 112);
+  }
+  .raw-data-display {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2vh;
+  }
 
-input {
-  flex: 1;
-}
-.param-wrapper {
-  margin: 2vh;
-  transition: background-color 0.3s;
-}
-.param-wrapper:hover {
-  border: 1px solid #006EAA;
-}
-.selected {
-  background-color: rgb(108, 111, 112);
-}
-.raw-data-display {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 2vh;
-}
+  .hex-chunk {
+    padding: 5px;
+    margin-top: 1vh;
+    width: 5vh;
+    transition: background-color 0.3s;
+  }
 
-.hex-chunk {
-  padding: 5px;
-  margin-top: 1vh;
-  width: 5vh;
-  transition: background-color 0.3s;
-}
-
-.hex-chunk:hover {
-  background-color:rgb(108, 111, 112);
-}
+  .hex-chunk:hover {
+    background-color:rgb(108, 111, 112);
+  }
 </style>
 

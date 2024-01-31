@@ -103,6 +103,8 @@ import InBoundLeg from "./InBoundLeg";
 import ExistingFde from "./ExistingFde";
 import ExistingFailures from "./ExistingFailures";
 import InBoundLegFailures from "./InBoundLegFailures";
+import {printPage} from '@/utils/utils.js'
+
 export default {
   components: {
     InBoundLeg,
@@ -127,13 +129,6 @@ export default {
      */
     switchAll(bool) {
       this.legFailureAll = bool;
-    },
-    /**
-     * 本函数用于打印页面
-     */
-    printPage() {
-      window.print();
-      console.log("null");
     },
 
     /**
@@ -189,6 +184,7 @@ export default {
         this.$router.push({ name: "SelectFailuresDetails" });
       }
     },
+    printPage
   },
 };
 </script>

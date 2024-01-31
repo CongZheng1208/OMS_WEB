@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {flightPhaseEnum, failureStateEnum} from '@/globals/enums.js'
 export default {
   components: {},
@@ -125,23 +126,6 @@ export default {
     },
 
     /**
-     * 本函数用于根据排序对象确定排序逻辑
-     * @param {number/string} a - 排序对象1
-     * @param {number/string} b - 排序对象2
-     * @returns {number/string} 排序逻辑
-     */
-    customSortMethodForProgressColumn(a, b) {
-      // 判断a和b的类型
-      if (typeof a === "string" && typeof b === "string") {
-        // 字符串类型，使用localeCompare进行字典序排序
-        return a.localeCompare(b);
-      } else {
-        // 数字类型，根据数值大小排序
-        return a - b;
-      }
-    },
-
-    /**
      * 本函数用于mounted中，获取state中resFailureData数据，并处理数据，具体有：
      * 筛选原数据中flight_leg为0的数据，唯一化failureName，将相同的failureName合同至一个object，分为parent和children
      * 并将failure_name_info更新为failure_name_info+[count]格式
@@ -188,6 +172,7 @@ export default {
       }
       this.InBoundLegFailuresAllArray = existingFailureParent;
     },
+    customSortMethodForProgressColumn
   },
 
   mounted() {

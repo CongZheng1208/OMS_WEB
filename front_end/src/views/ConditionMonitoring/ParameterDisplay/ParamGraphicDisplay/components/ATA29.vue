@@ -170,7 +170,4 @@ import axios from 'axios'
     background-color: transparent; /* 第一列透明背景 */
     border: none; /* 第一列无边框 */
   }
-
-
-
 </style>

@@ -42,3 +42,29 @@ export const fdeClassEnum = {
   3: "STAT",
   4: "WARN",
 }
+
+
+// ATA对应的名称
+export const ataNameDict = {
+  '21': 'Air Conditioning',
+  '22': 'Auto Flight',
+  '23': 'Communications',
+  '24': 'Electrical Power',
+  '25': 'Equipment/Furnishings',
+  '26': 'Fire Protection',
+  '27': 'Flight Controls',
+  '28': 'Fuel',
+  '73': 'Engine Fuel and Control',
+  '32': 'Landing Gear',
+  '45': 'Central Maintenance System',
+  '42': 'Integranted Module Avionics',
+  '34': 'Navigation',
+  '49': 'Airborne Auxiliary Power',
+  '29': 'Hydraulic Power',
+  '71': 'Power Plant',
+  '30': 'Ice and Rain Protection',
+  '31': 'Indications/Recording',
+  '38': 'WWS',
+  '47': 'Inert Gas System',
+  '52': 'Doors'
+}

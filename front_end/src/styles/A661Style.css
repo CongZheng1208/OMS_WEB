@@ -14,7 +14,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #ffffff;
 }
 
 
@@ -132,8 +132,8 @@
 .radio {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
 }
 .radio input[type="radio"] {
   appearance: none;

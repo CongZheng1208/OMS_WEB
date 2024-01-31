@@ -18,8 +18,6 @@
             />
             <label class="form-check-label">List Display</label>
           </div>
-
-
           <div class="radio" @click="changeRadio('figure')">
             <input
               name="param-display-radio"
@@ -28,7 +26,6 @@
             />
             <label class="form-check-label">Curve Display</label>
           </div>
-
         </el-col>
 
         <el-col :span="13">
@@ -113,31 +110,10 @@
         <el-button v-if="listSelected" class="footer-btn" :disabled="!isListRefreshing" @click="stopListRefresh()">STOP VIEW</el-button>
         <el-button v-else class="footer-btn" :disabled="!isRefreshing" @click="stopRefresh()">STOP VIEW</el-button>
 
-
         <el-button v-if="listSelected" class="footer-btn" :disabled="isListRefreshing" @click="startListRefresh">START VIEW</el-button>
         <el-button v-else class="footer-btn" :disabled="isRefreshing||showedParams.length==0"  @click="startRefresh">START VIEW</el-button>
-
-
       </div>
     </el-footer>
-
-
-    <!-- <div class="row">
-      <div class="col">
-          <div style="float: left">
-            <button class="button-bar-btn" @click="printPage">Print</button>
-          </div>
-          <div style="float: right">
-            <button class="button-bar-btn" @click="backToParaPage">Back</button>
-
-            <button v-if="listSelected" class="button-bar-btn" @click="stopListRefresh" :disabled="!isListRefreshing" :style="{'background-image': !isListRefreshing ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">Stop View</button>
-            <button v-if="listSelected" class="button-bar-btn" @click="startListRefresh" :disabled="isListRefreshing" :style="{'background-image': isListRefreshing ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">Start View</button>
-
-            <button v-if="!listSelected" class="button-bar-btn" @click="stopRefresh"  :disabled="!isRefreshing" :style="{'background-image': !isRefreshing ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">Stop View</button>
-            <button v-if="!listSelected" class="button-bar-btn" @click="startRefresh"  :disabled="isRefreshing||showedParams.length==0" :style="{'background-image': isRefreshing||showedParams.length==0 ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">Start View</button>
-          </div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -147,6 +123,8 @@ import axios from 'axios';
 import qs from 'qs'
 
 import * as echarts from 'echarts';
+import {printPage,customSortMethodForProgressColumn} from '@/utils/utils.js'
+
 // import vueCustomScrollbar from 'vue-custom-scrollbar'
 // import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
@@ -202,16 +180,7 @@ export default {
       refreshListInterval: null
     };
   },
-  components: {
-    // vueCustomScrollbar
-  },
-
   methods: {
-    printPage() {
-      // 调用window.print()来触发打印
-      window.print();
-    },
-
     parameterInit(data){
       this.selectedParams = data;
 
@@ -567,33 +536,11 @@ export default {
       this.isListRefreshing = false;
       clearInterval(this.refreshListInterval)
     },
-
-    /**
-      * 本函数用于根据排序对象确定排序逻辑
-      * @param {number/string} a - 排序对象1
-      * @param {number/string} b - 排序对象2
-      * @returns {number/string} 排序逻辑
-      */
-      customSortMethodForProgressColumn(a, b) {
-      // 判断a和b的类型
-      if (typeof a === 'string' && typeof b === 'string') {
-        // 字符串类型，使用localeCompare进行字典序排序
-        return a.localeCompare(b);
-      } else {
-        // 数字类型，根据数值大小排序
-        return a - b;
-      }
-    },
+    printPage,
+    customSortMethodForProgressColumn
   },
   mounted() {
-    // this.$bus.$on('sendIndexArray1', this.parameterInit);
-
-    console.log(this.$route.params.selectedParameter)
-
     this.parameterInit(this.$route.params.selectedParameter)
-
-
-
   },
   created() {
     this.updateCurrentTime()

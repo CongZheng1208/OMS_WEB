@@ -6,7 +6,6 @@
           v-model="listSelected"
           placeholder="Select parameter pattern"
           @change="changeRadio"
-          clearable
         >
           <el-option v-for="x in testData" :key="x.value" :value="x.value" :label="x.name"></el-option>
         </el-select>
@@ -148,9 +147,9 @@
 
 <script>
   import axios from 'axios'
-  // import {pattern, urlHeads} from '../../../config/url.js'
-  // import vueCustomScrollbar from 'vue-custom-scrollbar'
-  // import "vue-custom-scrollbar/dist/vueScrollbar.css"
+  import {ataNameDict} from '@/globals/enums.js'
+  import {customSortMethodForProgressColumn} from '@/utils/utils.js'
+
 
   export default {
     name: "ParamListDisplay",
@@ -185,28 +184,6 @@
         addedParams: [],
         selectedCountTotal: 0,
         parameterCountTotal: 0,
-        ATAName: {
-          21: 'Air Conditioning',
-          22: 'Auto Flight',
-          23: 'Communications',
-          24: 'Electrical',
-          25: 'Equipment/Furnishings',
-          26: 'Fire Protection',
-          27: 'Flight Control',
-          28: 'Fuel',
-          31: 'Indications/Recording',
-          33: 'Lighting',
-          73: 'Engine Fuel and Control',
-          32: 'Landing Gear',
-          45: 'Central Maintenance System',
-          42: 'Integranted Module Avionics',
-          34: 'Navigation',
-          49: 'Airborne Auxiliary Power',
-          29: 'Hydraulic Power',
-          71: 'Power Plant',
-          30: 'Ice and Rain Protection',
-          52: 'Doors'
-        },
         curListId: '',
         curListName: '',
         ataParas: [],
@@ -347,7 +324,7 @@
               var boolArray = new Array(ele.RPName.length).fill(false)
               this.ataSys.push({
                 ATA: ele.ATA,
-                name: this.ATAName[ele.ATA],
+                name: ataNameDict[ele.ATA],
                 paras: ele.RPName,
                 index: ele.RP_index,
                 isChecked: ele.isChecked
@@ -407,24 +384,7 @@
           console.log('Cancel')
         })
       },
-
-
-      /**
-        * 本函数用于根据排序对象确定排序逻辑
-        * @param {number/string} a - 排序对象1
-        * @param {number/string} b - 排序对象2
-        * @returns {number/string} 排序逻辑
-        */
-      customSortMethodForProgressColumn(a, b) {
-        // 判断a和b的类型
-        if (typeof a === 'string' && typeof b === 'string') {
-          // 字符串类型，使用localeCompare进行字典序排序
-          return a.localeCompare(b);
-        } else {
-          // 数字类型，根据数值大小排序
-          return a - b;
-        }
-      },
+      customSortMethodForProgressColumn,
     },
     mounted() {
       this.flashData()

@@ -25,8 +25,6 @@
         </div>
       </div>
 
-
-
       <div v-if="currentScreen == 'full'">
         <el-row>
           <ATA29 v-if="leftAtaSelected == '29'"></ATA29>

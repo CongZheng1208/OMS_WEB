@@ -7,46 +7,41 @@
             Select Option
           </div>
         </el-col>
-        <el-col :span="5">
-          <div class="radio"  @click="changeRadio('list')">
-            <input
-              name="param-display-radio1"
-              type="radio"
-              :checked="isAll"
-            />
-            <label class="form-check-label">Parameter List Display</label>
-          </div>
-          <div class="radio"   @click="changeRadio('graphic')">
-            <input
-              name="param-display-radio1"
-              type="radio"
-              :checked="isATA"
-
-            />
-            <label class="form-check-label">Parameter Graphics Display</label>
-          </div>
-          <div class="radio" @click="changeRadio('raw')">
-            <input
-              name="param-display-radio1"
-              type="radio"
-              :checked="isFlight"
-            />
-            <label class="form-check-label">Raw Data Display</label>
-          </div>
-
+        <el-col :span="19">
+          <el-col :span="8">
+            <div class="radio"  @click="changeRadio('list')">
+             <input
+                name="param-display-radio1"
+                type="radio"
+                :checked="isAll"
+              />
+              <label class="form-check-label">Parameter List Display</label>
+            </div>
+            <div class="radio"   @click="changeRadio('graphic')">
+              <input
+                name="param-display-radio1"
+                type="radio"
+                :checked="isATA"
+              />
+              <label class="form-check-label">Parameter Graphics Display</label>
+            </div>
+            <div class="radio" @click="changeRadio('raw')">
+              <input
+                name="param-display-radio1"
+                type="radio"
+                :checked="isFlight"
+              />
+              <label class="form-check-label">Raw Data Display</label>
+            </div>
+          </el-col>
+          <el-col :span="16"></el-col>
         </el-col>
-        <el-col :span="14">
-          <div>
-            .
-          </div>
 
-        </el-col>
         <el-col :span="3">
           <div class="col status-bar">
             A/C Reg: {{ acReg }} <br>
             {{currentDate}} {{ currentTime }}
           </div>
-
         </el-col>
       </el-row>
     </el-header>
@@ -56,54 +51,6 @@
     <RawDataDisplay v-if="displaySelected == 'raw'"></RawDataDisplay>
 
  </el-container>
-
-
-  <!-- <div class="container-fluid">
-    <div class="row segment-top">
-      <div class="col-1">Select Option</div>
-      <div class="col-3">
-        <div class="radio"  @click="changeRadio('list')">
-          <input
-            name="param-display-radio1"
-            type="radio"
-            :checked="isAll"
-          />
-          <label class="form-check-label">Parameter List Display</label>
-        </div>
-        <div class="radio"   @click="changeRadio('graphic')">
-          <input
-            name="param-display-radio1"
-            type="radio"
-            :checked="isATA"
-
-          />
-          <label class="form-check-label">Parameter Graphics Display</label>
-        </div>
-        <div class="radio" @click="changeRadio('raw')">
-          <input
-            name="param-display-radio1"
-            type="radio"
-            :checked="isFlight"
-          />
-          <label class="form-check-label">Raw Data Display</label>
-        </div>
-
-      </div>
-      <div class="col-6">
-
-      </div>
-      <div class="col status-bar">
-        A/C Reg: {{ acReg }} <br>
-        {{currentDate}} {{ currentTime }}
-      </div>
-    </div>
-    <div class="row segment-bottom">
-
-        <ParamListDisplay v-if="displaySelected == 'list'"></ParamListDisplay>
-        <ParamGraphicDisplay v-if="displaySelected == 'graphic'"></ParamGraphicDisplay>
-        <RawDataDisplay v-if="displaySelected == 'raw'"></RawDataDisplay>
-      </div>
-  </div> -->
 </template>
 
 <script>
@@ -132,6 +79,10 @@
       }
     },
     methods: {
+      /**
+       * 本函数用于跳转参数展示的三种不同模块
+       * @param {string} value 代表三种模块的不同字符值
+       */
       changeRadio(value) {
         this.displaySelected = value
         if(value == 'list'){
@@ -148,13 +99,14 @@
           this.isFlight =  true
         }
       },
+
+      /**
+       * 本函数用于更新实时时间
+       */
       updateCurrentTime() {
         const now = new Date();
         this.currentTime = now.toLocaleTimeString();
         this.currentDate = now.toLocaleDateString();
-      },
-      startView() {
-        this.$emit("startView", true);
       },
     },
     created() {

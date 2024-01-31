@@ -1,9 +1,6 @@
 <template>
-
   <div>
     <el-main>
-
-
       <div class="controller" >
         <el-select v-model="parameterSelected"  @change="clearFilter()">
           <el-option v-for="x in testData" :value="x.value" :key="x.value" :label="x.name"></el-option>
@@ -12,85 +9,97 @@
 
       <el-row>
         <el-col :span="6">
+          <el-card class="custom-card" shadow="hover" style="height: 60vh">
+            <div class="custom-header"> FILTER</div>
+            <div class="custom-content">
+              <div style="height: 38vh">
+                <div class="input-row">
+                  <span class="label">Source Port</span>
+                  <input type="text" class="search-input" placeholder="e.g. 8080" v-model="sourcePortKey" />
+                </div>
+                <div class="input-row">
+                  <span class="label">Des Port</span>
+                  <input type="text" class="search-input" placeholder="e.g. 8080" v-model="desPortKey" />
+                </div>
 
-          <div class="row" style="padding: 4px">
-            <div class="segment-title">
-              Filter
-            </div>
-          </div>
+                <div v-if="parameterSelected==1">
+                  <div class="input-row">
+                    <span class="label">Byte Offset(Byte)</span>
+                    <input type="text" class="search-input" placeholder="e.g. 3  Unit: Byte" v-model="byteOffsetKey" />
+                  </div>
+                  <div class="input-row">
+                    <span class="label">Length(Byte)</span>
+                    <input type="text" class="search-input" placeholder="e.g. 5  Unit: Byte" v-model="lengthKey" />
+                  </div>
+                </div>
 
-          <div style="height: 48vh">
-            <div class="input-row">
-              <span class="label">Source Port</span>
-              <input type="text" class="search-input" placeholder="e.g. 8080" v-model="sourcePortKey" />
-            </div>
-            <div class="input-row">
-              <span class="label">Des Port</span>
-              <input type="text" class="search-input" placeholder="e.g. 8080" v-model="desPortKey" />
-            </div>
-
-            <div v-if="parameterSelected==1">
-              <div class="input-row">
-                <span class="label">Byte Offset(Byte)</span>
-                <input type="text" class="search-input" placeholder="e.g. 3  Unit: Byte" v-model="byteOffsetKey" />
-                <!-- <span class="units">Bit</span> -->
+                <div v-if="parameterSelected==2">
+                  <div class="input-row">
+                    <span class="label">Key Field</span>
+                    <input type="text" class="search-input" placeholder="e.g. 3C" v-model="keyFieldKey" />
+                  </div>
+                </div>
               </div>
-              <div class="input-row">
-                <span class="label">Length(Byte)</span>
-                <input type="text" class="search-input" placeholder="e.g. 5  Unit: Byte" v-model="lengthKey" />
-              </div>
-            </div>
 
-            <div v-if="parameterSelected==2">
-              <div class="input-row">
-                <span class="label">Key Field</span>
-                <input type="text" class="search-input" placeholder="e.g. 3C" v-model="keyFieldKey" />
-              </div>
+              <el-button
+                @click="clearFilter()"
+                :style="{
+                  position: absolute,
+                  bottom: '2vh',
+                  backgroundColor: 'rgb(70, 72, 73)',
+                  color: 'white'
+                }"
+              >
+                Clear
+              </el-button>
             </div>
-          </div>
-
-          <button class="page-btn" @click="clearFilter()">Clear</button>
+          </el-card>
         </el-col>
 
 
         <el-col :span="18">
-
-          <el-row style="padding: 4px">
+          <el-row>
             <el-col :span="6">
-              <div class="segment-title">Timestamp </div>
-              <div>
-                <vue-custom-scrollbar class="mid-table-area">
+
+              <el-card class="custom-card" shadow="hover" style="height: 60vh">
+                <div class="custom-header"> TIMESTAMP</div>
+                <div class="custom-content">
                   <div class="param-wrapper" v-for="(ele, index) in curRawDatas.slice(0, 15)" :key="index"
                   :class="{ 'selected': selectedRawData && selectedRawData.idx==ele.idx }"
                   @click="addParamToStart(ele)">
                     <label>{{ ele.timestamp }}</label>
                   </div>
-                </vue-custom-scrollbar>
-              </div>
-              <div class="mid-btn-group">
-                <button class="page-btn"  @click="clearTimestamp()">Clear</button>
-              </div>
+                </div>
+                <el-button
+                  @click="clearTimestamp()"
+                  :style="{
+                    position: absolute,
+                    bottom: '2vh',
+                    backgroundColor: 'rgb(70, 72, 73)',
+                    color: 'white'
+                  }">
+                    Clear
+                  </el-button>
+
+              </el-card>
             </el-col>
 
             <el-col :span="18">
-              <div class="segment-title">
-                Raw Data
-              </div>
-              <div>
-                <vue-custom-scrollbar class="mid-table-area">
-                  <div class="raw-data-display">
 
+              <el-card class="custom-card" shadow="hover" style="height: 60vh">
+                <div class="custom-header"> RAW DATA</div>
+                <div class="custom-content">
+                  <div class="raw-data-display">
                     <div v-if="rawDataChunks" v-for="(chunk, index) in rawDataChunks" :key="index" class="hex-chunk"
                     :class="{ 'selected': index >= startIndex && index < endIndex }">
                       {{ chunk }}
                     </div>
-                    <div v-if="!rawDataChunks">
+                    <div v-else>
                       No Parameter Found
                     </div>
                   </div>
-                  <!-- <label v-if="selectedRawData" class="check-button">{{ selectedRawData.raw_data }}</label> -->
-                </vue-custom-scrollbar>
-              </div>
+                </div>
+              </el-card>
             </el-col>
           </el-row>
 
@@ -170,8 +179,8 @@
         clearInterval(this.refreshInterval)
       },
       fetchData() {
-        var urlRoot1 = 'php/conditionMonitoring/paramerDisplay/getRawInTime.php';
-        axios.get(urlHeads[pattern]+urlRoot1).then(
+        var urlRoot1 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getRawInTime.php';
+        axios.get(urlRoot1).then(
           response => {
             if(this.rawDatas.length == 0){
                 response.data.forEach(ele => {
@@ -291,14 +300,6 @@
 
 <style scoped>
 
-  .mid-btn-group {
-    position: relative;
-    bottom: 0;
-    display: inline-block;
-    margin-bottom: 2rem;
-    margin-left: 1vh;
-  }
-
   .controller{
     margin-top: -6.5%;
     margin-left: 30%;
@@ -311,11 +312,6 @@
     color: white;
     width: 20%;
     height: 5vh;
-  }
-
-  .page-btn {
-    color: white;
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
   }
 
   .segment-title {
@@ -389,7 +385,7 @@ input {
   border: 1px solid #006EAA;
 }
 .selected {
-  background-color: rgb(70, 72, 73);
+  background-color: rgb(108, 111, 112);
 }
 .raw-data-display {
   display: flex;
@@ -405,7 +401,7 @@ input {
 }
 
 .hex-chunk:hover {
-  background-color:rgb(70, 72, 73);
+  background-color:rgb(108, 111, 112);
 }
 </style>
 

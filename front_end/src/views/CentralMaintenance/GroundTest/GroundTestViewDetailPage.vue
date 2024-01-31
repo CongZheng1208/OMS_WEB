@@ -1,6 +1,6 @@
 <template>
   <el-container>
-   <el-header style="height: 15vh;">
+   <el-header style="height: 12vh;">
     <el-row style="width: 80%;">
       <el-col :span="8">
         <div class="el-header-subcontainer">

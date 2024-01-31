@@ -9,69 +9,67 @@
         padding-top: 3vh;
         padding-left: 4vh;
         font-size: 16px;
-        height: 9vh;
+        height: 13vh;
       "
     >
       <div style="float: left">Select Option:</div>
       <div style="margin-left: 5%; float: left">
-        <div>
+
+        <div class="radio" @click="changeTabs('legPDEsSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
             :checked="legPDEsSelected"
-            v-on:change="changeTabs('legPDEsSelected')"
           />
-          <span>Inbound Leg FDEs</span>
+          <label class="form-check-label">Inbound Leg FDEs</label>
         </div>
-        <div>
+
+        <div class="radio" @click="changeTabs('existingFDEsSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
             :checked="existingFDEsSelected"
-            v-on:change="changeTabs('existingFDEsSelected')"
           />
-          <span>Existing FDEs</span>
+          <label class="form-check-label">Existing FDEs</label>
         </div>
       </div>
 
       <div style="margin-left: 5%; float: left">
-        <div>
+        <div class="radio" @click="changeTabs('legFailuresSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
             :checked="legFailuresSelected"
-            v-on:change="changeTabs('legFailuresSelected')"
           />
-          <span>Inbound Leg Failures</span>
+          <label class="form-check-label">Inbound Leg Failures</label>
         </div>
-        <div>
+
+        <div class="radio" @click="changeTabs('existingFailureSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
             :checked="existingFailureSelected"
-            v-on:change="changeTabs('existingFailureSelected')"
           />
-          <span>Existing Failures</span>
+          <label class="form-check-label">Existing Failures</label>
         </div>
       </div>
       <div style="margin-left: 5%; float: left" v-if="legFailuresSelected">
-        <div>
+        <div class="radio" @click="switchAll(true)">
           <input
             name="inbound-leg-fail-radio"
             type="radio"
             :checked="legFailureAll"
-            v-on:change="switchAll(true)"
           />
-          <span>All</span>
+          <label class="form-check-label">All</label>
         </div>
-        <div>
+
+        <div class="radio" @click="switchAll(false)">
           <input
             name="inbound-leg-fail-radio"
             type="radio"
             :checked="!legFailureAll"
-            v-on:change="switchAll(false)"
           />
-          <span>Summary</span>
+          <label class="form-check-label">Summary</label>
         </div>
       </div>
     </el-header>

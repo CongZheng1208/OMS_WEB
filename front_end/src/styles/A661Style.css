@@ -75,6 +75,8 @@
 
   padding-top: 2vh;
   padding-left: 4vh;
+
+  /* box-shadow: 0px 0px 30px 0px #17bef1; */
 }
 
 .el-header-title {
@@ -162,7 +164,6 @@
   background-color: rgb(32,255,255);
 }
 
-
 .controller{
   margin-top: -6.5%;
   margin-left: 30%;
@@ -203,11 +204,20 @@
   background-color: #2b2b2be7 !important;
 }
 
-.test-number {
+.table-outer-number{
   position: absolute;
-  bottom: 11vh;
-  right: 4vh;
+  bottom: 80px;
+  right: 12vh;
   color: white;
+  font-weight: bold;
+}
+
+.table-inner-number {
+  position: absolute;
+  bottom: 2vh;
+  right: 12vh;
+  color: white;
+  font-weight: bold;
 }
 
 .el-dialog {
@@ -264,8 +274,6 @@
 
 .vertical-radio-group {
   display: flex;
-  /* flex-direction: column; */
-  /*justify-content: flex-start;  */
   margin-top: 2vh;
 }
 

@@ -10,14 +10,22 @@
           </div>
         </el-col>
         <el-col :span="4">
-          <div class="radio">
-            <input  name="param-display-radio" type="radio" :checked="listSelected"
-              v-on:change="changeRadio('list')" />
+          <div class="radio" @click="changeRadio('list')">
+            <input
+              name="param-display-radio"
+              type="radio"
+              :checked="listSelected"
+            />
             <label class="form-check-label">List Display</label>
           </div>
-          <div class="radio">
-            <input  name="param-display-radio" type="radio" :checked="figureSelected"
-              v-on:change="changeRadio('figure')" />
+
+
+          <div class="radio" @click="changeRadio('figure')">
+            <input
+              name="param-display-radio"
+              type="radio"
+              :checked="figureSelected"
+            />
             <label class="form-check-label">Curve Display</label>
           </div>
 
@@ -39,17 +47,14 @@
 
     <el-main>
       <el-row v-show="listSelected">
-
         <el-table
           highlight-current-row
           height="65vh"
           style=" background-color: rgb(46, 45, 45)"
-          @row-click="showParameters"
           :data="selectedParams"
           :sort-method="customSortMethodForProgressColumn"
           :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
           :empty-text="'No Data Display'"
-
         >
           <el-table-column :width="null" :min-width="5"></el-table-column>
           <el-table-column prop="para" label="Parameter" sortable :width="null" :min-width="80"></el-table-column>
@@ -57,43 +62,15 @@
           <el-table-column prop="unit" label="Units" sortable :width="null" :min-width="10"></el-table-column>
           <el-table-column :width="null" :min-width="5"></el-table-column>
         </el-table>
-
-
-          <!-- <div class="table-test">
-            <table class="table table-sm text-white" style=" table-layout: fixed;">
-              <thead>
-                <tr>
-                  <th scope="col" style="width: 80%">Parameter</th>
-                  <th scope="col" style="width: 10%">Value</th>
-                  <th scope="col" style="width: 10%">Units</th>
-                </tr>
-              </thead>
-            </table>
-            <vue-custom-scrollbar class="list-selected-area" :settings="settings">
-              <table class="table table-sm text-white" style=" table-layout: fixed;">
-                <tbody>
-                  <tr v-for="(param, index) in selectedParams" :key="index" class="scroll-item">
-                    <td style="width: 80%">{{ param.para }}</td>
-                    <td style="width: 10%">{{ param.curData }}</td>
-                    <td style="width: 10%">{{ param.unit }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </vue-custom-scrollbar>
-          </div> -->
-
-
-
       </el-row>
 
       <el-row v-show="figureSelected">
         <el-col :span="8">
-
           <el-table
             highlight-current-row
             height="65vh"
+            @row-click="addParamToShow"
             style=" background-color: rgb(46, 45, 45)"
-            @row-click="showParameters"
             :data="selectedParams"
             :sort-method="customSortMethodForProgressColumn"
             :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
@@ -104,33 +81,6 @@
             <el-table-column prop="para" label="Parameter to Display" sortable :width="null" :min-width="80"></el-table-column>
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
-
-
-
-          <!-- <div class="param-tables">
-            <div class="custom-scrollbar-wrapper" style="width: 100%; display: block; overflow: auto;">
-
-                <table class="table-sm text-white" style="width:100%">
-                  <thead class="segment-title">
-                    <tr>
-                      <th scope="col">Parameter to Display</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <vue-custom-scrollbar class="scroll-selected-area" :settings="settings">
-                      <tr v-for="para in selectedParams">
-                        <th>
-                          <span class="param-wrapper" :class="{ 'selected': showedParams.includes(para) }" @click="addParamToShow(para)">
-                            {{para.para}}
-                          </span>
-                        </th>
-                      </tr>
-                    </vue-custom-scrollbar>
-                  </tbody>
-                </table>
-
-            </div>
-          </div> -->
         </el-col>
 
         <el-col :span="16">
@@ -149,23 +99,6 @@
               </div>
             </div>
           </el-card>
-
-
-
-
-          <div style="background-color: #837272;border-radius: 10px; border-color:aliceblue">
-
-              <div v-if="showedParams.length==1" class="echarts" style="height: 70vh" id="mychart0" :style="myChartStyle"></div>
-
-              <div v-if="showedParams.length>=2">
-                <div class="echarts" style="height: 35vh" id="mychart0" :style="myChartStyle"></div>
-                <div class="echarts" style="height: 35vh" id="mychart1" :style="myChartStyle"></div>
-                <div v-if="showedParams.length>=3" class="echarts" style="height: 35vh" id="mychart2" :style="myChartStyle"></div>
-                <div v-if="showedParams.length>=4" class="echarts" style="height: 35vh" id="mychart3" :style="myChartStyle"></div>
-                <div v-if="showedParams.length>=5" class="echarts" style="height: 35vh" id="mychart4" :style="myChartStyle"></div>
-              </div>
-
-          </div>
         </el-col>
       </el-row>
     </el-main>
@@ -213,7 +146,7 @@ import axios from 'axios';
 // import {pattern, urlHeads} from '../../config/url.js';
 import qs from 'qs'
 
-// import * as echarts from 'echarts';
+import * as echarts from 'echarts';
 // import vueCustomScrollbar from 'vue-custom-scrollbar'
 // import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
@@ -575,7 +508,11 @@ export default {
       this.currentDate = now.toLocaleDateString();
     },
     backToParaPage() {
-      this.$bus.$emit("selectPtoShow", true);
+
+
+      // this.$bus.$emit("selectPtoShow", true);
+
+
       this.dataYaxis = []
       this.dateXaxis = []
 
@@ -590,6 +527,8 @@ export default {
       }
       this.stopRefresh()
       this.stopListRefresh()
+
+      this.$router.push({ name: "ParameterSelect" });
     },
     changeRadio(value){
       if(value == "list") {
@@ -627,12 +566,32 @@ export default {
     stopListRefresh() {
       this.isListRefreshing = false;
       clearInterval(this.refreshListInterval)
-    }
+    },
+
+    /**
+      * 本函数用于根据排序对象确定排序逻辑
+      * @param {number/string} a - 排序对象1
+      * @param {number/string} b - 排序对象2
+      * @returns {number/string} 排序逻辑
+      */
+      customSortMethodForProgressColumn(a, b) {
+      // 判断a和b的类型
+      if (typeof a === 'string' && typeof b === 'string') {
+        // 字符串类型，使用localeCompare进行字典序排序
+        return a.localeCompare(b);
+      } else {
+        // 数字类型，根据数值大小排序
+        return a - b;
+      }
+    },
   },
   mounted() {
     // this.$bus.$on('sendIndexArray1', this.parameterInit);
 
-    this.parameterInit($route.params.selectedParameter)
+    console.log(this.$route.params.selectedParameter)
+
+    this.parameterInit(this.$route.params.selectedParameter)
+
 
 
   },

@@ -50,7 +50,9 @@
         <el-table-column label="Note" :width="null" :min-width="30"></el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
-      <div class="test-number">Number of Tests: {{ filteredTestDataLength }}</div>
+      <div class="table-outer-number">
+        Number of Tests: {{ filteredTestDataLength }}
+      </div>
 
       <el-dialog
         title="Error Message"

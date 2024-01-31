@@ -46,14 +46,16 @@
       </el-row>
 
       <el-dialog
-        title="Error Message"
-        :visible.sync="isEquiNotBeSelected"
-        width="30%">
-        <span style="  font-size: 15px;">Please select a equipment!</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="isEquiNotBeSelected = false"> OK </el-button>
-        </span>
-      </el-dialog>
+  title="Error Message"
+  style="font-size: 15px; color: white;"
+  :visible.sync="isEquiNotBeSelected"
+  width="30%"
+>
+  <span style="font-size: 15px; color: white;">Please select a equipment!</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="isEquiNotBeSelected = false">OK</el-button>
+  </span>
+</el-dialog>
 
     </el-main>
     <el-footer>
@@ -106,8 +108,6 @@
       }
     },
     methods: {
-
-
       /**
        * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
        * @param {string} row - rawData数据的ataNumber属性

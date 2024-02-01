@@ -1,8 +1,6 @@
 <template>
   <div>
-
     <el-header style="height: 12vh">
-
       <el-row style="width: 100%;">
         <el-col :span="3">
           <div class="el-header-title">
@@ -32,7 +30,6 @@
           Display Type: {{ displayType }} <br>
           Parameter Set Received at: {{ currParamUpdateTime }}
         </el-col>
-
 
         <el-col :span="4">
           A/C Reg: {{ acReg }} <br>

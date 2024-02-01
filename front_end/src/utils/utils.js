@@ -21,3 +21,11 @@
       return a - b;
     }
   }
+
+  /**
+   * 本函数用于跳转参数展示的三种不同模块
+   * @param {string} value 代表三种模块的不同字符值
+   */
+  export function changeRadio(value) {
+    this.displaySelected = value
+  }

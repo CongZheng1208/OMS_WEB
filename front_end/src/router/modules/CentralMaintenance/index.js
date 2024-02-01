@@ -67,12 +67,31 @@ const CentralMaintenanceRoutes = {
     {
       path: 'nvmData',
       name: 'NVMData',
-      component: () => import('@/views/CentralMaintenance/NVMData/NVMData.vue')
+      component: () => import('@/views/CentralMaintenance/NVMData/index.vue'),
+      children: [
+        {
+          path: 'nvmDataDefault',
+          name: 'NVMDataDefault',
+          component: () => import('@/views/CentralMaintenance/NVMData/NVMDataDefaultPage.vue')
+        },
+        {
+          path: 'nvmDataManagement',
+          name: 'NVMDataManagement',
+          component: () => import('@/views/CentralMaintenance/NVMData/NVMDataManagementPage.vue')
+        }
+      ]
     },
     {
       path: 'extendedFunctions',
       name: 'ExtendedFunctions',
-      component: () => import('@/views/CentralMaintenance/ExtendedFunctions/ExtendedFunctions.vue')
+      component: () => import('@/views/CentralMaintenance/ExtendedFunctions/index.vue'),
+      children: [
+        {
+          path: 'extendedFunctionsDefault',
+          name: 'ExtendedFunctionsDefault',
+          component: () => import('@/views/CentralMaintenance/ExtendedFunctions/ExtendedFunctionsDefaultPage.vue'),
+        }
+      ]
     }
   ]
 }

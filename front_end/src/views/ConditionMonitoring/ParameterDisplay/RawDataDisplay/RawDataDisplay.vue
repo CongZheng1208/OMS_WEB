@@ -41,18 +41,14 @@
                 </div>
               </div>
 
-              <el-button
-                @click="clearFilter()"
-                :style="{
-                  position: absolute,
-                  bottom: '2vh',
-                  backgroundColor: 'rgb(70, 72, 73)',
-                  color: 'white'
-                }"
-              >
-                Clear
-              </el-button>
+
             </div>
+            <el-button
+              @click="clearFilter()"
+              class="custom-footer"
+            >
+              Clear
+            </el-button>
           </el-card>
         </el-col>
 
@@ -72,12 +68,8 @@
                 </div>
                 <el-button
                   @click="clearTimestamp()"
-                  :style="{
-                    position: absolute,
-                    bottom: '2vh',
-                    backgroundColor: 'rgb(70, 72, 73)',
-                    color: 'white'
-                  }">
+                  class="custom-footer"
+                  >
                     Clear
                   </el-button>
 

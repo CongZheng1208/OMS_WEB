@@ -50,12 +50,12 @@ export default {
         {
           name: "NVM Data",
           isActive: false,
-          routeName: "NVMData",
+          routeName: "NVMDataDefault",
         },
         {
           name: "Extended Functions",
           isActive: false,
-          routeName: "ExtendedFunctions",
+          routeName: "ExtendedFunctionsDefault",
         },
       ],
     };

@@ -178,7 +178,16 @@
 .el-main {
   flex: 1;
   padding: 0;
+}
 
+.el-subheader{
+  text-align: left;
+  border: 1px solid rgb(111, 111, 111);
+  border-left: none;
+  border-right: none;
+
+  padding:1vh;
+  font-weight: bold
 }
 
 .el-table {
@@ -242,7 +251,7 @@
 .custom-header {
   position: sticky;
   top: 3vh;
-  padding: 1vh;
+  padding: 0.7vh;
 
   background-color: #646464;
 
@@ -263,6 +272,21 @@
 .content-item {
   text-align: left; /* 文字左对齐 */
   margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
+}
+
+.custom-footer {
+  position: sticky;
+  bottom: 5vh;
+  padding: 1vh;
+
+  background-color: #646464;
+
+  color: white;
+  /* font-size: 18px;
+  font-weight: bold; */
+
+  border: 1px solid rgb(111, 111, 111);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
 }
 
 

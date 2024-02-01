@@ -13,7 +13,7 @@
              <input
                 name="param-display-radio1"
                 type="radio"
-                :checked="isAll"
+                :checked="displaySelected == 'list'"
               />
               <label class="form-check-label">Parameter List Display</label>
             </div>
@@ -21,7 +21,7 @@
               <input
                 name="param-display-radio1"
                 type="radio"
-                :checked="isATA"
+                :checked="displaySelected == 'graphic'"
               />
               <label class="form-check-label">Parameter Graphics Display</label>
             </div>
@@ -29,7 +29,7 @@
               <input
                 name="param-display-radio1"
                 type="radio"
-                :checked="isFlight"
+                :checked="displaySelected == 'raw'"
               />
               <label class="form-check-label">Raw Data Display</label>
             </div>
@@ -57,6 +57,7 @@
   import ParamListDisplay from './ParamListDisplay/ParamListDisplay.vue'
   import ParamGraphicDisplay from './ParamGraphicDisplay/ParamFlightShow.vue'
   import RawDataDisplay from './RawDataDisplay/RawDataDisplay.vue'
+  import {changeRadio} from '@/utils/utils.js'
 
   export default {
     name: "ParamSelect",
@@ -71,35 +72,9 @@
         acReg: "C-WXWB",
         currentTime: '',
         currentDate: "",
-        isList: true,
-        displayType: 'list',
-        isAll: true,
-        isATA: false,
-        isFlight: false,
       }
     },
     methods: {
-      /**
-       * 本函数用于跳转参数展示的三种不同模块
-       * @param {string} value 代表三种模块的不同字符值
-       */
-      changeRadio(value) {
-        this.displaySelected = value
-        if(value == 'list'){
-          this.isAll =  true
-          this.isATA =  false
-          this.isFlight =  false
-        }else if(value == 'graphic'){
-          this.isAll =  false
-          this.isATA =  true
-          this.isFlight =  false
-        }else{
-          this.isAll =  false
-          this.isATA =  false
-          this.isFlight =  true
-        }
-      },
-
       /**
        * 本函数用于更新实时时间
        */
@@ -108,6 +83,7 @@
         this.currentTime = now.toLocaleTimeString();
         this.currentDate = now.toLocaleDateString();
       },
+      changeRadio
     },
     created() {
       this.updateCurrentTime()

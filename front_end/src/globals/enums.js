@@ -43,7 +43,6 @@ export const fdeClassEnum = {
   4: "WARN",
 }
 
-
 // ATA对应的名称
 export const ataNameDict = {
   '21': 'Air Conditioning',
@@ -67,4 +66,16 @@ export const ataNameDict = {
   '38': 'WWS',
   '47': 'Inert Gas System',
   '52': 'Doors'
+}
+
+// 测试对应的名称
+export const testTypeDict = {
+  '0': 'All Tests',
+  '1': 'Operational Test',
+  '2': 'LRU Replacement Verification Test',
+  '3': 'System Test',
+  '4': 'Interactive Fault Location Test',
+  '5': 'Alignment and Rigging Test',
+  '6': 'Interface Monitoring',
+  '7': 'Hardware and Software Configuration Identification',
 }

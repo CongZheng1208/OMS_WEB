@@ -8,19 +8,19 @@
           </div>
         </el-col>
         <el-col :span="3">
-          <div class="radio" @click="changeTabs('NVMDataRetrievalSelected')">
+          <div class="radio" @click="changeRadio('NVMDataRetrieval')">
             <input type="radio"
               name="retrieval-radio"
-              :checked="NVMDataRetrievalSelected"
+              :checked="displaySelected == 'NVMDataRetrieval'"
             />
             <span>Retrieval</span>
           </div>
         </el-col>
         <el-col :span="3">
-          <div class="radio" @click="changeTabs('NVMDataResetSelected')">
+          <div class="radio" @click="changeRadio('NVMDataReset')">
             <input type="radio"
               name="reset-radio"
-              :checked="NVMDataResetSelected"
+              :checked="displaySelected == 'NVMDataReset'"
             />
             <span>Reset(all legs)</span>
           </div>
@@ -32,7 +32,7 @@
       <el-row :gutter="1">
         <el-col :span="12">
           <el-table
-            v-if="NVMDataRetrievalSelected"
+            v-if="displaySelected == 'NVMDataRetrieval'"
             highlight-current-row
             height="65vh"
             style=" background-color: rgb(46, 45, 45)"
@@ -47,7 +47,6 @@
             <el-table-column prop="equipmentName" label="System Name" sortable :width="null" :min-width="35"></el-table-column>
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
-
           <el-table
             v-else
             highlight-current-row
@@ -81,8 +80,6 @@
             <el-table-column prop="startTime" label="Availability" sortable :width="null" :min-width="25"></el-table-column>
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
-
-
         </el-col>
       </el-row>
     </el-main>
@@ -100,22 +97,18 @@
 
 <script>
 
-  import {printPage, customSortMethodForProgressColumn} from '@/utils/utils.js'
+  import {printPage, customSortMethodForProgressColumn, changeRadio} from '@/utils/utils.js'
 
   export default {
     name: "DefaultResetPage",
     data() {
       return {
 
-
+        displaySelected: 'NVMDataRetrieval',
         NVMDataRetrievalSelected: true,
         NVMDataResetSelected: false,
 
-        dataForRetrieval: [{"id":"1","ata":"29","equipmentName":"HLRM A on IMC","startTime":"2023-07-10 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                      {"id":"2","ata":"29","equipmentName":"HLRM B on IMC","startTime":"2023-07-10 10:17:29","status":"In Progress","elapsedTime":"00:05:51","processPercent":"87"},
-                      {"id":"3","ata":"31","equipmentName":"HF_FWDEAFR","startTime":"2023-07-10 09:55:11","status":"Error","elapsedTime":"00:03:25","processPercent":null},
-                      {"id":"4","ata":"27","equipmentName":"HF_FSECU_1","startTime":"2023-07-10 09:52:06","status":"Completed","elapsedTime":"00:06:12","processPercent":null},
-                      {"id":"5","ata":"27","equipmentName":"HF-FCM-1","startTime":"2023-07-10 09:43:10","status":"Completed","elapsedTime":"00:03:07","processPercent":null},
+        dataForRetrieval: [
                       {"id":"6","ata":"27","equipmentName":"HF_FCM_2","startTime":"2023-07-11 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
                       {"id":"7","ata":"27","equipmentName":"HLRM B on IMC","startTime":"2023-07-13 10:17:29","status":"In Progress","elapsedTime":"00:05:51","processPercent":"87"},
                       {"id":"8","ata":"38","equipmentName":"WWS","startTime":"2023-07-15 09:55:11","status":"Error","elapsedTime":"00:03:25","processPercent":null},
@@ -142,29 +135,13 @@
       };
     },
     methods: {
-
-
-
-      changeTabs(value) {
-        //添加Retrieval部分
-        if (value == "NVMDataRetrievalSelected") {
-          this.NVMDataRetrievalSelected = true;
-          this.NVMDataResetSelected = false;
-        }
-          //添加Reset部分
-        if (value == "NVMDataResetSelected") {
-          this.NVMDataRetrievalSelected = false;
-          this.NVMDataResetSelected = true;
-        }
-      },
-
       /**
        * 本函数用于跳转页面
        */
        goDefaultPage() {
         this.$router.push({ name: "NVMDataDefault" });
       },
-
+      changeRadio,
       printPage,
       customSortMethodForProgressColumn
     }

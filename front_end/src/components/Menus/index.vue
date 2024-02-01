@@ -17,12 +17,15 @@
     </el-menu-item>
   </el-menu>
 </template>
+
 <script>
   export default {
     name: 'Menus',
     props: ['menus'],
-    /** 动态调整menu item的宽度 */
     computed: {
+      /**
+       * 动态调整menu item的宽度
+       */
       menuItemWidth() {
         const width = this.menus.length
         return `${100/width}%`
@@ -51,6 +54,7 @@
     }
   }
 </script>
+
 <style lang="">
-  
+
 </style>

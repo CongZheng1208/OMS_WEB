@@ -23,7 +23,6 @@
             <el-table-column prop="systemName" label="System Name" sortable :width="null" :min-width="50"></el-table-column>
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
-
         </el-col>
         <el-col :span="16">
           <el-table
@@ -62,15 +61,14 @@
       <div>
       </div>
       <div>
-          <el-button class="footer-btn" @click="goDefaultPage()">BACK</el-button>
-          <el-button class="footer-btn" @click="goSelectTestPage()">SELECT</el-button>
+        <el-button class="footer-btn" @click="goDefaultPage()">BACK</el-button>
+        <el-button class="footer-btn" @click="goSelectTestPage()">SELECT</el-button>
       </div>
     </el-footer>
   </el-container>
 </template>
 
 <script>
-
   import CentralMaintenceHttp from '../../../api/CentralMaintenceHttp.js'
   import {ataNameDict} from '@/globals/enums.js'
   import {customSortMethodForProgressColumn} from '@/utils/utils.js'
@@ -78,26 +76,22 @@
   export default {
     data() {
       return {
-
         rawData: [],
         selectedATANum: "",
         selectedEquipment: {},
         selectedEquipments: [],
-
         isEquiNotBeSelected: false
       }
     },
     methods: {
       /**
-       * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
-       * @param {string} row - rawData数据的ataNumber属性
+       * 本函数用于开启用户选中的测试
+       * @param {Object} row
        */
       handleRowClick(row) {
         this.selectedATANum = row.ataNumber;
 
         var selectedData = this.getSelectedData(this.selectedATANum)
-        console.log(selectedData)
-
 
         this.selectedEquipments = []
 
@@ -112,7 +106,6 @@
 
           this.selectedEquipments.push(equipObject)
         }
-        console.log(this.selectedEquipments)
       },
 
       /**
@@ -122,7 +115,6 @@
       handleEquipmentRowClick(row) {
         this.selectedEquipment = this.getSelectedEquipment(row.equipmentName)
       },
-
 
       /**
        * 本函数用于更新更新选中行的status属性到selectedRowStatus变量

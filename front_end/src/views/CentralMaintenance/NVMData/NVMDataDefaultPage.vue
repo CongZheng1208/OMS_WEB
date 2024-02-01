@@ -95,14 +95,12 @@
 </template>
 
 <script>
-
   import {printPage, customSortMethodForProgressColumn,changeRadio} from '@/utils/utils.js'
 
   export default {
     name: "DefaultResetPage",
     data() {
       return {
-
         displaySelected : 'NVMDataRetrieval',
 
         dataForRetrieval: [{"id":"1","ata":"29","equipmentName":"HLRM A on IMC","startTime":"2023-07-10 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
@@ -131,7 +129,6 @@
       };
     },
     methods: {
-
       /**
        * 本函数用于跳转页面
        */

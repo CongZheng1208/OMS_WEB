@@ -26,7 +26,7 @@
             @change="handleTypeChange"
             clearable
           >
-            <el-option v-for="(label, value) in testTypeDict" :key="value" :value="value" :label="label"></el-option>
+            <el-option v-for="(label, value) in testDict" :key="value" :value="value" :label="label"></el-option>
           </el-select>
         </el-col>
       </el-row>
@@ -78,24 +78,16 @@
 <script>
 
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
+import {testTypeDict} from '@/globals/enums.js'
 
 export default {
   data() {
     return {
+      testDict: testTypeDict,
       testDetails: [],
       selectedTestId: "",
       selectedType: '0',
-      testTypeDict : {
-          '0': 'All Tests',
-          '1': 'Operational Test',
-          '2': 'LRU Replacement Verification Test',
-          '3': 'System Test',
-          '4': 'Interactive Fault Location Test',
-          '5': 'Alignment and Rigging Test',
-          '6': 'Interface Monitoring',
-          '7': 'Hardware and Software Configuration Identification',
-        },
-        isTestNotBeSelected: false
+      isTestNotBeSelected: false
 
     }
   },
@@ -113,8 +105,8 @@ export default {
   },
   methods: {
     /**
-     * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
-     * @param {string} row - rawData数据的ataNumber属性
+     * 本函数用于更新更新选中到selectedType变量
+     * @param {string} value - rawData数据的ataNumber属性
      */
     handleTypeChange(value) {
       this.selectedType = value;
@@ -125,12 +117,11 @@ export default {
      * @param {string} row - rawData数据的ataNumber属性
      */
     handleRowClick(row) {
-
       this.selectedTestId = row.T_ID;
     },
 
     formatTestType(row) {
-      return this.testTypeDict[row.T_TP];
+      return testTypeDict[row.T_TP];
     },
 
     /**
@@ -166,7 +157,6 @@ export default {
   mounted() {
     this.testDetails = this.$route.params.selectedEquipment.testDetails
   }
-  // 其他组件逻辑
 }
 
 </script>

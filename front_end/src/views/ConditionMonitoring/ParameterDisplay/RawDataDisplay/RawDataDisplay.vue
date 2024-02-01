@@ -40,8 +40,6 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
             <el-button
               @click="clearFilter()"
@@ -51,12 +49,9 @@
             </el-button>
           </el-card>
         </el-col>
-
-
         <el-col :span="18">
           <el-row>
             <el-col :span="6">
-
               <el-card class="custom-card" shadow="hover" style="height: 60vh">
                 <div class="custom-header"> TIMESTAMP</div>
                 <div class="custom-content">
@@ -71,8 +66,7 @@
                   class="custom-footer"
                   >
                     Clear
-                  </el-button>
-
+                </el-button>
               </el-card>
             </el-col>
 
@@ -94,7 +88,6 @@
               </el-card>
             </el-col>
           </el-row>
-
         </el-col>
       </el-row>
     </el-main>
@@ -144,7 +137,6 @@
         endIndex: '',
         isStop: false,
         refreshInterval: null
-
       };
     },
     methods: {

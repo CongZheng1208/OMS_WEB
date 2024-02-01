@@ -96,8 +96,6 @@ export default {
 
   },
   methods: {
-
-
     /**
      * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
      * @param {string} row - rawData数据的ataNumber属性
@@ -105,7 +103,6 @@ export default {
     handleRowClick(row) {
 
       this.selectedTestId = row.T_ID;
-      // console.log(this.selectedTestId)
     },
 
     /**
@@ -116,27 +113,24 @@ export default {
     },
 
     /**
-     * 本函数用于跳转页面
+     * 本函数用于向成员系统发送继续指令
      */
      continueTest() {
 
     },
 
-
     /**
-     * 本函数用于跳转页面
+     * 本函数用于向成员系统发送终止指令
      */
      abortTest() {
 
     },
-
 
     customSortMethodForProgressColumn,
   },
 
   mounted() {
   }
-  // 其他组件逻辑
 }
 
 </script>

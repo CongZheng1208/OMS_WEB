@@ -44,7 +44,7 @@ export const fdeClassEnum = {
 }
 
 // ATA对应的名称
-export const ataNameDict = {
+export const ataNameEnum = {
   '21': 'Air Conditioning',
   '22': 'Auto Flight',
   '23': 'Communications',
@@ -69,7 +69,7 @@ export const ataNameDict = {
 }
 
 // 测试对应的名称
-export const testTypeDict = {
+export const testTypeEnum = {
   '0': 'All Tests',
   '1': 'Operational Test',
   '2': 'LRU Replacement Verification Test',

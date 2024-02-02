@@ -70,7 +70,7 @@
 
 <script>
   import CentralMaintenceHttp from '../../../api/CentralMaintenceHttp.js'
-  import {ataNameDict} from '@/globals/enums.js'
+  import {ataNameEnum} from '@/globals/enums.js'
   import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 
   export default {
@@ -172,7 +172,7 @@
 
             this.rawData.push({
               ataNumber: element.ata,
-              systemName: ataNameDict[element.ata],
+              systemName: ataNameEnum[element.ata],
               equipmentName: equipments,
               availability: element.avai,
               testDetails: details,

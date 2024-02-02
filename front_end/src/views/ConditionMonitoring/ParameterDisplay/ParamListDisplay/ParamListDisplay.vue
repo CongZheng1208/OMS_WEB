@@ -5,7 +5,7 @@
         <el-select
           v-model="listSelected"
           placeholder="Select parameter pattern"
-          @change="changeRadio"
+          @change="updateRadio"
         >
           <el-option v-for="x in testData" :key="x.value" :value="x.value" :label="x.name"></el-option>
         </el-select>
@@ -147,7 +147,7 @@
 
 <script>
   import axios from 'axios'
-  import {ataNameDict} from '@/globals/enums.js'
+  import {ataNameEnum} from '@/globals/enums.js'
   import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 
 
@@ -198,10 +198,9 @@
 
     methods: {
       /**
-       * 本函数用于跳转参数展示的三种不同模块
-       * @param {string} value 代表三种模块的不同字符值
+       * 本函数用于记录跳转后的
        */
-      changeRadio() {
+      updateRadio() {
         this.ataParas =  new Array();
         this.addedParams = new Array();
         this.flashListData()
@@ -315,8 +314,6 @@
         this.checkedParams = []
       },
 
-
-
       flashData(){
         axios.get("http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/paramerList.php").then(
           response => {
@@ -324,7 +321,7 @@
               var boolArray = new Array(ele.RPName.length).fill(false)
               this.ataSys.push({
                 ATA: ele.ATA,
-                name: ataNameDict[ele.ATA],
+                name: ataNameEnum[ele.ATA],
                 paras: ele.RPName,
                 index: ele.RP_index,
                 isChecked: ele.isChecked

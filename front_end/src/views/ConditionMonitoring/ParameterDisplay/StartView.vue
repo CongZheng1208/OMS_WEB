@@ -12,7 +12,7 @@
             <input
               name="param-display-radio"
               type="radio"
-              :checked="listSelected"
+              :checked="displaySelected == 'list'"
             />
             <label class="form-check-label">List Display</label>
           </div>
@@ -20,7 +20,7 @@
             <input
               name="param-display-radio"
               type="radio"
-              :checked="figureSelected"
+              :checked="displaySelected == 'figure'"
             />
             <label class="form-check-label">Curve Display</label>
           </div>
@@ -40,7 +40,7 @@
     </el-header>
 
     <el-main>
-      <el-row v-show="listSelected">
+      <el-row v-if="displaySelected == 'list'">
         <el-table
           highlight-current-row
           height="65vh"
@@ -58,7 +58,7 @@
         </el-table>
       </el-row>
 
-      <el-row v-show="figureSelected">
+      <el-row v-else>
         <el-col :span="8">
           <el-table
             highlight-current-row
@@ -104,10 +104,10 @@
       <div>
         <el-button class="footer-btn" @click="backToParaPage()">BACK</el-button>
 
-        <el-button v-if="listSelected" class="footer-btn" :disabled="!isListRefreshing" @click="stopListRefresh()">STOP VIEW</el-button>
+        <el-button v-if="displaySelected == 'list'" class="footer-btn" :disabled="!isListRefreshing" @click="stopListRefresh()">STOP VIEW</el-button>
         <el-button v-else class="footer-btn" :disabled="!isRefreshing" @click="stopRefresh()">STOP VIEW</el-button>
 
-        <el-button v-if="listSelected" class="footer-btn" :disabled="isListRefreshing" @click="startListRefresh">START VIEW</el-button>
+        <el-button v-if="displaySelected == 'list'" class="footer-btn" :disabled="isListRefreshing" @click="startListRefresh">START VIEW</el-button>
         <el-button v-else class="footer-btn" :disabled="isRefreshing||showedParams.length==0"  @click="startRefresh">START VIEW</el-button>
       </div>
     </el-footer>
@@ -116,14 +116,11 @@
 
 <script>
 import axios from 'axios';
-// import {pattern, urlHeads} from '../../config/url.js';
 import qs from 'qs'
 
 import * as echarts from 'echarts';
-import {printPage,customSortMethodForProgressColumn} from '@/utils/utils.js'
+import {printPage,customSortMethodForProgressColumn,changeRadio} from '@/utils/utils.js'
 
-// import vueCustomScrollbar from 'vue-custom-scrollbar'
-// import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
 export default {
   name: "StartView",
@@ -149,8 +146,8 @@ export default {
       totalHisViewParamPage:-30,
       lastParams:[],
       lastIndex:0,
-      listSelected: true,
-      figureSelected: false,
+
+      displaySelected: 'list',
 
       selectedParams : [],
       selectedParamsIndex: [],
@@ -178,6 +175,10 @@ export default {
     };
   },
   methods: {
+    /**
+     * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
+     * @param {string} row - menus数据的name属性
+     */
     parameterInit(data){
       this.selectedParams = data;
 
@@ -228,12 +229,12 @@ export default {
       this.startListRefresh()
     },
 
+    /**
+     * 本函数用于实现将待选参数加入到展示图表中去
+     * @param {Object} parameter
+     */
     addParamToShow(parameter){
-      /*
-        本函数用于实现将待选参数加入到展示图表中去
-      */
-
-      // 如果该参数正在被展示
+      // 如果该参数已经被添加至展示列表
       if(this.showedParams.includes(parameter) ){
         if (confirm(`Are you sure you want to delete the parameter ${parameter.para}?`)) {
 
@@ -251,7 +252,7 @@ export default {
             this.dateXaxis.splice(index, 1);
           }
         }
-      // 如果该参数未被展示
+      // 如果该参数尚未被添加
       }else{
 
         if (confirm(`Are you sure you want to add the parameter ${parameter.para}?`)) {
@@ -300,8 +301,11 @@ export default {
           )
         }
       }
-
     },
+
+    /**
+     * 本函数用于实时刷新List展示表格中的数据
+     */
     fetchListData(){
       return new Promise(async (resolve, reject) => {
         try {
@@ -332,8 +336,11 @@ export default {
           reject(error);
         }
       });
-
     },
+
+    /**
+     * 本函数用于实时刷新图形化表格中的数据
+     */
     fetchData() {
       return new Promise(async (resolve, reject) => {
         try {
@@ -388,8 +395,10 @@ export default {
       });
     },
 
+    /**
+     * 本函数用于初始化绘制表格的所有设定
+     */
     initEcharts() {
-      // 该函数用于初始化绘制表格的所有设定
 
       //在绘制之前，把现有的表格全给他扬了
       for(var i=0; i<this.myCharts.length; i++){
@@ -468,17 +477,19 @@ export default {
       }
     },
 
+    /**
+     * 本函数用于更新时间
+     */
     updateCurrentTime() {
       const now = new Date();
       this.currentTime = now.toLocaleTimeString();
       this.currentDate = now.toLocaleDateString();
     },
+
+    /**
+     * 本函数用于跳转回之前的参数选择页面，并处理所有现存表格数据的回收
+     */
     backToParaPage() {
-
-
-      // this.$bus.$emit("selectPtoShow", true);
-
-
       this.dataYaxis = []
       this.dateXaxis = []
 
@@ -496,15 +507,10 @@ export default {
 
       this.$router.push({ name: "ParameterSelect" });
     },
-    changeRadio(value){
-      if(value == "list") {
-        this.listSelected = true;
-        this.figureSelected = false;
-      }else if (value == "figure"){
-        this.listSelected = false;
-        this.figureSelected = true;
-      }
-    },
+
+    /**
+     * 本函数用于开启图形化表格的实时数据刷新
+     */
     startRefresh() {
       if (this.isRefreshing) {
         return; // 如果正在进行数据刷新，则直接返回
@@ -514,11 +520,18 @@ export default {
         this.fetchData()
       }, 1000) // 每秒刷新一次
     },
-    // 停止刷新
+
+    /**
+     * 本函数用于关闭图形化表格的实时数据刷新
+     */
     stopRefresh() {
       this.isRefreshing = false;
       clearInterval(this.refreshInterval)
     },
+
+    /**
+     * 本函数用于开启列表数据的实时刷新
+     */
     startListRefresh() {
       if (this.isListRefreshing) {
         return; // 如果正在进行数据刷新，则直接返回
@@ -528,11 +541,15 @@ export default {
         this.fetchListData()
       }, 1000) // 每秒刷新一次
     },
-    // 停止刷新
+
+    /**
+     * 本函数用于关闭列表数据的实时刷新
+     */
     stopListRefresh() {
       this.isListRefreshing = false;
       clearInterval(this.refreshListInterval)
     },
+    changeRadio,
     printPage,
     customSortMethodForProgressColumn
   },

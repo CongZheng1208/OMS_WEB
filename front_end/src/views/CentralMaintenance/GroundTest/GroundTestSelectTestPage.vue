@@ -78,12 +78,12 @@
 <script>
 
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
-import {testTypeDict} from '@/globals/enums.js'
+import {testTypeEnum} from '@/globals/enums.js'
 
 export default {
   data() {
     return {
-      testDict: testTypeDict,
+      testDict: testTypeEnum,
       testDetails: [],
       selectedTestId: "",
       selectedType: '0',
@@ -121,7 +121,7 @@ export default {
     },
 
     formatTestType(row) {
-      return testTypeDict[row.T_TP];
+      return testTypeEnum[row.T_TP];
     },
 
     /**

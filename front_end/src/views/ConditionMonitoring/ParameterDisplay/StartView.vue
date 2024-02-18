@@ -223,7 +223,6 @@ export default {
         )
         resolve();
       } catch (error) {
-
       }
 
       this.startListRefresh()

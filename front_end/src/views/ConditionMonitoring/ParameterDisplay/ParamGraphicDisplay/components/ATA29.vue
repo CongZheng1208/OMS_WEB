@@ -37,8 +37,7 @@
 
 <script>
 import qs from 'qs'
-import axios from 'axios'
-// import {pattern, urlHeads} from '../../../../config/url.js'
+import { getGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
   export default {
     name: "ATA29",
@@ -90,27 +89,41 @@ import axios from 'axios'
       };
     },
     mounted() {
-      //this.refreshInterval = setInterval(this.paramListInit, 1000);
+      this.refreshInterval = setInterval(this.paramListInit, 1000);
     },
     methods: {
-      paramListInit(){
+      // paramListInit(){
+      //   console.log("ATA29 start to run")
+
+      //   let tmp1 = qs.stringify({
+      //     selectedParams: this.selectedParamsIdx
+      //   })
+
+      //   var urlRoot1 = 'php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php';
+      //   axios.post(urlHeads[pattern]+urlRoot1, tmp1).then(
+      //     response => {
+      //       console.log(response.data)
+      //       // 抓到数据立即赋值
+      //       this.flattenData = response.data;
+      //     },
+      //     error => {
+      //       // alert('发送请求失败', error.message)
+      //     }
+      //   )
+      // },
+
+      paramListInit() {
         console.log("ATA29 start to run")
 
-        let tmp1 = qs.stringify({
-          selectedParams: this.selectedParamsIdx
-        })
+        const selectedParams =  qs.stringify({   selectedParams: this.selectedParamsIdx });
 
-        var urlRoot1 = 'php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php';
-        axios.post(urlHeads[pattern]+urlRoot1, tmp1).then(
-          response => {
-            console.log(response.data)
-            // 抓到数据立即赋值
-            this.flattenData = response.data;
-          },
-          error => {
-            // alert('发送请求失败', error.message)
-          }
-        )
+
+        getGraphicInTime(selectedParams).then(response => {
+          console.log(response);
+          this.flattenData = response;
+        }).catch(error => {
+          console.error('Error in fetching parameter display data:', error);
+        });
       }
     },
     beforeDestroy() {

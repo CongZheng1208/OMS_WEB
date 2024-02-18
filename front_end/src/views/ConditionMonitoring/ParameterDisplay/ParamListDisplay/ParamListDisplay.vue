@@ -117,15 +117,18 @@
                 </el-button>
               </template>
             </el-table-column>
-
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
 
-          <div class="add-btn-group" v-if="listSelected==2">
-            <button class="page-btn" @click="addParametersToShow">ADD</button>
-          </div>
 
           <div class="table-inner-number">
+            <el-button
+              v-if="listSelected==2"
+              :style="{
+                backgroundColor: 'rgb(70, 72, 73)',
+                color: 'white'
+              }"
+              @click="addParametersToShow">ADD</el-button>
             Total Number: {{ this.addedParams.length }}
           </div>
 
@@ -149,6 +152,7 @@
   import axios from 'axios'
   import {ataNameEnum} from '@/globals/enums.js'
   import {customSortMethodForProgressColumn} from '@/utils/utils.js'
+  import { getParaSet,getParaList } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
 
   export default {
@@ -254,6 +258,8 @@
           alert('This parameter haa already been added to the display list.')
         }
       },
+
+
       removeParam(ele) {
         ele.isChecked = false
         const index = this.currentNewAddedArray.findIndex(item => item.para === ele.para);
@@ -314,45 +320,46 @@
         this.checkedParams = []
       },
 
-      flashData(){
-        axios.get("http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/paramerList.php").then(
-          response => {
-            response.data.forEach(ele => {
-              var boolArray = new Array(ele.RPName.length).fill(false)
-              this.ataSys.push({
-                ATA: ele.ATA,
-                name: ataNameEnum[ele.ATA],
-                paras: ele.RPName,
-                index: ele.RP_index,
-                isChecked: ele.isChecked
-              })
+      /*
+       * 本函数用于调用service中封装的api，实现一次对参数集合数据的获取
+       */
+      flashData() {
+        getParaSet().then(response => {
+          response.forEach(ele => {
+            // var boolArray = new Array(ele.RPName.length).fill(false)
+            this.ataSys.push({
+              ATA: ele.ATA,
+              name: ataNameEnum[ele.ATA],
+              paras: ele.RPName,
+              index: ele.RP_index,
+              isChecked: ele.isChecked
             })
-          },
-          error => {
-            // alert('发送请求失败！', error.message)
-          }
-        )
+          })
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
       },
 
-      flashListData(){
-        this.params = []
-        axios.get("http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getParaList.php").then(
-          response => {
-            response.data.forEach(ele => {
-              this.params.push({
-                name: ele.listName,
-                id: ele.id,
-                createdDate: ele.time,
-                paras: ele.paras,
-                isChecked: ele.isChecked
-              })
+      /*
+       * 本函数用于调用service中封装的api，实现一次对参数列表数据的获取
+       */
+      flashListData() {
+        this.params = [];
+        getParaList().then(response => {
+          response.forEach(ele => {
+            this.params.push({
+              name: ele.listName,
+              id: ele.id,
+              createdDate: ele.time,
+              paras: ele.paras,
+              isChecked: ele.isChecked
             })
-          },
-          error => {
-            // alert('发送请求失败！', error.message)
-          }
-        )
+          })
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
       },
+
 
       saveSele() {
         var isCreate = !this.isLoad

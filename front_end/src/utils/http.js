@@ -4,11 +4,11 @@ import axios from "axios"
 
 // 请求基本设置
 const instance = axios.create({
-  baseURL: '',
+  baseURL: 'http://localhost:8888/oms/php/',
   timeout: 5000,
-  withCredentials: true,
+  withCredentials: false,
   headers: {
-    'Content-Type': 'application/json; charset=utf-8',
+    'Content-Type': 'application/x-www-form-urlencoded'
   }
 })
 

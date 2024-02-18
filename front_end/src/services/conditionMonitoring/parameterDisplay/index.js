@@ -10,8 +10,8 @@ const API = {
   POST_LIST_DELETE: '/conditionMonitoring/paramerDisplay/listDelete.php',
 
   // StartView
-  GET_UNIT_IN_TIME: '/conditionMonitoring/paramerDisplay/getUnitInTime.php',
-  GET_DATA_IN_TIME: '/conditionMonitoring/paramerDisplay/getDataInTime.php',
+  POST_UNIT_IN_TIME: '/conditionMonitoring/paramerDisplay/getUnitInTime.php',
+  POST_DATA_IN_TIME: '/conditionMonitoring/paramerDisplay/getDataInTime.php',
 
 
   // graphicDisplay
@@ -53,21 +53,25 @@ export const deleteList = (data) => {
   })
 }
 
-export const getUnitInTime = () => {
+
+export const postUnitInTime = (data) => {
   return http({
-    url: API.GET_UNIT_IN_TIME,
-    method: 'GET'
+    url: API.POST_UNIT_IN_TIME,
+    method: 'POST',
+    data: data
   })
 }
 
-export const getDataInTime = () => {
+export const postDataInTime = (data) => {
   return http({
-    url: API.GET_DATA_IN_TIME,
-    method: 'GET'
+    url: API.POST_DATA_IN_TIME,
+    method: 'POST',
+    data: data
   })
 }
 
-export const getGraphicInTime = (data) => {
+
+export const postGraphicInTime = (data) => {
   return http({
     url: API.POST_GRAPHIC_IN_TIME,
     method: 'POST',

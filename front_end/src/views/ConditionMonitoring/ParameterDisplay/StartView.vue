@@ -115,11 +115,11 @@
 </template>
 
 <script>
-import axios from 'axios';
 import qs from 'qs'
 
 import * as echarts from 'echarts';
 import {printPage,customSortMethodForProgressColumn,changeRadio} from '@/utils/utils.js'
+import { postUnitInTime, postDataInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
 
 export default {
@@ -193,34 +193,26 @@ export default {
           index: this.selectedParamsIndex
         });
 
-        var urlRoot5 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getUnitInTime.php';
-        axios.post(urlRoot5, tmp).then(
-          response => {
-            for (var i = 0; i < response.data.length; i++) {
-              this.selectedParams[i].unit = response.data[i]['unit']
-            }
-          },
-          error => {
-            // alert('发送请求失败！', error.message)
+        postUnitInTime(tmp).then(response => {
+          for (var i = 0; i < response.length; i++) {
+            this.selectedParams[i].unit = response[i]['unit']
           }
-        )
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
 
-        var urlRoot4 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
-
-        axios.post(urlRoot4, tmp).then(
-          response => {
-            for (var i = 0; i < response.data.length; i++) {
-              if(response.data[i].length > 0){
-                this.selectedParams[i].curData = response.data[i][0]['data']
-              }else{
-                this.selectedParams[i].curData = 0
-              }
+        postDataInTime(tmp).then(response => {
+          for (var i = 0; i < response.length; i++) {
+            if(response[i].length > 0){
+              this.selectedParams[i].curData = response[i][0]['data']
+            }else{
+              this.selectedParams[i].curData = 0
             }
-          },
-          error => {
-            // alert('发送请求失败！', error.message)
           }
-        )
+          console.log("success")
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
         resolve();
       } catch (error) {
       }
@@ -258,12 +250,10 @@ export default {
           let tmp = qs.stringify({
             index: [parameter.id]
           })
-          var urlRoot1 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
-          axios.post(urlRoot1, tmp).then(
-            response => {
 
-              // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
-              if(response.data[0].length==0){
+          postDataInTime(tmp).then(response => {
+            // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
+            if(response[0].length==0){
                 alert('This table lacks data and cannot be initialized.')
               }else{
                 var isIdInArray = this.showedParams.some(function(element) {
@@ -296,8 +286,12 @@ export default {
                   alert('This parameter is already in the display list.')
                 }
               }
-            }
-          )
+
+            console.log("success1")
+          }).catch(error => {
+            console.error('Error in fetching parameter list:', error);
+          });
+
         }
       }
     },
@@ -313,22 +307,17 @@ export default {
             index: this.selectedParamsIndex
           });
 
-          var urlRoot4 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
-
-          axios.post(urlRoot4, tmp).then(
-            response => {
-              for (var i = 0; i < response.data.length; i++) {
-                if(response.data[i].length > 0){
-                  this.selectedParams[i].curData = response.data[i][0]['data']
-                }else{
-                  this.selectedParams[i].curData = 0
-                }
+          postDataInTime(tmp).then(response => {
+            for (var i = 0; i < response.length; i++) {
+              if(response[i].length > 0){
+                this.selectedParams[i].curData = response[i][0]['data']
+              }else{
+                this.selectedParams[i].curData = 0
               }
-            },
-            error => {
-              // alert('发送请求失败！', error.message)
             }
-          )
+          }).catch(error => {
+            console.error('Error in fetching parameter list:', error);
+          });
           resolve();
         } catch (error) {
           // 错误处理
@@ -347,43 +336,44 @@ export default {
             index: this.showedParamsIndex
           });
 
-          var urlRoot1 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getDataInTime.php';
-          const response = await axios.post( urlRoot1, tmp);
+          postDataInTime(tmp).then(response => {
 
-          // var flag = response.data[0][0]['data']
+            for (var i = 0; i < response.length; i++) {
 
-          for (var i = 0; i < response.data.length; i++) {
+              if (response[i].length > 0) {
+                for (var j = 0; j < response[i].length; j++) {
+                  // 如果数据连续三秒不变，则设为0
+                  // if(response.data[i][j]['data'] == response.data[i][j-1]['data']){
+                  //   this.dataYaxis[i].push(0);
+                  // }else{
+                    this.dataYaxis[i].push(response[i][j]['data']);
+                  // }
 
-            if (response.data[i].length > 0) {
-              for (var j = 0; j < response.data[i].length; j++) {
-                // 如果数据连续三秒不变，则设为0
-                // if(response.data[i][j]['data'] == response.data[i][j-1]['data']){
-                //   this.dataYaxis[i].push(0);
-                // }else{
-                  this.dataYaxis[i].push(response.data[i][j]['data']);
-                // }
+                  this.dateXaxis[i].push(new Date(response[i][j]['time']).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'}));
+                }
 
-                this.dateXaxis[i].push(new Date(response.data[i][j]['time']).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'}));
-              }
+                // 如果展示的长度过长，则移除数组开头的第一秒的元素
+                if (this.dataYaxis[i].length > 60*response[i].length) {
+                  for (var k = 0; k < response[i].length; k++) {
+                    this.dataYaxis[i].shift();
+                    this.dateXaxis[i].shift();
+                  }
+                }
+              } else {
+                this.showedParams.splice(i, 1);
+                this.showedParamsIndex.splice(i, 1);
 
-              // 如果展示的长度过长，则移除数组开头的第一秒的元素
-              if (this.dataYaxis[i].length > 60*response.data[i].length) {
-                for (var k = 0; k < response.data[i].length; k++) {
-                  this.dataYaxis[i].shift();
-                  this.dateXaxis[i].shift();
+                var errorIndex = this.showedParamsIndex[i];
+
+                if (!this.stopParamsIndex.includes(errorIndex)) {
+                  this.stopParamsIndex.push(errorIndex);
                 }
               }
-            } else {
-              this.showedParams.splice(i, 1);
-              this.showedParamsIndex.splice(i, 1);
-
-              var errorIndex = this.showedParamsIndex[i];
-
-              if (!this.stopParamsIndex.includes(errorIndex)) {
-                this.stopParamsIndex.push(errorIndex);
-              }
             }
-          }
+
+          }).catch(error => {
+            console.error('Error in fetching parameter list:', error);
+          });
 
           this.initEcharts();
           resolve();
@@ -592,258 +582,4 @@ export default {
 </script>
 
 
-<style scoped>
-  .radio {
-    display: flex;
-    align-items: center;
-  }
-  .radio input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid rgb(111, 111, 111);
-    margin-right: 10px;
-    cursor: pointer;
-    position: relative;
-  }
-  .radio input[type="radio"]:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgb(37,37,37);
-    transition: background-color 0.2s ease-in;
-  }
-  .radio input[type="radio"]:checked:before {
-    background-color: rgb(32,255,255);
-  }
-  .segment-top {
-    border: 1.5px solid lightgray;
-    border-bottom: none;
-    padding: 0.5rem;
-  }
 
-  .param-tables {
-      width: 100%;
-      border: 1.5px solid lightgray;
-      height: 5vh;
-      margin-top: 1vh;
-    }
-
-  .segment-bottom {
-    border: 1.5px solid lightgray;
-    height: 71vh;
-  }
-
-  .segment-left-middle{
-    border: 1.5px solid lightgray;
-    border-top: none;
-    border-bottom: none;
-    border-left: none;
-
-  }
-  .date-bar {
-    height: 6vh;
-    text-align: right;
-  }
-
-  .status-bar {
-    height: 6vh;
-  }
-
-  .button-bar-btn {
-
-    margin-top: 1vh;
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 20vh;
-    height: 5vh;
-  }
-
-  .add-bar-btn {
-    margin-top: 1vh;
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: auto;
-    height: 5vh;
-  }
-  .selected {
-    background-color: rgb(70, 72, 73);
-  }
-  .button-bar {
-    position: absolute;
-    bottom: 5vh;
-    display: inline-block;
-    margin-left: 44%;
-  }
-
-  .page-btn {
-    color: white;
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-  }
-  .table-test {
-    /* margin: 1vh; */
-    /* border: 1.5px solid lightgray; */
-    height: 69vh;
-    /* width: auto; */
-  }
-  .list-selected-area {
-    position: relative;
-    /* margin: 1vh; */
-    width: auto;
-    height: 60vh;
-  }
-  .scroll-item {
-    border: none;
-    padding: 10px;
-    margin: 10px
-  }
-  .scroll-selected-area {
-    position: relative;
-
-    /* border: 1.5px solid lightgray;
-    border-top: none;
-    border-right: none;
-    border-left: none; */
-
-    width: 100%;
-    height: 60vh;
-
-    margin-top: 3vh;
-    /* margin-left: 1vh; */
-  }
-  .scroll-selected-area span {
-    display: block;
-    margin-bottom: 2vh;
-  }
-
-  .param-wrapper:hover {
-    transition: background-color 0.3s;
-  }
-
-  .param-wrapper:hover {
-    /* 添加悬浮样式 */
-    border: 1px solid #006EAA;
-  }
-
-  .scroll-chart-area {
-    position: relative;
-    margin: auto;
-    width: auto;
-    height: 70vh;
-  }
-</style>
-
-
-<style scoped>
-  .radio {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    margin-top: 5px;
-  }
-  .radio input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid rgb(111, 111, 111);
-    margin-right: 10px;
-    cursor: pointer;
-    position: relative;
-  }
-  .radio input[type="radio"]:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgb(37,37,37);
-    transition: background-color 0.2s ease-in;
-  }
-  .radio input[type="radio"]:checked:before {
-    background-color: rgb(32,255,255);
-  }
-
-
-
-  .content{
-    padding: 10px;
-  }
-
-.wh_container >>> .wh_content_all{
-  background-color: #252525!important;
-  border:1px solid #dfe0e6;
-  width:auto;
-  border-radius: 6px;
-}
-.wh_container{
-  margin: 0px!important;
-}
-
-.wh_container >>> .wh_item_date{
-  color:#ffffff;
-
-}
-  .wh_container >>> .wh_item_date:hover{
-    color:#ffffff;
-    background: #252525;
-    font-weight: 900;
-    border-radius: 50%;
-  }
-.wh_container >>>  .wh_other_dayhide{
-  color:#696969a0;
-}
-
-.wh_container >>> .wh_content_item{
-  margin-bottom: 1px;
-  margin-left: 1px;
-}
-
-.wh_container >>> .wh_content{
-  color:#ffffff;
-}
-
-.wh_container >>> .wh_top_tag{
-  color:#ffffff;
-}
-.wh_container >>> .wh_content_li{
-  color:#ffffff;
-  font-weight: bold;
-}
-.wh_container >>> .wh_jiantou1{
-  border-top: 2px solid #ffffff;
-  border-left: 2px solid #ffffff;
-}
-.wh_container >>> .wh_jiantou2{
-  border-top: 2px solid #ffffff;
-  border-right: 2px solid #ffffff;
-}
-
-.wh_container >>> .wh_content_item .wh_isMark{
-  background-color: rgba(19,105,167,0.15);
-}
-.wh_container >>> .wh_content_item .wh_isToday{
-  background-color: rgba(75, 90, 100, 0.483);
-  color: #ffffff;
-}
-.wh_container >>> .wh_content_item .wh_chose_day{
-  background-color: rgba(75, 90, 100, 0.483);
-  border-radius: 50%;
-  color: #ffffff;
-}
-</style>

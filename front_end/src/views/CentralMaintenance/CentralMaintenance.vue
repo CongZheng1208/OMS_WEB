@@ -48,7 +48,7 @@ export default {
      *
      */
     getfailureReportPhp() {
-      // this.$store.commit("failurePhp");
+      this.$store.commit("failureList/failurePhp");
     }
   },
 
@@ -60,7 +60,7 @@ export default {
         if (newValue[0].isActive == true) {
           this.FailureReportTimer = setInterval(
             this.getfailureReportPhp,
-            100000
+            1000
           )
         } else {
           clearInterval(this.FailureReportTimer)
@@ -70,7 +70,7 @@ export default {
       immediate: true,
     },
   },
-  
+
   mounted () {
     //调用getfailureReportPhp函数，初始化、更新failure数据
     this.getfailureReportPhp()

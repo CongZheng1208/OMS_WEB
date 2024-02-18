@@ -15,45 +15,45 @@
       <div style="float: left">Select Option:</div>
       <div style="margin-left: 5%; float: left">
 
-        <div class="radio" @click="changeTabs('legPDEsSelected')">
+        <div class="radio" @click="changeRadio('legPDEsSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
-            :checked="legPDEsSelected"
+            :checked="displaySelected == 'legPDEsSelected'"
           />
           <label class="form-check-label">Inbound Leg FDEs</label>
         </div>
 
-        <div class="radio" @click="changeTabs('existingFDEsSelected')">
+        <div class="radio" @click="changeRadio('existingFDEsSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
-            :checked="existingFDEsSelected"
+            :checked="displaySelected == 'existingFDEsSelected'"
           />
           <label class="form-check-label">Existing FDEs</label>
         </div>
       </div>
 
       <div style="margin-left: 5%; float: left">
-        <div class="radio" @click="changeTabs('legFailuresSelected')">
+        <div class="radio" @click="changeRadio('legFailuresSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
-            :checked="legFailuresSelected"
+            :checked="displaySelected == 'legFailuresSelected'"
           />
           <label class="form-check-label">Inbound Leg Failures</label>
         </div>
 
-        <div class="radio" @click="changeTabs('existingFailureSelected')">
+        <div class="radio" @click="changeRadio('existingFailureSelected')">
           <input
             name="failure-rep-radio"
             type="radio"
-            :checked="existingFailureSelected"
+            :checked="displaySelected == 'existingFailureSelected'"
           />
           <label class="form-check-label">Existing Failures</label>
         </div>
       </div>
-      <div style="margin-left: 5%; float: left" v-if="legFailuresSelected">
+      <div style="margin-left: 5%; float: left" v-if="displaySelected == 'legFailuresSelected'">
         <div class="radio" @click="switchAll(true)">
           <input
             name="inbound-leg-fail-radio"
@@ -75,13 +75,13 @@
     </el-header>
     <el-main style="flex: 1; padding: 0">
       <div>
-        <in-bound-leg v-if="legPDEsSelected" />
-        <existing-fde v-if="existingFDEsSelected" />
+        <in-bound-leg v-if="displaySelected == 'legPDEsSelected'" />
+        <existing-fde v-if="displaySelected == 'existingFDEsSelected'" />
         <in-bound-leg-failures
-          v-if="legFailuresSelected"
+          v-if="displaySelected == 'legFailuresSelected'"
           :isAll="legFailureAll"
         />
-        <existing-failures v-if="existingFailureSelected" />
+        <existing-failures v-if="displaySelected == 'existingFailureSelected'" />
       </div>
     </el-main>
     <el-footer>
@@ -89,9 +89,7 @@
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goFailureHistoryPage()"
-          >Failure History</el-button
-        >
+        <el-button class="footer-btn" @click="goFailureHistoryPage()">Failure History</el-button>
         <el-button class="footer-btn" @click="goSelectPage()">Select</el-button>
       </div>
     </el-footer>
@@ -103,7 +101,7 @@ import InBoundLeg from "./InBoundLeg";
 import ExistingFde from "./ExistingFde";
 import ExistingFailures from "./ExistingFailures";
 import InBoundLegFailures from "./InBoundLegFailures";
-import {printPage} from '@/utils/utils.js'
+import {printPage, changeRadio} from '@/utils/utils.js'
 
 export default {
   components: {
@@ -115,11 +113,8 @@ export default {
   name: "FailureRep",
   data() {
     return {
-      legPDEsSelected: true,
-      legFailuresSelected: false,
-      existingFDEsSelected: false,
-      existingFailureSelected: false,
       legFailureAll: true,
+      displaySelected: 'legPDEsSelected'
     };
   },
   methods: {
@@ -129,37 +124,6 @@ export default {
      */
     switchAll(bool) {
       this.legFailureAll = bool;
-    },
-
-    /**
-     * 本函数用于Inbound Leg Failures单选按钮在All和Summary
-     * @param {*} value failure-rep-radio组checked value
-     */
-    changeTabs(value) {
-      if (value == "legPDEsSelected") {
-        this.legPDEsSelected = true;
-        this.legFailuresSelected = false;
-        this.existingFDEsSelected = false;
-        this.existingFailureSelected = false;
-      }
-      if (value == "legFailuresSelected") {
-        this.legPDEsSelected = false;
-        this.legFailuresSelected = true;
-        this.existingFDEsSelected = false;
-        this.existingFailureSelected = false;
-      }
-      if (value == "existingFDEsSelected") {
-        this.legPDEsSelected = false;
-        this.legFailuresSelected = false;
-        this.existingFDEsSelected = true;
-        this.existingFailureSelected = false;
-      }
-      if (value == "existingFailureSelected") {
-        this.legPDEsSelected = false;
-        this.legFailuresSelected = false;
-        this.existingFDEsSelected = false;
-        this.existingFailureSelected = true;
-      }
     },
     /**
      * 本函数用于跳转页面至Failure History页面（暂未实现）
@@ -184,7 +148,8 @@ export default {
         this.$router.push({ name: "SelectFailuresDetails" });
       }
     },
-    printPage
+    printPage,
+    changeRadio
   },
 };
 </script>

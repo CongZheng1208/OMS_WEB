@@ -106,8 +106,9 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import {printPage} from '@/utils/utils.js'
+  import { getRawInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+
   export default {
     name: "ParamSelect",
     data() {
@@ -153,48 +154,42 @@
         clearInterval(this.refreshInterval)
       },
       fetchData() {
-        var urlRoot1 = 'http://localhost:8888/oms/php/conditionMonitoring/paramerDisplay/getRawInTime.php';
-        axios.get(urlRoot1).then(
-          response => {
-            if(this.rawDatas.length == 0){
-                response.data.forEach(ele => {
-                  this.rawDatas.push(
-                    {
-                      idx: ele.idx,
-                      timestamp: ele.timestamp,
-                      source_port: ele.source_port,
-                      destination_port: ele.destination_port,
-                      ds_number: ele.ds_number,
-                      raw_data: ele.raw_data,
-                    }
-                  )
-                })
-            }
-
-            if(response.data.length>0 & this.rawDatas.length>0){
-              if(response.data[0].idx != this.rawDatas[0].idx){
-                console.log("data flushing")
-                // 只有当idx更新时，才会刷新this.rawDatas
-                this.rawDatas = []
-                response.data.forEach(ele => {
-                  this.rawDatas.push(
-                    {
-                      idx: ele.idx,
-                      timestamp: ele.timestamp,
-                      source_port: ele.source_port,
-                      destination_port: ele.destination_port,
-                      ds_number: ele.ds_number,
-                      raw_data: ele.raw_data,
-                    }
-                  )
-                })
-              }
-            }
-          },
-          error => {
-            // alert('发送请求失败！', error.message)
+        getRawInTime().then(response => {
+          if(this.rawDatas.length == 0){
+            response.forEach(ele => {
+              this.rawDatas.push(
+                {
+                  idx: ele.idx,
+                  timestamp: ele.timestamp,
+                  source_port: ele.source_port,
+                  destination_port: ele.destination_port,
+                  ds_number: ele.ds_number,
+                  raw_data: ele.raw_data,
+                }
+              )
+            })
           }
-        )
+
+          if(response.length>0 & this.rawDatas.length>0){
+            if(response[0].idx != this.rawDatas[0].idx){
+              console.log("data flushing")
+              // 只有当idx更新时，才会刷新this.rawDatas
+              this.rawDatas = []
+              response.forEach(ele => {
+                this.rawDatas.push({
+                  idx: ele.idx,
+                  timestamp: ele.timestamp,
+                  source_port: ele.source_port,
+                  destination_port: ele.destination_port,
+                  ds_number: ele.ds_number,
+                  raw_data: ele.raw_data,
+                })
+              })
+            }
+          }
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
       },
       startRefresh() {
         this.isStop = false

@@ -7,7 +7,7 @@ import { http } from "../../../utils/http";
 // TBD
 // 这里具体的url自己定
 const API = {
-  GET_FAILURE_LIST: 'centralMaintenance/failureReport',
+  GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
   GET_FAILURE_DETAIL: 'centralMaintenance/failureDetail'
 }
 

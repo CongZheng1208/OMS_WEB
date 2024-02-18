@@ -37,7 +37,7 @@
 
 <script>
 import qs from 'qs'
-import { getGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
   export default {
     name: "ATA29",
@@ -92,34 +92,10 @@ import { getGraphicInTime } from '@/services/conditionMonitoring/parameterDispla
       this.refreshInterval = setInterval(this.paramListInit, 1000);
     },
     methods: {
-      // paramListInit(){
-      //   console.log("ATA29 start to run")
-
-      //   let tmp1 = qs.stringify({
-      //     selectedParams: this.selectedParamsIdx
-      //   })
-
-      //   var urlRoot1 = 'php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php';
-      //   axios.post(urlHeads[pattern]+urlRoot1, tmp1).then(
-      //     response => {
-      //       console.log(response.data)
-      //       // 抓到数据立即赋值
-      //       this.flattenData = response.data;
-      //     },
-      //     error => {
-      //       // alert('发送请求失败', error.message)
-      //     }
-      //   )
-      // },
-
       paramListInit() {
-        console.log("ATA29 start to run")
+        let selectedParams =  qs.stringify({   selectedParams: this.selectedParamsIdx });
 
-        const selectedParams =  qs.stringify({   selectedParams: this.selectedParamsIdx });
-
-
-        getGraphicInTime(selectedParams).then(response => {
-          console.log(response);
+        postGraphicInTime(selectedParams).then(response => {
           this.flattenData = response;
         }).catch(error => {
           console.error('Error in fetching parameter display data:', error);

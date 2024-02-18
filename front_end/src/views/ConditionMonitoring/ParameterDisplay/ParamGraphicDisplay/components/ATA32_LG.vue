@@ -59,8 +59,9 @@
 
 <script>
 import qs from 'qs'
-import axios from 'axios'
-// import {pattern, urlHeads} from '../../../../config/url.js'
+import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+
+
   export default {
     name: "ATA32",
     data() {
@@ -109,24 +110,19 @@ import axios from 'axios'
     },
     methods: {
       paramListInit(){
-        console.log("ATA32 start to run")
 
-        let tmp1 = qs.stringify({
+        let tmp = qs.stringify({
           selectedParams: this.selectedParamsIdx
         })
 
-        var urlRoot1 = 'php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php';
-        axios.post(urlHeads[pattern]+urlRoot1, tmp1).then(
-          response => {
-            console.log(response.data)
-            // 抓到数据立即赋值
-            this.flattenData0 = response.data.slice(2);
-            this.flattenData1 = response.data.slice(2,response.data.length);
-          },
-          error => {
-            // alert('发送请求失败', error.message)
-          }
-        )
+        postGraphicInTime(tmp).then(response => {
+
+          this.flattenData0 = response.slice(2);
+          this.flattenData1 = response.slice(2, response.length);
+
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
       }
     },
     beforeDestroy() {

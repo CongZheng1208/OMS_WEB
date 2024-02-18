@@ -1,7 +1,7 @@
 <template>
   <div id="InBoundLegFailures">
     <all-view v-if="isAll" />
-    <summary-view v-if="!isAll" />
+    <summary-view v-else />
   </div>
 </template>
 

@@ -193,8 +193,7 @@
 
 <script>
 import qs from 'qs'
-import axios from 'axios'
-// import {pattern, urlHeads} from '../../../../config/url.js'
+import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
   export default {
     name: "ATA32",
     data() {
@@ -262,28 +261,21 @@ import axios from 'axios'
     },
     methods: {
       paramListInit(){
-        console.log("ATA32 start to run")
-
-        let tmp1 = qs.stringify({
+        let tmp = qs.stringify({
           selectedParams: this.selectedParamsIdx
         })
+        postGraphicInTime(tmp).then(response => {
 
-        var urlRoot1 = 'php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php';
-        axios.post(urlHeads[pattern]+urlRoot1, tmp1).then(
-          response => {
-            console.log(response.data)
-            // 抓到数据立即赋值
-            this.flattenData0 = response.data.slice(2);
-            this.flattenData1 = response.data.slice(2, 6);
-            this.flattenData2 = response.data.slice(6, 10);
-            this.flattenData3 = response.data.slice(10, 12);
-            this.flattenData4 = response.data.slice(12, 18);
-            this.flattenData5 = response.data.slice(18, response.data.length);
-          },
-          error => {
-            // alert('发送请求失败', error.message)
-          }
-        )
+          this.flattenData0 = response.slice(2);
+          this.flattenData1 = response.slice(2, 6);
+          this.flattenData2 = response.slice(6, 10);
+          this.flattenData3 = response.slice(10, 12);
+          this.flattenData4 = response.slice(12, 18);
+          this.flattenData5 = response.slice(18, response.length);
+
+        }).catch(error => {
+          console.error('Error in fetching parameter display data:', error);
+        });
       }
     },
     beforeDestroy() {

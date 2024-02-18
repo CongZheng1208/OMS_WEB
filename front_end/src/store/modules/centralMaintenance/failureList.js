@@ -2,6 +2,9 @@
 
 // FailureReport下的data
 import { getFailureList } from "../../../services/centralMaintenance/failureReport";
+import axios from 'axios'
+
+
 export default {
   // 开启命名空间
   namespaced: true,

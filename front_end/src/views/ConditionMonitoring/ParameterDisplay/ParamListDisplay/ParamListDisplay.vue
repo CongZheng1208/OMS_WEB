@@ -149,11 +149,9 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import {ataNameEnum} from '@/globals/enums.js'
   import {customSortMethodForProgressColumn} from '@/utils/utils.js'
   import { getParaSet,getParaList } from '@/services/conditionMonitoring/parameterDisplay/index.js';
-
 
   export default {
     name: "ParamListDisplay",

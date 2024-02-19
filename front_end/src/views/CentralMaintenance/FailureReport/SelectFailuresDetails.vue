@@ -12,8 +12,8 @@
         height: 11vh;
       "
     >
-      <el-row>
-        <el-col :span="6">
+      <el-row  style="width: 100%;">
+        <el-col :span="4">
           <el-row>
             <div style="float: left">Select Option:</div>
           </el-row>
@@ -22,7 +22,7 @@
           </el-row>
         </el-col>
 
-        <el-col :span="6">
+        <el-col :span="4">
           <el-row>
             <div style="float: left">Activity Status:</div>
           </el-row>
@@ -31,35 +31,35 @@
           </el-row>
         </el-col>
 
-        <el-col :span="6">
-          <div style="float: left">
-            <div>
-              <input
-                name="select-details-radio"
-                type="radio"
-                :checked="rootCauseSelected"
-                v-on:change="changeTabs('rootCause')"
-              />
-              <span>Root Cause</span>
-            </div>
-            <div>
-              <input
-                name="select-details-radio"
-                type="radio"
-                :checked="flightDeckEffectsSelected"
-                v-on:change="changeTabs('flightDeckEffects')"
-              />
-              <span>Flight Deck Effects</span>
-            </div>
-            <div>
-              <input
-                name="select-details-radio"
-                type="radio"
-                :checked="parametersSelected"
-                v-on:change="changeTabs('parameters')"
-              />
-              <span>Parameters</span>
-            </div>
+        <el-col :span="4">
+          <div class="radio"  @click="changeRadio('rootCause')">
+            <input
+              name="select-details-radio"
+              type="radio"
+              :checked="displaySelected == 'rootCause'"
+            />
+            <label class="form-check-label">Root Cause</label>
+          </div>
+        </el-col>
+
+        <el-col  :span="4">
+          <div class="radio"  @click="changeRadio('flightDeckEffects')">
+             <input
+              name="select-details-radio"
+              type="radio"
+              :checked="displaySelected == 'flightDeckEffects'"
+            />
+            <label class="form-check-label">Flight Deck Effects</label>
+          </div>
+        </el-col>
+        <el-col  :span="8">
+          <div class="radio"  @click="changeRadio('parameters')">
+            <input
+              name="select-details-radio"
+              type="radio"
+              :checked="displaySelected == 'parameters'"
+            />
+            <label class="form-check-label">Parameters</label>
           </div>
         </el-col>
       </el-row>
@@ -127,41 +127,28 @@
       </el-row>
 
       <!-- 底部信息部分：-->
-      <el-row style="margin-bottom: 20px">
+      <el-row style="margin-bottom: 1vh">
         <div style="float: left; margin-left: 15px">
           Failure Message: This is the failure message
         </div>
       </el-row>
       <el-row>
-        <el-col :span="12" style="border: 1.5px solid lightgrey; height: 52vh">
-          <RootCause v-show="rootCauseSelected" />
-          <FlightDeckEffects v-show="flightDeckEffectsSelected" />
-          <Parameters v-show="parametersSelected" />
+        <el-col :span="12" style=" height: 52vh">
+          <RootCause v-show="displaySelected == 'rootCause'" />
+          <FlightDeckEffects v-show="displaySelected == 'flightDeckEffects'" />
+          <Parameters v-show="displaySelected == 'parameters'" />
         </el-col>
-        <el-col :span="12" style="border: 1.5px solid lightgrey; height: 52vh">
-          <el-row style="height: 3vh; margin-top: 15px">
-            <div style="float: left; margin-left: 15px">
-              Maintenance Time: {{ maintence_time }} minutes
-            </div>
-          </el-row>
-          <el-row style="height: 3vh; margin-top: 10px">
-            <div style="float: left; height: 3vh; margin-left: 15px">
-              Maintenance Text
-            </div>
-          </el-row>
-          <el-row>
-            <div
-              style="
-                padding: 5px;
-                height: 40vh;
-                border: 1.5px solid lightgrey;
-                margin-left: 10px;
-                margin-right: 10px;
-                text-align: left;
-              "
-            >
-              {{ maitence_text }}
-            </div>
+        <el-col :span="12" style=" height: 52vh; padding-left: 1vh; padding-right: 1vh">
+          <el-row style="height: 3vh;">
+            <el-card class="custom-card" shadow="hover" style="height: 50vh">
+              <div class="custom-header">Maintenance Text</div>
+              <div class="custom-content">
+                Maintenance Time: {{ maintence_time }} minutes
+              </div>
+              <div class="custom-content">
+                {{ maitence_text }}
+              </div>
+            </el-card>
           </el-row>
         </el-col>
       </el-row>
@@ -171,12 +158,8 @@
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goBackToReportPage()"
-          >Back</el-button
-        >
-        <el-button class="footer-btn" @click="goPreviousPage()"
-          >Previous</el-button
-        >
+        <el-button class="footer-btn" @click="goBackToReportPage()">Back</el-button>
+        <el-button class="footer-btn" @click="goPreviousPage()">Previous</el-button>
         <el-button class="footer-btn" @click="goNextPage()">Next</el-button>
       </div>
     </el-footer>
@@ -189,7 +172,7 @@ import FlightDeckEffects from "./SelectFailuresRadios/FlightDeckEffects";
 import Parameters from "./SelectFailuresRadios/Parameters";
 
 import {flightPhaseEnum} from '@/globals/enums.js'
-import {printPage} from '@/utils/utils.js'
+import {printPage, changeRadio} from '@/utils/utils.js'
 
 export default {
   components: { RootCause, FlightDeckEffects, Parameters },
@@ -197,11 +180,9 @@ export default {
   data() {
     return {
       selectedData: [],
-      rootCauseSelected: true,
-      flightDeckEffectsSelected: false,
-      parametersSelected: false,
       maintence_time: "",
       maitence_text: "",
+      displaySelected: 'rootCause'
     };
   },
   methods: {
@@ -212,67 +193,87 @@ export default {
      */
     FlightPhaseData(row) {
       let fpIndex = row.flight_phase;
+      console.log(fpIndex)
+      console.log(flightPhaseEnum[fpIndex])
       return flightPhaseEnum[fpIndex];
-    },
-    /**
-     * 本函数用于select-details-radio单选按钮选择左下角的信息展示：
-     * 可选的有rootCause、flightDeckEffects、parameters
-     * @param {*} value select-details-radio组checked value
-     */
-    changeTabs(value) {
-      if (value == "rootCause") {
-        this.rootCauseSelected = true;
-        this.flightDeckEffectsSelected = false;
-        this.parametersSelected = false;
-      }
-      if (value == "flightDeckEffects") {
-        this.rootCauseSelected = false;
-        this.flightDeckEffectsSelected = true;
-        this.parametersSelected = false;
-      }
-      if (value == "parameters") {
-        this.rootCauseSelected = false;
-        this.flightDeckEffectsSelected = false;
-        this.parametersSelected = true;
-      }
     },
     /**
      * 本函数用于返回至FailureReport主界面
      *
      */
     goBackToReportPage() {
+      this.$store.state.failureList.selectedFailureId = -1
       this.$router.push({ name: "FailureList" });
     },
     /**
-     * 本函数用于跳转页面至之前浏览页面（暂未实现）
+     * 本函数用于切换当前展示数据至其上一条failure数据
      *
      */
-    goPreviousPage() {},
-    /**
-     * 本函数用于跳转页面至下个页面（暂未实现）
-     *
-     */
-    goNextPage() {},
+    goPreviousPage() {
+      //清除当前展示数据
+      this.selectedData.pop();
+
+      //计算当前数据和上一条数据在数组内的索引
+      const currentIndex = this.$store.state.failureList.resFailureData.findIndex(obj => obj === this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()));
+      const nextIndex = (currentIndex  - 1 + this.$store.state.failureList.resFailureData.length) % this.$store.state.failureList.resFailureData.length;
+
+      //更新全局变量selectedFailureId
+      this.$store.state.failureList.selectedFailureId = this.$store.state.failureList.resFailureData[nextIndex].id;
+
+      //更新selectedData
+      this.getSelectedData()
+    },
+
 
     /**
-     * 本函数用于mounted中，获取state中所选行的selectedFailureInfo数据
-     * 为maintence_time和maitence_text赋值，为equipment_name赋值为TBD
+     * 本函数用于切换当前展示数据至其下一条failure数据
+     *
+     */
+    goNextPage() {
+      //清除当前展示数据
+      this.selectedData.pop();
+
+      //计算当前数据和下一条数据在数组内的索引
+      const currentIndex = this.$store.state.failureList.resFailureData.findIndex(obj => obj === this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()));
+      const nextIndex = (currentIndex + 1) % this.$store.state.failureList.resFailureData.length;
+
+      //更新全局变量selectedFailureId
+      this.$store.state.failureList.selectedFailureId = this.$store.state.failureList.resFailureData[nextIndex].id;
+
+      //更新selectedData
+      this.getSelectedData()
+    },
+
+    /**
+     * 本函数用于mounted中，获取state中所选行的selectedFailureId数据
+     * 为maintence_time和maitence_text赋值，为equipment_name赋值为FUEL
      */
     getSelectedData() {
-      //深度拷贝，不改变state中selectedFailureInfo的原始数据
+
+      console.log("这是目前能利用的数据")
+      console.log(this.$store.state.failureList.resFailureData)
+
+      //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.selectedFailureInfo)
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()))
       );
+
       this.selectedData.push(objSelectedData);
+
+      console.log("这是目前正在展示的数据")
+      console.log( this.selectedData)
+
+
       //为maintence_time和maitence_text赋值
       this.maintence_time = this.selectedData[0].maintence_time;
       this.maitence_text = this.selectedData[0].maitence_text;
-      //设置equipment_name为"TBD"
+      //设置equipment_name为"FUEL"
       for (let item of this.selectedData) {
-        item.equipment_name = "TBD";
+        item.equipment_name = "FUEL";
       }
     },
-    printPage
+    printPage,
+    changeRadio
   },
   mounted() {
     //调用获取getSelectedData的函数

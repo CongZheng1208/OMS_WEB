@@ -19,13 +19,34 @@ export default {
       selectedData: [],
     };
   },
+  methods: {
+    /**
+     * 本函数用于mounted中，获取state中所选行的selectedFailureId数据，并生parameterTable
+     * 将原始数据转化为前端table所需要的array：parameterTable[]
+     */
+    getRootCauseData() {
+
+      this.selectedData = [];
+
+      //深度拷贝，不改变state中selectedFailureId的原始数据
+      const objSelectedData = JSON.parse(
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()))
+      );
+      this.selectedData.push(objSelectedData);
+      console.log("this.selectedData:", this.selectedData);
+    },
+  },
+
   mounted() {
-    //深度拷贝，不改变state中selectedFailureInfo的原始数据
-    const objSelectedData = JSON.parse(
-      JSON.stringify(this.$store.state.selectedFailureInfo)
-    );
-    this.selectedData.push(objSelectedData);
-    console.log("this.selectedData:", this.selectedData);
+    this.getRootCauseData();
+
+
+    // 监听selectedFailureId变化，当变化时重新调用getParameterData函数
+    this.$watch('$store.state.failureList.selectedFailureId', (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        this.getRootCauseData();
+      }
+    });
   },
 };
 </script>

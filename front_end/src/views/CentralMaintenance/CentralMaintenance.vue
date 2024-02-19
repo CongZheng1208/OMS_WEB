@@ -60,7 +60,7 @@ export default {
         if (newValue[0].isActive == true) {
           this.FailureReportTimer = setInterval(
             this.getfailureReportPhp,
-            1000
+            100000
           )
         } else {
           clearInterval(this.FailureReportTimer)

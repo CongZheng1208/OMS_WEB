@@ -183,8 +183,6 @@
           console.error(error); // 处理请求错误
         }
       );
-
-      console.log(this.rawData)
     },
   }
 

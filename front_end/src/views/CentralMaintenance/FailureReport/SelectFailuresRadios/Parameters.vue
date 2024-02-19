@@ -1,18 +1,6 @@
 <template>
   <div>
     <el-row>
-      <div
-        style="
-          float: left;
-          margin-left: 15px;
-          margin-top: 15px;
-          margin-bottom: 15px;
-        "
-      >
-        Parameter Recorded at the time of Occurency
-      </div>
-    </el-row>
-    <el-row>
       <el-table
         highlight-current-row
         style="
@@ -47,6 +35,18 @@
         ></el-table-column>
       </el-table>
     </el-row>
+    <el-row>
+      <div
+        style="
+          float: left;
+          margin-left: 15px;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        "
+      >
+        Parameter Recorded at the time of Occurency
+      </div>
+    </el-row>
   </div>
 </template>
 
@@ -61,14 +61,19 @@ export default {
   },
   methods: {
     /**
-     * 本函数用于mounted中，获取state中所选行的selectedFailureInfo数据，并生parameterTable
+     * 本函数用于mounted中，获取state中所选行的selectedFailureId数据，并生parameterTable
      * 将原始数据转化为前端table所需要的array：parameterTable[]
      */
     getParameterData() {
-      //深度拷贝，不改变state中selectedFailureInfo的原始数据
+
+      this.selectedData = [];
+      this.parameterTable = [];
+
+      //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.selectedFailureInfo)
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()))
       );
+
       this.selectedData.push(objSelectedData);
       //处理数据，生成parameterTable需要的数据
       for (let item of this.selectedData) {
@@ -87,6 +92,13 @@ export default {
   mounted() {
     //调用获取getParameterData的函数
     this.getParameterData();
+
+    // 监听selectedFailureId变化，当变化时重新调用getParameterData函数
+    this.$watch('$store.state.failureList.selectedFailureId', (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        this.getParameterData();
+      }
+    });
   },
 };
 </script>

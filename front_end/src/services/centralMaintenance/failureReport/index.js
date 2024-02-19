@@ -8,7 +8,7 @@ import { http } from "../../../utils/http";
 // 这里具体的url自己定
 const API = {
   GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
-  GET_FAILURE_DETAIL: 'centralMaintenance/failureDetail'
+  POST_FAILURE_DETAIL: 'centralMaintenance/failureDetail'
 }
 
 // APIs
@@ -19,9 +19,9 @@ export const getFailureList = () => {
   })
 }
 
-export const getFailureDetail = (index) => {
+export const postFailureDetail = (index) => {
   return http({
-    url: API.GET_FAILURE_LIST,
+    url: API.POST_FAILURE_LIST,
     method: 'POST',
     data: index
   })

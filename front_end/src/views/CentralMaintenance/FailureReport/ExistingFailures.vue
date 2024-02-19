@@ -116,11 +116,7 @@ export default {
      * @param {*} item 选中行数据
      */
     tableRowClicked(item) {
-      this.$store.state.selectedFailureInfo = item;
-      console.log(
-        "selectedFailureInfo：",
-        this.$store.state.selectedFailureInfo
-      );
+      this.$store.state.failureList.selectedFailureId = item.id;
     },
     /**
      * 本函数用于mounted中，获取state中resFailureData数据，并处理数据，具体有：
@@ -131,7 +127,7 @@ export default {
     getfailureArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = JSON.parse(
-        JSON.stringify(this.$store.state.resFailureData)
+        JSON.stringify(this.$store.state.failureList.resFailureData)
       );
       //处理原始数据，筛选出parentFailure，将其他子成员挂在其名下
       let existingFailureParent = existingFailureOri.filter(

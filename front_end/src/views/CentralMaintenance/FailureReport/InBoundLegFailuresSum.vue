@@ -70,10 +70,10 @@ export default {
      * @param {*} item 选中行数据
      */
     tableRowClicked(item) {
-      this.$store.state.selectedFailureInfo = item;
+      this.$store.state.failureList.selectedFailureId = item.id;
       console.log(
-        "selectedFailureInfo：",
-        this.$store.state.selectedFailureInfo
+        "selectedFailureId：",
+        this.$store.state.failureList.selectedFailureId
       );
     },
 
@@ -85,7 +85,7 @@ export default {
     getInboundLegFailureSumArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = JSON.parse(
-        JSON.stringify(this.$store.state.resFailureData)
+        JSON.stringify(this.$store.state.failureList.resFailureData)
       );
       let existingFailurefl_0 = existingFailureOri.filter(
         (existingFailureOri) => existingFailureOri.flight_leg == 0

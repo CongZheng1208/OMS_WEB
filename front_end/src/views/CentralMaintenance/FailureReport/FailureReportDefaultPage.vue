@@ -5,7 +5,6 @@
         text-align: left;
         font-weight: bold;
         color: white;
-        text-shadow: 2px 2px 2px #000;
         padding-top: 3vh;
         padding-left: 4vh;
         font-size: 16px;
@@ -15,16 +14,16 @@
       <div style="float: left">Select Option:</div>
       <div style="margin-left: 5%; float: left">
 
-        <div class="radio" @click="changeRadio('legPDEsSelected')">
+        <div class="radio" @click="changeRadio('legFDEsSelected'); $store.state.failureList.selectedFailureId = -1">
           <input
             name="failure-rep-radio"
             type="radio"
-            :checked="displaySelected == 'legPDEsSelected'"
+            :checked="displaySelected == 'legFDEsSelected'"
           />
           <label class="form-check-label">Inbound Leg FDEs</label>
         </div>
 
-        <div class="radio" @click="changeRadio('existingFDEsSelected')">
+        <div class="radio" @click="changeRadio('existingFDEsSelected'); $store.state.failureList.selectedFailureId = -1">
           <input
             name="failure-rep-radio"
             type="radio"
@@ -35,7 +34,7 @@
       </div>
 
       <div style="margin-left: 5%; float: left">
-        <div class="radio" @click="changeRadio('legFailuresSelected')">
+        <div class="radio" @click="changeRadio('legFailuresSelected'); $store.state.failureList.selectedFailureId = -1">
           <input
             name="failure-rep-radio"
             type="radio"
@@ -44,7 +43,7 @@
           <label class="form-check-label">Inbound Leg Failures</label>
         </div>
 
-        <div class="radio" @click="changeRadio('existingFailureSelected')">
+        <div class="radio" @click="changeRadio('existingFailureSelected'); $store.state.failureList.selectedFailureId = -1">
           <input
             name="failure-rep-radio"
             type="radio"
@@ -75,7 +74,7 @@
     </el-header>
     <el-main style="flex: 1; padding: 0">
       <div>
-        <in-bound-leg v-if="displaySelected == 'legPDEsSelected'" />
+        <in-bound-leg v-if="displaySelected == 'legFDEsSelected'" />
         <existing-fde v-if="displaySelected == 'existingFDEsSelected'" />
         <in-bound-leg-failures
           v-if="displaySelected == 'legFailuresSelected'"
@@ -114,7 +113,7 @@ export default {
   data() {
     return {
       legFailureAll: true,
-      displaySelected: 'legPDEsSelected'
+      displaySelected: 'legFDEsSelected'
     };
   },
   methods: {
@@ -124,6 +123,7 @@ export default {
      */
     switchAll(bool) {
       this.legFailureAll = bool;
+      this.$store.state.failureList.selectedFailureId = -1;
     },
     /**
      * 本函数用于跳转页面至Failure History页面（暂未实现）
@@ -137,12 +137,18 @@ export default {
      *
      */
     goSelectPage() {
-      //深度拷贝，不改变state中selectedFailureInfo的原始数据
-      const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.selectedFailureInfo)
-      );
+      //深度拷贝，不改变state中selectedFailureId的原始数据
+      // const objSelectedData = JSON.parse(
+      //   JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId) )
+      // );
+
+      console.log("test")
+      console.log(this.$store.state.failureList.selectedFailureId)
+
       //判断是否选择表格某一行数据，若否则提示选择，若是则跳转至SelectFailuresDetails页面
-      if (JSON.stringify(objSelectedData) === "{}") {
+
+      //if (JSON.stringify(objSelectedData) === "{}") {
+      if (this.$store.state.failureList.selectedFailureId === -1) {
         alert("Please select one item !");
       } else {
         this.$router.push({ name: "SelectFailuresDetails" });

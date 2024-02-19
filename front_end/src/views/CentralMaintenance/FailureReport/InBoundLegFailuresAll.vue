@@ -110,7 +110,6 @@ export default {
      */
     CurrentStateData(row) {
       let fsIndex = row.failure_state;
-      //return this.failureStateEnum[fsIndex];
       return failureStateEnum[fsIndex];
     },
     /**
@@ -118,11 +117,7 @@ export default {
      * @param {*} item 选中行数据
      */
     tableRowClicked(item) {
-      this.$store.state.selectedFailureInfo = item;
-      console.log(
-        "selectedFailureInfo：",
-        this.$store.state.selectedFailureInfo
-      );
+      this.$store.state.failureList.selectedFailureId = item.id;
     },
 
     /**
@@ -134,7 +129,7 @@ export default {
     getInboundLegFailureAllArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = JSON.parse(
-        JSON.stringify(this.$store.state.resFailureData)
+        JSON.stringify(this.$store.state.failureList.resFailureData)
       );
       let existingFailurefl_0 = existingFailureOri.filter(
         (existingFailureOri) => existingFailureOri.flight_leg == 0

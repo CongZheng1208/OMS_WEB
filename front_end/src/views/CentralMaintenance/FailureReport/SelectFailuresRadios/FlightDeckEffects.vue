@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import {fdeStatusEnum, fdeClassEnum} from '@/globals/enums.js'
+
 export default {
   name: "FlightDeckEffects",
   data() {
@@ -63,7 +65,7 @@ export default {
      */
     FDEClassData(row) {
       let fdeCIndex = row.fde_class;
-      return this.$store.state.fdeClassEnum[fdeCIndex];
+      return fdeClassEnum[fdeCIndex];
     },
     /**
      * 本函数用于设置Status列中fde_state的显示格式
@@ -72,18 +74,23 @@ export default {
      */
     FDEStateData(row) {
       let fdeSIndex = row.fde_state;
-      return this.$store.state.fdeStatusEnum[fdeSIndex];
+      return fdeStatusEnum[fdeSIndex];
     },
 
     /**
-     * 本函数用于mounted中，获取state中所选行的selectedFailureInfo数据，并生FDEtable
+     * 本函数用于mounted中，获取state中所选行的selectedFailureId数据，并生FDEtable
      * 将原始数据转化为前端table所需要的array：FDEtable[]
      */
     getFDEData() {
-      //深度拷贝，不改变state中selectedFailureInfo的原始数据
+
+      this.selectedData = [];
+      this.FDEtable = [];
+
+      //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.selectedFailureInfo)
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()))
       );
+
       this.selectedData.push(objSelectedData);
       console.log("this.selectedData:", this.selectedData);
       //处理数据，生成FDEtable需要的数据
@@ -105,6 +112,13 @@ export default {
   mounted() {
     //调用获取getFDEData的函数
     this.getFDEData();
+
+    // 监听selectedFailureId变化，当变化时重新调用getParameterData函数
+    this.$watch('$store.state.failureList.selectedFailureId', (newVal, oldVal) => {
+      if (newVal !== oldVal) {
+        this.getFDEData();
+      }
+    });
   },
 };
 </script>

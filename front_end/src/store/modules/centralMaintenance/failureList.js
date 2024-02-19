@@ -10,7 +10,7 @@ export default {
   namespaced: true,
   // state
   state: {
-    selectedFailureInfo: {},
+    selectedFailureId: -1,
     resFailureData: {},
   },
   // mutations
@@ -65,9 +65,8 @@ export default {
             else {
               item.is_parent = false;
             }
-
           }
-          console.log("in store:failureReportNew:", failureReportNew);
+          console.log("in store: resFailureData:", failureReportNew);
           state.resFailureData = failureReportNew;
         },
         (error) => {
@@ -79,7 +78,6 @@ export default {
     // 获取failureList
     async getFailureList() {
       const res = await getFailureList()
-      console.log(res)
     }
   }
 }

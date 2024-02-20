@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import allView from "./InBoundLegFailuresAll";
-import SummaryView from "./InBoundLegFailuresSum";
+import allView from "./InBoundLegFailures/InBoundLegFailuresAll";
+import SummaryView from "./InBoundLegFailures/InBoundLegFailuresSum";
 export default {
   components: { allView, SummaryView },
   name: "InBoundLegFailures",

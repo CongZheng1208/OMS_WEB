@@ -1,9 +1,7 @@
 // Vuex模块化
 
 // FailureReport下的data
-import { getFailureList } from "../../../services/centralMaintenance/failureReport";
-import axios from 'axios'
-
+import { getFailureList, getFDEList } from '../../../services/centralMaintenance/failureReport';
 
 export default {
   // 开启命名空间
@@ -12,20 +10,20 @@ export default {
   state: {
     selectedFailureId: -1,
     resFailureData: {},
+    resFDEData: {},
   },
   // mutations
   mutations: {
     failurePhp(state) {
       state.resFailureData = {};
-      var urlRoot = "http://localhost:8888/oms/php/centralMaintenance/failureReport/failures.php";
-      axios.get( urlRoot).then(
-        (response) => {
-          console.log("response.data:", response.data);
-          const failureReportOri = response.data;
+
+      getFailureList().then(response => {
+
+          const failureReportOri = response;
           //针对每个failureName，初始化count、firstTime、LastTime、parent、children
           //for循环，记录每个faliurename和相应的DateTime
           //创建新的数组，用于汇总相同failure_name_info
-          let failureReportNew = response.data;
+          let failureReportNew = response;
           for (let item of failureReportNew) {
               item.first_time = item.failure_time;
               item.last_time = item.failure_time;
@@ -68,16 +66,30 @@ export default {
           }
           console.log("in store: resFailureData:", failureReportNew);
           state.resFailureData = failureReportNew;
-        },
-        (error) => {
-          // alert('发送请求失败！', error.message)
-        }
-      );
+        }).catch(error => {
+        console.error('Error in getting failure list:', error);
+      });
     },
-    // TBD
-    // 获取failureList
-    async getFailureList() {
-      const res = await getFailureList()
-    }
+    fdePhp(state) {
+      state.resFDEData = {};
+
+      getFDEList().then(response => {
+          let failureReportNew = response;
+
+          console.log("in store: resFDEData:", failureReportNew);
+          state.resFDEData = failureReportNew;
+
+        }).catch(error => {
+        console.error('Error in getting failure list:', error);
+      });
+    },
+    // // 获取failureList
+    // async getFailureList() {
+    //   const res = await getFailureList()
+    // },
+    // // 获取fdeLis
+    // async getFDEList() {
+    //   const res = await getFDEList()
+    // }
   }
 }

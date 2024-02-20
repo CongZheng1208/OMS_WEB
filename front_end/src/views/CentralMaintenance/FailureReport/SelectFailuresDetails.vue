@@ -158,9 +158,9 @@
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goBackToReportPage()">Back</el-button>
-        <el-button class="footer-btn" @click="goPreviousPage()">Previous</el-button>
-        <el-button class="footer-btn" @click="goNextPage()">Next</el-button>
+        <el-button class="footer-btn" @click="goBackToReportPage()">BACK</el-button>
+        <el-button class="footer-btn" @click="goPreviousPage()">PREVIOUS</el-button>
+        <el-button class="footer-btn" @click="goNextPage()">NEXT</el-button>
       </div>
     </el-footer>
   </el-container>

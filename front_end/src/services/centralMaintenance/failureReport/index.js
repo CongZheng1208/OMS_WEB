@@ -7,7 +7,11 @@ import { http } from "../../../utils/http";
 // TBD
 // 这里具体的url自己定
 const API = {
+
+  GET_FDE_LIST: 'centralMaintenance/failureReport/inboundLegFDEs.php',
   GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
+
+  POST_URL: 'centralMaintenance/failureReport/pdfURL.php',
   POST_FAILURE_DETAIL: 'centralMaintenance/failureDetail'
 }
 
@@ -18,6 +22,22 @@ export const getFailureList = () => {
     method: 'GET'
   })
 }
+
+export const getFDEList = () => {
+  return http({
+    url: API.GET_FDE_LIST,
+    method: 'GET'
+  })
+}
+
+export const postURL = (index) => {
+  return http({
+    url: API.POST_URL,
+    method: 'POST',
+    data: index
+  })
+}
+
 
 export const postFailureDetail = (index) => {
   return http({

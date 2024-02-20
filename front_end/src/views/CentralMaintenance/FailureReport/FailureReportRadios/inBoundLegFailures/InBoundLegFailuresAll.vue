@@ -119,6 +119,23 @@ export default {
     tableRowClicked(item) {
       this.$store.state.failureList.selectedFailureId = item.id;
     },
+    // /**
+    //  * 更新store的选中行数据
+    //  */
+    // async loadData() {
+    //   // 使用async/await等待数据获取完成
+    //   await this.$store.commit("failureList/failurePhp");
+
+    //   console.log(this.$store.state.failureList.resFailureData)
+
+    //   // 判断数据是否为空
+    //   if(this.$store.state.failureList.resFailureData.length > 0) {
+    //     return Promise.resolve();
+    //   } else {
+    //     // 数据为空时的处理逻辑
+    //     return Promise.reject(new Error('Data is empty'));
+    //   }
+    // },
 
     /**
      * 本函数用于mounted中，获取state中resFailureData数据，并处理数据，具体有：
@@ -127,10 +144,14 @@ export default {
      * 更新至this.InBoundLegFailuresAllArray，用于前端合并数据的展示
      */
     getInboundLegFailureAllArray() {
+
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = JSON.parse(
         JSON.stringify(this.$store.state.failureList.resFailureData)
       );
+      console.log("just wait")
+      console.log(existingFailureOri)
+
       let existingFailurefl_0 = existingFailureOri.filter(
         (existingFailureOri) => existingFailureOri.flight_leg == 0
       );
@@ -171,8 +192,14 @@ export default {
   },
 
   mounted() {
+    // this.loadData().then(() => {
+    //   this.getInboundLegFailureAllArray();
+    //   console.log("InBoundLegFailuresAllArray:", this.InBoundLegFailuresAllArray);
+    // });
+
     this.getInboundLegFailureAllArray();
     console.log("InBoundLegFailuresAllArray:", this.InBoundLegFailuresAllArray);
+
   },
 };
 </script>

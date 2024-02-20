@@ -74,13 +74,13 @@
     </el-header>
     <el-main style="flex: 1; padding: 0">
       <div>
-        <in-bound-leg v-if="displaySelected == 'legFDEsSelected'" />
+        <in-bound-leg-fde v-if="displaySelected == 'legFDEsSelected'" />
         <existing-fde v-if="displaySelected == 'existingFDEsSelected'" />
-        <in-bound-leg-failures
+        <in-bound-leg-failure
           v-if="displaySelected == 'legFailuresSelected'"
           :isAll="legFailureAll"
         />
-        <existing-failures v-if="displaySelected == 'existingFailureSelected'" />
+        <existing-failure v-if="displaySelected == 'existingFailureSelected'" />
       </div>
     </el-main>
     <el-footer>
@@ -88,26 +88,27 @@
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goFailureHistoryPage()">Failure History</el-button>
-        <el-button class="footer-btn" @click="goSelectPage()">Select</el-button>
+        <el-button class="footer-btn" @click="goFailureHistoryPage()">HISTORY</el-button>
+        <el-button class="footer-btn" @click="goSelectPage()">SELECT</el-button>
       </div>
     </el-footer>
   </el-container>
 </template>
 
 <script>
-import InBoundLeg from "./InBoundLeg";
-import ExistingFde from "./ExistingFde";
-import ExistingFailures from "./ExistingFailures";
-import InBoundLegFailures from "./InBoundLegFailures";
+import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE";
+import ExistingFde from "./FailureReportRadios/ExistingFde";
+import ExistingFailure from "./FailureReportRadios/ExistingFailure";
+import InBoundLegFailure from "./FailureReportRadios/InBoundLegFailure";
+
 import {printPage, changeRadio} from '@/utils/utils.js'
 
 export default {
   components: {
-    InBoundLeg,
+    InBoundLegFde,
     ExistingFde,
-    ExistingFailures,
-    InBoundLegFailures,
+    ExistingFailure,
+    InBoundLegFailure,
   },
   name: "FailureRep",
   data() {

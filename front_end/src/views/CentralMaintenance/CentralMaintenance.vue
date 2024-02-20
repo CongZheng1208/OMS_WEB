@@ -48,6 +48,7 @@ export default {
      *
      */
     getfailureReportPhp() {
+      this.$store.commit("failureList/fdePhp");
       this.$store.commit("failureList/failurePhp");
     }
   },
@@ -71,7 +72,7 @@ export default {
     },
   },
 
-  mounted () {
+  created () {
     //调用getfailureReportPhp函数，初始化、更新failure数据
     this.getfailureReportPhp()
   },

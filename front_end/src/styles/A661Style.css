@@ -83,10 +83,12 @@
   font-weight: bold;
   font-size: 18px;
   text-shadow: 2px 2px 2px #000;
+  margin-top: 1vh;
 }
 
 .el-header-subtitle {
   font-size: 16px;
+  margin-top: 1vh;
 }
 
 .el-header-subcontainer{
@@ -105,6 +107,15 @@
 }
 
 .el-select .el-input__inner {
+  background-color: rgb(46, 45, 45);
+  color: #ffffff;
+}
+
+.el-select .el-input {
+  width: 20vh;
+}
+
+.input-with-select .el-input-group__prepend {
   background-color: rgb(46, 45, 45);
   color: #ffffff;
 }

@@ -19,6 +19,16 @@ const CentralMaintenanceRoutes = {
           path: 'selectFailuresDetails',
           name: 'SelectFailuresDetails',
           component: () => import('@/views/CentralMaintenance/FailureReport/SelectFailuresDetails.vue')
+        },
+        {
+          path: 'failureHistory',
+          name: 'FailureHistory',
+          component: () => import('@/views/CentralMaintenance/FailureReport/FailureHistory.vue')
+        },
+        {
+          path: 'selectFailuresHistory',
+          name: 'SelectFailuresHistory',
+          component: () => import('@/views/CentralMaintenance/FailureReport/SelectFailuresHistory.vue')
         }
       ]
     },

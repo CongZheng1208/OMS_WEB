@@ -127,28 +127,18 @@ export default {
       this.$store.state.failureList.selectedFailureId = -1;
     },
     /**
-     * 本函数用于跳转页面至Failure History页面（暂未实现）
+     * 本函数用于跳转页面至Failure History页面
      *
      */
     goFailureHistoryPage() {
-      //待实现
+      this.$router.push({ name: "FailureHistory" });
     },
     /**
      * 本函数用于跳转页面至选定的failure页面
      *
      */
     goSelectPage() {
-      //深度拷贝，不改变state中selectedFailureId的原始数据
-      // const objSelectedData = JSON.parse(
-      //   JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId) )
-      // );
-
-      console.log("test")
-      console.log(this.$store.state.failureList.selectedFailureId)
-
       //判断是否选择表格某一行数据，若否则提示选择，若是则跳转至SelectFailuresDetails页面
-
-      //if (JSON.stringify(objSelectedData) === "{}") {
       if (this.$store.state.failureList.selectedFailureId === -1) {
         alert("Please select one item !");
       } else {

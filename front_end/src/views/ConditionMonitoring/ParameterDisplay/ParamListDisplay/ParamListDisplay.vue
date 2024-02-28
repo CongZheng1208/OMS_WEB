@@ -138,6 +138,20 @@
         </el-col>
       </el-row>
 
+
+      <el-dialog
+        title="Error Message"
+        style="font-size: 15px; color: white;"
+        :visible.sync="isParameterSelected"
+        width="30%"
+      >
+        <span style="font-size: 15px; color: white;">Please select at least one parameter to show!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="isParameterSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
+
+
     </el-main>
     <el-footer>
       <div>
@@ -169,6 +183,7 @@
         isAdd: false,
         listSelected: 1,
         ataSelected: false,
+        isParameterSelected: false,
         selectedATA: "",
         ataSys: [],
         testData: [
@@ -229,7 +244,7 @@
           })
           this.$router.push({ name: "StartView", params: { selectedParameter: tmp }});
         }else{
-          alert("Please select at least one parameter to show!");
+          this.isParameterSelected = true
         }
       },
 
@@ -256,7 +271,7 @@
           this.addedParams.push(ele)
           ele.isChecked = true
         }else{
-          alert('This parameter haa already been added to the display list.')
+          this.$message('This parameter haa already been added to the display list.')
         }
       },
 

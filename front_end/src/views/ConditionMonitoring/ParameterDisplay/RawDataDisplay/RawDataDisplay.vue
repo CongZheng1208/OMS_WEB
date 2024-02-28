@@ -240,7 +240,9 @@
       rawDataChunks() {
         if (isNaN(this.byteOffsetKey) || isNaN(this.lengthKey)) {
           // 如果输入的byteOffsetKey和lengthKey参数不是数据
-          alert("Please enter valid numerical values for Byte Offset and Length.");
+          this.$message("Please enter valid numerical values for Byte Offset and Length.");
+          this.byteOffsetKey = ''
+          this.lengthKey = ''
         }
         if (this.selectedRawData && this.byteOffsetKey && !this.lengthKey) {
           // 如果仅输入了byteOffsetKey

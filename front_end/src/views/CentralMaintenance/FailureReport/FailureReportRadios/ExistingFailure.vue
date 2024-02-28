@@ -17,7 +17,7 @@
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       @current-change="tableRowClicked"
     >
-      <el-table-column :width="null" :min-width="5"></el-table-column>
+      <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
         prop="fimcode_info"
         label="FIM Code"

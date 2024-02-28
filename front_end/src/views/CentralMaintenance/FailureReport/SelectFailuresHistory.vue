@@ -27,7 +27,7 @@
               class="input-with-select"
               style="width: 50vh;  background-color: grey;"
             >
-              <el-select v-model="select" slot="prepend" placeholder="请选择">
+              <el-select v-model="select" slot="prepend" placeholder="Please select">
                 <el-option label="FIM Code" value="1"></el-option>
                 <el-option label="Flight Phase" value="2"></el-option>
                 <el-option label="Flight Leg" value="3"></el-option>

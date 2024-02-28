@@ -35,6 +35,10 @@ export default {
         },
       ],
     };
+  },
+  created() {
+    this.$store.commit("failureList/fdePhp");
+    this.$store.commit("failureList/failurePhp");
   }
 };
 </script>

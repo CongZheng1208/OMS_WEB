@@ -82,6 +82,19 @@
         />
         <existing-failure v-if="displaySelected == 'existingFailureSelected'" />
       </div>
+
+
+      <el-dialog
+        title="Error Message"
+        style="font-size: 15px; color: white;"
+        :visible.sync="isParameterSelected"
+        width="30%"
+      >
+        <span style="font-size: 15px; color: white;">Please select a failure item!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="isParameterSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -93,6 +106,10 @@
       </div>
     </el-footer>
   </el-container>
+
+
+
+
 </template>
 
 <script>
@@ -114,6 +131,7 @@ export default {
   data() {
     return {
       legFailureAll: true,
+      isParameterSelected: false,
       displaySelected: 'legFDEsSelected'
     };
   },
@@ -140,7 +158,7 @@ export default {
     goSelectPage() {
       //判断是否选择表格某一行数据，若否则提示选择，若是则跳转至SelectFailuresDetails页面
       if (this.$store.state.failureList.selectedFailureId === -1) {
-        alert("Please select one item !");
+        this.isParameterSelected = true
       } else {
         this.$router.push({ name: "SelectFailuresDetails" });
       }

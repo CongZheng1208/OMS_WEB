@@ -208,6 +208,11 @@
   background-color: #2b2b2be7 !important;
 }
 
+.el-table__expand-icon {
+  color: #fff;
+  font-size: 18px;
+}
+
 .table-outer-number{
   position: absolute;
   bottom: 80px;
@@ -270,10 +275,14 @@
   margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
 }
 
+
 .custom-footer {
-  position: sticky;
-  bottom: 5vh;
-  padding: 1vh;
+
+  position: absolute;
+  bottom: 2vh;
+  left: 5vh;
+
+  padding: 1.5vh;
 
   background-color: #646464;
 
@@ -281,6 +290,19 @@
 
   border: 1px solid rgb(111, 111, 111);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
+  transition: background-color 0.3s ease;
+}
+
+.custom-footer:hover {
+  background-color: #9b9b9b;
+  border: 1px solid rgb(111, 111, 111);
+  color: white;
+}
+
+.custom-footer:active {
+  background-color: #9b9b9b;
+  border: 1px solid rgb(111, 111, 111);
+  color: white;
 }
 
 

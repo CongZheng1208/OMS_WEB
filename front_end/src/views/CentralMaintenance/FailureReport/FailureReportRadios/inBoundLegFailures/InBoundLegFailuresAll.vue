@@ -17,7 +17,7 @@
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       @current-change="tableRowClicked"
     >
-      <el-table-column :width="null" :min-width="5"></el-table-column>
+      <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
         prop="fimcode_info"
         label="FIM Code"
@@ -119,23 +119,6 @@ export default {
     tableRowClicked(item) {
       this.$store.state.failureList.selectedFailureId = item.id;
     },
-    // /**
-    //  * 更新store的选中行数据
-    //  */
-    // async loadData() {
-    //   // 使用async/await等待数据获取完成
-    //   await this.$store.commit("failureList/failurePhp");
-
-    //   console.log(this.$store.state.failureList.resFailureData)
-
-    //   // 判断数据是否为空
-    //   if(this.$store.state.failureList.resFailureData.length > 0) {
-    //     return Promise.resolve();
-    //   } else {
-    //     // 数据为空时的处理逻辑
-    //     return Promise.reject(new Error('Data is empty'));
-    //   }
-    // },
 
     /**
      * 本函数用于mounted中，获取state中resFailureData数据，并处理数据，具体有：
@@ -192,14 +175,8 @@ export default {
   },
 
   mounted() {
-    // this.loadData().then(() => {
-    //   this.getInboundLegFailureAllArray();
-    //   console.log("InBoundLegFailuresAllArray:", this.InBoundLegFailuresAllArray);
-    // });
-
     this.getInboundLegFailureAllArray();
     console.log("InBoundLegFailuresAllArray:", this.InBoundLegFailuresAllArray);
-
   },
 };
 </script>

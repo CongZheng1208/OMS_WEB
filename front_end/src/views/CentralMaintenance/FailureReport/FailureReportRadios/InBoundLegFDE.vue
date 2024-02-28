@@ -3,7 +3,7 @@
     <el-table
       highlight-current-row
       style="width: 100%; background-color: rgb(46, 45, 45)"
-      :data="InBoundLegFDEArray"
+      :data="inboundLegFDEArray"
       :sort-method="customSortMethodForProgressColumn"
       :header-cell-style="{
         background: '#404040',
@@ -11,11 +11,13 @@
         font: '14px',
         'text-align': 'center',
       }"
+      row-key="index"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       :cell-style="{ 'text-align': 'center' }"
       :empty-text="'No Data Display'"
       @current-change="tableRowClicked"
     >
-      <el-table-column :width="null" :min-width="5"></el-table-column>
+      <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
         prop="FDECode"
         label="FDE Code"
@@ -103,7 +105,7 @@ export default {
   name: "InBoundLegFDE",
   data() {
     return {
-      InBoundLegFDEArray: [],
+      inboundLegFDEArray: [],
     };
   },
 
@@ -159,20 +161,54 @@ export default {
     /**
      * 本函数用于mounted中，获取state中resFDEData数据, 更新至this.InBoundLegFDEsSumArray, 用于前端数据的展示
      */
-    getInboundLegFDEArray() {
-      //深度拷贝，不改变state中resFDEData的原始数据
-      let InBoundLegFDEOri = JSON.parse(
+     getInboundLegFDEArray() {
+      //深度拷贝，不改变state中resFailureData的原始数据
+      let inboundLegFDEOri = JSON.parse(
         JSON.stringify(this.$store.state.failureList.resFDEData)
       );
-      this.InBoundLegFDEArray = InBoundLegFDEOri;
-      console.log(
-        "this.InBoundLegFDEArray:",
-        this.InBoundLegFDEArray
+      //处理原始数据，筛选出parentFailure，将其他子成员挂在其名下
+      let inboundLegFDEParent = inboundLegFDEOri.filter(
+        (inboundLegFDEOri) => inboundLegFDEOri.is_parent == true
       );
+      let inboundLegFDEChild = inboundLegFDEOri.filter(
+        (inboundLegFDEOri) => inboundLegFDEOri.is_parent == false
+      );
+      //针对每个Parent，找到child，放到children属性中
+      for (let item of inboundLegFDEParent) {
+        let tempFDEText = item.FDEText;
+        let childFailureName = inboundLegFDEChild.filter(
+          (inboundLegFDEChild) =>
+          inboundLegFDEChild.FDEText == tempFDEText
+        );
+
+        let childrenFDE = [];
+        if (childFailureName.length >= 1) {
+          for (let childItem of childFailureName) {
+            //将childItem的自身属性设置为''
+            childItem.FDEClass = "";
+            childItem.FDECode = "";
+            childItem.FDEStatus = "";
+            childItem.FDEText = "";
+            childrenFDE.push(childItem);
+          }
+        }
+        item.children = childrenFDE;
+      }
+
+      for (let item of inboundLegFDEParent) {
+        //更新failure_name_info
+        item.FDEText =
+          item.FDEText + " [ " + String(item.count) + " ]";
+      }
+
+      this.inboundLegFDEArray = inboundLegFDEParent;
+      console.log("check it", this.inboundLegFDEArray)
     },
+
+
     customSortMethodForProgressColumn
   },
-  mounted() {
+  created() {
     this.getInboundLegFDEArray();
   },
 };

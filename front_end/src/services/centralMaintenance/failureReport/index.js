@@ -8,7 +8,7 @@ import { http } from "../../../utils/http";
 // 这里具体的url自己定
 const API = {
 
-  GET_FDE_LIST: 'centralMaintenance/failureReport/inboundLegFDEs.php',
+  GET_FDE_LIST: 'centralMaintenance/failureReport/fdes.php',
   GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
 
   POST_URL: 'centralMaintenance/failureReport/pdfURL.php',

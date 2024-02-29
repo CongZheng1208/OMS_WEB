@@ -307,8 +307,11 @@
 
             <el-table-column prop="count" label="Count" sortable :width="null" :min-width="20"></el-table-column>
             <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="20"></el-table-column>
-            <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="70"></el-table-column>
-            <el-table-column align="right" :min-width="15">
+            <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="50"></el-table-column>
+            <el-table-column align="right" :min-width="30">
+              <template slot="header" slot-scope="scope">
+                InboundLeg ATA
+              </template>
               <template slot-scope="scope">
                 <span
                   @click="removeInboundLegATA(scope.row)"
@@ -338,8 +341,11 @@
 
             <el-table-column prop="count" label="Count" sortable :width="null" :min-width="20"></el-table-column>
             <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="20"></el-table-column>
-            <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="70"></el-table-column>
-            <el-table-column align="right" :min-width="15">
+            <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="50"></el-table-column>
+            <el-table-column align="right" :min-width="30">
+              <template slot="header" slot-scope="scope">
+                All Legs ATA
+              </template>
               <template slot-scope="scope">
                 <span
                   @click="removeAllLegsATA(scope.row)"
@@ -369,8 +375,11 @@
 
             <el-table-column prop="count" label="Count" sortable :width="null" :min-width="20"></el-table-column>
             <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="20"></el-table-column>
-            <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="70"></el-table-column>
-            <el-table-column align="right" :min-width="15">
+            <el-table-column prop="name" label="System Name" sortable :width="null" :min-width="50"></el-table-column>
+            <el-table-column align="right" :min-width="30">
+              <template slot="header" slot-scope="scope">
+                Ranged ATA
+              </template>
               <template slot-scope="scope">
                 <span
                   @click="removeRangeATA(scope.row)"
@@ -401,8 +410,12 @@
             <el-table-column :width="null" :min-width="5"></el-table-column>
 
             <el-table-column prop="para" label="Count" sortable :width="null" :min-width="20"></el-table-column>
-            <el-table-column prop="para" label="Leg" sortable :width="null" :min-width="90"></el-table-column>
-            <el-table-column align="right" :min-width="15">
+            <el-table-column prop="para" label="Leg" sortable :width="null" :min-width="70"></el-table-column>
+            <el-table-column align="right" :min-width="30">
+
+              <template slot="header" slot-scope="scope">
+                Leg
+              </template>
               <template slot-scope="scope">
                 <span
                   @click="removeleg(scope.row)"
@@ -431,8 +444,11 @@
             <el-table-column :width="null" :min-width="5"></el-table-column>
 
             <el-table-column prop="count" label="Count" sortable :width="null" :min-width="20"></el-table-column>
-            <el-table-column prop="label" label="Flight Phase" :width="null" :min-width="90"></el-table-column>
-            <el-table-column align="right" :min-width="15">
+            <el-table-column prop="label" label="Flight Phase" :width="null" :min-width="70"></el-table-column>
+            <el-table-column align="right" :min-width="30">
+              <template slot="header" slot-scope="scope">
+                Flight Phase
+              </template>
               <template slot-scope="scope">
                 <span
                   @click="removeflightPhase(scope.row)"
@@ -472,7 +488,6 @@
 import {flightPhaseEnum, ataNameEnum} from '@/globals/enums.js'
 import {printPage, changeRadio, customSortMethodForProgressColumn} from '@/utils/utils.js'
 import { getParaSet } from '@/services/conditionMonitoring/parameterDisplay/index.js';
-import axios from "axios"
 
 
 export default {
@@ -480,25 +495,6 @@ export default {
   data() {
     return {
       failureHistoryDatas: [],
-      rangeList: [],
-      ataListBefore: [],
-      ataList: [],
-      legListBefore: [],
-      legList: [],
-      legInitBefore: [],
-      legInit: [],
-
-      minFlightLeg: '',
-      maxFlightLeg: '',
-
-
-
-
-
-
-
-
-
 
       displaySelected: 'inboundLeg',
       resultSelected: 'ata',
@@ -526,8 +522,6 @@ export default {
      */
     initData(){
       this.failureHistoryDatas = this.$store.state.failureList.resFailureData
-      console.log("xxxx")
-      console.log( this.failureHistoryDatas)
     },
 
 
@@ -596,6 +590,7 @@ export default {
         return;
       }
 
+      // 若用户输入的上下范围均有效
       if(this.minFlightLeg != '' && this.maxFlightLeg != '') {
         var min = parseInt(this.minFlightLeg);
         var max = parseInt(this.maxFlightLeg);
@@ -603,6 +598,7 @@ export default {
         this.sortRangeATA = []
         var rangBefore = [];
 
+        // 基于所有数据，筛选出其中flight_leg符合范围要求的项
         if(this.displaySelected == 'range') {
 
           this.failureHistoryDatas.forEach(ele =>{
@@ -611,7 +607,7 @@ export default {
             }
           });
 
-
+          // 去除重复项，确定符合范围要求项目对应的ATA
           var rangeAfter = [...new Set(rangBefore.sort().map(String))];
           for(var j = 0;j < rangeAfter.length; j++) {
             var rangeobj = {};
@@ -835,7 +831,6 @@ export default {
         this.flightPhaseRes.splice(index, 1);
       }
     },
-
 
     printPage,
     changeRadio,

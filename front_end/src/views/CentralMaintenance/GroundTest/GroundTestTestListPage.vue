@@ -54,6 +54,9 @@
 
 <script>
   import {printPage, customSortMethodForProgressColumn} from '@/utils/utils.js'
+  import { postTestOrder } from '@/services/centralMaintenance/groundTest/index.js';
+  import qs from 'qs'
+
   export default {
     data() {
       return {
@@ -233,6 +236,20 @@
       },
       printPage,
       customSortMethodForProgressColumn
+    },
+    created() {
+
+      let tmp = qs.stringify({
+        message: "OrderSuccess"
+      });
+
+      postTestOrder(tmp).then(response => {
+        console.log("success post to socket")
+        console.log(response)
+
+      }).catch(error => {
+        console.error('Error in fetching parameter list:', error);
+      });
     }
   }
 

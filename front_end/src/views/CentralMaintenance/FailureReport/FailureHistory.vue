@@ -619,7 +619,6 @@ export default {
             this.sortRangeATA.push(rangeobj);
           };
         };
-
       }
     },
 

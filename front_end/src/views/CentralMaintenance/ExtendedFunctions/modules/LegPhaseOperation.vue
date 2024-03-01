@@ -116,7 +116,6 @@
   }
 </script>
 
-
 <style scoped>
   .segment-left-border {
     border: 1.5px solid lightgray;
@@ -128,13 +127,6 @@
   .segment-right-border {
     border: 1.5px solid lightgray;
     /* border-top: none; */
-    border-bottom: none;
-    border-right: none;
-    border-left: none;
-  }
-
-  .segment-top-border {
-    border: 1.5px solid lightgray;
     border-bottom: none;
     border-right: none;
     border-left: none;

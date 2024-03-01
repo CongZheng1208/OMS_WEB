@@ -34,10 +34,12 @@ export default {
           isActive: false,
           routeName: "NVMDataDefault",
         },
+        // Extended Functions现在默认选中Time Cycles
+        // 后续根据需求再调整
         {
           name: "Extended Functions",
           isActive: false,
-          routeName: "ExtendedFunctionsDefault",
+          routeName: "TimeCycles",
         },
       ],
     };

@@ -69,7 +69,8 @@
 </template>
 
 <script>
-  import CentralMaintenceHttp from '../../../api/CentralMaintenceHttp.js'
+  import { getATAandEqui } from '@/services/centralMaintenance/groundTest/index.js';
+
   import {ataNameEnum} from '@/globals/enums.js'
   import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 
@@ -136,6 +137,11 @@
        * 本函数用于跳转页面
        */
       goSelectTestPage() {
+
+        console.log(this.selectedEquipment)
+
+        this.$store.state.groundTestList.selectedEquipment = this.selectedEquipment
+
         if(Object.keys(this.selectedEquipment ).length !== 0){
           this.$router.push({ name: "SelectTest", params: { selectedEquipment: this.selectedEquipment } });
         }else{
@@ -154,35 +160,34 @@
     },
 
     mounted() {
-      CentralMaintenceHttp.get('centralMaintenance/groundTest/gt_ata_equi.php')
-        .then(response => {
-          response.forEach(element => {
-            var equipments = []
-            var details = []
 
-            if(Array.isArray(element.equipments)){
-              element.equipments.forEach(equipment => {
-                equipments.push(equipment.e_na)
-                details.push(equipment.TEST_IN)
-              })
-            }else{
-              equipments.push(element.equipments.e_na)
-              details.push(element.equipments.TEST_IN)
-            }
+      getATAandEqui().then(response => {
+        response.forEach(element => {
+          var equipments = []
+          var details = []
 
-            this.rawData.push({
-              ataNumber: element.ata,
-              systemName: ataNameEnum[element.ata],
-              equipmentName: equipments,
-              availability: element.avai,
-              testDetails: details,
+          if(Array.isArray(element.equipments)){
+            element.equipments.forEach(equipment => {
+              equipments.push(equipment.e_na)
+              details.push(equipment.TEST_IN)
             })
-          });
-        })
-        .catch(error => {
-          console.error(error); // 处理请求错误
-        }
-      );
+          }else{
+            equipments.push(element.equipments.e_na)
+            details.push(element.equipments.TEST_IN)
+          }
+
+          this.rawData.push({
+            ataNumber: element.ata,
+            systemName: ataNameEnum[element.ata],
+            equipmentName: equipments,
+            availability: element.avai,
+            testDetails: details,
+          })
+        });
+
+      }).catch(error => {
+        console.error('Error in getting ata and equi list:', error);
+      });
     },
   }
 

@@ -5,28 +5,28 @@
         <el-col :span="8">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            ATA: {{  }}
+            ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
           </div>
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Equipment Name: {{  }}
+            Equipment Name: {{ $store.state.groundTestList.selectedEquipment.equipmentName }}
           </div>
         </el-col>
         <el-col :span="8">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Test Name: {{  }}
+            Test Name: {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
           </div>
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Test Type: {{  }}
+            Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
           </div>
 
         </el-col>
         <el-col :span="8">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Expected Duration(mins): {{  }}
+            Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
           </div>
         </el-col>
       </el-row>
@@ -39,8 +39,15 @@
             <el-card class="custom-card" shadow="hover">
               <div class="custom-header">Interactive Test</div>
               <div class="custom-content">
-                <div v-for="o in 50" :key="o" class="content-item">
-                  {{'列表内容 ' + o }}
+                <div
+                  v-if="$store.state.groundTestList.currentGroundTest.ResponseMessage === null"
+                  class="content-alert">
+                  No Alive Data
+                </div>
+                <div
+                  v-else
+                  class="content-item">
+                  {{ $store.state.groundTestList.currentGroundTest.InteractiveScreenText[currentStepId] }}
                 </div>
               </div>
             </el-card>
@@ -52,15 +59,31 @@
               Select an option and press continue
             </div>
 
-            <el-radio-group v-model="selectedOption" class="vertical-radio-group">
-              <el-radio v-for="option in options" :key="option.id" :label="option.id" class="vertical-radio-item">{{ option.name }}</el-radio>
-            </el-radio-group>
-            <p>你选择的选项是: {{ selectedOption }}</p>
+            <div
+              v-if="$store.state.groundTestList.currentGroundTest.ResponseMessage === null"
+              class="content-alert">
+              No Alive Data
+            </div>
+
+            <div
+              v-else
+              class="radio"
+              v-for="option in $store.state.groundTestList.currentGroundTest.ResponseMessage[currentStepId].ResponseBlock"
+              :key="option.ResponseId">
+              <input
+                :name="'failure-rep-radio'"
+                type="radio"
+                :value="option.ResponseId"
+                v-model="selectedOption"
+              />
+              <label class="form-check-label">{{ option.ResponseText }}</label>
+            </div>
+
+
           </div>
 
         </el-col>
       </el-row>
-
     </el-main>
     <el-footer>
       <div>
@@ -76,20 +99,23 @@
 
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
+import { postTestOrder } from '@/services/centralMaintenance/groundTest/index.js';
+import qs from 'qs'
+
+import {testTypeEnum} from '@/globals/enums.js'
 
 export default {
 
   data() {
     return {
       selectedTestId: "",
-      selectedOption: 1,
-      options: [
-        { id: 1, name: '选项1' },
-        { id: 2, name: '选项2' },
-        { id: 3, name: '选项3' },
-        { id: 4, name: '选项4' },
-        { id: 5, name: '选项5' }
-      ]
+
+      testDict: testTypeEnum,
+      testDict: testTypeEnum,
+
+      currentStepId: 0,
+
+      selectedOption: 0,
     }
   },
   computed: {
@@ -97,18 +123,11 @@ export default {
   },
   methods: {
     /**
-     * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
-     * @param {string} row - rawData数据的ataNumber属性
-     */
-    handleRowClick(row) {
-
-      this.selectedTestId = row.T_ID;
-    },
-
-    /**
      * 本函数用于跳转页面
      */
      goTestListPage() {
+
+      clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
       this.$router.push({ name: "TestList", params: { } });
     },
 
@@ -117,12 +136,42 @@ export default {
      */
      continueTest() {
 
+      // 若交互测试还没有进行完
+      if(this.currentStepId < this.$store.state.groundTestList.currentGroundTest.ResponseMessage.length){
+        // 此处将相关信息发送给成员系统
+
+        console.log(  this.selectedOption)
+
+        let tmp = qs.stringify({
+          page: "InteractiveTest",
+          message: this.selectedOption
+        });
+
+        postTestOrder(tmp).then(response => {
+          console.log(response)
+          this.$message({ message: 'This item has been received', type: 'success'});
+        }).catch(error => {
+          console.error('Error in fetching parameter list:', error);
+        });
+
+        //刷新文本和选项
+        this.currentStepId = this.currentStepId + 1
+        //刷新radio的选中状态
+        this.selectedOption =  0
+
+        // if(this.currentStepId < this.$store.state.groundTestList.currentGroundTest.ResponseMessage.length){
+        //   this.$message('All interaction tests have been completed');
+        // }
+
+      }else{
+        this.$message('All interaction tests have been completed');
+      }
     },
 
     /**
      * 本函数用于向成员系统发送终止指令
      */
-     abortTest() {
+    abortTest() {
 
     },
 
@@ -130,6 +179,10 @@ export default {
   },
 
   mounted() {
+
+  },
+  beforeDestroy() {
+    clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
   }
 }
 

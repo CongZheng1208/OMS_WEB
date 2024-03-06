@@ -265,7 +265,7 @@
 }
 
 .custom-content {
-  padding-top: 5vh; /* 确保内容不被表头部分遮挡 */
+  padding-top: 8vh; /* 确保内容不被表头部分遮挡 */
   padding: 1vh; /* 为内容区域添加内边距 */
   text-align: left; /* 文字左对齐 */
 }
@@ -273,6 +273,13 @@
 .content-item {
   text-align: left; /* 文字左对齐 */
   margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
+}
+
+.content-alert {
+  text-align: center; /* 文字居中对齐 */
+  font-weight: bold; /* 加粗显示 */
+  margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
+  margin-top: 5vh; /* 为每个列表项添加下外边距 */
 }
 
 

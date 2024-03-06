@@ -11,11 +11,11 @@
           <div class="el-header-subtitle">
             <div class="el-header-subcontainer">
               <span class="el-header-dot" ></span>
-              ATA: {{ this.$route.params.selectedEquipment.ataNumber }} {{ this.$route.params.selectedEquipment.systemName }}
+              ATA: {{ this.$store.state.groundTestList.selectedEquipment.ataNumber }} {{ this.$store.state.groundTestList.selectedEquipment.systemName }}
             </div>
             <div class="el-header-subcontainer">
               <span class="el-header-dot" ></span>
-              Equipment Name: {{ $route.params.selectedEquipment.equipmentName }}
+              Equipment Name: {{ this.$store.state.groundTestList.selectedEquipment.equipmentName }}
             </div>
           </div>
         </el-col>
@@ -77,8 +77,12 @@
 
 <script>
 
+import { postIDforTest } from '@/services/centralMaintenance/groundTest/index.js';
+
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {testTypeEnum} from '@/globals/enums.js'
+
+import qs from 'qs'
 
 export default {
   data() {
@@ -137,17 +141,30 @@ export default {
      */
     goThreeTestsPage() {
 
+
+      this.$store.state.groundTestList.currentGroundTestID = this.selectedTestId
+
+      // 页面跳转之前先进行一次数据查询，防止页面切后数据还未刷新
+      this.$store.commit("groundTestList/testPhp");
+      this.$store.commit("groundTestList/addToTests");
+
+
       if(this.selectedTestId){
-        this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
+
+        // this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
+        this.$router.push({ name: "ThreeTests"});
       }else{
         this.isTestNotBeSelected = true
       }
+
+
     },
 
     /**
      * 本函数用于跳转页面
      */
     goSelectATAandEquipmentPage() {
+
       this.$router.push({ name: "NewTest" });
     },
 
@@ -155,7 +172,10 @@ export default {
   },
 
   mounted() {
-    this.testDetails = this.$route.params.selectedEquipment.testDetails
+
+    this.testDetails = this.$store.state.groundTestList.selectedEquipment.testDetails
+    // this.testDetails = this.$route.params.selectedEquipment.testDetails
+
   }
 }
 

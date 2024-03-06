@@ -57,7 +57,7 @@ export default {
     //监视menus的状态
     //当menus.FailureReport.isActive为true时，以100秒间隔调用getfailureReportPhp函数，更新数据
     menus: {
-      handler: function (newValue, oldValue) {
+      handler: function (newValue) {
         if (newValue[0].isActive == true) {
           this.FailureReportTimer = setInterval(
             this.getfailureReportPhp,

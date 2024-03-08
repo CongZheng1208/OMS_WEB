@@ -40,14 +40,14 @@
               <div class="custom-header">Interactive Test</div>
               <div class="custom-content">
                 <div
-                  v-if="$store.state.groundTestList.currentGroundTest.ResponseMessage === null"
+                  v-if="$store.state.groundTestList.currentGroundTest.NumScreens === '0'"
                   class="content-alert">
                   No Alive Data
                 </div>
                 <div
                   v-else
                   class="content-item">
-                  {{ $store.state.groundTestList.currentGroundTest.InteractiveScreenText[currentStepId] }}
+                  {{ $store.state.groundTestList.currentGroundTest.screenArray.find(item => item.ScreenId === currentStepId).InteractiveScreenText }}
                 </div>
               </div>
             </el-card>
@@ -60,15 +60,14 @@
             </div>
 
             <div
-              v-if="$store.state.groundTestList.currentGroundTest.ResponseMessage === null"
+              v-if="$store.state.groundTestList.currentGroundTest.NumScreens === '0'"
               class="content-alert">
               No Alive Data
             </div>
-
             <div
               v-else
               class="radio"
-              v-for="option in $store.state.groundTestList.currentGroundTest.ResponseMessage[currentStepId].ResponseBlock"
+              v-for="option in $store.state.groundTestList.currentGroundTest.screenArray.find(item => item.ScreenId === currentStepId).ResponseMessage.ResponseBlock"
               :key="option.ResponseId">
               <input
                 :name="'failure-rep-radio'"
@@ -78,8 +77,6 @@
               />
               <label class="form-check-label">{{ option.ResponseText }}</label>
             </div>
-
-
           </div>
 
         </el-col>
@@ -112,9 +109,7 @@ export default {
 
       testDict: testTypeEnum,
       testDict: testTypeEnum,
-
-      currentStepId: 0,
-
+      currentStepId: "",
       selectedOption: 0,
     }
   },
@@ -135,9 +130,10 @@ export default {
      * 本函数用于向成员系统发送继续指令
      */
      continueTest() {
+      //TD: 该函数后续应该写为：点击后，立刻提交post请求给成员系统，并持续刷新全局Screen_Trigger_Index属性，直到其数据发生变化且合理，再更新选项
 
       // 若交互测试还没有进行完
-      if(this.currentStepId < this.$store.state.groundTestList.currentGroundTest.ResponseMessage.length){
+      if(this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== null){
         // 此处将相关信息发送给成员系统
 
         console.log(  this.selectedOption)
@@ -155,13 +151,9 @@ export default {
         });
 
         //刷新文本和选项
-        this.currentStepId = this.currentStepId + 1
+        this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index
         //刷新radio的选中状态
         this.selectedOption =  0
-
-        // if(this.currentStepId < this.$store.state.groundTestList.currentGroundTest.ResponseMessage.length){
-        //   this.$message('All interaction tests have been completed');
-        // }
 
       }else{
         this.$message('All interaction tests have been completed');
@@ -177,7 +169,10 @@ export default {
 
     customSortMethodForProgressColumn,
   },
+  created(){
+    this.currentStepId = this.$store.state.groundTestList.currentGroundTest.screenArray[0].ScreenId
 
+  },
   mounted() {
 
   },

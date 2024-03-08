@@ -63,6 +63,20 @@
           <el-button type="primary" @click="isTestNotBeSelected = false"> OK </el-button>
         </span>
       </el-dialog>
+
+      <!-- <el-dialog
+        title="Error Message"
+        style="font-size: 15px; color: white;"
+        :visible.sync="isParameterSelected"
+        width="30%"
+      >
+        <span style="font-size: 15px; color: white;">Please select at least one parameter to show!</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="isParameterSelected = false">OK</el-button>
+        </span>
+      </el-dialog> -->
+
+
     </el-main>
     <el-footer>
       <div>
@@ -140,31 +154,24 @@ export default {
      * 本函数用于跳转页面
      */
     goThreeTestsPage() {
-
-
-      this.$store.state.groundTestList.currentGroundTestID = this.selectedTestId
-
-      // 页面跳转之前先进行一次数据查询，防止页面切后数据还未刷新
-      this.$store.commit("groundTestList/testPhp");
-      this.$store.commit("groundTestList/addToTests");
-
-
+      // 如果选择了要进行的测试
       if(this.selectedTestId){
+        this.$store.state.groundTestList.currentGroundTestID = this.selectedTestId
+        // 页面跳转之前先进行一次数据查询，防止页面切后数据还未刷新
+        this.$store.commit("groundTestList/testPhp");
 
-        // this.$router.push({ name: "ThreeTests", params: { selectedEquipment: this.selectedEquipment } });
         this.$router.push({ name: "ThreeTests"});
+
       }else{
+        // 否则弹框提示
         this.isTestNotBeSelected = true
       }
-
-
     },
 
     /**
      * 本函数用于跳转页面
      */
     goSelectATAandEquipmentPage() {
-
       this.$router.push({ name: "NewTest" });
     },
 
@@ -172,10 +179,8 @@ export default {
   },
 
   mounted() {
-
     this.testDetails = this.$store.state.groundTestList.selectedEquipment.testDetails
     // this.testDetails = this.$route.params.selectedEquipment.testDetails
-
   }
 }
 

@@ -1,29 +1,29 @@
 <template>
   <el-container>
    <el-header style="height: 12vh;">
-    <el-row style="width: 80%;">
+    <el-row style="width: 100%;">
       <el-col :span="8">
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-          ATA: {{  }}
+          ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-          Equipment Name: {{  }}
+          Equipment Name: {{ $store.state.groundTestList.currentGroundTest.EquipmentName }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-          Test Name: {{  }}
+          Test Name: {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
         </div>
       </el-col>
       <el-col :span="8">
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-           Expected Duration(mins): {{  }}
+           Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-          Test Type: {{  }}
+          Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
@@ -33,7 +33,7 @@
       <el-col :span="8">
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-           Start Time: {{  }}
+           Start Time: {{ new Date($store.state.groundTestList.currentGroundTest.StartTime).toLocaleTimeString() }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
@@ -49,9 +49,46 @@
         <el-card class="custom-card" shadow="hover" style="height: 60vh">
           <div class="custom-header">DETAILS</div>
           <div class="custom-content">
-            <div v-for="o in 50" :key="o" class="content-item">
-              {{'列表内容 ' + o }}
-            </div>
+            <el-row style="width: 100%;">
+              <el-col :span="8">
+                <span class="custom-subtitle">
+                  Pre-Condition
+                </span>
+                <div
+                  v-if="$store.state.groundTestList.currentGroundTest.Preconditions.length === 1 && $store.state.groundTestList.currentGroundTest.Preconditions[0] === ''"
+                  class="content-alert">
+                  No Alive Data
+                </div>
+                <div
+                  v-else
+                  v-for="precondition in $store.state.groundTestList.currentGroundTest.Preconditions"
+                  :key="precondition.id"
+                  class="content-item">
+                  {{ precondition }}
+                </div>
+              </el-col>
+
+              <el-col :span="8">
+                <span class="custom-subtitle">
+                  Inhibit Condition
+                </span>
+                <div
+                  v-if="$store.state.groundTestList.currentGroundTest.InhibitCondition_Text.length === 1 && $store.state.groundTestList.currentGroundTest.InhibitCondition_Text[0] === ''"
+                  class="content-alert">
+                  No Alive Data
+                </div>
+                <div
+                  v-else
+                  v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitCondition_Text"
+                  :key="inhibitCondition.id"
+                  class="content-item">
+                  {{ inhibitCondition }}
+                </div>
+              </el-col>
+
+              <el-col :span="8">
+              </el-col>
+            </el-row>
           </div>
         </el-card>
       </div>
@@ -69,24 +106,19 @@
 </template>
 
 <script>
+import {testTypeEnum} from '@/globals/enums.js'
+
 export default {
  data() {
    return {
      selectedTestId: "",
+     testDict: testTypeEnum,
    }
  },
  computed: {
 
  },
  methods: {
-   /**
-    * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
-    * @param {string} row - rawData数据的ataNumber属性
-    */
-   handleRowClick(row) {
-     this.selectedTestId = row.T_ID;
-   },
-
    /**
     * 本函数用于跳转页面
     */

@@ -265,14 +265,22 @@
 }
 
 .custom-content {
-  padding-top: 8vh; /* 确保内容不被表头部分遮挡 */
+  padding-top: 10vh; /* 确保内容不被表头部分遮挡 */
   padding: 1vh; /* 为内容区域添加内边距 */
   text-align: left; /* 文字左对齐 */
+  margin-top: 2vh
 }
 
 .content-item {
+  margin-top: 1vh;
   text-align: left; /* 文字左对齐 */
   margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
+}
+
+.custom-subtitle {
+  font-size: 18px;
+  font-weight: bold;
+  padding-bottom: 2vh;
 }
 
 .content-alert {

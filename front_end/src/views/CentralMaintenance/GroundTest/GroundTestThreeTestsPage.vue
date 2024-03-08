@@ -48,9 +48,9 @@
                 <div
                   v-else
                   v-for="precondition in $store.state.groundTestList.currentGroundTest.Preconditions"
-                  :key="precondition"
+                  :key="precondition.id"
                   class="content-item">
-                  {{ precondition }}
+                  <li>{{ precondition }}</li>
                 </div>
               </div>
             </el-card>
@@ -63,16 +63,16 @@
               <div class="custom-header">Inhibit Conditions</div>
               <div class="custom-content">
                 <div
-                  v-if="$store.state.groundTestList.currentGroundTest.InhibitCondition_Text.length === 1 && $store.state.groundTestList.currentGroundTest.InhibitCondition_Text[0] === ''"
+                  v-if="$store.state.groundTestList.currentGroundTest.InhibitConditions.length === 1 && $store.state.groundTestList.currentGroundTest.InhibitConditions[0] === ''"
                   class="content-alert">
                   No Alive Data
                 </div>
                 <div
                   v-else
-                  v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitCondition_Text"
-                  :key="inhibitCondition"
+                  v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitConditions"
+                  :key="inhibitCondition.id"
                   class="content-item">
-                  {{ inhibitCondition }}
+                  <li>{{ inhibitCondition }}</li>
                 </div>
               </div>
             </el-card>
@@ -83,8 +83,20 @@
             <el-card class="custom-card" shadow="hover">
               <div class="custom-header">Interfering Tests</div>
               <div class="custom-content">
-                <div v-for="o in 50" :key="o" class="content-item">
-                  {{'列表内容 ' + o }}
+                <div
+                  v-if="curInterferingTests.length === 0"
+                  class="content-alert">
+                  No Alive Data
+                </div>
+                <div
+                  v-else
+                  v-for="interferingTest in curInterferingTests"
+                  :key="interferingTest.id"
+                  class="content-item">
+
+                  <li>Name: {{ interferingTest.interferName }}</li>
+                  <span>ATA: {{ interferingTest.interferATA }}</span>
+                  <span>Index: {{ interferingTest.interferIndex }}</span>
                 </div>
               </div>
             </el-card>
@@ -98,7 +110,13 @@
       </div>
       <div>
         <el-button class="footer-btn" @click="goSelectTestPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goInteractiveTestPage()">CONTINUE</el-button>
+        <el-button class="footer-btn" @click="goInteractiveTestPage()"
+          :disabled = "!isInteractiveTestAlive">
+          CONTINUE
+        </el-button>
+        <!-- <el-button class="footer-btn" @click="goInteractiveTestPage()">
+          CONTINUE
+        </el-button> -->
       </div>
     </el-footer>
   </el-container>
@@ -114,50 +132,44 @@ export default {
   data() {
     return {
       selectedTestId: "",
-
       testDict: testTypeEnum,
-
-
+      interferingTests: [],
     }
   },
   computed: {
 
   },
   methods: {
-
-
     /**
      * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
      * @param {string} row - rawData数据的ataNumber属性
      */
     handleRowClick(row) {
-
       this.selectedTestId = row.T_ID;
-      // console.log(this.selectedTestId)
     },
-
 
     /**
      * 本函数用于跳转页面
      */
     goInteractiveTestPage() {
-      this.$router.push({ name: "InteractiveTest", params: { } });
+      if(this.isInteractiveTestAlive == true){
+        this.$router.push({ name: "InteractiveTest", params: { } });
+      }else{
+        this.$message({
+          message: 'There are still unfinished inhibit or interfering  testing projects',
+          type: 'warning'
+        });
+      }
     },
 
     /**
      * 本函数用于跳转页面
      */
-     goSelectTestPage() {
+    goSelectTestPage() {
 
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
       this.$router.push({ name: "SelectTest" });
-
-
-
-
     },
-
-
 
     /**
      * 本函数用于mounted和menus中：调用store中mutations的failurePhp函数，初始化、更新failure数据
@@ -167,17 +179,38 @@ export default {
       this.$store.commit("groundTestList/testPhp");
     }
   },
-
   mounted() {
-    // console.log(this.$store.state.groundTestList.currentGroundTest)
-
     this.$store.state.groundTestList.currentGroundTestTimer = setInterval(
       this.postGroundTestPhp,
       1000
     )
     this.$store.commit("groundTestList/addToTests");
+  },
+  created(){
+
+  },
+  computed:{
+
+    curInterferingTests(){
+      this.interferingTests = [];
+
+      for(var i = 0; i < this.$store.state.groundTestList.currentGroundTest.InterferingTests_Index.length; i++) {
+        // 如果当前正在进行中的测试中，包含该项干扰项，则进行显示
+        const foundTest = this.$store.state.groundTestList.currentGroundTests.find(test => test.InitiatedTest_Index === this.$store.state.groundTestList.currentGroundTest.InterferingTests_Index[i])
+        if( foundTest ){
+          this.interferingTests.push({
+            interferIndex: foundTest.InitiatedTest_Index,
+            interferATA: foundTest.ATA,
+            interferName: foundTest.InitiatedTestName,
+          })
+        }
+      }
+      return this.interferingTests
+    },
+    isInteractiveTestAlive(){
+      return this.$store.state.groundTestList.currentGroundTest.InhibitConditions.length === 1 && this.$store.state.groundTestList.currentGroundTest.InhibitConditions[0] === '' && this.curInterferingTests.length === 0
+    }
   }
-  // 其他组件逻辑
 }
 
 </script>

@@ -100,6 +100,28 @@ const CentralMaintenanceRoutes = {
           path: 'extendedFunctionsDefault',
           name: 'ExtendedFunctionsDefault',
           component: () => import('@/views/CentralMaintenance/ExtendedFunctions/ExtendedFunctionsDefaultPage.vue'),
+          children: [
+            {
+              path: 'engineBalance',
+              name: 'EngineBalance',
+              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/EngineBalance.vue')
+            },
+            {
+              path: 'flightLegAndPhase',
+              name: 'FlightLegAndPhase',
+              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/LegPhaseOperation.vue')
+            },
+            {
+              path: 'timeCycles',
+              name: 'TimeCycles',
+              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles.vue')
+            },
+            {
+              path: 'otherFunctions',
+              name: 'OtherFunctions',
+              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/OtherFunctions.vue')
+            }
+          ]
         }
       ]
     }

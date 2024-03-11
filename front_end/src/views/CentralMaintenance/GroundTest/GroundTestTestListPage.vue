@@ -13,7 +13,7 @@
         highlight-current-row
         height="70vh"
         @row-click="handleRowClick"
-        :data="currentGroundTests"
+        :data="currentGroundTestLists"
         :sort-method="customSortMethodForProgressColumn"
         :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
         :empty-text="'No Data Display'"
@@ -21,18 +21,21 @@
         <el-table-column :width="null" :min-width="5"></el-table-column>
         <el-table-column prop="ATA" label="ATA"  :width="null" :min-width="50"></el-table-column>
         <el-table-column prop="EquipmentName" label="Equipment Name" :width="null" :min-width="100"></el-table-column>
-        <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="200"></el-table-column>
-        <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="90" :formatter="formatStartTime"></el-table-column>
-        <el-table-column prop="InitiatedTest_Status" label="Status" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="100">
-          <!-- <template slot-scope="scope">
+        <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="180"></el-table-column>
+        <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="60" :formatter="formatStartTime"></el-table-column>
+        <el-table-column prop="InitiatedTest_Status" label="Status" sortable :width="null" :min-width="80"></el-table-column>
+        <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="80">
+          <template slot-scope="scope">
             <el-progress
               :percentage="scope.row.progress"
               :color="getProgressColor(scope.row.progress)"
               :format="percent => `${percent}%`"
+              :text-inside=true
+              :stroke-width=16
             >
             </el-progress>
-          </template> -->
+
+          </template>
         </el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
@@ -53,8 +56,8 @@
 </template>
 
 <script>
-  import {printPage, customSortMethodForProgressColumn} from '@/utils/utils.js'
-  import { postTestOrder } from '@/services/centralMaintenance/groundTest/index.js';
+  import {printPage, customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
+
   import qs from 'qs'
 
   export default {
@@ -62,8 +65,10 @@
       return {
         selectedRow: '',
         tableListTimer: '',
+        refreshInterval: '',
+        currentGroundTestLists: []
 
-        currentGroundTests: this.$store.state.groundTestList.currentGroundTests
+
       }
     },
     methods: {
@@ -94,6 +99,9 @@
         }
       },
 
+      /**
+       * 本函数用于计算StartTime属性的展示值
+       */
       formatStartTime(row) {
         if (row.StartTime) {
           return new Date(row.StartTime).toLocaleTimeString();
@@ -101,22 +109,11 @@
         return '-';
       },
 
-      formatProgress(row) {
-        if (row.StartTime) {
 
-          let timeDifference = new Date().getTime() - row.StartTime;
-          // let timeDifference = row.EndTime - row.StartTime;
-          // 计算进度值
-          let progress = timeDifference / (row.TestDurationTime*60000);
 
-          console.log(timeDifference)
-          console.log(row.TestDurationTime)
-
-          return Math.min(progress, 100);
-        }
-        return '-';
-      },
-
+      /**
+       * 本函数用于向成员系统发送中止选中的测试的命令
+       */
       sendAbort(){
         let tmp = qs.stringify({
           page: "TestList",
@@ -124,13 +121,13 @@
           message: "OrderSuccess"
         });
 
-        postTestOrder(tmp).then(response => {
-          console.log(response)
-        }).catch(error => {
-          console.error('Error in fetching parameter list:', error);
-        });
+        this.handleTestOrder(tmp)
       },
 
+
+      /**
+       * 本函数用于向成员系统发送全部中止的命令
+       */
       sendAbortAll(){
         let tmp = qs.stringify({
           page: "TestList",
@@ -138,25 +135,35 @@
           message: "OrderSuccess"
         });
 
-        postTestOrder(tmp).then(response => {
-          console.log(response)
-        }).catch(error => {
-          console.error('Error in fetching parameter list:', error);
-        });
+        this.handleTestOrder(tmp)
       },
 
+      /**
+       * 本函数用于更新测试的进度值
+       */
+      updateCurrentGroundTestLists() {
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentGroundTests.map(test => {
 
-      // updateProgress() {
-      //   console.log("is updating")
-      //   const currentGroundTest = this.$store.state.groundTestList.currentGroundTest;
-      //   if (currentGroundTest.StartTime) {
-      //     let timeDifference = new Date().getTime() - currentGroundTest.StartTime;
-      //     let progress = timeDifference / (currentGroundTest.TestDurationTime * 60000);
-
-      //     // 更新进度值
-      //     this.currentGroundTest.progress = Math.min(progress, 100);
-      //   }
-      // },
+          if(test.InitiatedTest_Status == "GROUND_TEST_COMPLETE" || test.InitiatedTest_Status == "GROUND_TEST_PASS"){
+            return {
+              ...test,
+              progress: parseFloat(100)
+            };
+          }else if(test.InitiatedTest_Status == "GROUND_TEST_NOT_STARTED" || test.InitiatedTest_Status == "GROUND_TEST_FAIL"|| test.InitiatedTest_Status == "GROUND_TEST_ERROR"|| test.InitiatedTest_Status == "GROUND_TEST_INHIBITED"){
+            return {
+              ...test,
+              progress: parseFloat(0)
+            };
+          }else{
+            const currentTime = new Date().getTime();
+            const startTime = new Date(test.StartTime).getTime();
+            return {
+              ...test,
+              progress: parseFloat(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99).toFixed(2))
+            };
+          }
+        });
+      },
 
       /**
        * 本函数用于跳转页面
@@ -181,22 +188,10 @@
         }
       },
       printPage,
+      handleTestOrder,
       customSortMethodForProgressColumn
     },
     created() {
-
-      // let tmp = qs.stringify({
-      //   page: "groundTestDefault",
-      //   message: "OrderSuccess"
-      // });
-
-      // postTestOrder(tmp).then(response => {
-      //   console.log("success post to socket")
-      //   console.log(response)
-
-      // }).catch(error => {
-      //   console.error('Error in fetching parameter list:', error);
-      // });
 
       this.$store.state.groundTestList.currentGroundTestTimer = setInterval(
         this.postGroundTestPhp,
@@ -204,13 +199,19 @@
       );
 
     },
+    computed: {
+
+    },
     beforeDestroy() {
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
+      clearInterval(this.refreshInterval);
     },
     mounted() {
-      // this.tableListTimer = setInterval(() => {
-      //   this.updateProgress()}, 1000
-      // )
+      this.updateCurrentGroundTestLists();
+
+      this.refreshInterval = setInterval(() => {
+        this.updateCurrentGroundTestLists();
+      }, 1000);
     }
 
   }

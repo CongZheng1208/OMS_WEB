@@ -1,3 +1,4 @@
+  import { postTestOrder } from '@/services/centralMaintenance/groundTest/index.js';
   /**
    * 本函数用于打印页面
    */
@@ -29,3 +30,39 @@
   export function changeRadio(value) {
     this.displaySelected = value
   }
+
+
+  /**
+   * 本函数用于想成员系统发送post请求
+   * @param {Object} tmp 代表qs.stringify处理后的Object格式的命令
+   */
+  export function handleTestOrder(tmp) {
+
+    postTestOrder(tmp).then(response => {
+      // 显示加载条
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.8)'
+      });
+
+      // 等待1秒
+      setTimeout(() => {
+        // 关闭加载条
+        loading.close();
+
+        // 根据返回信息弹出成功或者失败信息
+        if(response.status === 'success') {
+          this.$message({ message: 'Post request successful', type: 'success'});
+        } else {
+          this.$message({ message: 'Post request failed', type: 'error'});
+        }
+      }, 1000);
+    })
+    .catch(error => {
+      console.error('Error in fetching parameter list:', error);
+    });
+  }
+
+

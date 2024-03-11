@@ -1,5 +1,5 @@
 <template>
-   <el-container>
+   <el-container     v-loading.fullscreen.lock="fullscreenLoading">
     <el-header style="height: 12vh;">
       <el-row style="width: 80%;">
         <el-col :span="8">
@@ -107,6 +107,8 @@ export default {
     return {
       selectedTestId: "",
 
+      fullscreenLoading: false,
+
       testDict: testTypeEnum,
       testDict: testTypeEnum,
       currentStepId: "",
@@ -130,48 +132,82 @@ export default {
      * 本函数用于向成员系统发送继续指令
      */
      continueTest() {
-      //TD: 该函数后续应该写为：点击后，立刻提交post请求给成员系统，并持续刷新全局Screen_Trigger_Index属性，直到其数据发生变化且合理，再更新选项
+      // 提交post请求给成员系统
+      let tmp = qs.stringify({
+        page: "InteractiveTest",
+        message: this.selectedOption
+      });
 
-      // 若交互测试还没有进行完
-      if(this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== null){
-        // 此处将相关信息发送给成员系统
+      postTestOrder(tmp).then(response => {
+        console.log(response);
+        this.$message({ message: 'This item has been received', type: 'success'});
 
-        console.log(  this.selectedOption)
+        // 进入递归函数开始不断刷新
+        this.checkScreenTriggerIndex(0); // 初始次数为0
 
-        let tmp = qs.stringify({
-          page: "InteractiveTest",
-          message: this.selectedOption
-        });
+      }).catch(error => {
+        console.error('Error in fetching parameter list:', error);
+      });
+    },
 
-        postTestOrder(tmp).then(response => {
-          console.log(response)
-          this.$message({ message: 'This item has been received', type: 'success'});
-        }).catch(error => {
-          console.error('Error in fetching parameter list:', error);
-        });
+    /**
+     * 本函数是提交post请求后，用于递归查询下一步展示项目的index
+     * 最多查询时间为10s，超时后停止递归查询
+     */
+    checkScreenTriggerIndex(count) {
+      // 若交互测试还没有进行完，则继续定时刷新
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.8)'
+      });
 
-        //刷新文本和选项
-        this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index
-        //刷新radio的选中状态
-        this.selectedOption =  0
+      console.log(this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index);
 
+
+
+      if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== null ) {
+        // 当不为null时, 更新页面展示项目并停止刷新
+
+        loading.close();
+        // 刷新文本和选项
+        this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index;
+        this.selectedOption = 0;
+
+        return;
+      } else if(count >= 100) {
+        // 如果时间超过10秒，也停止刷新并退出
+        loading.close();
+        this.$message({ message: 'Exceeded maximum refresh time', type: 'warning'});
+        return;
       }else{
-        this.$message('All interaction tests have been completed');
+        // 每隔1秒进行一次刷新
+        setTimeout(() => {
+          this.checkScreenTriggerIndex(count + 1); // 递增次数
+        }, 1000);
       }
     },
+
 
     /**
      * 本函数用于向成员系统发送终止指令
      */
     abortTest() {
-
     },
 
     customSortMethodForProgressColumn,
   },
   created(){
-    this.currentStepId = this.$store.state.groundTestList.currentGroundTest.screenArray[0].ScreenId
+    console.log("Damnnnnnn")
+    console.log(this.$store.state.groundTestList.currentGroundTest.screenArray)
 
+    if(this.$store.state.groundTestList.currentGroundTest.screenArray.length == 0){
+      this.$message('No interactive test available for this project');
+      this.currentStepId = -1
+    }else{
+      this.currentStepId = this.$store.state.groundTestList.currentGroundTest.screenArray[0].ScreenId
+    }
   },
   mounted() {
 

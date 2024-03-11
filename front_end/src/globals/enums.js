@@ -68,7 +68,7 @@ export const ataNameEnum = {
   '52': 'Doors'
 }
 
-// 测试对应的名称
+// 测试对应的种类
 export const testTypeEnum = {
   '0': 'All Tests',
   '1': 'Operational Test',
@@ -78,4 +78,19 @@ export const testTypeEnum = {
   '5': 'Alignment and Rigging Test',
   '6': 'Interface Monitoring',
   '7': 'Hardware and Software Configuration Identification',
+}
+
+
+// 测试对应的状态
+export const testStatusEnum = {
+  '0': 'GROUND_TEST_PASS',
+  '1': 'GROUND_TEST_INPUT_REQUIRED',
+  '2': 'GROUND_TEST_IN_PROGRESS',
+  '3': 'GROUND_TEST_NOT_STARTED',
+  '4': 'GROUND_TEST_FAIL',
+  '5': 'GROUND_TEST_ERROR',
+  '6': 'GROUND_TEST_INHIBITED',
+  '7': 'GROUND_TEST_ABORTED',
+  '8': 'GROUND_TEST_COMPLETE',
+  '9': 'N/A',
 }

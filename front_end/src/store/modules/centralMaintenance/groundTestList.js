@@ -32,7 +32,7 @@ export default{
 
 
         if (!state.currentGroundTest.InitiatedTest_Status) {
-          state.currentGroundTest.InitiatedTest_Status = '--';
+          state.currentGroundTest.InitiatedTest_Status = 'N/A';
         }
 
         // 将Precondition部分由长字符串拆分为数组方便展示
@@ -98,7 +98,6 @@ export default{
           state.currentGroundTest.ResponseMessage = JSON.parse(state.currentGroundTest.ResponseMessage);
 
           // 分别提取三种数据并存入对象数组
-
           for (let i = 0; i < state.currentGroundTest.ScreenId.length; i++) {
             let obj = {
               ScreenId: state.currentGroundTest.ScreenId[i],
@@ -130,9 +129,11 @@ export default{
 
 
         state.currentGroundTests.push(state.currentGroundTest);
+        console.log("Yesssss")
       } else {
-        console.log("terrible")
+        console.error("Fucking terrible")
       }
+
       console.log(state.currentGroundTests)
     }
   },

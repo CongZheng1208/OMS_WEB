@@ -51,6 +51,7 @@
 .el-container {
   display: flex;
   flex-direction: column;
+  background-color: rgb(45, 45, 45);
 }
 
 .el-row {

@@ -110,13 +110,13 @@
       </div>
       <div>
         <el-button class="footer-btn" @click="goSelectTestPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goInteractiveTestPage()"
+        <!-- <el-button class="footer-btn" @click="goInteractiveTestPage()"
           :disabled = "!isInteractiveTestAlive">
           CONTINUE
-        </el-button>
-        <!-- <el-button class="footer-btn" @click="goInteractiveTestPage()">
-          CONTINUE
         </el-button> -->
+        <el-button class="footer-btn" @click="goInteractiveTestPage()">
+          CONTINUE
+        </el-button>
       </div>
     </el-footer>
   </el-container>
@@ -152,14 +152,14 @@ export default {
      * 本函数用于跳转页面
      */
     goInteractiveTestPage() {
-      if(this.isInteractiveTestAlive == true){
+      // if(this.isInteractiveTestAlive == true){
         this.$router.push({ name: "InteractiveTest", params: { } });
-      }else{
-        this.$message({
-          message: 'There are still unfinished inhibit or interfering  testing projects',
-          type: 'warning'
-        });
-      }
+      // }else{
+      //   this.$message({
+      //     message: 'There are still unfinished inhibit or interfering  testing projects',
+      //     type: 'warning'
+      //   });
+      // }
     },
 
     /**

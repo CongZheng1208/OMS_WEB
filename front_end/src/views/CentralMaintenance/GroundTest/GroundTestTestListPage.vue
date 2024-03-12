@@ -89,13 +89,15 @@
        */
       getProgressColor(progress) {
         if (progress < 20) {
-          return '#ff4500';
+          return '#FF6666';
         } else if (progress >= 20 && progress < 40) {
           return '#ffd700';
-        } else if (progress >= 40 && progress < 100) {
+        } else if (progress >= 40 && progress < 80) {
           return '#00ced1';
-        } else {
+        } else if (progress >= 80 && progress < 100){
           return '#51cef1';
+        } else {
+          return '#66CC99';
         }
       },
 

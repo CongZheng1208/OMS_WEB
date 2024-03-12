@@ -79,10 +79,6 @@ export default{
         }
 
 
-
-
-
-
         // 将inhibitCondition部分由长字符串拆分为数组方便展示
         let interactiveScreenText = state.currentGroundTest.InteractiveScreenText
         // 如果数组只有一个元素且该元素为空字符串，则代表原字符串中没有分号，需要特殊处理
@@ -120,12 +116,6 @@ export default{
       // 将该项测试添加进总进行中测试列表里
       if (!state.currentGroundTests.some(test => test.InitiatedTest_Index === state.currentGroundTest.InitiatedTest_Index)) {
         state.currentGroundTest.StartTime =  new Date().getTime();
-
-
-
-
-
-
 
 
         state.currentGroundTests.push(state.currentGroundTest);

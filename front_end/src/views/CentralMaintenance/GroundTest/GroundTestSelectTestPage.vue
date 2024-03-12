@@ -63,20 +63,6 @@
           <el-button type="primary" @click="isTestNotBeSelected = false"> OK </el-button>
         </span>
       </el-dialog>
-
-      <!-- <el-dialog
-        title="Error Message"
-        style="font-size: 15px; color: white;"
-        :visible.sync="isParameterSelected"
-        width="30%"
-      >
-        <span style="font-size: 15px; color: white;">Please select at least one parameter to show!</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="isParameterSelected = false">OK</el-button>
-        </span>
-      </el-dialog> -->
-
-
     </el-main>
     <el-footer>
       <div>
@@ -180,7 +166,6 @@ export default {
 
   mounted() {
     this.testDetails = this.$store.state.groundTestList.selectedEquipment.testDetails
-    // this.testDetails = this.$route.params.selectedEquipment.testDetails
   }
 }
 

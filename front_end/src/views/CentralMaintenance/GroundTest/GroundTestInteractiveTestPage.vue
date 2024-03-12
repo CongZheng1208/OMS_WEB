@@ -87,7 +87,11 @@
       </div>
       <div>
         <el-button class="footer-btn" @click="goTestListPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="continueTest()">CONTINUE</el-button>
+        <el-button class="footer-btn"
+          @click="continueTest()"
+          :disabled = "selectedOption==-1">
+          CONTINUE
+        </el-button>
         <el-button class="footer-btn" @click="abortTest()">ABORT TEST</el-button>
       </div>
     </el-footer>
@@ -95,8 +99,7 @@
 </template>
 
 <script>
-import {customSortMethodForProgressColumn} from '@/utils/utils.js'
-import { postTestOrder } from '@/services/centralMaintenance/groundTest/index.js';
+import {customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
 import qs from 'qs'
 
 import {testTypeEnum} from '@/globals/enums.js'
@@ -112,7 +115,7 @@ export default {
       testDict: testTypeEnum,
       testDict: testTypeEnum,
       currentStepId: "",
-      selectedOption: 0,
+      selectedOption: -1,
     }
   },
   computed: {
@@ -122,7 +125,7 @@ export default {
     /**
      * 本函数用于跳转页面
      */
-     goTestListPage() {
+    goTestListPage() {
 
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
       this.$router.push({ name: "TestList", params: { } });
@@ -131,23 +134,33 @@ export default {
     /**
      * 本函数用于向成员系统发送继续指令
      */
-     continueTest() {
-      // 提交post请求给成员系统
-      let tmp = qs.stringify({
-        page: "InteractiveTest",
-        message: this.selectedOption
-      });
+    continueTest() {
 
-      postTestOrder(tmp).then(response => {
-        console.log(response);
-        this.$message({ message: 'This item has been received', type: 'success'});
+      if(this.selectedOption !== -1){
+         // 提交post请求给成员系统
+        let tmp = qs.stringify({
+          page: "InteractiveTest",
+          message: this.selectedOption
+        });
+
+        this.handleTestOrder(tmp)
+
+        // postTestOrder(tmp).then(response => {
+        //   console.log(response);
+        //   // this.$message({ message: 'This item has been received', type: 'success'});
+
+        // }).catch(error => {
+        //   console.error('Error in fetching parameter list:', error);
+        // });
+
 
         // 进入递归函数开始不断刷新
         this.checkScreenTriggerIndex(0); // 初始次数为0
 
-      }).catch(error => {
-        console.error('Error in fetching parameter list:', error);
-      });
+      }else{
+        // 如果用户尚未选择任何选项，则弹出消息提示
+        this.$message({ message: 'No options have been selected yet', type: 'warning'});
+      }
     },
 
     /**
@@ -158,7 +171,7 @@ export default {
       // 若交互测试还没有进行完，则继续定时刷新
       const loading = this.$loading({
         lock: true,
-        text: 'Loading',
+        text: 'Instruction Uploading',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.8)'
       });
@@ -173,10 +186,10 @@ export default {
         loading.close();
         // 刷新文本和选项
         this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index;
-        this.selectedOption = 0;
+        this.selectedOption = -1;
 
         return;
-      } else if(count >= 100) {
+      } else if(count >= 10) {
         // 如果时间超过10秒，也停止刷新并退出
         loading.close();
         this.$message({ message: 'Exceeded maximum refresh time', type: 'warning'});
@@ -194,9 +207,16 @@ export default {
      * 本函数用于向成员系统发送终止指令
      */
     abortTest() {
+      let tmp = qs.stringify({
+        page: "InteractiveTest",
+        message: "Abort test"
+      });
+
+      this.handleTestOrder(tmp)
     },
 
     customSortMethodForProgressColumn,
+    handleTestOrder
   },
   created(){
     console.log("Damnnnnnn")

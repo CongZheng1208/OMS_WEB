@@ -28,6 +28,7 @@
   </div>
 </template>
 <script>
+import { customSortMethodForProgressColumn } from '@/utils/utils.js'
 export default {
   data() {
       return {
@@ -164,8 +165,11 @@ export default {
         ]
       };
     },
+    methods: {
+      customSortMethodForProgressColumn
+    }
 }
 </script>
 <style lang="">
-  
+
 </style>

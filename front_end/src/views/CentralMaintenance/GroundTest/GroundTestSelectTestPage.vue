@@ -77,12 +77,9 @@
 
 <script>
 
-import { postIDforTest } from '@/services/centralMaintenance/groundTest/index.js';
-
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {testTypeEnum} from '@/globals/enums.js'
 
-import qs from 'qs'
 
 export default {
   data() {

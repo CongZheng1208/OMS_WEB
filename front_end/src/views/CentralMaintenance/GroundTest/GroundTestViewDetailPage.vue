@@ -46,7 +46,11 @@
    <el-main style="padding:2vh">
      <el-row>
       <div>
-        <el-card class="custom-card" shadow="hover" style="height: 60vh">
+        <el-card class="custom-card" shadow="hover" style="height: 60vh"
+          v-loading="loading"
+          element-loading-text="Data Loading..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.5)">
           <div class="custom-header">DETAILS</div>
           <div class="custom-content">
             <el-row style="width: 100%;">
@@ -64,7 +68,7 @@
                   v-for="precondition in $store.state.groundTestList.currentGroundTest.Preconditions"
                   :key="precondition.id"
                   class="content-item">
-                  {{ precondition }}
+                  <li>{{ precondition }}</li>
                 </div>
               </el-col>
 
@@ -82,7 +86,7 @@
                   v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitCondition_Text"
                   :key="inhibitCondition.id"
                   class="content-item">
-                  {{ inhibitCondition }}
+                  <li>{{ inhibitCondition }}</li>
                 </div>
               </el-col>
 
@@ -109,26 +113,29 @@
 import {testTypeEnum} from '@/globals/enums.js'
 
 export default {
- data() {
-   return {
-     selectedTestId: "",
-     testDict: testTypeEnum,
-   }
- },
- computed: {
+  data() {
+    return {
+      selectedTestId: "",
+      testDict: testTypeEnum,
+      loading: true
+    }
+  },
+  computed: {
 
- },
- methods: {
-   /**
-    * 本函数用于跳转页面
-    */
+  },
+  methods: {
+    /**
+      * 本函数用于跳转页面
+      */
     goTestListPage() {
-     this.$router.push({ name: "TestList", params: { } });
-   },
- },
-
- mounted() {
- }
+      this.$router.push({ name: "TestList", params: { } });
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
+  }
 }
 
 </script>

@@ -21,13 +21,17 @@
             <span class="el-header-dot" ></span>
             Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
           </div>
-
         </el-col>
         <el-col :span="8">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
             Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
           </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Test Index: {{ initiatedTestIndex }}
+          </div>
+
         </el-col>
       </el-row>
     </el-header>
@@ -59,7 +63,11 @@
 
         <el-col :span="8">
           <div>
-            <el-card class="custom-card" shadow="hover">
+            <el-card class="custom-card" shadow="hover"
+              v-loading="loading"
+              element-loading-text="Data Loading..."
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.5)">
               <div class="custom-header">Inhibit Conditions</div>
               <div class="custom-content">
                 <div
@@ -80,7 +88,11 @@
         </el-col>
         <el-col :span="8">
           <div>
-            <el-card class="custom-card" shadow="hover">
+            <el-card class="custom-card" shadow="hover"
+              v-loading="loading"
+              element-loading-text="Data Loading..."
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.5)">
               <div class="custom-header">Interfering Tests</div>
               <div class="custom-content">
                 <div
@@ -134,6 +146,7 @@ export default {
       selectedTestId: "",
       testDict: testTypeEnum,
       interferingTests: [],
+      loading: true
     }
   },
   computed: {
@@ -184,9 +197,17 @@ export default {
       this.postGroundTestPhp,
       1000
     )
-    this.$store.commit("groundTestList/addToTests");
+
+    console.log("data here", this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index)
+    this.$store.commit("groundTestList/addToTests", { groundTestToBeAdded: this.$store.state.groundTestList.currentGroundTest});
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
   },
   created(){
+
+
 
   },
   computed:{
@@ -209,7 +230,13 @@ export default {
     },
     isInteractiveTestAlive(){
       return this.$store.state.groundTestList.currentGroundTest.InhibitConditions.length === 1 && this.$store.state.groundTestList.currentGroundTest.InhibitConditions[0] === '' && this.curInterferingTests.length === 0
+    },
+
+
+    initiatedTestIndex() {
+      return this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index;
     }
+
   }
 }
 

@@ -20,6 +20,7 @@ export default{
      * 本函数用于调用service服务中的postIDforTest，根据选择的testID来获取对应的测试相关所有最新的信息
      */
     testPhp(state) {
+      console.log("php is updating")
 
       let tmp = qs.stringify({
         id: state.currentGroundTestID
@@ -66,6 +67,7 @@ export default{
             }
           });
 
+          state.currentGroundTest.InhibitCondition_Text = state.currentGroundTest.InhibitCondition_Text.split(';');
           state.currentGroundTest.InhibitConditions = resultArray
         }
 
@@ -77,6 +79,7 @@ export default{
         if (state.currentGroundTest.InterferingTests_Index.length === 1 && state.currentGroundTest.InterferingTests_Index[0] === '') {
           state.currentGroundTest.InterferingTests_Index = [interferingTest];
         }
+
 
 
         // 将inhibitCondition部分由长字符串拆分为数组方便展示
@@ -112,13 +115,28 @@ export default{
     },
 
 
-    addToTests(state) {
+    addToTests(state, payload) {
       // 将该项测试添加进总进行中测试列表里
-      if (!state.currentGroundTests.some(test => test.InitiatedTest_Index === state.currentGroundTest.InitiatedTest_Index)) {
-        state.currentGroundTest.StartTime =  new Date().getTime();
+      // console.log("all tests here:")
+      // state.currentGroundTests.map(item => {
+      //     console.log(item.InitiatedTest_Index);
+      // });
+
+      // console.log("current test here", state.currentGroundTest.InitiatedTest_Index)
+
+      // console.log(!state.currentGroundTests.some(test => test.InitiatedTest_Index === state.currentGroundTest.InitiatedTest_Index))
+
+      console.log("new test here")
+      console.log(payload.groundTestToBeAdded.InitiatedTest_Index);
+
+      // state.currentGroundTest = payload.groundTestToBeAdded
 
 
-        state.currentGroundTests.push(state.currentGroundTest);
+      if (!state.currentGroundTests.some(test => test.InitiatedTest_Index === payload.groundTestToBeAdded.InitiatedTest_Index)) {
+        payload.groundTestToBeAdded.StartTime =  new Date().getTime();
+
+
+        state.currentGroundTests.push(payload.groundTestToBeAdded);
         console.log("Yesssss")
       } else {
         console.error("Fucking terrible")

@@ -17,6 +17,10 @@
         :sort-method="customSortMethodForProgressColumn"
         :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
         :empty-text="'No Data Display'"
+        v-loading="loading"
+        element-loading-text="Data Loading..."
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.5)"
       >
         <el-table-column :width="null" :min-width="5"></el-table-column>
         <el-table-column prop="ATA" label="ATA"  :width="null" :min-width="50"></el-table-column>
@@ -66,7 +70,8 @@
         selectedRow: '',
         tableListTimer: '',
         refreshInterval: '',
-        currentGroundTestLists: []
+        currentGroundTestLists: [],
+        loading: true
 
 
       }
@@ -118,9 +123,14 @@
        */
       sendAbort(){
         let tmp = qs.stringify({
-          page: "TestList",
-          testID: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
-          message: "OrderSuccess"
+          OrderType: "ABORT",
+
+          currentPage: "TestList",
+          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
+          MemberSystemID: "NULL",
+
+          currentScreenId: "",
+          selectedOption: "",
         });
 
         this.handleTestOrder(tmp)
@@ -132,9 +142,14 @@
        */
       sendAbortAll(){
         let tmp = qs.stringify({
-          page: "TestList",
-          // testID: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
-          message: "OrderSuccess"
+          OrderType: "ABORTALL",
+
+          currentPage: "TestList",
+          InitiatedTest_Index: "",
+          MemberSystemID: "",
+
+          currentScreenId: "",
+          selectedOption: "",
         });
 
         this.handleTestOrder(tmp)
@@ -178,7 +193,6 @@
        * 本函数用于跳转页面
        */
       goViewDetailPage() {
-        console.log(this.selectedRow)
 
         if(this.selectedRow !== ''){
           this.$router.push({ name: "ViewDetail" });
@@ -214,6 +228,10 @@
       this.refreshInterval = setInterval(() => {
         this.updateCurrentGroundTestLists();
       }, 1000);
+
+      setTimeout(() => {
+        this.loading = false;
+      }, 100);
     }
 
   }

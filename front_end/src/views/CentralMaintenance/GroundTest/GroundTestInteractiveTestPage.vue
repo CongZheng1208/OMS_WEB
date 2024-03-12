@@ -139,20 +139,17 @@ export default {
       if(this.selectedOption !== -1){
          // 提交post请求给成员系统
         let tmp = qs.stringify({
-          page: "InteractiveTest",
-          message: this.selectedOption
+          OrderType: "CONTINUE",
+
+          currentPage: "InteractiveTest",
+          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
+          MemberSystemID: "NULL",
+
+          currentScreenId: this.currentStepId,
+          selectedOption: this.selectedOption,
         });
 
         this.handleTestOrder(tmp)
-
-        // postTestOrder(tmp).then(response => {
-        //   console.log(response);
-        //   // this.$message({ message: 'This item has been received', type: 'success'});
-
-        // }).catch(error => {
-        //   console.error('Error in fetching parameter list:', error);
-        // });
-
 
         // 进入递归函数开始不断刷新
         this.checkScreenTriggerIndex(0); // 初始次数为0
@@ -171,7 +168,7 @@ export default {
       // 若交互测试还没有进行完，则继续定时刷新
       const loading = this.$loading({
         lock: true,
-        text: 'Instruction Uploading',
+        text: 'Waiting for the next screenID...',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.8)'
       });
@@ -193,7 +190,9 @@ export default {
         // 如果时间超过10秒，也停止刷新并退出
         loading.close();
         this.$message({ message: 'Exceeded maximum refresh time', type: 'warning'});
+        this.$router.push({ name: "TestList", params: { } });
         return;
+
       }else{
         // 每隔1秒进行一次刷新
         setTimeout(() => {
@@ -208,8 +207,14 @@ export default {
      */
     abortTest() {
       let tmp = qs.stringify({
-        page: "InteractiveTest",
-        message: "Abort test"
+        OrderType: "ABORT",
+
+        currentPage: "InteractiveTest",
+        InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
+        MemberSystemID: "NULL",
+
+        currentScreenId: "",
+        selectedOption: "",
       });
 
       this.handleTestOrder(tmp)

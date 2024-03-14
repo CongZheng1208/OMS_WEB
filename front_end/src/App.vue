@@ -9,7 +9,6 @@
 import Menus from '@/components/Menus'
 import { getConnect } from '@/services/centralMaintenance/groundTest/index.js';
 
-
 export default {
   name: "App",
   components: {Menus},
@@ -42,7 +41,6 @@ export default {
   created() {
     this.$store.commit("failureList/fdePhp");
     this.$store.commit("failureList/failurePhp");
-
 
     getConnect().then(response => {
       console.log("success post to socket")

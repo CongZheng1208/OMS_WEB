@@ -1,7 +1,7 @@
 <template>
    <el-container>
     <el-header style="height: 12vh;">
-      <el-row style="width: 80%;">
+      <el-row style="width: 100%;">
         <el-col :span="8">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
@@ -11,8 +11,13 @@
             <span class="el-header-dot" ></span>
             Equipment Name: {{ $store.state.groundTestList.currentGroundTest.EquipmentName }}
           </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
+          </div>
+
         </el-col>
-        <el-col :span="8">
+        <el-col :span="13">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
             Test Name: {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
@@ -22,15 +27,8 @@
             Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
           </div>
         </el-col>
-        <el-col :span="8">
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot" ></span>
-            Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
-          </div>
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot" ></span>
-            Test Index: {{ initiatedTestIndex }}
-          </div>
+        <el-col :span="3">
+          <Clock />
 
         </el-col>
       </el-row>
@@ -137,6 +135,7 @@
 <script>
 
 import {testTypeEnum} from '@/globals/enums.js'
+import Clock from '@/components/Clock'
 
 
 export default {
@@ -148,6 +147,9 @@ export default {
       interferingTests: [],
       loading: true
     }
+  },
+  components: {
+    Clock
   },
   computed: {
 
@@ -181,7 +183,7 @@ export default {
     goSelectTestPage() {
 
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
-      this.$router.push({ name: "SelectTest" });
+      this.$router.push({ name: "SelectTestNew" });
     },
 
     /**
@@ -198,8 +200,12 @@ export default {
       1000
     )
 
+    // console.log("data here", this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index)
+    // this.$store.commit("groundTestList/addToTests", { groundTestToBeAdded: this.$store.state.groundTestList.currentGroundTest});
+
+
     console.log("data here", this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index)
-    this.$store.commit("groundTestList/addToTests", { groundTestToBeAdded: this.$store.state.groundTestList.currentGroundTest});
+    this.$store.dispatch('groundTestList/addCurrentTests', { groundTestToBeAdded: this.$store.state.groundTestList.currentGroundTest});
 
     setTimeout(() => {
       this.loading = false;

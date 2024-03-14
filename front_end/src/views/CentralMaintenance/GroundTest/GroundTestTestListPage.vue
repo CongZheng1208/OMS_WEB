@@ -1,11 +1,18 @@
 <template>
   <el-container>
-    <el-header>
-      <div>
-        <div class="el-header-title">
-          Test Status: {{ selectedRow.InitiatedTest_Status }}
-        </div>
-      </div>
+    <el-header style="height: 10vh;">
+      <el-row style="width: 100%;">
+        <el-col :span="21">
+          <div class="el-header-title">
+            Test Status: {{ selectedRow.InitiatedTest_Status }}
+          </div>
+        </el-col>
+
+        <el-col :span="3">
+          <Clock />
+        </el-col>
+      </el-row>
+
 
     </el-header>
     <el-main>
@@ -23,11 +30,11 @@
         element-loading-background="rgba(0, 0, 0, 0.5)"
       >
         <el-table-column :width="null" :min-width="5"></el-table-column>
-        <el-table-column prop="ATA" label="ATA"  :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="EquipmentName" label="Equipment Name" :width="null" :min-width="100"></el-table-column>
+        <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
+        <el-table-column prop="EquipmentName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
         <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="180"></el-table-column>
         <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="60" :formatter="formatStartTime"></el-table-column>
-        <el-table-column prop="InitiatedTest_Status" label="Status" sortable :width="null" :min-width="80"></el-table-column>
+        <el-table-column prop="InitiatedTest_Status" label="Status" :width="null" :min-width="80"></el-table-column>
         <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="80">
           <template slot-scope="scope">
             <el-progress
@@ -35,14 +42,20 @@
               :color="getProgressColor(scope.row.progress)"
               :format="percent => `${percent}%`"
               :text-inside=true
-              :stroke-width=16
+              :stroke-width=14
+              text-color = #ffffff
+              define-back-color = #505050
+              stroke-linecap=square
             >
             </el-progress>
-
           </template>
         </el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
+
+      <div class="table-inner-number">
+        Total Number: {{  }}
+      </div>
     </el-main>
     <el-footer>
       <div>
@@ -52,7 +65,7 @@
         <el-button class="footer-btn" @click="goViewDetailPage">VIEW DETAIL</el-button>
         <el-button class="footer-btn" :disabled="true">RESPOND</el-button>
         <el-button class="footer-btn" @click="goNewTestPage">NEW TEST</el-button>
-        <el-button class="footer-btn" @click="sendAbort" :disabled="true">ABORT TEST</el-button>
+        <el-button class="footer-btn" @click="sendAbort" :disabled="selectedRow==''">ABORT TEST</el-button>
         <el-button class="footer-btn" @click="sendAbortAll">ABORT ALL</el-button>
       </div>
     </el-footer>
@@ -61,7 +74,7 @@
 
 <script>
   import {printPage, customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
-
+  import Clock from '@/components/Clock'
   import qs from 'qs'
 
   export default {
@@ -71,10 +84,15 @@
         tableListTimer: '',
         refreshInterval: '',
         currentGroundTestLists: [],
-        loading: true
+        loading: true,
 
-
+        acReg: "C-WXWB",
+        currentTime: '',
+        currentDate: "",
       }
+    },
+    components: {
+      Clock
     },
     methods: {
 
@@ -111,7 +129,7 @@
        */
       formatStartTime(row) {
         if (row.StartTime) {
-          return new Date(row.StartTime).toLocaleTimeString();
+          return new Date(row.StartTime).toLocaleString();
         }
         return '-';
       },
@@ -186,7 +204,8 @@
        * 本函数用于跳转页面
        */
       goNewTestPage() {
-        this.$router.push({ name: "NewTest" });
+        // this.$router.push({ name: "NewTest" });
+        this.$router.push({ name: "SelectTestNew" });
       },
 
       /**
@@ -209,11 +228,6 @@
     },
     created() {
 
-      this.$store.state.groundTestList.currentGroundTestTimer = setInterval(
-        this.postGroundTestPhp,
-        1000
-      );
-
     },
     computed: {
 
@@ -233,7 +247,6 @@
         this.loading = false;
       }, 100);
     }
-
   }
 
 </script>

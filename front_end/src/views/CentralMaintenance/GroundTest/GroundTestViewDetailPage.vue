@@ -2,7 +2,7 @@
   <el-container>
    <el-header style="height: 12vh;">
     <el-row style="width: 100%;">
-      <el-col :span="8">
+      <el-col :span="7">
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
           ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
@@ -16,7 +16,7 @@
           Test Name: {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="7">
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
            Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
@@ -27,18 +27,21 @@
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-           Test Status: {{  }}
+           Test Status: {{ $store.state.groundTestList.currentGroundTest.InitiatedTest_Status }}
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="7">
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-           Start Time: {{ new Date($store.state.groundTestList.currentGroundTest.StartTime).toLocaleTimeString() }}
+           Start Time: {{  new Date( $store.state.groundTestList.currentGroundTest.StartTime ).toLocaleString()   }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
           End Time: {{  }}
         </div>
+      </el-col>
+      <el-col :span="3">
+        <Clock />
       </el-col>
     </el-row>
    </el-header>
@@ -111,6 +114,7 @@
 
 <script>
 import {testTypeEnum} from '@/globals/enums.js'
+import Clock from '@/components/Clock'
 
 export default {
   data() {
@@ -119,6 +123,9 @@ export default {
       testDict: testTypeEnum,
       loading: true
     }
+  },
+  components: {
+    Clock
   },
   computed: {
 

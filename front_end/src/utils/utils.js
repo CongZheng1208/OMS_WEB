@@ -33,6 +33,16 @@
 
 
   /**
+   * 本函数用于更新实时时间
+   */
+  export function updateCurrentTime() {
+    const now = new Date();
+    this.currentTime = now.toLocaleTimeString();
+    this.currentDate = now.toLocaleDateString();
+  }
+
+
+  /**
    * 本函数用于想成员系统发送post请求
    * @param {Object} tmp 代表qs.stringify处理后的Object格式的命令
    */

@@ -43,6 +43,11 @@ const CentralMaintenanceRoutes = {
           component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestTestListPage.vue')
         },
         {
+          path: 'selectTestNew',
+          name: 'SelectTestNew',
+          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestSelectTestNewPage.vue')
+        },
+        {
           path: 'newTest',
           name: 'NewTest',
           component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestNewTestPage.vue')

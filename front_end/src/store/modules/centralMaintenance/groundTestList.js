@@ -9,10 +9,13 @@ export default{
     selectedEquipment: {},
 
     currentGroundTest: {},
+    currentGroundTests: [],
     currentGroundTestID: '',
     currentGroundTestTimer: '',
 
-    currentGroundTests: [],
+    acReg: "C-WXWB",
+    currentTime: new Date().toLocaleTimeString(),
+    currentDate: new Date().toLocaleDateString(),
   },
   mutations: {
 
@@ -20,7 +23,6 @@ export default{
      * 本函数用于调用service服务中的postIDforTest，根据选择的testID来获取对应的测试相关所有最新的信息
      */
     testPhp(state) {
-      console.log("php is updating")
 
       let tmp = qs.stringify({
         id: state.currentGroundTestID
@@ -30,7 +32,6 @@ export default{
 
         state.currentGroundTest = response;
         state.currentGroundTest.EquipmentName =  state.selectedEquipment.equipmentName
-
 
         if (!state.currentGroundTest.InitiatedTest_Status) {
           state.currentGroundTest.InitiatedTest_Status = 'N/A';
@@ -114,37 +115,30 @@ export default{
       });
     },
 
-
+    /**
+     * 本函数用于将选中的某项测试添加进总测试列表里
+     */
     addToTests(state, payload) {
-      // 将该项测试添加进总进行中测试列表里
-      // console.log("all tests here:")
-      // state.currentGroundTests.map(item => {
-      //     console.log(item.InitiatedTest_Index);
-      // });
-
-      // console.log("current test here", state.currentGroundTest.InitiatedTest_Index)
-
-      // console.log(!state.currentGroundTests.some(test => test.InitiatedTest_Index === state.currentGroundTest.InitiatedTest_Index))
-
-      console.log("new test here")
-      console.log(payload.groundTestToBeAdded.InitiatedTest_Index);
-
-      // state.currentGroundTest = payload.groundTestToBeAdded
-
 
       if (!state.currentGroundTests.some(test => test.InitiatedTest_Index === payload.groundTestToBeAdded.InitiatedTest_Index)) {
         payload.groundTestToBeAdded.StartTime =  new Date().getTime();
-
-
         state.currentGroundTests.push(payload.groundTestToBeAdded);
         console.log("Yesssss")
       } else {
         console.error("Fucking terrible")
       }
-
       console.log(state.currentGroundTests)
+    },
+
+    updateCurrentTime(state, time) {
+      state.currentTime = time.toLocaleTimeString();
+      state.currentDate = time.toLocaleDateString();
     }
   },
+
   actions: {
+    addCurrentTests({ commit }, payload) {
+      commit('addToTests', payload);
+    },
   }
 }

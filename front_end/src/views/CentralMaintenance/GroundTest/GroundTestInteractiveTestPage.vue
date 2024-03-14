@@ -1,7 +1,7 @@
 <template>
-   <el-container     v-loading.fullscreen.lock="fullscreenLoading">
+   <el-container v-loading.fullscreen.lock="fullscreenLoading">
     <el-header style="height: 12vh;">
-      <el-row style="width: 80%;">
+      <el-row style="width: 100%;">
         <el-col :span="8">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
@@ -9,10 +9,15 @@
           </div>
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Equipment Name: {{ $store.state.groundTestList.selectedEquipment.equipmentName }}
+            Equipment Name: {{ $store.state.groundTestList.currentGroundTest.EquipmentName }}
           </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot" ></span>
+            Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
+          </div>
+
         </el-col>
-        <el-col :span="8">
+        <el-col :span="13">
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
             Test Name: {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
@@ -21,19 +26,15 @@
             <span class="el-header-dot" ></span>
             Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
           </div>
-
         </el-col>
-        <el-col :span="8">
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot" ></span>
-            Expected Duration(mins): {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
-          </div>
+        <el-col :span="3">
+          <Clock />
         </el-col>
       </el-row>
     </el-header>
 
     <el-main style="padding:2vh">
-      <el-row>
+      <el-row :gutter="20">
         <el-col :span="14">
           <div>
             <el-card class="custom-card" shadow="hover">
@@ -54,7 +55,7 @@
           </div>
         </el-col>
         <el-col :span="10">
-          <div>
+          <div style="padding">
             <div class="el-main-subtitle">
               Select an option and press continue
             </div>
@@ -86,13 +87,14 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goTestListPage()">BACK</el-button>
+        <el-button class="footer-btn" @click="goTestListPage()">RETURN</el-button>
+        <el-button class="footer-btn" @click="goThreeTestsPage()">BACK</el-button>
         <el-button class="footer-btn"
           @click="continueTest()"
           :disabled = "selectedOption==-1">
           CONTINUE
         </el-button>
-        <el-button class="footer-btn" @click="abortTest()">ABORT TEST</el-button>
+        <!-- <el-button class="footer-btn" @click="abortTest()">ABORT TEST</el-button> -->
       </div>
     </el-footer>
   </el-container>
@@ -100,6 +102,7 @@
 
 <script>
 import {customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
+import Clock from '@/components/Clock'
 import qs from 'qs'
 
 import {testTypeEnum} from '@/globals/enums.js'
@@ -118,6 +121,9 @@ export default {
       selectedOption: -1,
     }
   },
+  components: {
+    Clock
+  },
   computed: {
 
   },
@@ -129,6 +135,13 @@ export default {
 
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
       this.$router.push({ name: "TestList", params: { } });
+    },
+
+    /**
+     * 本函数用于跳转页面
+     */
+    goThreeTestsPage() {
+      this.$router.push({ name: "ThreeTests"});
     },
 
     /**

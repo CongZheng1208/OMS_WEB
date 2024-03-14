@@ -188,7 +188,13 @@
 
 .el-table {
   width: 100%;
-  background-color: rgb(46, 45, 45)
+  background-color: rgb(46, 45, 45);
+
+  border-top: none;
+  border-bottom: none;
+
+  border: 1px solid rgb(111, 111, 111);
+  /* border-collapse: separate; */
 }
 
 .el-table td {
@@ -293,7 +299,6 @@
 
 
 .custom-footer {
-
   position: absolute;
   bottom: 2vh;
   left: 5vh;
@@ -352,6 +357,8 @@
   bottom: 0;
   width: 100%;
 
+  z-index: 100;
+
   background-color: rgb(46, 45, 45);
   box-shadow: 0px 0px 30px 0px #17bef1;
 }
@@ -367,18 +374,25 @@
   border: 1px solid rgb(111, 111, 111);
 
   box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
-  background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-  transition: box-shadow 0.3s ease;
+  /* background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127)); */
+  background-color: rgb(65, 65, 65);
+
+  transition: box-shadow 0.3s ease background-color 0.3s ease;
 }
 
 .footer-btn:hover {
-  box-shadow: 5px 5px 30px 0px #17bef1;
+  box-shadow: 5px 5px 20px 0px #17bef1;
   border: 1px solid rgb(111, 111, 111);
-  color: #17bef1
+
+  background-color: rgb(88, 88, 88);
+  color: #ffffff
 }
 
 .footer-btn:active {
-  box-shadow: 5px 5px 30px 0px #17bef1;
+  box-shadow: 5px 5px 20px 0px #17bef1;
+  border: 1px solid rgb(111, 111, 111);
+
+  background-color: rgb(88, 88, 88);
   color: #17bef1
 }
 

@@ -126,14 +126,6 @@ export default {
     },
 
     /**
-     * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
-     * @param {string} row - menus数据的name属性
-     */
-    getSelectedData(ataNum) {
-      return this.rawData.find(item => item.ataNumber === ataNum);
-    },
-
-    /**
      * 本函数用于跳转页面
      */
     goThreeTestsPage() {

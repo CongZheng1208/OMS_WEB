@@ -1,5 +1,6 @@
 <template>
-  <div v-if="!isPdfPageSelected">
+  <!-- <div v-if="!isPdfPageSelected"> -->
+  <div>
     <el-table
       highlight-current-row
       style="width: 100%; background-color: rgb(46, 45, 45)"
@@ -17,6 +18,7 @@
       :empty-text="'No Data Display'"
       @current-change="tableRowClicked"
     >
+      <!-- <el-button>test</el-button> -->
       <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
         prop="FDECode"
@@ -59,18 +61,29 @@
         :width="null"
         :min-width="35"
       >
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <span
-            @click="findURL(scope.row.FIMCode_info[0])"
+            @click=" isPdfPageSelected = true"
             :style="{ padding: '1vh', height: '4vh', width: '4vh', color: 'white'}"
             style="transition: color 0.3s;"
             @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
-            @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';"
-            v-on:click="findURL(scope.row.FIMCode_info[0])"
+            @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';""
+          >
+            {{ scope.row.FIMCode_info[0] }}
+          </span>
+        </template> -->
+        <template slot-scope="scope">
+          <span
+            @click="openNewPage"
+            :style="{ padding: '1vh', height: '4vh', width: '4vh', color: 'white'}"
+            style="transition: color 0.3s;"
+            @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
+            @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';""
           >
             {{ scope.row.FIMCode_info[0] }}
           </span>
         </template>
+
       </el-table-column>
       <el-table-column
         prop="failure_name_info"
@@ -94,45 +107,38 @@
       ></el-table-column>
     </el-table>
   </div>
-  <div v-else>
-    <div>
-      <pdf ref="pdf"
-      :src="url"
-      :page="pageNum"
-      :rotate="pageRotate"
-      @progress="loadedRatio = $event"
-      @page-loaded="pageLoaded($event)"
-      @num-pages="pageTotalNum=$event"
-      @error="pdfError($event)"
-      @link-clicked="page = $event">
-      </pdf>
+
+
+  <!-- <div v-else class="html_page">
+    <div class="html_btn">
+      <el-button
+        icon="el-icon-close"
+        circle
+        size="mini"
+        v-on:click='isPdfPageSelected=false'>
+      </el-button>
     </div>
 
-    <div class="right-group">
-      <button class="page-btn" v-on:click='turnToGround()'>&gt;</button>
-      <button class="page-btn" v-on:click='isPdfPageSelected=false'>&times;</button>
-    </div>
 
-    <div class="mid-btn-group">
-      <button class="page-btn" @click.stop="prePage">&lt;</button>
-      &nbsp;<span style="color:gray">{{ pageNum }}</span> <span style="color:gray">&nbsp;&frasl;&nbsp;</span><span style="color:gray">{{ pageTotalNum }}</span>&nbsp;
-      <button class="page-btn" @click.stop="nextPage">&gt;</button>
-      <span style="color:gray">Number of Pages: {{pageTotalNum}}</span>
-    </div>
-  </div>
+
+
+    <guideBook style="position: relative;">
+    </guideBook>
+
+  </div> -->
 </template>
 
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum} from '@/globals/enums.js'
-// import pdf from 'vue-pdf'
 import qs from 'qs'
-
 import { postURL } from '@/services/centralMaintenance/failureReport';
 
+import { mapState } from 'vuex';
 
+import guideBook from '@/components/Files/guideBook.vue'
 export default {
-  components: {},
+  components: {guideBook},
   name: "ExistingFDE",
   data() {
     return {
@@ -140,11 +146,30 @@ export default {
 
       isPdfPageSelected: false,
       url: "",
-
     };
   },
-
+  computed: {
+    ...mapState('websocketVuex', ['infoOMD'])
+  },
+  watch: {
+    infoOMD: {
+      deep: true,
+      handler(newVal, oldVal) {
+        // Check if infoOMD has changed
+        if (newVal !== oldVal) {
+          this.$router.push({ path: newVal.path, query: newVal.query });
+        }
+      }
+    }
+  },
   methods: {
+    openNewPage() {
+      const url = 'http://localhost:8080/centralMaintenance/failureReport/guideBook';
+      const target = '_blank';
+
+      window.open(url, target);
+    },
+
     /**
      * 更新store的选中行数据
      * @param {*} item 选中行数据
@@ -215,7 +240,6 @@ export default {
       postURL(tmp).then(response => {
         this.url = "http://localhost:8888/oms/php/files/" + response[0];
 
-
         }).catch(error => {
         console.error('Error in Postting pdf url:', error);
       });
@@ -277,6 +301,7 @@ export default {
   mounted() {
     this.getExistingFDEArray();
   },
+
 };
 </script>
 

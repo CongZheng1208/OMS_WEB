@@ -61,12 +61,11 @@
       >
         <template slot-scope="scope">
           <span
-            @click="findURL(scope.row.FIMCode_info[0])"
+            @click="openNewPage"
             :style="{ padding: '1vh', height: '4vh', width: '4vh', color: 'white'}"
             style="transition: color 0.3s;"
             @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
             @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';"
-            v-on:click="findURL(scope.row.FIMCode_info[0])"
           >
             {{ scope.row.FIMCode_info[0] }}
           </span>
@@ -99,6 +98,7 @@
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum} from '@/globals/enums.js'
+import { mapState } from 'vuex';
 
 export default {
   components: {},
@@ -108,8 +108,29 @@ export default {
       inboundLegFDEArray: [],
     };
   },
+  computed: {
+    ...mapState('websocketVuex', ['infoOMD'])
+  },
+  watch: {
+    infoOMD: {
+      deep: true,
+      handler(newVal, oldVal) {
+        // Check if infoOMD has changed
+        if (newVal !== oldVal) {
+          this.$router.push({ path: newVal.path, query: newVal.query });
+        }
+      }
+    }
+  },
 
   methods: {
+    openNewPage() {
+      const url = 'http://localhost:8080/centralMaintenance/failureReport/guideBook';
+      const target = '_blank';
+
+      window.open(url, target);
+    },
+
     /**
      * 更新store的选中行数据
      * @param {*} item 选中行数据

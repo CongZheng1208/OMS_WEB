@@ -12,7 +12,8 @@ const API = {
   GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
 
   POST_URL: 'centralMaintenance/failureReport/pdfURL.php',
-  POST_FAILURE_DETAIL: 'centralMaintenance/failureDetail'
+  POST_FAILURE_DETAIL: 'centralMaintenance/failureDetail',
+
 }
 
 // APIs

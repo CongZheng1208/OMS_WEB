@@ -29,7 +29,7 @@
     </el-header>
 
     <el-main>
-      <el-row :gutter="1">
+      <el-row :gutter="2">
         <el-col :span="12">
           <el-table
             v-if="displaySelected == 'NVMDataRetrieval'"
@@ -64,7 +64,7 @@
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="12" style="padding-right: 2vh;padding-left: 2vh;">
+        <el-col :span="12">
           <el-table
             highlight-current-row
             height="65vh"
@@ -89,15 +89,15 @@
       </div>
       <div>
         <el-button class="footer-btn" @click="goDefaultPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goManagementPage()">MANAGE NVM</el-button>
+        <el-button class="footer-btn" @click="sendOrder()">SEND</el-button>
       </div>
     </el-footer>
   </el-container>
 </template>
 
 <script>
-
-  import {printPage, customSortMethodForProgressColumn, changeRadio} from '@/utils/utils.js'
+  import qs from 'qs'
+  import {printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder} from '@/utils/utils.js'
 
   export default {
     name: "DefaultResetPage",
@@ -141,8 +141,20 @@
        goDefaultPage() {
         this.$router.push({ name: "NVMDataDefault" });
       },
+
+      sendOrder(){
+        let tmp = qs.stringify({
+          OrderType: "ABORTALL",
+
+          currentPage: "TestList",
+        });
+
+        this.handleTestOrder(tmp)
+      },
+
       changeRadio,
       printPage,
+      handleTestOrder,
       customSortMethodForProgressColumn
     }
   }

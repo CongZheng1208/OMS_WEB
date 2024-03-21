@@ -38,10 +38,7 @@
         </el-col>
 
         <el-col :span="3">
-          <div class="col status-bar">
-            A/C Reg: {{ acReg }} <br>
-            {{currentDate}} {{ currentTime }}
-          </div>
+          <Clock />
         </el-col>
       </el-row>
     </el-header>
@@ -58,36 +55,25 @@
   import ParamGraphicDisplay from './ParamGraphicDisplay/ParamFlightShow.vue'
   import RawDataDisplay from './RawDataDisplay/RawDataDisplay.vue'
   import {changeRadio} from '@/utils/utils.js'
+  import Clock from '@/components/Clock'
 
   export default {
     name: "ParamSelect",
     components: {
       ParamListDisplay,
       ParamGraphicDisplay,
-      RawDataDisplay
+      RawDataDisplay,
+      Clock
     },
     data() {
       return {
         displaySelected: 'list',
-        acReg: "C-WXWB",
-        currentTime: '',
-        currentDate: "",
       }
     },
     methods: {
-      /**
-       * 本函数用于更新实时时间
-       */
-      updateCurrentTime() {
-        const now = new Date();
-        this.currentTime = now.toLocaleTimeString();
-        this.currentDate = now.toLocaleDateString();
-      },
       changeRadio
     },
     created() {
-      this.updateCurrentTime()
-      setInterval(this.updateCurrentTime, 1000)
     },
   }
 </script>

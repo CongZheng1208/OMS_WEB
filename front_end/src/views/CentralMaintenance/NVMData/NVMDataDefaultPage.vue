@@ -71,7 +71,7 @@
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="10" style="padding-right: 2vh;padding-left: 2vh;">
+        <el-col :span="10" style="padding-right: 0.5vh;">
           <el-card class="custom-card" shadow="hover" style="height: 65vh">
             <div class="custom-header">DETAILS</div>
             <div class="custom-content">

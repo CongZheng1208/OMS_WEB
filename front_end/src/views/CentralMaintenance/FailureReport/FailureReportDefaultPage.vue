@@ -12,6 +12,7 @@
       "
     >
       <div style="float: left">Select Option:</div>
+
       <div style="margin-left: 5%; float: left">
 
         <div class="radio" @click="changeRadio('legFDEsSelected'); $store.state.failureList.selectedFailureId = -1">
@@ -72,7 +73,8 @@
         </div>
       </div>
     </el-header>
-    <el-main style="flex: 1; padding: 0">
+    <el-main>
+      <router-view></router-view>
       <div>
         <in-bound-leg-fde v-if="displaySelected == 'legFDEsSelected'" />
         <existing-fde v-if="displaySelected == 'existingFDEsSelected'" />

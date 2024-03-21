@@ -43,7 +43,7 @@
 
 
   /**
-   * 本函数用于想成员系统发送post请求
+   * 本函数用于向成员系统发送post请求
    * @param {Object} tmp 代表qs.stringify处理后的Object格式的命令
    */
   export function handleTestOrder(tmp) {

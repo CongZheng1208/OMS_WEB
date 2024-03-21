@@ -41,7 +41,6 @@
               :percentage="scope.row.progress"
               :color="getProgressColor(scope.row.progress)"
               :format="percent => `${percent}%`"
-              :text-inside=true
               :stroke-width=14
               text-color = #ffffff
               define-back-color = #505050
@@ -62,7 +61,7 @@
         <el-button class="footer-btn" @click="printPage">PRINT</el-button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goViewDetailPage">VIEW DETAIL</el-button>
+        <el-button class="footer-btn" @click="redirectToVuePage">VIEW DETAIL</el-button>
         <el-button class="footer-btn" :disabled="true">RESPOND</el-button>
         <el-button class="footer-btn" @click="goNewTestPage">NEW TEST</el-button>
         <el-button class="footer-btn" @click="sendAbort" :disabled="selectedRow==''">ABORT TEST</el-button>
@@ -76,7 +75,7 @@
   import {printPage, customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
   import Clock from '@/components/Clock'
   import qs from 'qs'
-
+  import axios from 'axios';
   export default {
     data() {
       return {
@@ -96,6 +95,18 @@
     },
     methods: {
 
+      redirectToVuePage() {
+      axios.get("http://localhost:8888/oms/php/centralMaintenance/failureReport/url.php").then(
+        response => {
+          // window.location.href = response.url;
+          // window.location.href = response.data;
+        },
+        error => {
+          // alert('发送请求失败！', error.message)
+        }
+      )
+    },
+
       /**
        * 本函数用于更新更新选中行到selectedRow变量
        * @param {string} row - menus数据的name属性
@@ -111,17 +122,18 @@
        * @returns {number} 该进度值对应的颜色rgb值
        */
       getProgressColor(progress) {
-        if (progress < 20) {
-          return '#FF6666';
-        } else if (progress >= 20 && progress < 40) {
-          return '#ffd700';
-        } else if (progress >= 40 && progress < 80) {
-          return '#00ced1';
-        } else if (progress >= 80 && progress < 100){
-          return '#51cef1';
-        } else {
-          return '#66CC99';
-        }
+        return '#51cef1';
+        // if (progress < 20) {
+        //   return '#FF6666';
+        // } else if (progress >= 20 && progress < 40) {
+        //   return '#ffd700';
+        // } else if (progress >= 40 && progress < 80) {
+        //   return '#00ced1';
+        // } else if (progress >= 80 && progress < 100){
+        //   return '#51cef1';
+        // } else {
+        //   return '#66CC99';
+        // }
       },
 
       /**
@@ -194,7 +206,7 @@
             const startTime = new Date(test.StartTime).getTime();
             return {
               ...test,
-              progress: parseFloat(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99).toFixed(2))
+              progress: parseInt(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99))
             };
           }
         });

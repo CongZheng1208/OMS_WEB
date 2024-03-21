@@ -88,7 +88,6 @@
             Number of Tests: {{ filteredTestDataLength }}
           </div> -->
         </el-col>
-
       </el-row>
 
       <el-dialog
@@ -178,7 +177,6 @@
        * @param {string} row - menus数据的name属性
        */
       handleEquipmentRowClick(row) {
-
         this.selectedEquipment = this.getSelectedEquipment(row.equipmentName)
         this.$store.state.groundTestList.selectedEquipment.equipmentName = this.selectedEquipment.equipmentName
         // 清除之前选择的testId
@@ -268,6 +266,9 @@
     },
 
     mounted() {
+      const relatedTests = this.$route.query;
+      console.log("relatedTests:", relatedTests);
+
 
       getATAandEqui().then(response => {
         response.forEach(element => {
@@ -292,6 +293,13 @@
             testDetails: details,
           })
         });
+
+        if(Object.keys(this.$route.query).length !== 0){
+          this.handleATARowClick(relatedTests)
+          this.handleEquipmentRowClick(relatedTests)
+          this.handleTestRowClick(relatedTests)
+        }
+
 
       }).catch(error => {
         console.error('Error in getting ata and equi list:', error);

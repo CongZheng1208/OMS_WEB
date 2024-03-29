@@ -11,6 +11,8 @@ const API = {
   GET_FDE_LIST: 'centralMaintenance/failureReport/fdes.php',
   GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
 
+  POST_FIMCODE_FOR_URL: 'centralMaintenance/FailureReportNew/postFimCodeForURL.php',
+
   POST_URL: 'centralMaintenance/failureReport/pdfURL.php',
   POST_FAILURE_DETAIL: 'centralMaintenance/failureDetail',
 
@@ -30,6 +32,15 @@ export const getFDEList = () => {
     method: 'GET'
   })
 }
+
+export const postFimCodeForURL = (index) => {
+  return http({
+    url: API.POST_FIMCODE_FOR_URL,
+    method: 'POST',
+    data: index
+  })
+}
+
 
 export const postURL = (index) => {
   return http({

@@ -1,6 +1,5 @@
 <template>
-  <!-- <div v-if="!isPdfPageSelected"> -->
-  <div>
+  <div v-if="!isPdfPageSelected">
     <el-table
       highlight-current-row
       style="width: 100%; background-color: rgb(46, 45, 45)"
@@ -61,20 +60,9 @@
         :width="null"
         :min-width="35"
       >
-        <!-- <template slot-scope="scope">
-          <span
-            @click=" isPdfPageSelected = true"
-            :style="{ padding: '1vh', height: '4vh', width: '4vh', color: 'white'}"
-            style="transition: color 0.3s;"
-            @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
-            @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';""
-          >
-            {{ scope.row.FIMCode_info[0] }}
-          </span>
-        </template> -->
         <template slot-scope="scope">
           <span
-            @click="openNewPage"
+            @click="findURL(scope.row.FIMCode_info[0])"
             :style="{ padding: '1vh', height: '4vh', width: '4vh', color: 'white'}"
             style="transition: color 0.3s;"
             @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
@@ -109,30 +97,39 @@
   </div>
 
 
-  <!-- <div v-else class="html_page">
-    <div class="html_btn">
-      <el-button
-        icon="el-icon-close"
-        circle
-        size="mini"
-        v-on:click='isPdfPageSelected=false'>
-      </el-button>
+  <div v-else>
+
+    <div class="html_page">
+
+        <el-button
+        class="html_close_btn"
+          icon="el-icon-close"
+          circle
+          size="mini"
+          v-on:click='isPdfPageSelected=false'>
+        </el-button>
+
+      <iframe
+        id="iframe"
+        class="html_OMD"
+      >
+      </iframe>
+
     </div>
 
 
 
+  </div>
 
-    <guideBook style="position: relative;">
-    </guideBook>
 
-  </div> -->
 </template>
 
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum} from '@/globals/enums.js'
 import qs from 'qs'
-import { postURL } from '@/services/centralMaintenance/failureReport';
+import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
+import querystring from 'querystring';
 
 import { mapState } from 'vuex';
 
@@ -145,30 +142,12 @@ export default {
       existingFDEArray: [],
 
       isPdfPageSelected: false,
-      url: "",
     };
   },
   computed: {
     ...mapState('websocketVuex', ['infoOMD'])
   },
-  watch: {
-    infoOMD: {
-      deep: true,
-      handler(newVal, oldVal) {
-        // Check if infoOMD has changed
-        if (newVal !== oldVal) {
-          this.$router.push({ path: newVal.path, query: newVal.query });
-        }
-      }
-    }
-  },
   methods: {
-    openNewPage() {
-      const url = 'http://localhost:8080/centralMaintenance/failureReport/guideBook';
-      const target = '_blank';
-
-      window.open(url, target);
-    },
 
     /**
      * 更新store的选中行数据
@@ -232,19 +211,40 @@ export default {
      */
     findURL(fimCode){
       this.isPdfPageSelected = true
-
       let tmp = qs.stringify({
-        FIMCode: fimCode
+        fimCode: fimCode
       })
+      postFimCodeForURL(tmp).then(response => {
 
-      postURL(tmp).then(response => {
-        this.url = "http://localhost:8888/oms/php/files/" + response[0];
+        const queryString = querystring.stringify(response);
+        const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
+        console.log(url);
+
+
+
+        document.getElementById('iframe').src = url;
 
         }).catch(error => {
         console.error('Error in Postting pdf url:', error);
       });
     },
 
+
+    queryStringToJson(queryString) {
+      // 将字符串按 & 分割成数组
+      const paramsArray = queryString.split('&');
+
+      // 创建一个空对象用于存储键值对
+      let jsonResult = {};
+
+      // 遍历数组，将每个键值对按 = 分割，转换为键值对存入对象中
+      paramsArray.forEach(param => {
+        const keyValue = param.split('=');
+        jsonResult[keyValue[0]] = keyValue[1];
+      });
+
+      return jsonResult; // 返回转换后的 JSON 对象
+    },
 
     /**
      * 本函数用于mounted中，获取state中resFDEData数据，并处理数据，具体有：
@@ -300,7 +300,17 @@ export default {
   },
   mounted() {
     this.getExistingFDEArray();
-  },
+
+    // 在 OMS 项目中监听 message 事件
+    window.addEventListener('message', (event) => {
+
+      if (event.origin === 'http://localhost:8081') {  // 修改为正确的 OMD 项目的地址
+        console.log('Received message from OMD:', event.data);
+
+        this.$router.push({ name: "SelectTestNew", params: { selectedEquipment: this.queryStringToJson(event.data) } });
+      }
+    });
+  }
 
 };
 </script>

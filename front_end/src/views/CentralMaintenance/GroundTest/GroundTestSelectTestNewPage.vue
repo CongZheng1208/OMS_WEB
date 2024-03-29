@@ -42,7 +42,7 @@
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="8">
           <el-table
             highlight-current-row
             height="68vh"
@@ -58,7 +58,7 @@
           </el-table>
         </el-col>
 
-        <el-col :span="14">
+        <el-col :span="10">
           <el-table
             highlight-current-row
             height="68vh"
@@ -80,7 +80,7 @@
                 />
               </template>
             </el-table-column> -->
-            <el-table-column prop="T_TP" label="Test Type" sortable :width="null" :min-width="80" :formatter="formatTestType"></el-table-column>
+            <!-- <el-table-column prop="T_TP" label="Test Type" sortable :width="null" :min-width="80" :formatter="formatTestType"></el-table-column> -->
             <el-table-column prop="T_ED" label="Duration(mins)" sortable :width="null" :min-width="40"></el-table-column>
             <el-table-column :width="null" :min-width="5"></el-table-column>
           </el-table>
@@ -99,9 +99,6 @@
           <el-button type="primary" @click="isTestNotBeSelected = false"> OK </el-button>
         </span>
       </el-dialog>
-
-
-
     </el-main>
     <el-footer>
       <div>

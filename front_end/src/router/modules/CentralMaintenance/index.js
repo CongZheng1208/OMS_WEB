@@ -16,11 +16,6 @@ const CentralMaintenanceRoutes = {
           component: () => import('@/views/CentralMaintenance/FailureReport/FailureReportDefaultPage.vue')
         },
         {
-          path: 'guideBook',
-          name: 'GuideBook',
-          component: () => import('@/views/CentralMaintenance/FailureReport/guideBook.vue')
-        },
-        {
           path: 'selectFailuresDetails',
           name: 'SelectFailuresDetails',
           component: () => import('@/views/CentralMaintenance/FailureReport/SelectFailuresDetails.vue')

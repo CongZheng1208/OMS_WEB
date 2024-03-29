@@ -74,7 +74,6 @@
       </div>
     </el-header>
     <el-main>
-      <router-view></router-view>
       <div>
         <in-bound-leg-fde v-if="displaySelected == 'legFDEsSelected'" />
         <existing-fde v-if="displaySelected == 'existingFDEsSelected'" />
@@ -108,9 +107,6 @@
       </div>
     </el-footer>
   </el-container>
-
-
-
 
 </template>
 

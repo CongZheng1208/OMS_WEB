@@ -8,14 +8,10 @@ import { http } from "../../../utils/http";
 // 这里具体的url自己定
 const API = {
 
-  GET_FDE_LIST: 'centralMaintenance/failureReport/fdes.php',
-  GET_FAILURE_LIST: 'centralMaintenance/failureReport/failures.php',
+  GET_FDE_LIST: 'centralMaintenance/FailureReportNew/fdes.php',
+  GET_FAILURE_LIST: 'centralMaintenance/FailureReportNew/failures.php',
 
   POST_FIMCODE_FOR_URL: 'centralMaintenance/FailureReportNew/postFimCodeForURL.php',
-
-  POST_URL: 'centralMaintenance/failureReport/pdfURL.php',
-  POST_FAILURE_DETAIL: 'centralMaintenance/failureDetail',
-
 }
 
 // APIs
@@ -36,24 +32,6 @@ export const getFDEList = () => {
 export const postFimCodeForURL = (index) => {
   return http({
     url: API.POST_FIMCODE_FOR_URL,
-    method: 'POST',
-    data: index
-  })
-}
-
-
-export const postURL = (index) => {
-  return http({
-    url: API.POST_URL,
-    method: 'POST',
-    data: index
-  })
-}
-
-
-export const postFailureDetail = (index) => {
-  return http({
-    url: API.POST_FAILURE_LIST,
     method: 'POST',
     data: index
   })

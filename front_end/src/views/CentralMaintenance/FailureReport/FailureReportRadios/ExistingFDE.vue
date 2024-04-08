@@ -133,9 +133,7 @@ import querystring from 'querystring';
 
 import { mapState } from 'vuex';
 
-import guideBook from '@/components/Files/guideBook.vue'
 export default {
-  components: {guideBook},
   name: "ExistingFDE",
   data() {
     return {
@@ -219,8 +217,6 @@ export default {
         const queryString = querystring.stringify(response);
         const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
         console.log(url);
-
-
 
         document.getElementById('iframe').src = url;
 

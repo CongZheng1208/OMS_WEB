@@ -96,16 +96,8 @@
     methods: {
 
       redirectToVuePage() {
-      axios.get("http://localhost:8888/oms/php/centralMaintenance/failureReport/url.php").then(
-        response => {
-          // window.location.href = response.url;
-          // window.location.href = response.data;
-        },
-        error => {
-          // alert('发送请求失败！', error.message)
-        }
-      )
-    },
+
+      },
 
       /**
        * 本函数用于更新更新选中行到selectedRow变量

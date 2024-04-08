@@ -8,7 +8,6 @@
 <script>
 import Menus from '@/components/Menus'
 import { getConnect } from '@/services/centralMaintenance/groundTest/index.js';
-import axios from 'axios';
 
 export default {
   name: "App",
@@ -41,15 +40,6 @@ export default {
   },
   created() {
 
-    // axios.get('http://localhost:8888/oms/php/centralMaintenance/FailureReportNew/WSserver.php')
-    //   .then(response => {
-    //     console.log(response.data); // 打印PHP脚本的返回结果
-    //     this.$store.dispatch('websocketVuex/initWebSocket', 'ws://localhost:6001');
-    //   })
-    //   .catch(error => {
-    //     console.error(error); // 打印错误信息
-    //   });
-
     this.$store.commit("failureList/fdePhp");
     this.$store.commit("failureList/failurePhp");
 
@@ -59,8 +49,6 @@ export default {
       console.error('Error in fetching parameter list:', error);
     });
   },
-
-
 
   beforeDestroy() {
     this.$store.dispatch('websocketVuex/closeWebSocket'); // 在组件销毁前关闭 WebSocket 连接

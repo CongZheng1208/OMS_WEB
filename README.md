@@ -26,32 +26,43 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 
 ``` bash
-├──font_end						# 前端相关
-	├── build                      # 构建相关
-	├── config                     # 项目配置
-	├── node_modules               # 构建配置
-	├── src                        # 源代码
-	│   ├── api                    # 存放与后端API交互相关的文件，如封装的接口请求、拦截器等。
-	│   ├── assets                 # 存放静态资源文件，如图片、字体图标等。
-	│   ├── components             # 存放项目中的组件，可以按功能或页面进行组织，每个组件包含自己的.vue文件和相关的样式、脚本或测试文件。
-	│   ├── mixins                 # 存放全局mixins。
-	│   ├── plugins                # 存放一些第三方插件如axios、vuex、element-ui等。
-	│   ├── router                 # 路由
-	│   ├── store                  # 全局 store管理
-	│   ├── styles                 # 全局样式
-	│   ├── utils                  # 全局公用方法
-	│   ├── views                  # views 所有页面
-	│   ├── App.vue                # 入口页面
-	│   └── main.js                # 入口文件 加载组件 初始化等
-	├── tests                      # 测试
-	├── .env.xxx                   # 环境变量配置
-	├── .eslintrc.js               # eslint 配置项
-	├── .babelrc                   # babel-loader 配置
-	├── vue.config.js              # vue-cli 配置
-	├── postcss.config.js          # postcss 配置
-	└── package.json               # package.json
-├──back_end						# 后端相关
-	├── php                      # php脚本
+├── README.md                    # 说明文档
+├── back_end                     # 后端代码文件夹
+│   └── php
+│       ├── centralMaintenance   # 中央维护模块
+│       ├── conditionMonitoring  # 状态监控模块
+│       ├── config              # 配置文件夹
+│       ├── files               # 文件处理模块
+│       └── utils               # 工具类
+└── front_end                    # 前端代码文件夹
+    ├── LICENSE                 # 许可证文件
+    ├── build                   # 构建输出目录
+    ├── config                  # 配置文件夹
+    │   ├── dev.env.js          # 开发环境配置文件
+    │   ├── index.js            # 入口配置文件
+    │   └── prod.env.js         # 生产环境配置文件
+    ├── index.html              # 主 HTML 文件
+    ├── node_modules            # Node.js 模块依赖文件夹
+    ├── package-lock.json       # 包版本锁定文件
+    ├── package.json            # 项目依赖信息文件
+    ├── pnpm-lock.yaml          # pnpm 锁定文件
+    ├── src                     # 源代码文件夹
+    │   ├── App.vue             # 主程序组件
+    │   ├── api                 # API 相关代码
+    │   ├── assets              # 静态资源文件夹
+    │   ├── components          # 组件文件夹
+    │   ├── globals             # 全局配置文件
+    │   ├── main.js             # 主程序入口文件
+    │   ├── mixins              # 混入文件夹
+    │   ├── plugins             # 插件文件夹
+    │   ├── router              # 路由配置文件夹
+    │   ├── services            # 服务文件夹
+    │   ├── store               # 状态管理文件夹
+    │   ├── styles              # 样式文件夹
+    │   ├── utils               # 工具类
+    │   └── views               # 视图文件夹
+    ├── static                  # 静态资源文件夹
+    └── vue.config.js           # Vue 配置文件
 ```
 
 
@@ -74,24 +85,4 @@ styles: 存放全局样式文件。
 utils: 存放一些公用的工具方法，如日期格式化、计算函数等。
 
 views: 存放页面级的组件, 对应每一个路由的组件。
-
-
-
-ToDoList： （2024）
-
-1.协议方面：全局实现Service的HTTP请求封装API
-
-2.业务方面：
-  启动测试部分，tcp&http通信，多用户tcp连接池，交互测试....
-  参数显示部分，save按钮element重实现
-  故障报告部分，后续业务
-
-3.全局部分：
-  实现vuex的store全局变量
-
-
-
-
-
-
 

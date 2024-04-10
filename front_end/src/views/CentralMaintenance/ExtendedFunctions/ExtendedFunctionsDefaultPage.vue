@@ -56,6 +56,7 @@
       </div>
       <div>
         <el-button class="footer-btn" >HELP</el-button>
+        <el-button v-if="displaySelected == 'TimeCycles'" class="footer-btn" >SELECT</el-button>
       </div>
     </el-footer>
   </el-container>
@@ -64,7 +65,7 @@
 <script>
 
 import {printPage, customSortMethodForProgressColumn,changeRadio} from '@/utils/utils.js'
-import TimeCycles from './modules/TimeCycles.vue'
+import TimeCycles from './modules/TimeCycles/TimeCyclesDefaultPage.vue'
 import LegPhaseOperation from './modules/LegPhaseOperation.vue'
 
 export default {

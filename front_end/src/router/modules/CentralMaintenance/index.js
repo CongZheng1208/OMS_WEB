@@ -119,7 +119,12 @@ const CentralMaintenanceRoutes = {
             {
               path: 'timeCycles',
               name: 'TimeCycles',
-              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles.vue')
+              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesDefaultPage.vue')
+            },
+            {
+              path: 'timeCyclesSelect',
+              name: 'TimeCyclesSelect',
+              component: () => import('@/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesSelect.vue')
             },
             {
               path: 'otherFunctions',

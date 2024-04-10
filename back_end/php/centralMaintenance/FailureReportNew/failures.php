@@ -27,7 +27,7 @@
 		public $ata=[];
 	}
 	// 在306的Centos系统里的mysql密码为
-	$con=mysqli_connect("127.0.0.1", "root", "", "omhms", "3306");	
+	$con = mysqli_connect("localhost", "root", "root", "OMHMS");
 	//$con=mysqli_connect("192.168.1.145", "user", "Comac.123", "OMHMS");		
 	if (!$con){
 		die('Could not connect:' . mysqli_connect_error());

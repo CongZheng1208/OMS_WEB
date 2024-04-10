@@ -52,7 +52,7 @@ export default {
                 first_time = sameFailureName[i].failure_time;
               }
             }
-            //设置   first_time  和   last_time
+            //设置 first_time 和 last_time
             item.count = sameFailureName.length;
             item.first_time = first_time;
             item.last_time = last_time;
@@ -64,9 +64,7 @@ export default {
               item.is_parent = false;
             }
           }
-          // console.log("in store: resFailureData:", failureReportNew);
           state.resFailureData = failureReportNew;
-
 
           let ataListBefore = []
           let legListBefore = []

@@ -1,11 +1,5 @@
 <?php
-
-    // Define the global connection variable
     global $con;
-
-    // Set up the database connection
-
-
 
     // 本地调试
     $con = mysqli_connect("localhost", "root", "root", "OMHMS");

@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header style="height: 16vh;">
       <el-row style="width: 100%;">
         <el-col :span="2">
@@ -47,7 +47,7 @@
     <ParamGraphicDisplay v-if="displaySelected == 'graphic'"></ParamGraphicDisplay>
     <RawDataDisplay v-if="displaySelected == 'raw'"></RawDataDisplay>
 
- </el-container>
+ </div>
 </template>
 
 <script>

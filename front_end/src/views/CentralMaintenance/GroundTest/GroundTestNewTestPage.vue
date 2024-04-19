@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header>
       <div class="el-header-title">
         ATA and Equipment Selection
@@ -61,11 +61,11 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goDefaultPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goSelectTestPage()">SELECT</el-button>
+        <button class="footer-btn" @click="goDefaultPage()">BACK</button>
+        <button class="footer-btn" @click="goSelectTestPage()">SELECT</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

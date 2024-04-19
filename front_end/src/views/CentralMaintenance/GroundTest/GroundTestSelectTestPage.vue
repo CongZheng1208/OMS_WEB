@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header style="height: 10vh;">
       <el-row style="width: 100%;">
         <el-col :span="4">
@@ -68,11 +68,11 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goSelectATAandEquipmentPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goThreeTestsPage()">START TEST</el-button>
+        <button class="footer-btn" @click="goSelectATAandEquipmentPage()">BACK</button>
+        <button class="footer-btn" @click="goThreeTestsPage()">START TEST</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

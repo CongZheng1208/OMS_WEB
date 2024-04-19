@@ -1,5 +1,5 @@
 <template>
-   <el-container>
+   <div>
     <el-header style="height: 12vh;">
       <el-row style="width: 100%;">
         <el-col :span="8">
@@ -39,7 +39,7 @@
         <el-col :span="8">
 
           <div>
-            <el-card class="custom-card" shadow="hover">
+            <div class="custom-card" shadow="hover">
               <div class="custom-header">Pre-conditions</div>
               <div class="custom-content">
                 <div
@@ -55,13 +55,13 @@
                   <li>{{ precondition }}</li>
                 </div>
               </div>
-            </el-card>
+            </div>
           </div>
         </el-col>
 
         <el-col :span="8">
           <div>
-            <el-card class="custom-card" shadow="hover"
+            <div class="custom-card" shadow="hover"
               v-loading="loading"
               element-loading-text="Data Loading..."
               element-loading-spinner="el-icon-loading"
@@ -81,12 +81,12 @@
                   <li>{{ inhibitCondition }}</li>
                 </div>
               </div>
-            </el-card>
+            </div>
           </div>
         </el-col>
         <el-col :span="8">
           <div>
-            <el-card class="custom-card" shadow="hover"
+            <div class="custom-card" shadow="hover"
               v-loading="loading"
               element-loading-text="Data Loading..."
               element-loading-spinner="el-icon-loading"
@@ -109,7 +109,7 @@
                   <span>Index: {{ interferingTest.interferIndex }}</span>
                 </div>
               </div>
-            </el-card>
+            </div>
           </div>
         </el-col>
       </el-row>
@@ -119,17 +119,17 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goSelectTestPage()">BACK</el-button>
-        <!-- <el-button class="footer-btn" @click="goInteractiveTestPage()"
+        <button class="footer-btn" @click="goSelectTestPage()">BACK</button>
+        <!-- <button class="footer-btn" @click="goInteractiveTestPage()"
           :disabled = "!isInteractiveTestAlive">
           CONTINUE
         </el-button> -->
-        <el-button class="footer-btn" @click="goInteractiveTestPage()">
+        <button class="footer-btn" @click="goInteractiveTestPage()">
           CONTINUE
-        </el-button>
+        </button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

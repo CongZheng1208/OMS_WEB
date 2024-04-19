@@ -25,10 +25,20 @@
       </el-table-column>
       <el-table-column :width="null" :min-width="5"></el-table-column>
     </el-table>
+
+
+    <el-footer>
+      <div>
+        <button class="footer-btn" @click="printPage">PRINT</button>
+      </div>
+      <div>
+        <button class="footer-btn" @click="goSelectPage">SELECT</button>
+      </div>
+    </el-footer>
   </div>
 </template>
 <script>
-import { customSortMethodForProgressColumn } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn } from '@/utils/utils.js'
 export default {
   data() {
       return {
@@ -166,6 +176,13 @@ export default {
       };
     },
     methods: {
+      /**
+       * 本函数用于跳转页面
+       */
+      goSelectPage() {
+        this.$router.push({ name: "TimeCyclesSelect" });
+      },
+      printPage,
       customSortMethodForProgressColumn
     }
 }

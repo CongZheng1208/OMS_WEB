@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header height="10vh">
       <el-row style="width: 100%;">
         <el-col :span="5">
@@ -85,14 +85,14 @@
     </el-main>
     <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goDefaultPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="sendOrder()">SEND</el-button>
+        <button class="footer-btn" @click="goDefaultPage()">BACK</button>
+        <button class="footer-btn" @click="sendOrder()">SEND</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

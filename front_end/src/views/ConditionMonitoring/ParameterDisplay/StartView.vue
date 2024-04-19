@@ -78,7 +78,7 @@
 
         <el-col :span="16">
 
-          <el-card class="custom-card" shadow="hover" style="height: 65vh">
+          <div class="custom-card" shadow="hover" style="height: 65vh">
             <!-- <div class="custom-header">DETAILS</div> -->
             <div class="custom-content">
               <div v-if="showedParams.length==1" class="echarts" style="height: 70vh" id="mychart0" :style="myChartStyle"></div>
@@ -91,7 +91,7 @@
                 <div v-if="showedParams.length>=5" class="echarts" style="height: 35vh" id="mychart4" :style="myChartStyle"></div>
               </div>
             </div>
-          </el-card>
+          </div>
         </el-col>
       </el-row>
 
@@ -118,16 +118,16 @@
 
     <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="backToParaPage()">BACK</el-button>
+        <button class="footer-btn" @click="backToParaPage()">BACK</button>
 
-        <el-button v-if="displaySelected == 'list'" class="footer-btn" :disabled="!isListRefreshing" @click="stopListRefresh()">STOP VIEW</el-button>
-        <el-button v-else class="footer-btn" :disabled="!isRefreshing" @click="stopRefresh()">STOP VIEW</el-button>
+        <button v-if="displaySelected == 'list'" class="footer-btn" :disabled="!isListRefreshing" @click="stopListRefresh()">STOP VIEW</button>
+        <button v-else class="footer-btn" :disabled="!isRefreshing" @click="stopRefresh()">STOP VIEW</button>
 
-        <el-button v-if="displaySelected == 'list'" class="footer-btn" :disabled="isListRefreshing" @click="startListRefresh">START VIEW</el-button>
-        <el-button v-else class="footer-btn" :disabled="isRefreshing||showedParams.length==0"  @click="startRefresh">START VIEW</el-button>
+        <button v-if="displaySelected == 'list'" class="footer-btn" :disabled="isListRefreshing" @click="startListRefresh">START VIEW</button>
+        <button v-else class="footer-btn" :disabled="isRefreshing||showedParams.length==0"  @click="startRefresh">START VIEW</button>
       </div>
     </el-footer>
   </div>
@@ -166,7 +166,7 @@ export default {
       lastParams:[],
       lastIndex:0,
 
-      displaySelected: 'list',
+      displaySelected: 'figure',
 
       selectedParams : [],
       selectedParamsIndex: [],

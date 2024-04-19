@@ -1,5 +1,5 @@
 <template>
-  <el-container style="display: flex; flex-direction: column">
+  <div>
     <el-header
       style="
         text-align: left;
@@ -140,7 +140,7 @@
         </el-col>
         <el-col :span="12" style=" height: 52vh; padding-left: 1vh; padding-right: 1vh">
           <el-row style="height: 3vh;">
-            <el-card class="custom-card" shadow="hover" style="height: 50vh">
+            <div class="custom-card" shadow="hover" style="height: 50vh">
               <div class="custom-header">Maintenance Text</div>
               <div class="custom-content">
                 Maintenance Time: {{ maintence_time }} minutes
@@ -148,22 +148,22 @@
               <div class="custom-content">
                 {{ maitence_text }}
               </div>
-            </el-card>
+            </div>
           </el-row>
         </el-col>
       </el-row>
     </el-main>
     <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goBackToReportPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goPreviousPage()">PREVIOUS</el-button>
-        <el-button class="footer-btn" @click="goNextPage()">NEXT</el-button>
+        <button class="footer-btn" @click="goBackToReportPage()">BACK</button>
+        <button class="footer-btn" @click="goPreviousPage()">PREVIOUS</button>
+        <button class="footer-btn" @click="goNextPage()">NEXT</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

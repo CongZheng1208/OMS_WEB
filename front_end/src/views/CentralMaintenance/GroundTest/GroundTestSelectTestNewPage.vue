@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header style="height: 10vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
@@ -47,6 +47,7 @@
             highlight-current-row
             height="68vh"
             @row-click="handleEquipmentRowClick"
+            style=" background-color: rgb(46, 45, 45)"
             :data="selectedEquipments"
             :sort-method="customSortMethodForProgressColumn"
             :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
@@ -62,6 +63,7 @@
           <el-table
             highlight-current-row
             height="68vh"
+            style=" background-color: rgb(46, 45, 45)"
             @row-click="handleTestRowClick"
             :data="filteredTestData"
             :sort-method="customSortMethodForProgressColumn"
@@ -104,11 +106,11 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goDefaultPage()">BACK</el-button>
-        <el-button class="footer-btn" @click="goThreeTestsPage()">START TEST</el-button>
+        <button class="footer-btn" @click="goDefaultPage()">BACK</button>
+        <button class="footer-btn" @click="goThreeTestsPage()">START TEST</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

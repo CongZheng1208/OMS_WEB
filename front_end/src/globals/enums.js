@@ -83,14 +83,14 @@ export const testTypeEnum = {
 
 // 测试对应的状态
 export const testStatusEnum = {
-  '0': 'GROUND_TEST_PASS',
-  '1': 'GROUND_TEST_INPUT_REQUIRED',
-  '2': 'GROUND_TEST_IN_PROGRESS',
-  '3': 'GROUND_TEST_NOT_STARTED',
-  '4': 'GROUND_TEST_FAIL',
-  '5': 'GROUND_TEST_ERROR',
-  '6': 'GROUND_TEST_INHIBITED',
-  '7': 'GROUND_TEST_ABORTED',
-  '8': 'GROUND_TEST_COMPLETE',
-  '9': 'N/A',
+  0: 'NOT_STARTED',
+  1: 'WAITED',
+  2: 'PASS',
+  3: 'INPUT_REQUIRED',
+  4: 'IN_PROGRESS',
+  5: 'FAIL',
+  6: 'INHIBITED',
+  7: 'ERROR',
+  8: 'ABORTED',
+  9: 'COMPLETE',
 }

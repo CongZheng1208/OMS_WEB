@@ -48,11 +48,11 @@
  * 全局容器样式
  */
 
-.el-container {
+/* .el-container {
   display: flex;
   flex-direction: column;
   background-color: rgb(45, 45, 45);
-}
+} */
 
 .el-row {
   color:white
@@ -262,6 +262,10 @@
 
   background-color: #646464;
 
+  margin-left: 2vh;
+  margin-right: 2vh;
+
+
   color: white;
   font-size: 18px;
   font-weight: bold;
@@ -275,7 +279,9 @@
   padding-top: 10vh; /* 确保内容不被表头部分遮挡 */
   padding: 1vh; /* 为内容区域添加内边距 */
   text-align: left; /* 文字左对齐 */
-  margin-top: 2vh
+  margin-top: 2vh;
+  margin-left: 2vh;
+  margin-right: 2vh;
 }
 
 .content-item {
@@ -362,6 +368,58 @@
 }
 
 
+
+
+.main-btn {
+  width: 20vh;
+  height: 5.5vh;
+
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+
+  padding: 1vh;
+
+  border-radius: 3px;
+  border: 1px solid rgb(111, 111, 111);
+
+  box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
+  background-color: rgb(65, 65, 65);
+
+  transition: box-shadow 0.3s ease background-color 0.3s ease;
+}
+
+.main-btn:hover {
+  box-shadow: 5px 5px 20px 0px #17bef1;
+  border: 1px solid rgb(111, 111, 111);
+
+  background-color: rgb(88, 88, 88);
+  color: #ffffff
+}
+
+.main-btn:active {
+  box-shadow: 5px 5px 20px 0px #17bef1;
+  border: 1px solid rgb(111, 111, 111);
+
+  background-color: rgb(88, 88, 88);
+  color: #17bef1
+}
+
+.main-btn[disabled] {
+  background-color: #9c9c9c; /* 设置禁用状态下的背景色 */
+  color: #666; /* 设置禁用状态下的文字颜色 */
+  border: 1px solid rgb(111, 111, 111);
+}
+
+
+.main-btn[disabled]:hover {
+  background-color: #a7a7a7; /* 设置禁用状态下的背景色 */
+  color: #767676; /* 设置禁用状态下的文字颜色 */
+  border: 1px solid rgb(111, 111, 111);
+}
+
+
+
 /**
  * 全局页面尾部相关样式
  */
@@ -389,10 +447,12 @@
   font-size: 16px;
   font-weight: bold;
 
+  padding: 1vh;
+
+  border-radius: 3px;
   border: 1px solid rgb(111, 111, 111);
 
   box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
-  /* background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127)); */
   background-color: rgb(65, 65, 65);
 
   transition: box-shadow 0.3s ease background-color 0.3s ease;

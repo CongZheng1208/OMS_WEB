@@ -30,12 +30,12 @@
             </div>
             <div class="middle-button-bar">
               <div style="float: left">
-                <el-button @click="startLeg()" :disabled="isLegAble">
+                <button class="main-btn" @click="startLeg()" :disabled="isLegAble">
                   LEG ENABLE
-                </el-button>
+                </button>
               </div>
               <div style="float: right">
-                <button class="middle-button-bar-btn" @click="stopLeg()" :disabled="!isLegAble" :style="{'background-image': !isLegAble ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">
+                <button class="main-btn" @click="stopLeg()" :disabled="!isLegAble">
                   LEG DISABLE
                 </button>
               </div>
@@ -63,12 +63,12 @@
             </div>
             <div class="middle-button-bar">
               <div style="float: left">
-                <button class="middle-button-bar-btn" @click="startPhase()" :disabled="isPhaseAble" :style="{'background-image': isPhaseAble ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">
+                <button class="main-btn" @click="startPhase()" :disabled="isPhaseAble">
                   PHASE ENABLE
                 </button>
               </div>
               <div style="float: right">
-                <button class="middle-button-bar-btn" @click="stopPhase()" :disabled="!isPhaseAble" :style="{'background-image': !isPhaseAble ? 'linear-gradient(rgb(128, 127, 127), rgb(200, 200, 200))' : 'linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127))' }">
+                <button class="main-btn" @click="stopPhase()" :disabled="!isPhaseAble">
                   PHASE DISABLE
                 </button>
               </div>
@@ -77,6 +77,15 @@
         </el-col>
       </div>
     </el-row>
+
+    <el-footer>
+      <div>
+
+      </div>
+      <div>
+
+      </div>
+    </el-footer>
   </div>
 </template>
 

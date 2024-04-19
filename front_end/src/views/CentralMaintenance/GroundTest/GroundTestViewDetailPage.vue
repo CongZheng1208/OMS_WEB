@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
    <el-header style="height: 12vh;">
     <el-row style="width: 100%;">
       <el-col :span="7">
@@ -27,7 +27,7 @@
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-           Test Status: {{ $store.state.groundTestList.currentGroundTest.InitiatedTest_Status }}
+           Test Status: {{ testStatusDict[$store.state.groundTestList.currentGroundTest.InitiatedTest_Status] }}
         </div>
       </el-col>
       <el-col :span="7">
@@ -49,15 +49,20 @@
    <el-main style="padding:2vh">
      <el-row>
       <div>
-        <el-card class="custom-card" shadow="hover" style="height: 60vh"
+        <div class="custom-card" shadow="hover" style="height: 60vh"
+          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '2' "
           v-loading="loading"
           element-loading-text="Data Loading..."
           element-loading-spinner="el-icon-loading"
           element-loading-background="rgba(0, 0, 0, 0.5)">
+
           <div class="custom-header">DETAILS</div>
           <div class="custom-content">
             <el-row style="width: 100%;">
-              <el-col :span="8">
+              Test is successful.
+
+
+              <!-- <el-col :span="8">
                 <span class="custom-subtitle">
                   Pre-Condition
                 </span>
@@ -73,47 +78,118 @@
                   class="content-item">
                   <li>{{ precondition }}</li>
                 </div>
-              </el-col>
-
-              <el-col :span="8">
-                <span class="custom-subtitle">
-                  Inhibit Condition
-                </span>
-                <div
-                  v-if="$store.state.groundTestList.currentGroundTest.InhibitCondition_Text.length === 1 && $store.state.groundTestList.currentGroundTest.InhibitCondition_Text[0] === ''"
-                  class="content-alert">
-                  No Alive Data
-                </div>
-                <div
-                  v-else
-                  v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitCondition_Text"
-                  :key="inhibitCondition.id"
-                  class="content-item">
-                  <li>{{ inhibitCondition }}</li>
-                </div>
-              </el-col>
+              </el-col> -->
 
               <el-col :span="8">
               </el-col>
             </el-row>
           </div>
-        </el-card>
+        </div>
+        <div class="custom-card" shadow="hover" style="height: 60vh"
+          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '7' "
+          v-loading="loading"
+          element-loading-text="Data Loading..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.5)">
+
+          <div class="custom-header"> ERROR DETAILS</div>
+          <div class="custom-content">
+            <el-row style="width: 100%;">
+              <div
+                v-if="$store.state.groundTestList.currentGroundTest.Preconditions.length === 1 && $store.state.groundTestList.currentGroundTest.Preconditions[0] === ''"
+                class="content-alert">
+                No Alive Data
+              </div>
+              <div
+                v-else
+                v-for="precondition in $store.state.groundTestList.currentGroundTest.Preconditions"
+                :key="precondition.id"
+                class="content-item">
+                <li>{{ precondition }}</li>
+              </div>
+            </el-row>
+          </div>
+        </div>
+
+        <div class="custom-card" shadow="hover" style="height: 60vh"
+          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '6' "
+          v-loading="loading"
+          element-loading-text="Data Loading..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.5)">
+
+          <div class="custom-header">TEST INHIBIT CONDITIONS</div>
+          <div class="custom-content">
+            <el-row style="width: 100%;">
+              <div
+                v-if="$store.state.groundTestList.currentGroundTest.InhibitConditions.length === 1 && $store.state.groundTestList.currentGroundTest.InhibitConditions[0] === ''"
+                class="content-alert">
+                No Alive Data
+              </div>
+              <div
+                v-else
+                v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitConditions"
+                :key="inhibitCondition.id"
+                class="content-item">
+                <li>{{ inhibitCondition }}</li>
+              </div>
+            </el-row>
+          </div>
+        </div>
+
+        <div shadow="hover" style="height: 65vh"
+          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '5' "
+          v-loading="loading"
+          element-loading-text="Data Loading..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.5)">
+
+          <el-table
+            highlight-current-row
+            height="65vh"
+            style=" background-color: rgb(46, 45, 45)"
+
+            :sort-method="customSortMethodForProgressColumn"
+            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+            :empty-text="'No Data Display'"
+            v-loading="loading"
+            element-loading-text="Data Loading..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.5)"
+          >
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+            <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
+            <el-table-column prop="Fault Name" label="Fault Name" sortable :width="null" :min-width="150"></el-table-column>
+            <el-table-column prop="Fault Status" label="Fault Status" sortable :width="null" :min-width="120"></el-table-column>
+            <el-table-column prop="Failure Name" label="Failure Name" sortable :width="null" :min-width="150"></el-table-column>
+            <el-table-column prop="Failure Status" label="Failure Status" sortable :width="null" :min-width="120"></el-table-column>
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+          </el-table>
+
+          <div class="table-inner-number">
+             Number of Fault: {{  }}
+          </div>
+
+        </div>
       </div>
      </el-row>
 
    </el-main>
    <el-footer>
+      <div>
+        <button class="footer-btn" @click="printPage">PRINT</button>
+      </div>
      <div>
-     </div>
-     <div>
-       <el-button class="footer-btn" @click="goTestListPage()">BACK</el-button>
+        <button class="footer-btn" @click="goTestListPage()">BACK</button>
      </div>
    </el-footer>
- </el-container>
+ </div>
 </template>
 
 <script>
-import {testTypeEnum} from '@/globals/enums.js'
+import {printPage, customSortMethodForProgressColumn} from '@/utils/utils.js'
+import {testTypeEnum, testStatusEnum} from '@/globals/enums.js'
+
 import Clock from '@/components/Clock'
 
 export default {
@@ -121,6 +197,7 @@ export default {
     return {
       selectedTestId: "",
       testDict: testTypeEnum,
+      testStatusDict: testStatusEnum,
       loading: true
     }
   },
@@ -137,6 +214,9 @@ export default {
     goTestListPage() {
       this.$router.push({ name: "TestList", params: { } });
     },
+
+    printPage,
+    customSortMethodForProgressColumn
   },
   mounted() {
     setTimeout(() => {

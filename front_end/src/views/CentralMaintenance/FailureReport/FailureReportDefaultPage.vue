@@ -1,5 +1,5 @@
 <template>
-  <el-container style="display: flex; flex-direction: column">
+  <div>
     <el-header
       style="
         text-align: left;
@@ -99,14 +99,14 @@
     </el-main>
     <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goFailureHistoryPage()">HISTORY</el-button>
-        <el-button class="footer-btn" @click="goSelectPage()">SELECT</el-button>
+        <button class="footer-btn" @click="goFailureHistoryPage()">HISTORY</button>
+        <button class="footer-btn" @click="goSelectPage()">SELECT</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 
 </template>
 

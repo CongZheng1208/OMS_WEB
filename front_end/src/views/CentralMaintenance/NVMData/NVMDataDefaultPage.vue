@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header height="10vh">
       <el-row style="width: 100%;">
         <el-col :span="5">
@@ -72,26 +72,26 @@
           </el-table>
         </el-col>
         <el-col :span="10" style="padding-right: 0.5vh;">
-          <el-card class="custom-card" shadow="hover" style="height: 65vh">
+          <div class="custom-card" shadow="hover" style="height: 65vh">
             <div class="custom-header">DETAILS</div>
             <div class="custom-content">
               <div v-for="o in 50" :key="o" class="content-item">
                 {{'列表内容 ' + o }}
               </div>
             </div>
-          </el-card>
+          </div>
         </el-col>
       </el-row>
     </el-main>
     <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goManagementPage()">MANAGE NVM</el-button>
+        <button class="footer-btn" @click="goManagementPage()">MANAGE NVM</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>

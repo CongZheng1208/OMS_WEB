@@ -157,9 +157,9 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="saveSele()">SAVE</el-button>
-        <el-button class="footer-btn" @click="clearSele()">CLEAR</el-button>
-        <el-button class="footer-btn" @click="startView">START VIEW</el-button>
+        <button class="footer-btn" @click="saveSele()">SAVE</button>
+        <button class="footer-btn" @click="clearSele()">CLEAR</button>
+        <button class="footer-btn" @click="startView">START VIEW</button>
       </div>
     </el-footer>
   </div>

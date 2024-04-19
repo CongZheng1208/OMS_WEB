@@ -1,10 +1,10 @@
 <template>
-  <el-container>
+  <div>
     <el-header style="height: 10vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
           <div class="el-header-title">
-            Test Status: {{ selectedRow.InitiatedTest_Status }}
+            Test Status: {{ curTotalStatus }}
           </div>
         </el-col>
 
@@ -20,6 +20,7 @@
         highlight-current-row
         height="70vh"
         @row-click="handleRowClick"
+        style=" background-color: rgb(46, 45, 45)"
         :data="currentGroundTestLists"
         :sort-method="customSortMethodForProgressColumn"
         :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
@@ -34,7 +35,7 @@
         <el-table-column prop="EquipmentName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
         <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="180"></el-table-column>
         <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="60" :formatter="formatStartTime"></el-table-column>
-        <el-table-column prop="InitiatedTest_Status" label="Status" :width="null" :min-width="80"></el-table-column>
+        <el-table-column prop="InitiatedTest_Status" label="Status" :width="null" :min-width="80" :formatter="formatTestStatus"></el-table-column>
         <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="80">
           <template slot-scope="scope">
             <el-progress
@@ -58,22 +59,23 @@
     </el-main>
     <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" @click="redirectToVuePage">VIEW DETAIL</el-button>
-        <el-button class="footer-btn" :disabled="true">RESPOND</el-button>
-        <el-button class="footer-btn" @click="goNewTestPage">NEW TEST</el-button>
-        <el-button class="footer-btn" @click="sendAbort" :disabled="selectedRow==''">ABORT TEST</el-button>
-        <el-button class="footer-btn" @click="sendAbortAll">ABORT ALL</el-button>
+        <button class="footer-btn" @click="goViewDetailPage" :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAIL</button>
+        <button class="footer-btn" @click="respondTest"      :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button>
+        <button class="footer-btn" @click="goNewTestPage">NEW TEST</button>
+        <button class="footer-btn" @click="sendAbort"        :disabled="!['0', '3', '4'].includes(selectedRow.InitiatedTest_Status)">ABORT TEST</button>
+        <button class="footer-btn" @click="sendAbortAll"     :disabled="currentGroundTestLists.every(item => ![0, 3, 4].includes(item.InitiatedTest_Status))">ABORT ALL</button>
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>
   import {printPage, customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
   import Clock from '@/components/Clock'
+  import {testStatusEnum} from '@/globals/enums.js'
   import qs from 'qs'
   import axios from 'axios';
   export default {
@@ -95,7 +97,13 @@
     },
     methods: {
 
-      redirectToVuePage() {
+      goViewDetailPage() {
+        this.$router.push({ name: "ViewDetail" });
+      },
+
+
+      respondTest(){
+
 
       },
 
@@ -128,6 +136,7 @@
         // }
       },
 
+
       /**
        * 本函数用于计算StartTime属性的展示值
        */
@@ -138,6 +147,16 @@
         return '-';
       },
 
+
+      /**
+       * 本函数用于设置Flight Phase列中flight_phase的显示格式
+       * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
+       * @param {*} row table选中行信息
+       */
+       formatTestStatus(row) {
+        let tsIndex = row.InitiatedTest_Status;
+        return testStatusEnum[tsIndex];
+      },
 
 
       /**
@@ -208,7 +227,6 @@
        * 本函数用于跳转页面
        */
       goNewTestPage() {
-        // this.$router.push({ name: "NewTest" });
         this.$router.push({ name: "SelectTestNew" });
       },
 
@@ -234,7 +252,28 @@
 
     },
     computed: {
-
+      curTotalStatus() {
+        if (this.currentGroundTestLists.length === 0) {
+          return 'No Test Data To Display';
+        }
+        let has3 = false;
+        let has4 = false;
+        for (let i = 0; i < this.currentGroundTestLists.length; i++) {
+          if (this.currentGroundTestLists[i].InitiatedTest_Status === 3) {
+            has3 = true;
+          }
+          if (this.currentGroundTestLists[i].InitiatedTest_Status === 4) {
+            has4 = true;
+          }
+        }
+        if (has3) {
+          return 'Input Required';
+        } else if (has4) {
+          return 'Tests In Progress';
+        } else {
+          return 'No Test In Progress';
+        }
+      }
     },
     beforeDestroy() {
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)

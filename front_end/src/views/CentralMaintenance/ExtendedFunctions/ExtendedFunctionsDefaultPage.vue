@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <div>
     <el-header height="10vh">
       <el-row style="width: 100%;">
         <el-col :span="4">
@@ -46,20 +46,21 @@
       </el-row>
     </el-header>
     <el-main>
-      <el-row :gutter="2">
+      <el-row :gutter="1">
         <router-view></router-view>
       </el-row>
     </el-main>
-    <el-footer>
+
+    <!-- <el-footer>
       <div>
-        <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+        <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <el-button class="footer-btn" >HELP</el-button>
-        <el-button v-if="displaySelected == 'TimeCycles'" class="footer-btn" >SELECT</el-button>
+        <button class="footer-btn" >HELP</button>
+        <button v-if="displaySelected == 'TimeCycles'" class="footer-btn" @click="goSelectPage" >SELECT</button>
       </div>
-    </el-footer>
-  </el-container>
+    </el-footer> -->
+  </div>
 </template>
 
 <script>
@@ -85,7 +86,7 @@ export default {
       this.$router.push({
         name: value
       })
-    }
+    },
   }
 }
 

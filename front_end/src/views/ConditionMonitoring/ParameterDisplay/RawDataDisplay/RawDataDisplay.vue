@@ -9,7 +9,7 @@
 
       <el-row>
         <el-col :span="6">
-          <el-card class="custom-card" shadow="hover" style="height: 60vh">
+          <div class="custom-card" shadow="hover" style="height: 60vh">
             <div class="custom-header"> FILTER</div>
             <div class="custom-content">
               <div style="height: 38vh">
@@ -47,12 +47,12 @@
             >
               Clear
             </el-button>
-          </el-card>
+          </div>
         </el-col>
         <el-col :span="18">
           <el-row>
             <el-col :span="6">
-              <el-card class="custom-card" shadow="hover" style="height: 60vh">
+              <div class="custom-card" shadow="hover" style="height: 60vh">
                 <div class="custom-header"> TIMESTAMP</div>
                 <div class="custom-content">
                   <div class="param-wrapper" v-for="(ele, index) in curRawDatas.slice(0, 15)" :key="index"
@@ -67,12 +67,12 @@
                   >
                     Clear
                 </el-button>
-              </el-card>
+              </div>
             </el-col>
 
             <el-col :span="18">
 
-              <el-card class="custom-card" shadow="hover" style="height: 60vh">
+              <div class="custom-card" shadow="hover" style="height: 60vh">
                 <div class="custom-header"> RAW DATA</div>
                 <div class="custom-content">
                   <div class="raw-data-display">
@@ -85,7 +85,7 @@
                     </div>
                   </div>
                 </div>
-              </el-card>
+              </div>
             </el-col>
           </el-row>
         </el-col>
@@ -94,11 +94,11 @@
 
   <el-footer>
     <div>
-      <el-button class="footer-btn" @click="printPage">PRINT</el-button>
+      <button class="footer-btn" @click="printPage">PRINT</button>
     </div>
     <div>
-      <el-button class="footer-btn" :disabled="isStop" @click="stopTimestamp()">STOP VIEW</el-button>
-      <el-button class="footer-btn" :disabled="!isStop" @click="startRefresh()">START TEST</el-button>
+      <button class="footer-btn" :disabled="isStop" @click="stopTimestamp()">STOP VIEW</button>
+      <button class="footer-btn" :disabled="!isStop" @click="startRefresh()">START TEST</button>
     </div>
   </el-footer>
 

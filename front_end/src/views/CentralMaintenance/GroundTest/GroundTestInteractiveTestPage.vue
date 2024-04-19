@@ -1,5 +1,5 @@
 <template>
-   <el-container v-loading.fullscreen.lock="fullscreenLoading">
+   <div v-loading.fullscreen.lock="fullscreenLoading">
     <el-header style="height: 12vh;">
       <el-row style="width: 100%;">
         <el-col :span="8">
@@ -37,7 +37,7 @@
       <el-row :gutter="20">
         <el-col :span="14">
           <div>
-            <el-card class="custom-card" shadow="hover">
+            <div class="custom-card" shadow="hover">
               <div class="custom-header">Interactive Test</div>
               <div class="custom-content">
                 <div
@@ -51,7 +51,7 @@
                   {{ $store.state.groundTestList.currentGroundTest.screenArray.find(item => item.ScreenId === currentStepId).InteractiveScreenText }}
                 </div>
               </div>
-            </el-card>
+            </div>
           </div>
         </el-col>
         <el-col :span="10">
@@ -87,17 +87,17 @@
       <div>
       </div>
       <div>
-        <el-button class="footer-btn" @click="goTestListPage()">RETURN</el-button>
-        <el-button class="footer-btn" @click="goThreeTestsPage()">BACK</el-button>
-        <el-button class="footer-btn"
+        <button class="footer-btn" @click="goTestListPage()">RETURN</button>
+        <button class="footer-btn" @click="goThreeTestsPage()">BACK</button>
+        <button class="footer-btn"
           @click="continueTest()"
           :disabled = "selectedOption==-1">
           CONTINUE
-        </el-button>
-        <!-- <el-button class="footer-btn" @click="abortTest()">ABORT TEST</el-button> -->
+        </button>
+        <!-- <button class="footer-btn" @click="abortTest()">ABORT TEST</el-button> -->
       </div>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -115,7 +115,6 @@ export default {
 
       fullscreenLoading: false,
 
-      testDict: testTypeEnum,
       testDict: testTypeEnum,
       currentStepId: "",
       selectedOption: -1,

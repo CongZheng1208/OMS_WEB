@@ -162,11 +162,4 @@
     margin-right: 5vh;
   }
 
-  .middle-button-bar-btn{
-    background-image: linear-gradient(rgb(33, 33, 33), rgb(128, 127, 127));
-    color: white;
-    width: 22vh;
-    height: 5vh;
-    transition: background-image 0.3s;
-  }
 </style>

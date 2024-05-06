@@ -1,8 +1,10 @@
 <?php
 
-	$connection = mysqli_connect("localhost", "root", "root", "OMHMS");
+    require_once('connectConfig.php');
+    //$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+	//$connection = mysqli_connect("localhost", "root", "root", "OMHMS");
 
-	if (!$connection) {
+	if (!$con) {
 		die("Connection failed: " . mysqli_connect_error());
 	}
 
@@ -13,7 +15,7 @@
 	$query = "SELECT * FROM fimCode_OMD WHERE code = '$fimCode'";
 	
 	
-	$result = mysqli_query($connection, $query);
+	$result = mysqli_query($con, $query);
 
 	if (mysqli_num_rows($result) > 0) {
 		// 将查询结果转换为关联数组
@@ -31,5 +33,5 @@
 	}
 
 	// 关闭数据库连接
-	mysqli_close($connection);
+	mysqli_close($con);
 ?>

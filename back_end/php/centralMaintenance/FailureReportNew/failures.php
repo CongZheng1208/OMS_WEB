@@ -118,9 +118,7 @@
 					}
 				}
 			}
-
 		}
-
 	echo json_encode($res);
 	}	
 	// 结束查询

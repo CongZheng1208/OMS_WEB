@@ -1,0 +1,131 @@
+# Details
+
+Date : 2024-04-15 10:42:31
+
+Directory /Users/congzheng/Desktop/OMS_WEB
+
+Total : 116 files,  30926 codes, 512 comments, 2384 blanks, all 33822 lines
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
+
+## Files
+| filename | language | code | comment | blank | total |
+| :--- | :--- | ---: | ---: | ---: | ---: |
+| [README.md](/README.md) | Markdown | 64 | 0 | 25 | 89 |
+| [back_end/php/centralMaintenance/FailureReportNew/failures.php](/back_end/php/centralMaintenance/FailureReportNew/failures.php) | PHP | 110 | 13 | 6 | 129 |
+| [back_end/php/centralMaintenance/FailureReportNew/fdes.php](/back_end/php/centralMaintenance/FailureReportNew/fdes.php) | PHP | 156 | 15 | 30 | 201 |
+| [back_end/php/centralMaintenance/FailureReportNew/postFimCodeForURL.php](/back_end/php/centralMaintenance/FailureReportNew/postFimCodeForURL.php) | PHP | 18 | 7 | 10 | 35 |
+| [back_end/php/centralMaintenance/GroundTestNew/connect.php](/back_end/php/centralMaintenance/GroundTestNew/connect.php) | PHP | 14 | 7 | 2 | 23 |
+| [back_end/php/centralMaintenance/GroundTestNew/getATAandEqui.php](/back_end/php/centralMaintenance/GroundTestNew/getATAandEqui.php) | PHP | 28 | 14 | 9 | 51 |
+| [back_end/php/centralMaintenance/GroundTestNew/groundTestOrders.php](/back_end/php/centralMaintenance/GroundTestNew/groundTestOrders.php) | PHP | 6 | 3 | 5 | 14 |
+| [back_end/php/centralMaintenance/GroundTestNew/getCurrentTests.php](/back_end/php/centralMaintenance/GroundTestNew/getCurrentTests.php) | PHP | 18 | 7 | 10 | 35 |
+| [back_end/php/centralMaintenance/NVM/resetStatus.php](/back_end/php/centralMaintenance/NVM/resetStatus.php) | PHP | 34 | 6 | 3 | 43 |
+| [back_end/php/centralMaintenance/NVM/retrievalStatus.php](/back_end/php/centralMaintenance/NVM/retrievalStatus.php) | PHP | 34 | 6 | 3 | 43 |
+| [back_end/php/centralMaintenance/extendedFunctions/timeCycleStatus.php](/back_end/php/centralMaintenance/extendedFunctions/timeCycleStatus.php) | PHP | 32 | 6 | 4 | 42 |
+| [back_end/php/conditionMonitoring/eventLog/eventLogDisplay.php](/back_end/php/conditionMonitoring/eventLog/eventLogDisplay.php) | PHP | 29 | 7 | 3 | 39 |
+| [back_end/php/conditionMonitoring/eventLog/eventLogParameterDisplay.php](/back_end/php/conditionMonitoring/eventLog/eventLogParameterDisplay.php) | PHP | 27 | 7 | 4 | 38 |
+| [back_end/php/conditionMonitoring/paramerDisplay/connectConfig.php](/back_end/php/conditionMonitoring/paramerDisplay/connectConfig.php) | PHP | 4 | 8 | 4 | 16 |
+| [back_end/php/conditionMonitoring/paramerDisplay/getDataInTime.php](/back_end/php/conditionMonitoring/paramerDisplay/getDataInTime.php) | PHP | 58 | 7 | 27 | 92 |
+| [back_end/php/conditionMonitoring/paramerDisplay/getParaList.php](/back_end/php/conditionMonitoring/paramerDisplay/getParaList.php) | PHP | 33 | 4 | 6 | 43 |
+| [back_end/php/conditionMonitoring/paramerDisplay/getRawInTime.php](/back_end/php/conditionMonitoring/paramerDisplay/getRawInTime.php) | PHP | 32 | 3 | 9 | 44 |
+| [back_end/php/conditionMonitoring/paramerDisplay/getUnitInTime.php](/back_end/php/conditionMonitoring/paramerDisplay/getUnitInTime.php) | PHP | 21 | 11 | 17 | 49 |
+| [back_end/php/conditionMonitoring/paramerDisplay/listDelete.php](/back_end/php/conditionMonitoring/paramerDisplay/listDelete.php) | PHP | 38 | 5 | 17 | 60 |
+| [back_end/php/conditionMonitoring/paramerDisplay/paramerList.php](/back_end/php/conditionMonitoring/paramerDisplay/paramerList.php) | PHP | 66 | 1 | 8 | 75 |
+| [back_end/php/conditionMonitoring/paramerDisplay/saveSelection.php](/back_end/php/conditionMonitoring/paramerDisplay/saveSelection.php) | PHP | 38 | 3 | 11 | 52 |
+| [back_end/php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php](/back_end/php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php) | PHP | 26 | 5 | 9 | 40 |
+| [back_end/php/config/connectConfig.php](/back_end/php/config/connectConfig.php) | PHP | 4 | 3 | 4 | 11 |
+| [back_end/php/utils/Main.java](/back_end/php/utils/Main.java) | Java | 5 | 69 | 9 | 83 |
+| [back_end/php/utils/ReturnJson.java](/back_end/php/utils/ReturnJson.java) | Java | 14 | 0 | 0 | 14 |
+| [back_end/php/utils/util.php](/back_end/php/utils/util.php) | PHP | 65 | 7 | 7 | 79 |
+| [front_end/.postcssrc.js](/front_end/.postcssrc.js) | JavaScript | 7 | 2 | 2 | 11 |
+| [front_end/build/build.js](/front_end/build/build.js) | JavaScript | 40 | 0 | 9 | 49 |
+| [front_end/build/check-versions.js](/front_end/build/check-versions.js) | JavaScript | 45 | 0 | 10 | 55 |
+| [front_end/build/utils.js](/front_end/build/utils.js) | JavaScript | 80 | 5 | 17 | 102 |
+| [front_end/build/vue-loader.conf.js](/front_end/build/vue-loader.conf.js) | JavaScript | 21 | 0 | 2 | 23 |
+| [front_end/build/webpack.base.conf.js](/front_end/build/webpack.base.conf.js) | JavaScript | 74 | 5 | 5 | 84 |
+| [front_end/build/webpack.dev.conf.js](/front_end/build/webpack.dev.conf.js) | JavaScript | 78 | 12 | 7 | 97 |
+| [front_end/build/webpack.prod.conf.js](/front_end/build/webpack.prod.conf.js) | JavaScript | 114 | 24 | 8 | 146 |
+| [front_end/config/dev.env.js](/front_end/config/dev.env.js) | JavaScript | 6 | 0 | 2 | 8 |
+| [front_end/config/index.js](/front_end/config/index.js) | JavaScript | 29 | 25 | 16 | 70 |
+| [front_end/config/prod.env.js](/front_end/config/prod.env.js) | JavaScript | 4 | 0 | 1 | 5 |
+| [front_end/index.html](/front_end/index.html) | HTML | 11 | 2 | 1 | 14 |
+| [front_end/package-lock.json](/front_end/package-lock.json) | JSON | 14,730 | 0 | 1 | 14,731 |
+| [front_end/package.json](/front_end/package.json) | JSON | 66 | 0 | 1 | 67 |
+| [front_end/pnpm-lock.yaml](/front_end/pnpm-lock.yaml) | YAML | 6,087 | 0 | 919 | 7,006 |
+| [front_end/src/App.vue](/front_end/src/App.vue) | Vue | 55 | 0 | 7 | 62 |
+| [front_end/src/api/CentralMaintenceHttp.js](/front_end/src/api/CentralMaintenceHttp.js) | JavaScript | 15 | 5 | 5 | 25 |
+| [front_end/src/api/ConditionMonitoringHttp.js](/front_end/src/api/ConditionMonitoringHttp.js) | JavaScript | 15 | 5 | 5 | 25 |
+| [front_end/src/components/Clock/index.vue](/front_end/src/components/Clock/index.vue) | Vue | 37 | 0 | 2 | 39 |
+| [front_end/src/components/Menus/index.vue](/front_end/src/components/Menus/index.vue) | Vue | 56 | 0 | 5 | 61 |
+| [front_end/src/globals/enums.js](/front_end/src/globals/enums.js) | JavaScript | 80 | 8 | 9 | 97 |
+| [front_end/src/main.js](/front_end/src/main.js) | JavaScript | 15 | 3 | 7 | 25 |
+| [front_end/src/mixins/index.js](/front_end/src/mixins/index.js) | JavaScript | 2 | 3 | 2 | 7 |
+| [front_end/src/plugins/axios.js](/front_end/src/plugins/axios.js) | JavaScript | 8 | 2 | 3 | 13 |
+| [front_end/src/plugins/element-ui.js](/front_end/src/plugins/element-ui.js) | JavaScript | 7 | 1 | 3 | 11 |
+| [front_end/src/plugins/vuex.js](/front_end/src/plugins/vuex.js) | JavaScript | 6 | 2 | 3 | 11 |
+| [front_end/src/router/index.js](/front_end/src/router/index.js) | JavaScript | 19 | 1 | 5 | 25 |
+| [front_end/src/router/modules/CentralMaintenance/index.js](/front_end/src/router/modules/CentralMaintenance/index.js) | JavaScript | 138 | 1 | 3 | 142 |
+| [front_end/src/router/modules/ConditionMonitoring/index.js](/front_end/src/router/modules/ConditionMonitoring/index.js) | JavaScript | 35 | 1 | 3 | 39 |
+| [front_end/src/router/modules/DataLoad/index.js](/front_end/src/router/modules/DataLoad/index.js) | JavaScript | 3 | 0 | 3 | 6 |
+| [front_end/src/router/modules/Utility/index.js](/front_end/src/router/modules/Utility/index.js) | JavaScript | 3 | 0 | 3 | 6 |
+| [front_end/src/services/centralMaintenance/failureReport/index.js](/front_end/src/services/centralMaintenance/failureReport/index.js) | JavaScript | 25 | 6 | 8 | 39 |
+| [front_end/src/services/centralMaintenance/groundTest/index.js](/front_end/src/services/centralMaintenance/groundTest/index.js) | JavaScript | 33 | 3 | 10 | 46 |
+| [front_end/src/services/conditionMonitoring/parameterDisplay/index.js](/front_end/src/services/conditionMonitoring/parameterDisplay/index.js) | JavaScript | 64 | 7 | 17 | 88 |
+| [front_end/src/store/index.js](/front_end/src/store/index.js) | JavaScript | 13 | 3 | 4 | 20 |
+| [front_end/src/store/modules/centralMaintenance/failureList.js](/front_end/src/store/modules/centralMaintenance/failureList.js) | JavaScript | 147 | 35 | 19 | 201 |
+| [front_end/src/store/modules/centralMaintenance/groundTestList.js](/front_end/src/store/modules/centralMaintenance/groundTestList.js) | JavaScript | 98 | 18 | 29 | 145 |
+| [front_end/src/store/modules/centralMaintenance/websocketVuex.js](/front_end/src/store/modules/centralMaintenance/websocketVuex.js) | JavaScript | 74 | 5 | 14 | 93 |
+| [front_end/src/styles/A661Style.css](/front_end/src/styles/A661Style.css) | CSS | 316 | 26 | 98 | 440 |
+| [front_end/src/utils/http.js](/front_end/src/utils/http.js) | JavaScript | 35 | 15 | 7 | 57 |
+| [front_end/src/utils/utils.js](/front_end/src/utils/utils.js) | JavaScript | 40 | 27 | 12 | 79 |
+| [front_end/src/views/CentralMaintenance/CentralMaintenance.vue](/front_end/src/views/CentralMaintenance/CentralMaintenance.vue) | Vue | 81 | 0 | 6 | 87 |
+| [front_end/src/views/CentralMaintenance/Configuration/Configuration.vue](/front_end/src/views/CentralMaintenance/Configuration/Configuration.vue) | Vue | 9 | 0 | 5 | 14 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/ExtendedFunctionsDefaultPage.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/ExtendedFunctionsDefaultPage.vue) | Vue | 96 | 0 | 8 | 104 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/index.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/index.vue) | Vue | 5 | 0 | 0 | 5 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/EngineBalance.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/EngineBalance.vue) | Vue | 11 | 0 | 2 | 13 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/LegPhaseOperation.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/LegPhaseOperation.vue) | Vue | 155 | 0 | 9 | 164 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/OtherFunctions.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/OtherFunctions.vue) | Vue | 11 | 0 | 2 | 13 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesDefaultPage.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesDefaultPage.vue) | Vue | 177 | 0 | 5 | 182 |
+| [front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesSelect.vue](/front_end/src/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesSelect.vue) | Vue | 23 | 0 | 4 | 27 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureHistory.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureHistory.vue) | Vue | 765 | 0 | 92 | 857 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportDefaultPage.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportDefaultPage.vue) | Vue | 158 | 0 | 14 | 172 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/ExistingFDE.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/ExistingFDE.vue) | Vue | 269 | 1 | 46 | 316 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/ExistingFailure.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/ExistingFailure.vue) | Vue | 170 | 0 | 8 | 178 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/InBoundLegFDE.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/InBoundLegFDE.vue) | Vue | 223 | 0 | 17 | 240 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/InBoundLegFailure.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/InBoundLegFailure.vue) | Vue | 19 | 0 | 3 | 22 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/inBoundLegFailures/InBoundLegFailuresAll.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/inBoundLegFailures/InBoundLegFailuresAll.vue) | Vue | 175 | 0 | 11 | 186 |
+| [front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/inBoundLegFailures/InBoundLegFailuresSum.vue](/front_end/src/views/CentralMaintenance/FailureReport/FailureReportRadios/inBoundLegFailures/InBoundLegFailuresSum.vue) | Vue | 107 | 0 | 5 | 112 |
+| [front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresDetails.vue](/front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresDetails.vue) | Vue | 260 | 2 | 25 | 287 |
+| [front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresHistory.vue](/front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresHistory.vue) | Vue | 194 | 0 | 27 | 221 |
+| [front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresRadios/FlightDeckEffects.vue](/front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresRadios/FlightDeckEffects.vue) | Vue | 119 | 0 | 9 | 128 |
+| [front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresRadios/Parameters.vue](/front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresRadios/Parameters.vue) | Vue | 101 | 0 | 7 | 108 |
+| [front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresRadios/RootCause.vue](/front_end/src/views/CentralMaintenance/FailureReport/SelectFailuresRadios/RootCause.vue) | Vue | 48 | 0 | 8 | 56 |
+| [front_end/src/views/CentralMaintenance/FailureReport/index.vue](/front_end/src/views/CentralMaintenance/FailureReport/index.vue) | Vue | 5 | 0 | 3 | 8 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestInteractiveTestPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestInteractiveTestPage.vue) | Vue | 222 | 1 | 40 | 263 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestNewTestPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestNewTestPage.vue) | Vue | 170 | 0 | 31 | 201 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestSelectTestNewPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestSelectTestNewPage.vue) | Vue | 253 | 24 | 39 | 316 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestSelectTestPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestSelectTestPage.vue) | Vue | 147 | 0 | 19 | 166 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestTestListPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestTestListPage.vue) | Vue | 227 | 0 | 36 | 263 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestThreeTestsPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestThreeTestsPage.vue) | Vue | 217 | 4 | 33 | 254 |
+| [front_end/src/views/CentralMaintenance/GroundTest/GroundTestViewDetailPage.vue](/front_end/src/views/CentralMaintenance/GroundTest/GroundTestViewDetailPage.vue) | Vue | 142 | 0 | 11 | 153 |
+| [front_end/src/views/CentralMaintenance/GroundTest/index.vue](/front_end/src/views/CentralMaintenance/GroundTest/index.vue) | Vue | 5 | 0 | 1 | 6 |
+| [front_end/src/views/CentralMaintenance/NVMData/NVMDataDefaultPage.vue](/front_end/src/views/CentralMaintenance/NVMData/NVMDataDefaultPage.vue) | Vue | 138 | 0 | 11 | 149 |
+| [front_end/src/views/CentralMaintenance/NVMData/NVMDataManagementPage.vue](/front_end/src/views/CentralMaintenance/NVMData/NVMDataManagementPage.vue) | Vue | 151 | 0 | 16 | 167 |
+| [front_end/src/views/CentralMaintenance/NVMData/index.vue](/front_end/src/views/CentralMaintenance/NVMData/index.vue) | Vue | 5 | 0 | 0 | 5 |
+| [front_end/src/views/ConditionMonitoring/ConditionMonitoring.vue](/front_end/src/views/ConditionMonitoring/ConditionMonitoring.vue) | Vue | 36 | 0 | 4 | 40 |
+| [front_end/src/views/ConditionMonitoring/EventMonitoring/EventMonitoring.vue](/front_end/src/views/ConditionMonitoring/EventMonitoring/EventMonitoring.vue) | Vue | 9 | 0 | 5 | 14 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/ParamFlightShow.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/ParamFlightShow.vue) | Vue | 139 | 0 | 16 | 155 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/components/ATA29.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/components/ATA29.vue) | Vue | 147 | 0 | 16 | 163 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/components/ATA32_BRAKE.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/components/ATA32_BRAKE.vue) | Vue | 449 | 3 | 41 | 493 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/components/ATA32_LG.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamGraphicDisplay/components/ATA32_LG.vue) | Vue | 162 | 0 | 24 | 186 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamListDisplay/ParamListDisplay.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/ParamListDisplay/ParamListDisplay.vue) | Vue | 403 | 0 | 50 | 453 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/ParameterSelect.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/ParameterSelect.vue) | Vue | 76 | 0 | 9 | 85 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/RawDataDisplay/RawDataDisplay.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/RawDataDisplay/RawDataDisplay.vue) | Vue | 309 | 0 | 23 | 332 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/StartView.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/StartView.vue) | Vue | 593 | 1 | 98 | 692 |
+| [front_end/src/views/ConditionMonitoring/ParameterDisplay/index.vue](/front_end/src/views/ConditionMonitoring/ParameterDisplay/index.vue) | Vue | 5 | 0 | 0 | 5 |
+| [front_end/src/views/ConditionMonitoring/ParameterRecording/ParameterRecording.vue](/front_end/src/views/ConditionMonitoring/ParameterRecording/ParameterRecording.vue) | Vue | 9 | 0 | 5 | 14 |
+| [front_end/src/views/DataLoad/DataLoad.vue](/front_end/src/views/DataLoad/DataLoad.vue) | Vue | 10 | 0 | 5 | 15 |
+| [front_end/src/views/Utility/Utility.vue](/front_end/src/views/Utility/Utility.vue) | Vue | 10 | 0 | 5 | 15 |
+| [front_end/vue.config.js](/front_end/vue.config.js) | JavaScript | 6 | 0 | 1 | 7 |
+
+[Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)

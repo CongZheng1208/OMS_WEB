@@ -88,13 +88,12 @@
       </div>
       <div>
         <button class="footer-btn" @click="goTestListPage()">RETURN</button>
-        <button class="footer-btn" @click="goThreeTestsPage()">BACK</button>
         <button class="footer-btn"
           @click="continueTest()"
           :disabled = "selectedOption==-1">
           CONTINUE
         </button>
-        <!-- <button class="footer-btn" @click="abortTest()">ABORT TEST</el-button> -->
+        <button class="footer-btn" @click="goThreeTestsPage()">BACK</button>
       </div>
     </el-footer>
   </div>
@@ -174,7 +173,7 @@ export default {
 
     /**
      * 本函数是提交post请求后，用于递归查询下一步展示项目的index
-     * 最多查询时间为10s，超时后停止递归查询
+     * 最多查询时间为5s，超时后停止递归查询
      */
     checkScreenTriggerIndex(count) {
       // 若交互测试还没有进行完，则继续定时刷新
@@ -185,10 +184,6 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)'
       });
 
-      console.log(this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index);
-
-
-
       if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== null ) {
         // 当不为null时, 更新页面展示项目并停止刷新
 
@@ -198,8 +193,8 @@ export default {
         this.selectedOption = -1;
 
         return;
-      } else if(count >= 10) {
-        // 如果时间超过10秒，也停止刷新并退出
+      } else if(count >= 5) {
+        // 如果时间超过5秒，也停止刷新并退出
         loading.close();
         this.$message({ message: 'Exceeded maximum refresh time', type: 'warning'});
         this.$router.push({ name: "TestList", params: { } });
@@ -211,25 +206,6 @@ export default {
           this.checkScreenTriggerIndex(count + 1); // 递增次数
         }, 1000);
       }
-    },
-
-
-    /**
-     * 本函数用于向成员系统发送终止指令
-     */
-    abortTest() {
-      let tmp = qs.stringify({
-        OrderType: "ABORT",
-
-        currentPage: "InteractiveTest",
-        InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
-        MemberSystemID: "NULL",
-
-        currentScreenId: "",
-        selectedOption: "",
-      });
-
-      this.handleTestOrder(tmp)
     },
 
     customSortMethodForProgressColumn,

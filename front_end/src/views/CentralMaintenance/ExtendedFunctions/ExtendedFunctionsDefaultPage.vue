@@ -50,16 +50,6 @@
         <router-view></router-view>
       </el-row>
     </el-main>
-
-    <!-- <el-footer>
-      <div>
-        <button class="footer-btn" @click="printPage">PRINT</button>
-      </div>
-      <div>
-        <button class="footer-btn" >HELP</button>
-        <button v-if="displaySelected == 'TimeCycles'" class="footer-btn" @click="goSelectPage" >SELECT</button>
-      </div>
-    </el-footer> -->
   </div>
 </template>
 

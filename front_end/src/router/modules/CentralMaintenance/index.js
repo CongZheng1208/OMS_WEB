@@ -20,16 +20,6 @@ const CentralMaintenanceRoutes = {
           name: 'SelectFailuresDetails',
           component: () => import('@/views/CentralMaintenance/FailureReport/SelectFailuresDetails.vue')
         },
-        {
-          path: 'failureHistory',
-          name: 'FailureHistory',
-          component: () => import('@/views/CentralMaintenance/FailureReport/FailureHistory.vue')
-        },
-        {
-          path: 'selectFailuresHistory',
-          name: 'SelectFailuresHistory',
-          component: () => import('@/views/CentralMaintenance/FailureReport/SelectFailuresHistory.vue')
-        }
       ]
     },
     {
@@ -48,16 +38,6 @@ const CentralMaintenanceRoutes = {
           component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestSelectTestNewPage.vue')
         },
         {
-          path: 'newTest',
-          name: 'NewTest',
-          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestNewTestPage.vue')
-        },
-        {
-          path: 'selectTest',
-          name: 'SelectTest',
-          component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestSelectTestPage.vue')
-        },
-        {
           path: 'threeTests',
           name: 'ThreeTests',
           component: () => import('@/views/CentralMaintenance/GroundTest/GroundTestThreeTestsPage.vue')
@@ -74,10 +54,23 @@ const CentralMaintenanceRoutes = {
         },
       ]
     },
+
     {
       path: 'configuration',
       name: 'Configuration',
-      component: () => import('@/views/CentralMaintenance/Configuration/Configuration.vue')
+      component: () => import('@/views/CentralMaintenance/Configuration/index.vue'),
+      children: [
+        {
+          path: 'configurationSelection',
+          name: 'ConfigurationSelection',
+          component: () => import('@/views/CentralMaintenance/Configuration/ConfigurationSelection.vue')
+        },
+        {
+          path: 'configurationDisplay',
+          name: 'ConfigurationDisplay',
+          component: () => import('@/views/CentralMaintenance/Configuration/ConfigurationDisplay.vue')
+        },
+      ]
     },
     {
       path: 'nvmData',

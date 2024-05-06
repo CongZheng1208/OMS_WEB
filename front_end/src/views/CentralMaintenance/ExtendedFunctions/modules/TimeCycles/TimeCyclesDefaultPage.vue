@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <div class="el-subheader">
-        Time Cycle Status: Time Cycle Process in Progress
+        Time Cycle Status: {{ }}
       </div>
     </el-row>
 

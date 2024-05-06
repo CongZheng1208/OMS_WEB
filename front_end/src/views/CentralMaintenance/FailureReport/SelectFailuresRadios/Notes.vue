@@ -1,37 +1,37 @@
 <template>
-  <div>
+
+  <div style="height: 20vh">
     <el-row >
       <div style="float: left; margin: 15px;  font-weight: bold;">
-        Count 1:  2024/04/21 14:01:43  Power On
+        2024/04/21 14:01:43
       </div>
     </el-row>
     <el-row >
-      <table class="transparent-table" show-empty empty-text="No data available">
-        <thead>
-          <tr>
-            <th v-for="(value, key) in dataArray[0]" :key="key">{{ key }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in dataArray" :key="index">
-            <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div style="float: left">
+        <div v-for="item in selectedData" :key="item.id">
+          <div v-for="(list, index) in item.fault_name" :key="index">
+            <br />
+            <div style="text-align: left; margin-left: 15px">
+              {{ list }}
+            </div>
+          </div>
+        </div>
+        <div class="table-outer-number">
+          <button class="footer-btn" @click="isAddNotesSelected = true">Add Notes</button>
+        </div>
+      </div>
     </el-row>
   </div>
+
 </template>
 
 <script>
 export default {
-  name: "RootCause",
+  name: "Notes",
   data() {
     return {
       selectedData: [],
-
-      dataArray: [
-        { "Fault Name": "", "Fault Status": '', "Equipment Name": "" }
-      ]
+      isAddNotesSelected: false
     };
   },
   methods: {
@@ -45,12 +45,10 @@ export default {
 
       //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.index === this.$store.state.failureList.selectedFailureId))
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.index === this.$store.state.failureList.selectedFailureId.toString()))
       );
       this.selectedData.push(objSelectedData);
-      console.log("this.selectedData in root:", this.selectedData);
-
-      this.dataArray =  this.selectedData[0].fault
+      console.log("this.selectedData:", this.selectedData);
     },
   },
 

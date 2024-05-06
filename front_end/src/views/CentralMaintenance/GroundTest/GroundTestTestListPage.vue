@@ -7,13 +7,10 @@
             Test Status: {{ curTotalStatus }}
           </div>
         </el-col>
-
         <el-col :span="3">
           <Clock />
         </el-col>
       </el-row>
-
-
     </el-header>
     <el-main>
       <el-table
@@ -32,12 +29,12 @@
       >
         <el-table-column :width="null" :min-width="5"></el-table-column>
         <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="EquipmentName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
+        <el-table-column prop="MemberSystemName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
         <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="180"></el-table-column>
         <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="60" :formatter="formatStartTime"></el-table-column>
         <el-table-column prop="InitiatedTest_Status" label="Status" :width="null" :min-width="80" :formatter="formatTestStatus"></el-table-column>
         <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="80">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope">
             <el-progress
               :percentage="scope.row.progress"
               :color="getProgressColor(scope.row.progress)"
@@ -48,13 +45,13 @@
               stroke-linecap=square
             >
             </el-progress>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
       </el-table>
 
-      <div class="table-inner-number">
-        Total Number: {{  }}
+      <div class="table-outer-number">
+        Number of Tests: {{  }}
       </div>
     </el-main>
     <el-footer>
@@ -62,7 +59,7 @@
         <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <button class="footer-btn" @click="goViewDetailPage" :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAIL</button>
+        <button class="footer-btn" @click="goViewDetailPage" :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAILS</button>
         <button class="footer-btn" @click="respondTest"      :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button>
         <button class="footer-btn" @click="goNewTestPage">NEW TEST</button>
         <button class="footer-btn" @click="sendAbort"        :disabled="!['0', '3', '4'].includes(selectedRow.InitiatedTest_Status)">ABORT TEST</button>
@@ -77,7 +74,6 @@
   import Clock from '@/components/Clock'
   import {testStatusEnum} from '@/globals/enums.js'
   import qs from 'qs'
-  import axios from 'axios';
   export default {
     data() {
       return {
@@ -103,8 +99,7 @@
 
 
       respondTest(){
-
-
+        this.$router.push({ name: "InteractiveTest" });
       },
 
       /**
@@ -154,6 +149,7 @@
        * @param {*} row table选中行信息
        */
        formatTestStatus(row) {
+
         let tsIndex = row.InitiatedTest_Status;
         return testStatusEnum[tsIndex];
       },
@@ -167,7 +163,7 @@
           OrderType: "ABORT",
 
           currentPage: "TestList",
-          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
+          InitiatedTest_Index: [this.selectedRow.InitiatedTest_Index],
           MemberSystemID: "NULL",
 
           currentScreenId: "",
@@ -200,7 +196,11 @@
        * 本函数用于更新测试的进度值
        */
       updateCurrentGroundTestLists() {
-        this.currentGroundTestLists = this.$store.state.groundTestList.currentGroundTests.map(test => {
+
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests
+
+
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.map(test => {
 
           if(test.InitiatedTest_Status == "GROUND_TEST_COMPLETE" || test.InitiatedTest_Status == "GROUND_TEST_PASS"){
             return {
@@ -249,6 +249,19 @@
       customSortMethodForProgressColumn
     },
     created() {
+
+      let tmp = qs.stringify({
+        OrderType: "PAGEINIT",
+
+        currentPage: "TestList",
+        InitiatedTest_Index: "",
+        MemberSystemID: "",
+
+        currentScreenId: "",
+        selectedOption: "",
+      });
+
+      this.handleTestOrder(tmp)
 
     },
     computed: {

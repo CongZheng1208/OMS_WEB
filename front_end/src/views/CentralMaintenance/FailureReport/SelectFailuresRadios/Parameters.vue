@@ -1,39 +1,23 @@
 <template>
   <div>
-    <el-row>
-      <el-table
-        highlight-current-row
-        style="
-          width: 100%;
-          background-color: rgb(46, 45, 45);
-          margin-bottom: 1%;
-        "
-        :data="parameterTable"
-        :header-cell-style="{
-          background: '#404040',
-          color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
-        }"
-        :cell-style="{ 'text-align': 'center' }"
-        :empty-text="'No Data Display'"
-      >
-        <el-table-column
-          prop="rp_name"
-          label="Parameter"
-          :min-width="40"
-        ></el-table-column>
-        <el-table-column
-          prop="rp_value"
-          label="Value"
-          :min-width="40"
-        ></el-table-column>
-        <el-table-column
-          prop="rp_unit"
-          label="Unit"
-          :min-width="40"
-        ></el-table-column>
-      </el-table>
+    <el-row >
+      <div style="float: left; margin: 15px;  font-weight: bold;">
+        Count 1:  2024/04/21 14:01:43  Power On
+      </div>
+    </el-row>
+    <el-row >
+      <table class="transparent-table">
+        <thead>
+          <tr>
+            <th v-for="(value, key) in dataArray[0]" :key="key">{{ key }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in dataArray" :key="index">
+            <td v-for="(value, key) in item" :key="key">{{ value }}</td>
+          </tr>
+        </tbody>
+      </table>
     </el-row>
     <el-row>
       <div
@@ -48,6 +32,8 @@
       </div>
     </el-row>
   </div>
+
+
 </template>
 
 <script>
@@ -57,6 +43,9 @@ export default {
     return {
       selectedData: [],
       parameterTable: [],
+      dataArray: [
+        { "Parameter": "", "Value": '', "Units": "" }
+      ]
     };
   },
   methods: {
@@ -71,22 +60,26 @@ export default {
 
       //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()))
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.index === this.$store.state.failureList.selectedFailureId))
       );
 
       this.selectedData.push(objSelectedData);
-      //处理数据，生成parameterTable需要的数据
-      for (let item of this.selectedData) {
-        for (let i = 0; i < item.rp_name.length; i++) {
-          let objParameter = {
-            rp_name: item.rp_name[i],
-            rp_value: item.rp_value[i],
-            rp_unit: item.rp_unit[i],
-          };
-          this.parameterTable.push(objParameter);
-        }
-      }
-      console.log("parameterTable:", this.parameterTable);
+
+      this.dataArray =  this.selectedData[0].rp
+
+
+      // //处理数据，生成parameterTable需要的数据
+      // for (let item of this.selectedData) {
+      //   for (let i = 0; i < item.rp_name.length; i++) {
+      //     let objParameter = {
+      //       rp_name: item.rp_name[i],
+      //       rp_value: item.rp_value[i],
+      //       rp_unit: item.rp_unit[i],
+      //     };
+      //     this.parameterTable.push(objParameter);
+      //   }
+      // }
+      // console.log("parameterTable:", this.parameterTable);
     },
   },
   mounted() {

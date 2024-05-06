@@ -27,7 +27,7 @@ export default {
         {
           name: "Configuration",
           isActive: false,
-          routeName: "Configuration",
+          routeName: "ConfigurationSelection",
         },
         {
           name: "NVM Data",
@@ -52,6 +52,15 @@ export default {
     getfailureReportPhp() {
       this.$store.commit("failureList/fdePhp");
       this.$store.commit("failureList/failurePhp");
+    },
+
+    /**
+     * 本函数用于mounted和menus中：调用store中mutations的failurePhp函数，初始化、更新failure数据
+     *
+     */
+     getGroundTestPhp() {
+      this.$store.commit("groundTestList/getCurrentTestsPhp");
+      this.$store.commit("groundTestList/getAllAtaEquiTestsPhp");
     }
   },
 
@@ -68,6 +77,15 @@ export default {
         } else {
           clearInterval(this.FailureReportTimer)
         }
+
+        if (newValue[1].isActive == true) {
+          this.currentGroundTestTimer = setInterval(
+            this.getGroundTestPhp,
+            1000
+          )
+        } else {
+          clearInterval(this.currentGroundTestTimer)
+        }
       },
       deep: true,
       immediate: true,
@@ -76,7 +94,8 @@ export default {
 
   mounted () {
     //调用getfailureReportPhp函数，初始化、更新failure数据
-    this.getfailureReportPhp()
+    this.getfailureReportPhp();
+    this.getGroundTestPhp();
   },
 };
 </script>

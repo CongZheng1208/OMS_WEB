@@ -1,49 +1,25 @@
 <template>
-  <el-table
-    highlight-current-row
-    style="width: 100%; background-color: rgb(46, 45, 45); margin-bottom: 1%"
-    :data="FDEtable"
-    :header-cell-style="{
-      background: '#404040',
-      color: '#FFFFFF',
-      font: '14px',
-      'text-align': 'center',
-    }"
-    :cell-style="{ 'text-align': 'center' }"
-    :empty-text="'No Data Display'"
-  >
-    <el-table-column
-      prop="fde"
-      label="Alert Code"
-      :width="null"
-      :min-width="40"
-    ></el-table-column>
-    <el-table-column
-      prop="fde_text"
-      label="Text"
-      :width="null"
-      :min-width="40"
-    ></el-table-column>
-    <el-table-column
-      prop="fde_state"
-      label="Status"
-      :width="null"
-      :min-width="40"
-      :formatter="FDEStateData"
-    ></el-table-column>
-    <el-table-column
-      prop="fde_class"
-      label="Class"
-      :width="null"
-      :min-width="40"
-      :formatter="FDEClassData"
-    ></el-table-column>
-    <el-table-column
-      prop="fde_time"
-      label="Alert Date/Time"
-      :width="null"
-    ></el-table-column>
-  </el-table>
+  <div>
+    <el-row >
+      <div style="float: left; margin: 15px;  font-weight: bold;">
+        Count 1:  2024/04/21 14:01:43  Power On
+      </div>
+    </el-row>
+    <el-row >
+      <table class="transparent-table" show-empty empty-text="No data available">
+        <thead>
+          <tr>
+            <th v-for="(value, key) in dataArray[0]" :key="key">{{ key }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in dataArray" :key="index">
+            <td v-for="(value, key) in item" :key="key">{{ value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -55,6 +31,9 @@ export default {
     return {
       selectedData: [],
       FDEtable: [],
+      dataArray: [
+        { "FDE Code": "", "FDE Test": "", "FDE Status": '', "FDE Class": "" }
+      ]
     };
   },
   methods: {
@@ -88,25 +67,14 @@ export default {
 
       //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
-        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.id === this.$store.state.failureList.selectedFailureId.toString()))
+        JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.index === this.$store.state.failureList.selectedFailureId))
       );
 
       this.selectedData.push(objSelectedData);
       console.log("this.selectedData:", this.selectedData);
-      //处理数据，生成FDEtable需要的数据
-      for (let item of this.selectedData) {
-        for (let i = 0; i < item.fde.length; i++) {
-          let objFDE = {
-            fde: item.fde[i],
-            fde_text: item.fde_text[i],
-            fde_state: item.fde_state[i],
-            fde_class: item.fde_class[i],
-            fde_time: item.fde_time[i],
-          };
-          this.FDEtable.push(objFDE);
-        }
-      }
-      console.log("FDEtable:", this.FDEtable);
+
+      this.dataArray =  [this.selectedData[0].fde]
+
     },
   },
   mounted() {

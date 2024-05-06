@@ -48,6 +48,8 @@
    */
   export function handleTestOrder(tmp) {
 
+    console.log("send msg is:",tmp)
+
     postTestOrder(tmp).then(response => {
       // 显示加载条
       const loading = this.$loading({
@@ -68,7 +70,7 @@
         } else {
           this.$message({ message: 'Post request failed', type: 'error'});
         }
-      }, 1000);
+      }, 500);
     })
     .catch(error => {
       console.error('Error in fetching parameter list:', error);

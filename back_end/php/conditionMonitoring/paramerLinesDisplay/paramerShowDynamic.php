@@ -3,7 +3,7 @@
 	$selectedParams = $_POST['selectedParams'];
 
 
-	$con=mysqli_connect("192.168.0.145", "root", "2185", "OMHMS");	
+	$con = mysqli_connect("localhost", "root", "root", "OMHMS");	
 	//$con=mysqli_connect("192.168.1.149", "root", "Cz19981208!", "OMHMS");
 	if (!$con){
 		die('Could not connect:' . mysqli_connect_error());

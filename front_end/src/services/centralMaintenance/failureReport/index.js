@@ -8,8 +8,8 @@ import { http } from "../../../utils/http";
 // 这里具体的url自己定
 const API = {
 
-  GET_FDE_LIST: 'centralMaintenance/FailureReportNew/fdes.php',
-  GET_FAILURE_LIST: 'centralMaintenance/FailureReportNew/failures.php',
+  GET_FDE_LIST: 'centralMaintenance/FailureReportNew/fdesNew.php',
+  GET_FAILURE_LIST: 'centralMaintenance/FailureReportNew/failuresNew.php',
 
   POST_FIMCODE_FOR_URL: 'centralMaintenance/FailureReportNew/postFimCodeForURL.php',
 }

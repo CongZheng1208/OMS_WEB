@@ -1,5 +1,6 @@
 <?php
-	class ReturnJson{
+    require_once('connectConfig.php');
+    class ReturnJson{
 		public $FDE=[];
 		public $flight_leg=[];
 		public $config_index="";
@@ -32,7 +33,7 @@
 		public $id =[];
 	}
 
-	$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+	// $con = mysqli_connect("localhost", "root", "root", "OMHMS");
 			
 	if (!$con){
 		die('Could not connect:' . mysqli_connect_error());

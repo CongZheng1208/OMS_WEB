@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <el-row v-if="!isPdfPageSelected">
     <el-table
       highlight-current-row
-      style="width: 100%; background-color: rgb(46, 45, 45)"
-      :data="inboundLegFDEArray"
+      style="width: 100%; background-color: rgb(46, 45, 45); height: 65vh"
+      :data="postFlightReportArray"
       :sort-method="customSortMethodForProgressColumn"
       :header-cell-style="{
         background: '#404040',
@@ -12,100 +12,124 @@
         'text-align': 'center',
       }"
       row-key="index"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       :cell-style="{ 'text-align': 'center' }"
       :empty-text="'No Data Display'"
       @current-change="tableRowClicked"
     >
       <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
-        prop="FDECode"
+        prop="fde.FDECode"
         label="FDE Code"
+        :width="null"
+        :min-width="35"
+      ></el-table-column>
+      <el-table-column
+        prop="fde.FDEText"
+        label="FDE Test"
         sortable
         :width="null"
         :min-width="35"
       ></el-table-column>
       <el-table-column
-        prop="FDEText"
-        label="FDE Test"
-        :width="null"
-        :min-width="35"
-      ></el-table-column>
-      <el-table-column
-        prop="FDEStatus"
-        label="First Status"
+        prop="fde.FDEStatus"
+        label="FDE Status"
+        sortable
         :width="null"
         :min-width="30"
         :formatter="fdeStatusData"
       ></el-table-column>
       <el-table-column
-        prop="FDEClass"
+        prop="fde.FDEClass"
         label="FDE Class"
+        sortable
         :width="null"
         :min-width="30"
         :formatter="fdeClassData"
       ></el-table-column>
       <el-table-column
-        prop="fde_time"
+        prop="fde.FDETime"
         label="Date/Time"
         sortable
         :width="null"
         :min-width="40"
       ></el-table-column>
       <el-table-column
-        prop="FIMCode_info"
+        prop="fimcodeInfo"
         label="FIM Code"
-        sortable
         :width="null"
         :min-width="35"
       >
         <template slot-scope="scope">
           <span
-            @click="openNewPage"
+            @click="findURL(scope.row.fimcodeInfo)"
             :style="{ padding: '1vh', height: '4vh', width: '4vh', color: 'white'}"
             style="transition: color 0.3s;"
             @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
-            @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';"
+            @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';""
           >
-            {{ scope.row.FIMCode_info[0] }}
+            {{ scope.row.fimcodeInfo }}
           </span>
         </template>
+
       </el-table-column>
       <el-table-column
-        prop="failure_name_info"
+        prop="failureNameInfo"
         label="Failure Name"
         :width="null"
-        :min-width="40"
+        :min-width="45"
       ></el-table-column>
       <el-table-column
-        prop="failure_state"
+        prop="failureState"
         label="State"
         :width="null"
         :min-width="35"
-        :formatter="failureStateData"
       ></el-table-column>
-      <el-table-column
-        prop="flight_phase"
+      <postFimCodeForURLel-table-column
+        prop="flightPhase"
         label="Flight Phase"
+        sortable
         :width="null"
         :min-width="35"
         :formatter="flightPhaseData"
-      ></el-table-column>
+      ></postFimCodeForURLel-table-column>
     </el-table>
+    <div class="table-outer-number">
+      Number of FDEs: {{  }}
+    </div>
+  </el-row>
+
+  <div v-else>
+    <div class="html_page">
+      <el-button
+        class="html_close_btn"
+        icon="el-icon-close"
+        circle
+        size="mini"
+        v-on:click='isPdfPageSelected=false'>
+      </el-button>
+      <iframe
+        id="iframe"
+        class="html_OMD">
+      </iframe>
+    </div>
   </div>
 </template>
 
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
 import {fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum} from '@/globals/enums.js'
+import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
 import { mapState } from 'vuex';
+import querystring from 'querystring';
+import qs from 'qs'
 
 export default {
   components: {},
   name: "InBoundLegFDE",
   data() {
     return {
-      inboundLegFDEArray: [],
+      postFlightReportArray: [],
+      isPdfPageSelected: false,
     };
   },
   computed: {
@@ -124,19 +148,35 @@ export default {
   },
 
   methods: {
-    openNewPage() {
-      const url = 'http://localhost:8080/centralMaintenance/failureReport/guideBook';
-      const target = '_blank';
+    /**
+     * 本函数用于根据选取行的FIMCode获取对应的手册链接
+     * @param {string} fimCode 选中行对应的FIM Code
+     */
+     findURL(fimCode){
+      this.isPdfPageSelected = true
+      let tmp = qs.stringify({
+        fimCode: fimCode
+      })
+      postFimCodeForURL(tmp).then(response => {
 
-      window.open(url, target);
+        const queryString = querystring.stringify(response);
+        const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
+        console.log(url);
+
+        document.getElementById('iframe').src = url;
+
+        }).catch(error => {
+        console.error('Error in Postting pdf url:', error);
+      });
     },
+
 
     /**
      * 更新store的选中行数据
      * @param {*} item 选中行数据
      */
     tableRowClicked(item) {
-      this.$store.state.failureList.selectedFailureId = item.id[0];
+      this.$store.state.failureList.selectedFailureId = item.index;
       console.log(
         "selectedFailureId",
         this.$store.state.failureList.selectedFailureId
@@ -148,7 +188,7 @@ export default {
      * @param {*} row table选中行信息
      */
      fdeStatusData(row) {
-      let fpIndex = row.FDEStatus;
+      let fpIndex = row.fde.FDEStatus;
       return fdeStatusEnum[fpIndex];
     },
 
@@ -157,17 +197,8 @@ export default {
      * @param {*} row table选中行信息
      */
      fdeClassData(row) {
-      let fpIndex = row.FDEClass;
+      let fpIndex = row.fde.FDEClass;
       return fdeClassEnum[fpIndex];
-    },
-
-    /**
-     * 本函数用于将failure_state原数据对应为state中failureStateEnum枚举值
-     * @param {*} row table选中行信息
-     */
-     failureStateData(row) {
-      let fpIndex = row.failure_state[0];
-      return failureStateEnum[fpIndex];
     },
 
     /**
@@ -175,62 +206,28 @@ export default {
      * @param {*} row table选中行信息
      */
      flightPhaseData(row) {
-      let fpIndex = row.flight_phase[0];
+      let fpIndex = row.flightPhase;
       return flightPhaseEnum[fpIndex];
     },
 
     /**
      * 本函数用于mounted中，获取state中resFDEData数据, 更新至this.InBoundLegFDEsSumArray, 用于前端数据的展示
      */
-     getInboundLegFDEArray() {
+     getPostFlightReportArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
-      let inboundLegFDEOri = JSON.parse(
-        JSON.stringify(this.$store.state.failureList.resFDEData)
-      );
-      //处理原始数据，筛选出parentFailure，将其他子成员挂在其名下
-      let inboundLegFDEParent = inboundLegFDEOri.filter(
-        (inboundLegFDEOri) => inboundLegFDEOri.is_parent == true
-      );
-      let inboundLegFDEChild = inboundLegFDEOri.filter(
-        (inboundLegFDEOri) => inboundLegFDEOri.is_parent == false
-      );
-      //针对每个Parent，找到child，放到children属性中
-      for (let item of inboundLegFDEParent) {
-        let tempFDEText = item.FDEText;
-        let childFailureName = inboundLegFDEChild.filter(
-          (inboundLegFDEChild) =>
-          inboundLegFDEChild.FDEText == tempFDEText
-        );
 
-        let childrenFDE = [];
-        if (childFailureName.length >= 1) {
-          for (let childItem of childFailureName) {
-            //将childItem的自身属性设置为''
-            childItem.FDEClass = "";
-            childItem.FDECode = "";
-            childItem.FDEStatus = "";
-            childItem.FDEText = "";
-            childrenFDE.push(childItem);
-          }
-        }
-        item.children = childrenFDE;
-      }
+      const postFlightReportOri = this.$store.state.failureList.resFailureData;
+      this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === 0);
 
-      for (let item of inboundLegFDEParent) {
-        //更新failure_name_info
-        item.FDEText =
-          item.FDEText + " [ " + String(item.count) + " ]";
-      }
+      console.log("pfr is:",this.postFlightReportArray)
 
-      this.inboundLegFDEArray = inboundLegFDEParent;
-      console.log("check it", this.inboundLegFDEArray)
     },
 
 
     customSortMethodForProgressColumn
   },
   created() {
-    this.getInboundLegFDEArray();
+    this.getPostFlightReportArray();
   },
 };
 </script>

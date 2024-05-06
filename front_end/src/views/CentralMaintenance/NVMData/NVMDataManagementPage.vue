@@ -13,7 +13,7 @@
               name="retrieval-radio"
               :checked="displaySelected == 'NVMDataRetrieval'"
             />
-            <span>Retrieval</span>
+            <span>RETRIEVAL</span>
           </div>
         </el-col>
         <el-col :span="3">
@@ -22,7 +22,7 @@
               name="reset-radio"
               :checked="displaySelected == 'NVMDataReset'"
             />
-            <span>Reset(all legs)</span>
+            <span>RESET(ALL LEGS)</span>
           </div>
         </el-col>
       </el-row>

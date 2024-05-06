@@ -3,22 +3,16 @@ import { http } from "../../../utils/http";
 // 只写相对路径
 
 const API = {
-  GET_ATA_AND_EQUI: 'centralMaintenance/GroundTestNew/getATAandEqui.php',
 
   GET_CONNECT: 'centralMaintenance/GroundTestNew/connect.php',
   POST_TEST_ORDER: 'centralMaintenance/GroundTestNew/groundTestOrders.php',
 
-  POST_ID_TEST: 'centralMaintenance/GroundTestNew/postIDforTest.php'
+  GET_CURRENT_TESTS: 'centralMaintenance/GroundTestNew/getCurrentTests.php',
+  GET_ALL_ATA_EQUI_TESTS: 'centralMaintenance/GroundTestNew/getAllAtaEquiTests.php',
+
 }
 
 // APIs
-export const getATAandEqui = () => {
-  return http({
-    url: API.GET_ATA_AND_EQUI,
-    method: 'GET'
-  })
-}
-
 
 export const getConnect = () => {
   return http({
@@ -26,7 +20,6 @@ export const getConnect = () => {
     method: 'GET'
   })
 }
-
 
 export const postTestOrder = (index) => {
   return http({
@@ -36,10 +29,16 @@ export const postTestOrder = (index) => {
   })
 }
 
-export const postIDforTest = (index) => {
+export const getCurrentTests = () => {
   return http({
-    url: API.POST_ID_TEST,
-    method: 'POST',
-    data: index
+    url: API.GET_CURRENT_TESTS,
+    method: 'GET'
+  })
+}
+
+export const getAllAtaEquiTests = () => {
+  return http({
+    url: API.GET_ALL_ATA_EQUI_TESTS,
+    method: 'GET'
   })
 }

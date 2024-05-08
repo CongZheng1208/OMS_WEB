@@ -40,18 +40,18 @@ export default {
   },
   created() {
 
-    this.$store.commit("failureList/fdePhp");
-    this.$store.commit("failureList/failurePhp");
+    // this.$store.commit("failureList/fdePhp");
+    // this.$store.commit("failureList/failurePhp");
 
-    getConnect().then(response => {
-      console.log(response)
-    }).catch(error => {
-      console.error('Error in fetching parameter list:', error);
-    });
+    // getConnect().then(response => {
+    //   console.log(response)
+    // }).catch(error => {
+    //   console.error('Error in fetching parameter list:', error);
+    // });
   },
 
   beforeDestroy() {
-    this.$store.dispatch('websocketVuex/closeWebSocket'); // 在组件销毁前关闭 WebSocket 连接
+    // this.$store.dispatch('websocketVuex/closeWebSocket'); // 在组件销毁前关闭 WebSocket 连接
   }
 };
 </script>

@@ -9,7 +9,7 @@
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-          Equipment Name: {{ $store.state.groundTestList.currentGroundTest.EquipmentName }}
+          Equipment Name: {{ $store.state.groundTestList.currentGroundTest.MemberSystemName }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
@@ -23,7 +23,7 @@
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
-          Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
+          Test Type: {{ $store.state.groundTestList.currentGroundTest.TestType }}
         </div>
         <div class="el-header-subcontainer">
           <span class="el-header-dot" ></span>
@@ -60,33 +60,14 @@
           <div class="custom-content">
             <el-row style="width: 100%;">
               Test is successful.
-
-
-              <!-- <el-col :span="8">
-                <span class="custom-subtitle">
-                  Pre-Condition
-                </span>
-                <div
-                  v-if="$store.state.groundTestList.currentGroundTest.Preconditions.length === 1 && $store.state.groundTestList.currentGroundTest.Preconditions[0] === ''"
-                  class="content-alert">
-                  No Alive Data
-                </div>
-                <div
-                  v-else
-                  v-for="precondition in $store.state.groundTestList.currentGroundTest.Preconditions"
-                  :key="precondition.id"
-                  class="content-item">
-                  <li>{{ precondition }}</li>
-                </div>
-              </el-col> -->
-
               <el-col :span="8">
               </el-col>
             </el-row>
           </div>
         </div>
+
         <div class="custom-card" shadow="hover" style="height: 60vh"
-          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '7' "
+          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '7'"
           v-loading="loading"
           element-loading-text="Data Loading..."
           element-loading-spinner="el-icon-loading"
@@ -95,17 +76,11 @@
           <div class="custom-header"> ERROR DETAILS</div>
           <div class="custom-content">
             <el-row style="width: 100%;">
-              <div
-                v-if="$store.state.groundTestList.currentGroundTest.Preconditions.length === 1 && $store.state.groundTestList.currentGroundTest.Preconditions[0] === ''"
-                class="content-alert">
+              <div v-if=" $store.state.groundTestList.currentGroundTest.Error_text == ''" class="content-alert">
                 No Alive Data
               </div>
-              <div
-                v-else
-                v-for="precondition in $store.state.groundTestList.currentGroundTest.Preconditions"
-                :key="precondition.id"
-                class="content-item">
-                <li>{{ precondition }}</li>
+              <div v-else>
+                {{ $store.state.groundTestList.currentGroundTest.Error_text }}
               </div>
             </el-row>
           </div>

@@ -9,7 +9,7 @@
           </div>
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Equipment Name: {{ $store.state.groundTestList.currentGroundTest.EquipmentName }}
+            Equipment Name: {{ $store.state.groundTestList.currentGroundTest.MemberSystemName }}
           </div>
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
@@ -24,7 +24,7 @@
           </div>
           <div class="el-header-subcontainer">
             <span class="el-header-dot" ></span>
-            Test Type: {{ testDict[$store.state.groundTestList.currentGroundTest.TestType] }}
+            Test Type: {{ $store.state.groundTestList.currentGroundTest.TestType}}
           </div>
         </el-col>
         <el-col :span="3">
@@ -40,46 +40,40 @@
             <div class="custom-card" shadow="hover">
               <div class="custom-header">Interactive Test</div>
               <div class="custom-content">
-                <div
-                  v-if="$store.state.groundTestList.currentGroundTest.NumScreens === '0'"
-                  class="content-alert">
+                <div v-if="screenArray.length == 0" class="content-alert">
                   No Alive Data
                 </div>
-                <div
-                  v-else
+                <div v-else
                   class="content-item">
-                  {{ $store.state.groundTestList.currentGroundTest.screenArray.find(item => item.ScreenId === currentStepId).InteractiveScreenText }}
+                  {{ currentScreem }}
                 </div>
               </div>
             </div>
           </div>
         </el-col>
         <el-col :span="10">
-          <div style="padding">
-            <div class="el-main-subtitle">
-              Select an option and press continue
+          <div>
+            <div class="el-main-subtitle" style="margin-top: 4vh">
+              Interactive Option
             </div>
-
-            <div
-              v-if="$store.state.groundTestList.currentGroundTest.NumScreens === '0'"
-              class="content-alert">
+            <div v-if="screenArray.length == 0" class="content-alert">
               No Alive Data
             </div>
-            <div
-              v-else
+            <div v-else
               class="radio"
-              v-for="option in $store.state.groundTestList.currentGroundTest.screenArray.find(item => item.ScreenId === currentStepId).ResponseMessage.ResponseBlock"
+              v-for="option in currentOptions"
               :key="option.ResponseId">
-              <input
-                :name="'failure-rep-radio'"
-                type="radio"
-                :value="option.ResponseId"
-                v-model="selectedOption"
-              />
-              <label class="form-check-label">{{ option.ResponseText }}</label>
+              <div class="radio"  style="margin-top: 1vh; padding: 0.5vh">
+                <input
+                  :name="'ground-interactive-radio'"
+                  type="radio"
+                  :value="option.ResponseId"
+                  v-model="selectedOption"
+                />
+                <label class="form-check-label">{{ option.ResponseText }}</label>
+              </div>
             </div>
           </div>
-
         </el-col>
       </el-row>
     </el-main>
@@ -93,7 +87,7 @@
           :disabled = "selectedOption==-1">
           CONTINUE
         </button>
-        <button class="footer-btn" @click="goThreeTestsPage()">BACK</button>
+        <!-- <button class="footer-btn" @click="goThreeTestsPage()">BACK</button> -->
       </div>
     </el-footer>
   </div>
@@ -111,36 +105,35 @@ export default {
   data() {
     return {
       selectedTestId: "",
-
       fullscreenLoading: false,
 
       testDict: testTypeEnum,
       currentStepId: "",
+      currentScreem: "",
+      currentOptions: [],
+
+      screenArray: [],
       selectedOption: -1,
     }
   },
   components: {
     Clock
   },
-  computed: {
-
-  },
   methods: {
     /**
      * 本函数用于跳转页面
      */
     goTestListPage() {
-
       clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
       this.$router.push({ name: "TestList", params: { } });
     },
 
-    /**
-     * 本函数用于跳转页面
-     */
-    goThreeTestsPage() {
-      this.$router.push({ name: "ThreeTests"});
-    },
+    // /**
+    //  * 本函数用于跳转页面
+    //  */
+    // goThreeTestsPage() {
+    //   this.$router.push({ name: "ThreeTests"});
+    // },
 
     /**
      * 本函数用于向成员系统发送继续指令
@@ -153,8 +146,8 @@ export default {
           OrderType: "CONTINUE",
 
           currentPage: "InteractiveTest",
-          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTests.InitiatedTest_Index,
-          MemberSystemID: "NULL",
+          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index,
+          MemberSystemID: "",
 
           currentScreenId: this.currentStepId,
           selectedOption: this.selectedOption,
@@ -184,7 +177,7 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)'
       });
 
-      if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== null ) {
+      if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== "0" ) {
         // 当不为null时, 更新页面展示项目并停止刷新
 
         loading.close();
@@ -213,13 +206,54 @@ export default {
   },
   created(){
     console.log("Damnnnnnn")
-    console.log(this.$store.state.groundTestList.currentGroundTest.screenArray)
+    console.log(this.$store.state.groundTestList.currentGroundTest)
+    console.log(this.$store.state.groundTestList.currentGroundTest.InteractiveScreenText)
+    console.log(this.$store.state.groundTestList.currentGroundTest.InteractiveScreenText == "")
 
-    if(this.$store.state.groundTestList.currentGroundTest.screenArray.length == 0){
+
+    // 将当前选中测试的ScreenId按分号分开，存入数组
+    let ScreenIds;
+    if (this.$store.state.groundTestList.currentGroundTest.ScreenId) {
+      ScreenIds = this.$store.state.groundTestList.currentGroundTest.ScreenId.split(';').filter(Boolean);
+    } else {
+      ScreenIds = [];
+    }
+
+    // 将当前选中测试的InteractiveScreenText按分号分开，存入数组
+    let InteractiveScreenTexts;
+    if (this.$store.state.groundTestList.currentGroundTest.InteractiveScreenText !== "") {
+      InteractiveScreenTexts = this.$store.state.groundTestList.currentGroundTest.InteractiveScreenText.split(';').filter(Boolean);
+    } else {
+      InteractiveScreenTexts = [];
+    }
+
+    // 将该项测试的所有启动测试相关细节整理好，存为对象数组screenArray
+    for (let i = 0; i < ScreenIds.length; i++) {
+      let newObj = {
+        ScreenId: ScreenIds[i],
+        ResponseMessage: this.$store.state.groundTestList.currentGroundTest.ResponseMessage[i],
+        InteractiveScreenText: InteractiveScreenTexts[i],
+      };
+      this.screenArray.push(newObj);
+    }
+
+    console.log(" this.screenArray", this.screenArray)
+    console.log(this.screenArray.length)
+
+    // 如果screenArray为空，则证明该项目中没有启动测试了
+    if(this.screenArray.length == 0 || this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == "0"){
       this.$message('No interactive test available for this project');
       this.currentStepId = -1
     }else{
-      this.currentStepId = this.$store.state.groundTestList.currentGroundTest.screenArray[0].ScreenId
+      // this.currentStepId = this.screenArray[0].ScreenId
+      this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index;
+      console.log("this.currentStepId",this.currentStepId)
+
+      this.currentScreem = this.screenArray.find(item => item.ScreenId === this.currentStepId).InteractiveScreenText
+      this.currentOptions =  this.screenArray.find(item => item.ScreenId === this.currentStepId).ResponseMessage.ResponseBlock
+
+      console.log("this.currentScreem:",this.currentScreem)
+      console.log("this.currentOptions:",this.currentOptions)
     }
   },
   mounted() {

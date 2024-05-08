@@ -11,7 +11,7 @@
         font: '14px',
         'text-align': 'center',
       }"
-
+      height="65vh"
       :cell-style="{ 'text-align': 'center' }"
       :empty-text="'No Data Display'"
       row-key="index"
@@ -23,6 +23,7 @@
         prop="fimcodeInfo"
         label="FIM Code"
         :width="null"
+        sortable
         :min-width="30"
       > </el-table-column>
       <el-table-column
@@ -43,7 +44,6 @@
         sortable
         :width="null"
         :min-width="35"
-        :formatter="FlightPhaseData"
       ></el-table-column>
       <el-table-column
         prop="failureTime"
@@ -75,7 +75,7 @@
       <el-table-column :width="null" :min-width="5"></el-table-column>
     </el-table>
     <div class="table-outer-number">
-      Number of Failures: {{  }}
+      Number of Failures: {{ existingFailureArray.length }}
     </div>
   </div>
 </template>

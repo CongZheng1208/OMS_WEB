@@ -34,8 +34,6 @@ export default {
           isActive: false,
           routeName: "NVMDataDefault",
         },
-        // Extended Functions现在默认选中Time Cycles
-        // 后续根据需求再调整
         {
           name: "Extended Functions",
           isActive: false,
@@ -46,7 +44,7 @@ export default {
   },
   methods: {
     /**
-     * 本函数用于mounted和menus中：调用store中mutations的failurePhp函数，初始化、更新failure数据
+     * 本函数用于mounted和menus中：调用store中mutations的failurePhp\fdePhp函数，初始化、更新failure\FDE数据
      *
      */
     getfailureReportPhp() {
@@ -55,13 +53,15 @@ export default {
     },
 
     /**
-     * 本函数用于mounted和menus中：调用store中mutations的failurePhp函数，初始化、更新failure数据
+     * 本函数用于mounted和menus中：调用store中mutations的getCurrentTestsPhp\getAllAtaEquiTestsPhp函数，初始化、更新ata/equi/test数据
      *
      */
      getGroundTestPhp() {
       this.$store.commit("groundTestList/getCurrentTestsPhp");
       this.$store.commit("groundTestList/getAllAtaEquiTestsPhp");
+      this.$store.commit("groundTestList/getTextById");
     }
+
   },
 
   watch: {

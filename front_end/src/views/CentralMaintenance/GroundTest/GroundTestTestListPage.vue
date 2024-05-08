@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: rgb(45, 45, 45);">
     <el-header style="height: 10vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
@@ -13,54 +13,57 @@
       </el-row>
     </el-header>
     <el-main>
-      <el-table
-        highlight-current-row
-        height="70vh"
-        @row-click="handleRowClick"
-        style=" background-color: rgb(46, 45, 45)"
-        :data="currentGroundTestLists"
-        :sort-method="customSortMethodForProgressColumn"
-        :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
-        :empty-text="'No Data Display'"
-        v-loading="loading"
-        element-loading-text="Data Loading..."
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.5)"
-      >
-        <el-table-column :width="null" :min-width="5"></el-table-column>
-        <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="MemberSystemName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
-        <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="180"></el-table-column>
-        <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="60" :formatter="formatStartTime"></el-table-column>
-        <el-table-column prop="InitiatedTest_Status" label="Status" :width="null" :min-width="80" :formatter="formatTestStatus"></el-table-column>
-        <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="80">
-          <!-- <template slot-scope="scope">
-            <el-progress
-              :percentage="scope.row.progress"
-              :color="getProgressColor(scope.row.progress)"
-              :format="percent => `${percent}%`"
-              :stroke-width=14
-              text-color = #ffffff
-              define-back-color = #505050
-              stroke-linecap=square
-            >
-            </el-progress>
-          </template> -->
-        </el-table-column>
-        <el-table-column :width="null" :min-width="5"></el-table-column>
-      </el-table>
-
-      <div class="table-outer-number">
-        Number of Tests: {{  }}
-      </div>
+      <el-row>
+        <el-table
+          highlight-current-row
+          height="70vh"
+          @row-click="handleRowClick"
+          style=" background-color: rgb(46, 45, 45)"
+          :data="currentGroundTestLists"
+          :sort-method="customSortMethodForProgressColumn"
+          :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+          :empty-text="'No Data Display'"
+          v-loading="loading"
+          element-loading-text="Data Loading..."
+          element-loading-spinner="el-icon-loading"
+          element-loading-background="rgba(0, 0, 0, 0.5)"
+        >
+          <el-table-column :width="null" :min-width="5"></el-table-column>
+          <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
+          <el-table-column prop="MemberSystemName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
+          <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="180"></el-table-column>
+          <el-table-column prop="StartTime" label="Start Time" sortable :width="null" :min-width="60" :formatter="formatStartTime"></el-table-column>
+          <el-table-column prop="InitiatedTest_Status" label="Status" :width="null" :min-width="80" :formatter="formatTestStatus"></el-table-column>
+          <el-table-column prop="progress" label="Progress" sortable :width="null" :min-width="80">
+            <!-- <template slot-scope="scope">
+              <el-progress
+                :percentage="scope.row.progress"
+                :color="getProgressColor(scope.row.progress)"
+                :format="percent => `${percent}%`"
+                :stroke-width=14
+                text-color = #ffffff
+                define-back-color = #505050
+                stroke-linecap=square
+              >
+              </el-progress>
+            </template> -->
+          </el-table-column>
+          <el-table-column :width="null" :min-width="5"></el-table-column>
+        </el-table>
+        <div class="table-outer-number">
+          Number of Tests: {{ currentGroundTestLists.length }}
+        </div>
+      </el-row>
     </el-main>
     <el-footer>
       <div>
         <button class="footer-btn" @click="printPage">PRINT</button>
       </div>
       <div>
-        <button class="footer-btn" @click="goViewDetailPage" :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAILS</button>
-        <button class="footer-btn" @click="respondTest"      :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button>
+        <!-- <button class="footer-btn" @click="goViewDetailPage" :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAILS</button> -->
+        <!-- <button class="footer-btn" @click="goInteractiveTextPage"      :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button> -->
+        <button class="footer-btn" @click="goViewDetailPage">VIEW DETAILS</button>
+        <button class="footer-btn" @click="goInteractiveTextPage">RESPOND</button>
         <button class="footer-btn" @click="goNewTestPage">NEW TEST</button>
         <button class="footer-btn" @click="sendAbort"        :disabled="!['0', '3', '4'].includes(selectedRow.InitiatedTest_Status)">ABORT TEST</button>
         <button class="footer-btn" @click="sendAbortAll"     :disabled="currentGroundTestLists.every(item => ![0, 3, 4].includes(item.InitiatedTest_Status))">ABORT ALL</button>
@@ -92,23 +95,15 @@
       Clock
     },
     methods: {
-
-      goViewDetailPage() {
-        this.$router.push({ name: "ViewDetail" });
-      },
-
-
-      respondTest(){
-        this.$router.push({ name: "InteractiveTest" });
-      },
-
       /**
        * 本函数用于更新更新选中行到selectedRow变量
        * @param {string} row - menus数据的name属性
        */
       handleRowClick(row) {
         this.selectedRow = row
-        this.$store.state.groundTestList.currentGroundTest = row
+        this.$store.state.groundTestList.currentGroundTestID = row.InitiatedTest_Index
+
+        console.log( this.$store.state.groundTestList.currentGroundTestID)
       },
 
       /**
@@ -131,7 +126,6 @@
         // }
       },
 
-
       /**
        * 本函数用于计算StartTime属性的展示值
        */
@@ -141,7 +135,6 @@
         }
         return '-';
       },
-
 
       /**
        * 本函数用于设置Flight Phase列中flight_phase的显示格式
@@ -154,7 +147,6 @@
         return testStatusEnum[tsIndex];
       },
 
-
       /**
        * 本函数用于向成员系统发送中止选中的测试的命令
        */
@@ -164,7 +156,7 @@
 
           currentPage: "TestList",
           InitiatedTest_Index: [this.selectedRow.InitiatedTest_Index],
-          MemberSystemID: "NULL",
+          MemberSystemID: "",
 
           currentScreenId: "",
           selectedOption: "",
@@ -172,7 +164,6 @@
 
         this.handleTestOrder(tmp)
       },
-
 
       /**
        * 本函数用于向成员系统发送全部中止的命令
@@ -193,41 +184,17 @@
       },
 
       /**
-       * 本函数用于更新测试的进度值
+       * 本函数用于跳转页面
        */
-      updateCurrentGroundTestLists() {
-
-        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests
-
-
-        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.map(test => {
-
-          if(test.InitiatedTest_Status == "GROUND_TEST_COMPLETE" || test.InitiatedTest_Status == "GROUND_TEST_PASS"){
-            return {
-              ...test,
-              progress: parseFloat(100)
-            };
-          }else if(test.InitiatedTest_Status == "GROUND_TEST_NOT_STARTED" || test.InitiatedTest_Status == "GROUND_TEST_FAIL"|| test.InitiatedTest_Status == "GROUND_TEST_ERROR"|| test.InitiatedTest_Status == "GROUND_TEST_INHIBITED"){
-            return {
-              ...test,
-              progress: parseFloat(0)
-            };
-          }else{
-            const currentTime = new Date().getTime();
-            const startTime = new Date(test.StartTime).getTime();
-            return {
-              ...test,
-              progress: parseInt(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99))
-            };
-          }
-        });
+      goNewTestPage() {
+        this.$router.push({ name: "SelectTestNew" });
       },
 
       /**
        * 本函数用于跳转页面
        */
-      goNewTestPage() {
-        this.$router.push({ name: "SelectTestNew" });
+      goInteractiveTextPage(){
+        this.$router.push({ name: "InteractiveTest" });
       },
 
       /**
@@ -244,25 +211,64 @@
           });
         }
       },
+
+      /**
+       * 本函数用于更新测试的进度值
+       */
+      updateCurrentGroundTestLists() {
+
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests
+        // console.log("  this.currentGroundTestLists is:")
+        // console.log(  this.currentGroundTestLists)
+
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.map(test => {
+          if(test.InitiatedTest_Status == '2' || test.InitiatedTest_Status == '9'){
+            return {
+              ...test,
+              progress: parseFloat(100)
+            };
+          }else if(test.InitiatedTest_Status == '0' || test.InitiatedTest_Status == '5'|| test.InitiatedTest_Status == '7'|| test.InitiatedTest_Status == '6'){
+            return {
+              ...test,
+              progress: parseFloat(0)
+            };
+          }else{
+            const currentTime = new Date().getTime();
+            const startTime = new Date(test.StartTime).getTime();
+            return {
+              ...test,
+              progress: parseInt(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99))
+            };
+          }
+        });
+      },
+
       printPage,
       handleTestOrder,
       customSortMethodForProgressColumn
     },
     created() {
 
-      let tmp = qs.stringify({
-        OrderType: "PAGEINIT",
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
 
-        currentPage: "TestList",
-        InitiatedTest_Index: "",
-        MemberSystemID: "",
+      this.$store.state.groundTestList.currentGroundTestID = ""
+      this.$store.state.groundTestList.currentGroundTest = {}
 
-        currentScreenId: "",
-        selectedOption: "",
-      });
 
-      this.handleTestOrder(tmp)
+      // let tmp = qs.stringify({
+      //   OrderType: "PAGEINIT",
 
+      //   currentPage: "TestList",
+      //   InitiatedTest_Index: "",
+      //   MemberSystemID: "",
+
+      //   currentScreenId: "",
+      //   selectedOption: "",
+      // });
+
+      // this.handleTestOrder(tmp)
     },
     computed: {
       curTotalStatus() {
@@ -298,10 +304,6 @@
       this.refreshInterval = setInterval(() => {
         this.updateCurrentGroundTestLists();
       }, 1000);
-
-      setTimeout(() => {
-        this.loading = false;
-      }, 100);
     }
   }
 

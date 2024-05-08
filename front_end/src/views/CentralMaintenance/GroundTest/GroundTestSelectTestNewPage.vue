@@ -42,6 +42,7 @@
             :sort-method="customSortMethodForProgressColumn"
             :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
             :empty-text="'No Data Display'"
+            :row-class-name="rowEquipmentName"
           >
             <el-table-column :width="null" :min-width="5"></el-table-column>
             <el-table-column prop="equipmentName" label="Equipment Name" sortable :width="null" :min-width="60"></el-table-column>
@@ -61,6 +62,7 @@
             :sort-method="customSortMethodForProgressColumn"
             :header-cell-style="{ background:'#404040', color:'#FFFFFF', font:'14px' }"
             :empty-text="'No Data Display'"
+            :row-class-name="rowTestName"
           >
             <el-table-column :width="null" :min-width="5"></el-table-column>
             <el-table-column prop="InitiatedTestName" label="Test Name" sortable :width="null" :min-width="100"></el-table-column>
@@ -114,14 +116,15 @@
   export default {
     data() {
       return {
-
-
-
-
         ATAs: [],
         Equipments:[],
         Tests: [],
         selectedTests: [],
+
+
+        InterferingTestIndexs: [],
+
+
 
         selectedTestId: "",
         isTestNotBeSelected: false,
@@ -145,6 +148,7 @@
       handleATARowClick(row) {
         let selectedEquipment =  this.$store.state.groundTestList.ataAndEquiArray[row.ataNumber]
         this.Equipments = []
+        this.Tests = []
         Object.keys( selectedEquipment).forEach(key => {
           this.Equipments.push({
             equipmentName: selectedEquipment[key].MemberSystemName,
@@ -152,6 +156,8 @@
             Tests: selectedEquipment[key].Tests,
           });
         });
+
+        console.log("Tests is:",  this.Equipments)
       },
 
       /**
@@ -160,7 +166,7 @@
        */
       handleEquipmentRowClick(row) {
 
-        if (row.availability === 1) {
+        if (row.availability !== "0") {
           this.$message('This equipment is currently unavailable');
           return false;
         }else{
@@ -175,32 +181,68 @@
        * @param {string} row - rawData数据的ataNumber属性
        */
       handleTestRowClick(row) {
-        this.$confirm('Do you want to add parameter ',row.InitiatedTestName,' to the list to be opened?', 'Tips', {
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
 
-          this.selectedTests.push(row)
+        if(this.selectedTests.includes(row) ){
+          this.$message({
+            type: 'warning',
+            message: 'This text is already selected!'
+          });
+        }else if(this.InterferingTestIndexs.includes(row.InitiatedTest_Index)){
+          this.$message({
+            type: 'warning',
+            message: 'This text is interfering!'
+          });
+        }else{
+          this.$confirm('Do you want to add parameter ',row.InitiatedTestName,' to the list to be opened?', 'Tips', {
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          }).then(() => {
 
-          this.$message({
-            type: 'success',
-            message: 'Success!'
+            this.selectedTests.push(row)
+
+            this.InterferingTestIndexs = [...this.InterferingTestIndexs, ...row.InterferingTests_Index.split(';').filter(Boolean)];
+            console.log(this.InterferingTestIndexs)
+
+            this.$message({
+              type: 'success',
+              message: 'Success!'
+            });
+
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: 'Canceled'
+            });
           });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Canceled'
-          });
-        });
+        }
       },
+
+
+      /**
+       * 本函数用于确定某行是否可被选中样式
+       * @param {*} row table选中行信息
+       */
+      rowEquipmentName({ row }) {
+        return row.availability=="0"? '' : 'disable-row';
+      },
+
+
+      /**
+       * 本函数用于确定某行是否可被选中样式
+       * @param {*} row table选中行信息
+       */
+       rowTestName({ row }) {
+        return this.InterferingTestIndexs.includes(row.InitiatedTest_Index) ? 'disable-row' : '';
+      },
+
 
       /**
        * 本函数用于设置EquiAvailablilty的显示格式
        * @param {*} row table选中行信息
        */
        formatEquiAvailablilty(row) {
-        return row.availability?"Available":"Unavailable";
+        return row.availability=="0"?"Available":"Unavailable";
       },
 
       /**
@@ -210,8 +252,6 @@
         // 如果选择了要进行的测试
         if(this.selectedTests.length > 0){
           this.$router.push({ name: "ThreeTests", params: { selectedTests: this.selectedTests }});
-          console.log( this.selectedTests)
-
         }else{
           // 否则弹框提示
           this.isTestNotBeSelected = true
@@ -231,6 +271,7 @@
 
     computed: {
       filteredTests() {
+
         if(this.Tests == []){
           this.testCountTotal = 0
           return []

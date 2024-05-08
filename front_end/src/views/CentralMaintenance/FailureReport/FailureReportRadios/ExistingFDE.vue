@@ -2,8 +2,9 @@
   <el-row v-if="!isPdfPageSelected">
     <el-table
       highlight-current-row
-      style="width: 100%; background-color: rgb(46, 45, 45)"
+      style="width: 100%; background-color: rgb(46, 45, 45);"
       :data="existingFDEArray"
+      height="65vh"
       :sort-method="customSortMethodForProgressColumn"
       :header-cell-style="{
         background: '#404040',
@@ -12,9 +13,10 @@
         'text-align': 'center',
       }"
       :cell-style="{ 'text-align': 'center' }"
-      row-key="index"
+      row-key="FDECode"
       :empty-text="'No Data Display'"
       @current-change="tableRowClicked"
+      :row-class-name="rowClassName"
     >
       <!-- <el-button>test</el-button> -->
       <el-table-column :width="null" :min-width="10"></el-table-column>
@@ -22,6 +24,7 @@
         prop="fde.FDECode"
         label="FDE Code"
         :width="null"
+        sortable
         :min-width="35"
       ></el-table-column>
       <el-table-column
@@ -31,7 +34,7 @@
         :min-width="35"
       ></el-table-column>
       <el-table-column
-        prop="fde.FDEStatus"
+        prop="fde.FDECode"
         label="FDE Status"
         :width="null"
         :min-width="30"
@@ -50,10 +53,9 @@
         sortable
         :width="null"
         :min-width="35"
-        :formatter="flightPhaseData"
       ></el-table-column>
       <el-table-column
-        prop="fde.FDETime"
+        prop="failureTime"
         label="Date/Time"
         sortable
         :width="null"
@@ -94,7 +96,7 @@
 
     </el-table>
     <div class="table-outer-number">
-      Number of FDEs: {{  }}
+      Number of FDEs: {{ existingFDEArray.length }}
     </div>
   </el-row>
 
@@ -119,7 +121,6 @@
 
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
-import {fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum} from '@/globals/enums.js'
 import qs from 'qs'
 import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
 import querystring from 'querystring';
@@ -132,11 +133,12 @@ export default {
     return {
       existingFDEArray: [],
 
+      FDECodeStatusDict: {},
       isPdfPageSelected: false,
     };
   },
   computed: {
-    ...mapState('websocketVuex', ['infoOMD'])
+    // ...mapState('websocketVuex', ['infoOMD']),
   },
   methods: {
 
@@ -145,11 +147,22 @@ export default {
      * @param {*} item 选中行数据
      */
     tableRowClicked(item) {
-      this.$store.state.failureList.selectedFailureId = item.index;
-      console.log(
-        "selectedFailureId",
-        this.$store.state.failureList.selectedFailureId
-      );
+      if(item.failureNameInfo !== "--"){
+        this.$store.state.failureList.selectedFailureId = item.index;
+        console.log(
+          "selectedFailureId",
+          this.$store.state.failureList.selectedFailureId
+        );
+      }
+    },
+
+
+    /**
+     * 本函数用于确定某行是否可被选中样式
+     * @param {*} row table选中行信息
+     */
+    rowClassName({ row }) {
+      return row.failureNameInfo=="--"? 'disable-row' : '';
     },
 
     /**
@@ -158,8 +171,8 @@ export default {
      * @param {*} row table选中行信息
      */
      fdeStatusData(row) {
-      let fpIndex = row.fde.FDEStatus;
-      return fdeStatusEnum[fpIndex];
+      let fpIndex = row.fde.FDECode;
+      return this.FDECodeStatusDict[fpIndex].FDEStatus;
     },
 
     /**
@@ -168,18 +181,8 @@ export default {
      * @param {*} row table选中行信息
      */
      fdeClassData(row) {
-      let fpIndex = row.fde.FDEClass;
-      return fdeClassEnum[fpIndex];
-    },
-
-    /**
-     * 本函数用于设置Flight Phase列中flight_phase的显示格式
-     * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
-     * @param {*} row table选中行信息
-     */
-     flightPhaseData(row) {
-      let fpIndex = row.flightPhase;
-      return flightPhaseEnum[fpIndex];
+      let fpIndex = row.fde.FDECode;
+      return this.FDECodeStatusDict[fpIndex].FDEClass;
     },
 
     /**
@@ -228,17 +231,55 @@ export default {
     getExistingFDEArray() {
 
       const resFDEDataOri = this.$store.state.failureList.resFDEData;
-      const existingFDEArrayOri = this.$store.state.failureList.resFailureData;
+      const resFailureDataOri = this.$store.state.failureList.resFailureData;
 
-      this.existingFDEArray = existingFDEArrayOri.filter(item =>
-          item.fde.FDECode &&
-          resFDEDataOri.some(obj => obj.FDECode === item.fde.FDECode && obj.FDEStatus === "0")
-      );
+      // 存储映射关系
+      let dict = {};
+      resFDEDataOri.map(obj => {
+        dict[obj.FDECode] = {"FDEStatus":obj.FDEStatus,  "FDEClass":obj.FDEClass, "FDEText":obj.FDEText };
+      });
+      this.FDECodeStatusDict = dict;
+
+      // 筛选出存在failure关联的FDE项目
+      const existingResFailureDataOri = resFailureDataOri.filter(item => item.failureState === "ACTV" && item.fde.FDEStatus  &&  this.FDECodeStatusDict[item.fde.FDECode].FDEStatus  === "ACTV_UNINHB" );
+
+      // 筛选出所有不存在failure关联的项目
+      let existingFDECodes = existingResFailureDataOri.map(obj => obj.FDECode);
+
+      let filteredArray = resFDEDataOri.reduce((acc, item) => {
+        if (item.FDEStatus === 'ACTV_UNINHB' &&
+            !acc.some(obj => obj.FDECode === item.FDECode) &&
+            !existingFDECodes.includes(item.FDECode)) {
+          acc.push(item);
+        }
+        return acc;
+      }, []);
+
+      const unexistingResFailureDataOri = filteredArray.map(item => {
+        return {
+          ata: "--",
+          failureMessage: "--",
+          failureNameInfo: "--",
+          failureState: "--",
+          failureTime: "--",
+          fault: [],
+          fde: item,
+          fimcodeInfo: "--",
+          flightLeg: "--",
+          flightPhase: "--",
+          id: "--",
+          index: "--",
+          maintenceText: "--",
+          maintenceTime: "--",
+          rp: []
+        };
+      });
+      console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
+      console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
 
 
-      this.$store.state.failureList.resFailureData;
-
-      console.log("existingFDEArray is:",this.existingFDEArray)
+      this.existingFDEArray = unexistingResFailureDataOri.concat(existingResFailureDataOri);
+      console.log("existingFDEArray is", this.existingFDEArray);
     },
 
     customSortMethodForProgressColumn
@@ -251,7 +292,6 @@ export default {
 
       if (event.origin === 'http://localhost:8081') {  // 修改为正确的 OMD 项目的地址
         console.log('Received message from OMD:', event.data);
-
         this.$router.push({ name: "SelectTestNew", params: { selectedEquipment: this.queryStringToJson(event.data) } });
       }
     });

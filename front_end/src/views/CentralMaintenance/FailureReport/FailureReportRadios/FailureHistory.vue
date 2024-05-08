@@ -11,6 +11,7 @@
         font: '14px',
         'text-align': 'center',
       }"
+      height="65vh"
       :cell-style="{ 'text-align': 'center' }"
       :empty-text="'No Data Display'"
       row-key="index"
@@ -75,7 +76,6 @@
         sortable
         :width="null"
         :min-width="30"
-        :formatter="FlightPhaseData"
         :filters="phaseFilters"
         :filter-method="filterHandler"
       ></el-table-column>
@@ -266,7 +266,6 @@
 
 <script>
 import {customSortMethodForProgressColumn} from '@/utils/utils.js'
-import {flightPhaseEnum, failureStateEnum} from '@/globals/enums.js'
 export default {
   components: {},
   name: "ExistingFailures",
@@ -303,15 +302,6 @@ export default {
     FDETextData(row) {
       return JSON.stringify(row.fde_text);
     },
-    /**
-     * 本函数用于设置Flight Phase列中flight_phase的显示格式
-     * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
-     * @param {*} row table选中行信息
-     */
-    FlightPhaseData(row) {
-      let fpIndex = row.flightPhase;
-      return flightPhaseEnum[fpIndex];
-    },
 
     /**
      * 更新store的选中行数据
@@ -329,8 +319,6 @@ export default {
      */
     getfailureArray() {
 
-      // this.existingFailureArray = this.$store.state.failureList.resFailureData;
-
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = JSON.parse(
         JSON.stringify(this.$store.state.failureList.resFailureData)
@@ -338,10 +326,6 @@ export default {
 
       console.log("???existingFailureArray is:", existingFailureOri)
       this.existingFailureArray = existingFailureOri
-
-      // this.ataFilters =  Array.from(new Set( this.existingFailureArray.map(obj => obj.ata))).map(value => ({ text: value, value: value }));
-      // this.phaseFilters =  Array.from(new Set( this.existingFailureArray.map(obj => obj.flightPhase))).map(value => ({ text: flightPhaseEnum[value], value: value }));
-      // this.legFilters =  Array.from(new Set( this.existingFailureArray.map(obj => obj.flightLeg))).map(value => ({ text: value, value: value }));
 
       this.ataFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
         const filteredItems = this.existingFailureArray.filter(item => item.ata === value);
@@ -355,7 +339,7 @@ export default {
       this.phaseFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightPhase))).map(value => {
         const filteredItems = this.existingFailureArray.filter(item => item.flightPhase === value);
         return {
-          text: flightPhaseEnum[value],
+          text: value,
           value: value,
           count: filteredItems.length
         };

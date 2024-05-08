@@ -2,7 +2,7 @@
   <el-row v-if="!isPdfPageSelected">
     <el-table
       highlight-current-row
-      style="width: 100%; background-color: rgb(46, 45, 45); height: 65vh"
+      style="width: 100%; background-color: rgb(46, 45, 45);"
       :data="postFlightReportArray"
       :sort-method="customSortMethodForProgressColumn"
       :header-cell-style="{
@@ -11,6 +11,7 @@
         font: '14px',
         'text-align': 'center',
       }"
+      height="65vh"
       row-key="index"
       :cell-style="{ 'text-align': 'center' }"
       :empty-text="'No Data Display'"
@@ -84,17 +85,16 @@
         :width="null"
         :min-width="35"
       ></el-table-column>
-      <postFimCodeForURLel-table-column
+      <el-table-column
         prop="flightPhase"
         label="Flight Phase"
         sortable
         :width="null"
         :min-width="35"
-        :formatter="flightPhaseData"
-      ></postFimCodeForURLel-table-column>
+      ></el-table-column>
     </el-table>
     <div class="table-outer-number">
-      Number of FDEs: {{  }}
+      Number of Flight Reports: {{ postFlightReportArray.length }}
     </div>
   </el-row>
 
@@ -202,15 +202,6 @@ export default {
     },
 
     /**
-     * 本函数用于将flight_phase原数据对应为state中flightPhaseEnum枚举值
-     * @param {*} row table选中行信息
-     */
-     flightPhaseData(row) {
-      let fpIndex = row.flightPhase;
-      return flightPhaseEnum[fpIndex];
-    },
-
-    /**
      * 本函数用于mounted中，获取state中resFDEData数据, 更新至this.InBoundLegFDEsSumArray, 用于前端数据的展示
      */
      getPostFlightReportArray() {
@@ -219,8 +210,8 @@ export default {
       const postFlightReportOri = this.$store.state.failureList.resFailureData;
       this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === 0);
 
+      console.log("postFlightReportOri is",postFlightReportOri)
       console.log("pfr is:",this.postFlightReportArray)
-
     },
 
 

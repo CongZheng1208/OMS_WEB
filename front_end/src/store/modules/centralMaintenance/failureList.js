@@ -64,10 +64,7 @@ export default {
       state.resFDEData = {};
 
       getFDEList().then(response => {
-
-        const fdeReportOri = response;
-        state.resFDEData = fdeReportOri;
-
+        state.resFDEData = response;
       }).catch(error => {
         console.error('Error in getting fde list:', error);
       });

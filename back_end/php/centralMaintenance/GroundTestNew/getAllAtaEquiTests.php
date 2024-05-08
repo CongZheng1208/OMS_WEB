@@ -1,6 +1,6 @@
 <?php
-	$con = mysqli_connect("192.168.0.10", "root", "123456", "OMHMS");
-
+	// $con = mysqli_connect("192.168.0.10", "root", "123456", "OMHMS");
+	$con = mysqli_connect("localhost", "root", "root", "OMHMS");
 	if (!$con) {
 		die("Connection failed: " . mysqli_connect_error());
 	}

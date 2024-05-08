@@ -220,9 +220,14 @@
   background-color: #2b2b2be7 !important;
 }
 
-.test-table .el-table__body tr:not(.current-row) > td {
-  background-color: #7c7a7a !important;
-  color: #bbbbbb;
+/* .test-table .el-table__body tr:not(.current-row) > td {
+  background-color:  #3b3b3c !important;
+  color: #908f8f;
+} */
+
+.el-table__body tr.disable-row > td {
+  background-color:  #3b3b3c !important;
+  color: #908f8f;
 }
 
 .el-table__expand-icon {
@@ -232,12 +237,17 @@
 
 
 
+
+
+
+
+
+
 .transparent-table {
   border-collapse: collapse;
   color: white; /* 设置字体颜色为白色 */
   background-color: transparent; /* 设置背景透明 */
   width: 100%;
-
 }
 
 .transparent-table th, .transparent-table td {

@@ -233,52 +233,61 @@ export default {
       const resFDEDataOri = this.$store.state.failureList.resFDEData;
       const resFailureDataOri = this.$store.state.failureList.resFailureData;
 
-      // 存储映射关系
-      let dict = {};
-      resFDEDataOri.map(obj => {
-        dict[obj.FDECode] = {"FDEStatus":obj.FDEStatus,  "FDEClass":obj.FDEClass, "FDEText":obj.FDEText };
-      });
-      this.FDECodeStatusDict = dict;
 
-      // 筛选出存在failure关联的FDE项目
-      const existingResFailureDataOri = resFailureDataOri.filter(item => item.failureState === "ACTV" && item.fde.FDEStatus  &&  this.FDECodeStatusDict[item.fde.FDECode].FDEStatus  === "ACTV_UNINHB" );
+      if(resFDEDataOri.length!==undefined){
+        // 存储映射关系
+        let dict = {};
+        resFDEDataOri.map(obj => {
+          dict[obj.FDECode] = {"FDEStatus":obj.FDEStatus,  "FDEClass":obj.FDEClass, "FDEText":obj.FDEText };
+        });
+        this.FDECodeStatusDict = dict;
 
-      // 筛选出所有不存在failure关联的项目
-      let existingFDECodes = existingResFailureDataOri.map(obj => obj.FDECode);
+        // 筛选出存在failure关联的FDE项目
+        const existingResFailureDataOri = resFailureDataOri.filter(item => item.failureState === "ACTV" && item.fde.FDEStatus  &&  this.FDECodeStatusDict[item.fde.FDECode].FDEStatus  === "ACTV_UNINHB" );
 
-      let filteredArray = resFDEDataOri.reduce((acc, item) => {
-        if (item.FDEStatus === 'ACTV_UNINHB' &&
-            !acc.some(obj => obj.FDECode === item.FDECode) &&
-            !existingFDECodes.includes(item.FDECode)) {
-          acc.push(item);
-        }
-        return acc;
-      }, []);
+        // 筛选出所有不存在failure关联的项目
+        let existingFDECodes = existingResFailureDataOri.map(obj => obj.FDECode);
 
-      const unexistingResFailureDataOri = filteredArray.map(item => {
-        return {
-          ata: "--",
-          failureMessage: "--",
-          failureNameInfo: "--",
-          failureState: "--",
-          failureTime: "--",
-          fault: [],
-          fde: item,
-          fimcodeInfo: "--",
-          flightLeg: "--",
-          flightPhase: "--",
-          id: "--",
-          index: "--",
-          maintenceText: "--",
-          maintenceTime: "--",
-          rp: []
-        };
-      });
-      console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
-      console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
+        let filteredArray = resFDEDataOri.reduce((acc, item) => {
+          if (item.FDEStatus === 'ACTV_UNINHB' &&
+              !acc.some(obj => obj.FDECode === item.FDECode) &&
+              !existingFDECodes.includes(item.FDECode)) {
+            acc.push(item);
+          }
+          return acc;
+        }, []);
+
+        const unexistingResFailureDataOri = filteredArray.map(item => {
+          return {
+            ata: "--",
+            failureMessage: "--",
+            failureNameInfo: "--",
+            failureState: "--",
+            failureTime: "--",
+            fault: [],
+            fde: item,
+            fimcodeInfo: "--",
+            flightLeg: "--",
+            flightPhase: "--",
+            id: "--",
+            index: "--",
+            maintenceText: "--",
+            maintenceTime: "--",
+            rp: []
+          };
+        });
+        console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
+        console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
 
 
-      this.existingFDEArray = unexistingResFailureDataOri.concat(existingResFailureDataOri);
+        this.existingFDEArray = unexistingResFailureDataOri.concat(existingResFailureDataOri);
+
+
+
+      }else{
+        this.existingFDEArray = []
+      }
+
       console.log("existingFDEArray is", this.existingFDEArray);
     },
 

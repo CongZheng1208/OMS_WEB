@@ -208,10 +208,13 @@ export default {
       //深度拷贝，不改变state中resFailureData的原始数据
 
       const postFlightReportOri = this.$store.state.failureList.resFailureData;
-      this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === 0);
-
-      console.log("postFlightReportOri is",postFlightReportOri)
-      console.log("pfr is:",this.postFlightReportArray)
+      if(postFlightReportOri.length !== undefined){
+        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === 0);
+      }else{
+        this.postFlightReportArray = []
+      }
+      // console.log("postFlightReportOri is",postFlightReportOri)
+      // console.log("pfr is:",this.postFlightReportArray)
     },
 
 

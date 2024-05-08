@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: rgb(45, 45, 45);">
     <el-header height="10vh">
       <el-row style="width: 100%;">
         <el-col :span="10">
@@ -15,7 +15,7 @@
         <el-col :span="12">
           <el-table
             highlight-current-row
-            height="65vh"
+            height="70vh"
             style=" background-color: rgb(46, 45, 45)"
 
             :data="dataForRetrieval"
@@ -32,7 +32,7 @@
         <el-col :span="12">
           <el-table
             highlight-current-row
-            height="65vh"
+            height="70vh"
             style=" background-color: rgb(46, 45, 45)"
 
             :data="dataForReset"

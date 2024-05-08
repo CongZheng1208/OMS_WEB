@@ -128,45 +128,11 @@ export default {
     getfailureArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = this.$store.state.failureList.resFailureData;
-      this.existingFailureArray = existingFailureOri.filter(item => item.failureState === 'ACTV');
-
-
-
-      // //处理原始数据，筛选出parentFailure，将其他子成员挂在其名下
-      // let existingFailureParent = existingFailureOri.filter(
-      //   (existingFailureOri) => existingFailureOri.is_parent == true
-      // );
-
-      // let existingFailureChild = existingFailureOri.filter(
-      //   (existingFailureOri) => existingFailureOri.is_parent == false
-      // );
-
-      // //针对每个Parent，找到child，放到children属性中
-      // for (let item of existingFailureParent) {
-      //   let tempFailureName = item.failure_name_info;
-      //   let childFailureName = existingFailureChild.filter(
-      //     (existingFailureChild) =>
-      //       existingFailureChild.failure_name_info == tempFailureName
-      //   );
-
-      //   let childrenFailure = [];
-      //   if (childFailureName.length >= 1) {
-      //     for (let childItem of childFailureName) {
-      //       //将childItem的failure_name_info和fimcode_info设置为''
-      //       childItem.failure_name_info = "";
-      //       childItem.fimcode_info = "";
-      //       childrenFailure.push(childItem);
-      //     }
-      //   }
-      //   item.children = childrenFailure;
-      // }
-
-      // for (let item of existingFailureOri) {
-      //   //更新failure_name_info
-      //   item.failureNameInfo = item.failureNameInfo + " [ " + String(item.count) + " ]";
-      // }
-
-      // this.existingFailureArray = existingFailureOri;
+      if(existingFailureOri.length !== undefined){
+        this.existingFailureArray = existingFailureOri.filter(item => item.failureState === 'ACTV');
+      }else{
+        this.existingFailureArray = []
+      }
     },
     customSortMethodForProgressColumn
   },

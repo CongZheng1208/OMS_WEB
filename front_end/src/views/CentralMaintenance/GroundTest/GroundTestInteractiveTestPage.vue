@@ -205,11 +205,7 @@ export default {
     handleTestOrder
   },
   created(){
-    console.log("Damnnnnnn")
-    console.log(this.$store.state.groundTestList.currentGroundTest)
-    console.log(this.$store.state.groundTestList.currentGroundTest.InteractiveScreenText)
-    console.log(this.$store.state.groundTestList.currentGroundTest.InteractiveScreenText == "")
-
+    console.log("this.$store.state.groundTestList.currentGroundTest is:",this.$store.state.groundTestList.currentGroundTest)
 
     // 将当前选中测试的ScreenId按分号分开，存入数组
     let ScreenIds;

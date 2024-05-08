@@ -319,42 +319,45 @@ export default {
      */
     getfailureArray() {
 
-      //深度拷贝，不改变state中resFailureData的原始数据
-      const existingFailureOri = JSON.parse(
-        JSON.stringify(this.$store.state.failureList.resFailureData)
-      );
-
-      console.log("???existingFailureArray is:", existingFailureOri)
-      this.existingFailureArray = existingFailureOri
-
-      this.ataFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
-        const filteredItems = this.existingFailureArray.filter(item => item.ata === value);
-        return {
-          text: value,
-          value: value,
-          count: filteredItems.length
-        };
-      });
-
-      this.phaseFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightPhase))).map(value => {
-        const filteredItems = this.existingFailureArray.filter(item => item.flightPhase === value);
-        return {
-          text: value,
-          value: value,
-          count: filteredItems.length
-        };
-      });
-
-      this.legFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
-        const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
-        return {
-          text: value,
-          value: value,
-          count: filteredItems.length
-        };
-      });
 
 
+      if(this.$store.state.failureList.resFailureData.length !==undefined){
+        //深度拷贝，不改变state中resFailureData的原始数据
+        const existingFailureOri = JSON.parse(
+          JSON.stringify(this.$store.state.failureList.resFailureData)
+        );
+
+        this.existingFailureArray = existingFailureOri
+
+        this.ataFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
+          const filteredItems = this.existingFailureArray.filter(item => item.ata === value);
+          return {
+            text: value,
+            value: value,
+            count: filteredItems.length
+          };
+        });
+
+        this.phaseFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightPhase))).map(value => {
+          const filteredItems = this.existingFailureArray.filter(item => item.flightPhase === value);
+          return {
+            text: value,
+            value: value,
+            count: filteredItems.length
+          };
+        });
+
+        this.legFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
+          const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
+          return {
+            text: value,
+            value: value,
+            count: filteredItems.length
+          };
+        });
+      }else{
+        this.existingFailureArray = []
+      }
     },
     customSortMethodForProgressColumn
   },

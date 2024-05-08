@@ -1,11 +1,8 @@
 // CMS模块下的所有api
 
 import { http } from "../../../utils/http";
-// url
-// 只写相对路径
 
-// TBD
-// 这里具体的url自己定
+
 const API = {
 
   GET_FDE_LIST: 'centralMaintenance/FailureReportNew/fdesNew.php',

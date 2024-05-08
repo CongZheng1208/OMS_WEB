@@ -34,7 +34,7 @@
           <el-table
             v-if="displaySelected == 'NVMDataRetrieval'"
             highlight-current-row
-            height="65vh"
+            height="70vh"
             style=" background-color: rgb(46, 45, 45)"
 
             :data="dataForRetrieval"
@@ -54,7 +54,7 @@
           <el-table
             v-else
             highlight-current-row
-            height="65vh"
+            height="70vh"
             style=" background-color: rgb(46, 45, 45)"
 
             :data="dataForReset"
@@ -72,7 +72,7 @@
           </el-table>
         </el-col>
         <el-col :span="10" style="padding-right: 0.5vh;">
-          <div class="custom-card" shadow="hover" style="height: 65vh">
+          <div class="custom-card" shadow="hover" style="height: 70vh">
             <div class="custom-header">DETAILS</div>
             <div class="custom-content">
               <div v-for="o in 50" :key="o" class="content-item">

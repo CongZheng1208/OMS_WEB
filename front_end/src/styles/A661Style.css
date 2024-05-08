@@ -259,6 +259,13 @@
 
 
 
+.table-outer-note{
+  position: absolute;
+  bottom: 5vh;
+  right: 12vh;
+  color: rgb(174, 174, 174);
+}
+
 .table-outer-number{
   position: absolute;
   bottom: 5vh;

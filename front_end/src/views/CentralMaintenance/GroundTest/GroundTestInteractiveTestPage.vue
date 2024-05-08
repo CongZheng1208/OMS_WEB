@@ -1,5 +1,5 @@
 <template>
-   <div v-loading.fullscreen.lock="fullscreenLoading">
+   <div v-loading.fullscreen.lock="fullscreenLoading" style="background-color: rgb(45, 45, 45);">
     <el-header style="height: 12vh;">
       <el-row style="width: 100%;">
         <el-col :span="8">
@@ -59,6 +59,9 @@
             <div v-if="screenArray.length == 0" class="content-alert">
               No Alive Data
             </div>
+            <div v-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'" class="content-alert">
+              No Alive Data1
+            </div>
             <div v-else
               class="radio"
               v-for="option in currentOptions"
@@ -87,7 +90,6 @@
           :disabled = "selectedOption==-1">
           CONTINUE
         </button>
-        <!-- <button class="footer-btn" @click="goThreeTestsPage()">BACK</button> -->
       </div>
     </el-footer>
   </div>
@@ -128,18 +130,10 @@ export default {
       this.$router.push({ name: "TestList", params: { } });
     },
 
-    // /**
-    //  * 本函数用于跳转页面
-    //  */
-    // goThreeTestsPage() {
-    //   this.$router.push({ name: "ThreeTests"});
-    // },
-
     /**
      * 本函数用于向成员系统发送继续指令
      */
     continueTest() {
-
       if(this.selectedOption !== -1){
          // 提交post请求给成员系统
         let tmp = qs.stringify({
@@ -177,20 +171,24 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)'
       });
 
-      if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== "0" ) {
-        // 当不为null时, 更新页面展示项目并停止刷新
+
+      if ( this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !==this.currentStepId && this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== "0" ) {
+        // 当Screen_Trigger_Index更新了且不为null时, 更新页面展示项目并停止刷新
 
         loading.close();
         // 刷新文本和选项
         this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index;
         this.selectedOption = -1;
+        this.currentScreem = this.screenArray.find(item => item.ScreenId === this.currentStepId).InteractiveScreenText
+        this.currentOptions =  this.screenArray.find(item => item.ScreenId === this.currentStepId).ResponseMessage.ResponseBlock
+
 
         return;
       } else if(count >= 5) {
         // 如果时间超过5秒，也停止刷新并退出
         loading.close();
         this.$message({ message: 'Exceeded maximum refresh time', type: 'warning'});
-        this.$router.push({ name: "TestList", params: { } });
+        this.$router.push({ name: "TestList" });
         return;
 
       }else{

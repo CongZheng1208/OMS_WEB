@@ -14,7 +14,6 @@
     </el-row>
     <el-row>
       <el-table
-        highlight-current-row
         height="65vh"
         :data="timeCycleData"
         :sort-method="customSortMethodForProgressColumn"
@@ -29,8 +28,8 @@
         <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
         <el-table-column prop="MemberSystemName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
         <el-table-column prop="status" label="Status" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="hours" label="Hours" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="cycles" label="Cycles" sortable :width="null" :min-width="50" >
+        <el-table-column prop="hours" label="Hours"  :width="null" :min-width="50"></el-table-column>
+        <el-table-column prop="cycles" label="Cycles"  :width="null" :min-width="50" >
 
         </el-table-column>
         <el-table-column :width="null" :min-width="5"></el-table-column>
@@ -39,8 +38,6 @@
         Notes: Data marked with "*" is obtained by calculating When the MS compute module fails
       </div>
     </el-row>
-
-
     <el-footer>
       <div>
         <button class="footer-btn" @click="printPage">PRINT</button>

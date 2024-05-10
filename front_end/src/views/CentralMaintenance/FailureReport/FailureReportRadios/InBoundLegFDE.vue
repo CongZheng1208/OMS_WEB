@@ -15,7 +15,12 @@
       row-key="index"
       :cell-style="{ 'text-align': 'center' }"
       :empty-text="'No Data Display'"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       @current-change="tableRowClicked"
+      v-loading="loading"
+      element-loading-text="Data Loading..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.5)"
     >
       <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
@@ -37,7 +42,6 @@
         sortable
         :width="null"
         :min-width="30"
-        :formatter="fdeStatusData"
       ></el-table-column>
       <el-table-column
         prop="fde.FDEClass"
@@ -45,7 +49,6 @@
         sortable
         :width="null"
         :min-width="30"
-        :formatter="fdeClassData"
       ></el-table-column>
       <el-table-column
         prop="fde.FDETime"
@@ -130,6 +133,8 @@ export default {
     return {
       postFlightReportArray: [],
       isPdfPageSelected: false,
+      interval: null,
+      loading: true
     };
   },
   computed: {
@@ -145,6 +150,17 @@ export default {
         }
       }
     }
+  },
+  created() {
+    this.interval = setInterval(() => {
+      this.getPostFlightReportArray();
+    }, 1000);
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 
   methods: {
@@ -209,19 +225,14 @@ export default {
 
       const postFlightReportOri = this.$store.state.failureList.resFailureData;
       if(postFlightReportOri.length !== undefined){
-        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === 0);
+        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === "0");
       }else{
         this.postFlightReportArray = []
       }
-      // console.log("postFlightReportOri is",postFlightReportOri)
-      // console.log("pfr is:",this.postFlightReportArray)
+      console.log("postFlightReportOri is",postFlightReportOri)
+      console.log("pfr is:",this.postFlightReportArray)
     },
-
-
     customSortMethodForProgressColumn
-  },
-  created() {
-    this.getPostFlightReportArray();
   },
 };
 </script>

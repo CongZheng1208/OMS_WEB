@@ -95,7 +95,7 @@
             currentScreenId: "",
             selectedOption: "",
           });
-          handleTestOrder(tmp)
+          this.handleTestOrder(tmp)
 
           this.$router.push({ name: "TestList" });
         }
@@ -126,7 +126,6 @@
           test.Preconditions = test.Preconditions.filter(item => item !== '');
         }
       });
-      console.log("data here",  this.selectedTests)
 
       setTimeout(() => {
         this.loading = false;

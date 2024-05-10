@@ -4,6 +4,8 @@ import { http } from "../../../utils/http";
 
 const API = {
   GET_TIME_CYCLE: 'centralMaintenance/extendedFunctions/getTimeCycle.php',
+
+  GET_ATA_EQUI: 'centralMaintenance/extendedFunctions/getATAandEqui.php'
 }
 
 // APIs
@@ -14,10 +16,9 @@ export const getTimeCycle = () => {
   })
 }
 
-// export const postFimCodeForURL = (index) => {
-//   return http({
-//     url: API.POST_FIMCODE_FOR_URL,
-//     method: 'POST',
-//     data: index
-//   })
-// }
+export const getATAandEqui = () => {
+  return http({
+    url: API.GET_ATA_EQUI,
+    method: 'GET'
+  })
+}

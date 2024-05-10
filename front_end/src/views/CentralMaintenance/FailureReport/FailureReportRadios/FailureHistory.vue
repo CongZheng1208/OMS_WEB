@@ -17,6 +17,10 @@
       row-key="index"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       @current-change="tableRowClicked"
+      v-loading="loading"
+      element-loading-text="Data Loading..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.5)"
     >
       <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
@@ -49,7 +53,7 @@
         prop="failureNameInfo"
         label="Failure Name"
         :width="null"
-        :min-width="85"
+        :min-width="75"
       >
         <template slot="header" slot-scope="scope">
           <el-input
@@ -68,14 +72,14 @@
         label="Failure Status"
         sortable
         :width="null"
-        :min-width="45"
+        :min-width="55"
       ></el-table-column>
       <el-table-column
         prop="flightPhase"
         label="Flight Phase"
         sortable
         :width="null"
-        :min-width="30"
+        :min-width="40"
         :filters="phaseFilters"
         :filter-method="filterHandler"
       ></el-table-column>
@@ -101,11 +105,8 @@
         :filters="legFilters"
         :filter-method="filterHandler"
       ></el-table-column>
-
-
       <el-table-column :width="null" :min-width="5"></el-table-column>
     </el-table>
-
     <el-dialog
       style="font-size: 15px; color: white;"
       :visible.sync="isFlightLegsSelected"
@@ -143,8 +144,6 @@
           </div>
         </el-col>
       </el-row>
-
-
       <el-row style=" margin-left: 15px; margin-right: 15px;" >
         <el-table
           v-if="dialogSelected == 'ATA'"
@@ -179,7 +178,6 @@
           ></el-table-column>
           <el-table-column :width="null" :min-width="10"></el-table-column>
         </el-table>
-
 
         <el-table
           v-if="dialogSelected == 'flightPhase'"
@@ -256,10 +254,9 @@
       </span>
     </el-dialog>
 
-
     <div class="table-outer-number">
-      <button class="footer-btn" @click="isFlightLegsSelected = true">Count</button>
-      Number of Tests: {{ failureCountTotal }}
+      <button class="table-outer-button" @click="isFlightLegsSelected = true">Count</button>
+      Number of Failures: {{ failureCountTotal }}
     </div>
   </el-row>
 </template>
@@ -284,8 +281,20 @@ export default {
 
       searchFimCodeInput: '',
       searchFailureNameInput: '',
-
+      interval: null,
+      loading: true
     };
+  },
+  created() {
+    this.interval = setInterval(() => {
+      this.getfailureArray();
+    }, 1000); // 每秒执行一次
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 
   methods: {
@@ -319,15 +328,53 @@ export default {
      */
     getfailureArray() {
 
-
-
       if(this.$store.state.failureList.resFailureData.length !==undefined){
         //深度拷贝，不改变state中resFailureData的原始数据
         const existingFailureOri = JSON.parse(
           JSON.stringify(this.$store.state.failureList.resFailureData)
         );
 
-        this.existingFailureArray = existingFailureOri
+
+
+        // 创建一个新数组来存放结果
+        let mergedArray = existingFailureOri.reduce((acc, curr) => {
+          // 检查当前对象是否与已有对象相匹配
+          let match = acc.find(item => item.failureNameInfo === curr.failureNameInfo && item.failureTime === curr.failureTime);
+
+          // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+          if (match) {
+            if (!match.children) {
+              match.children = [];
+            }
+
+            match.children.push({
+              ata: "",
+              failureNameInfo: "",
+              failureState:"",
+              failureTime: "",
+              fault: "",
+              fde: curr.fde,
+              fimcodeInfo: "",
+              flightLeg: "",
+              flightPhase: "",
+              id: "",
+              index: curr.index,
+              maintenceText: curr.maintenceText,
+              maintenceTime: curr.maintenceTime
+            });
+          } else {
+            // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+
+        this.existingFailureArray = mergedArray
+
+        // 输出合并后的数组
+        //console.log(mergedArray);
+
+
 
         this.ataFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
           const filteredItems = this.existingFailureArray.filter(item => item.ata === value);

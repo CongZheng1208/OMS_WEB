@@ -87,10 +87,10 @@
       </el-row>
 
       <el-dialog
-        title="Error Message"
+        title="ERROR MESSAGE"
         :visible.sync="isTestNotBeSelected"
         width="30%">
-        <span style=" font-size: 15px;">Please select a test!</span>
+        <p>Please select a test!</p>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="isTestNotBeSelected = false"> OK </el-button>
         </span>
@@ -123,8 +123,6 @@
 
 
         InterferingTestIndexs: [],
-
-
 
         selectedTestId: "",
         isTestNotBeSelected: false,

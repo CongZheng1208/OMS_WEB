@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 60vh">
+  <el-row style="height: 60vh">
     <el-table
       highlight-current-row
       style="width: 100%;background-color: rgb(46, 45, 45)"
@@ -17,6 +17,10 @@
       row-key="index"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       @current-change="tableRowClicked"
+      v-loading="loading"
+      element-loading-text="Data Loading..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.5)"
     >
       <el-table-column :width="null" :min-width="10"></el-table-column>
       <el-table-column
@@ -77,7 +81,7 @@
     <div class="table-outer-number">
       Number of Failures: {{ existingFailureArray.length }}
     </div>
-  </div>
+  </el-row>
 </template>
 
 <script>
@@ -89,7 +93,20 @@ export default {
   data() {
     return {
       existingFailureArray: [],
+      interval: null,
+      loading: true
     };
+  },
+  created() {
+    this.interval = setInterval(() => {
+      this.getfailureArray();
+    }, 1000); // 每秒执行一次
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 
   methods: {
@@ -129,7 +146,40 @@ export default {
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = this.$store.state.failureList.resFailureData;
       if(existingFailureOri.length !== undefined){
-        this.existingFailureArray = existingFailureOri.filter(item => item.failureState === 'ACTV');
+          let actvExistingFailureOri = existingFailureOri.filter(item => item.failureState === 'ACTV');
+          // 创建一个新数组来存放结果
+          let mergedArray = actvExistingFailureOri.reduce((acc, curr) => {
+          // 检查当前对象是否与已有对象相匹配
+          let match = acc.find(item => item.failureNameInfo === curr.failureNameInfo && item.failureTime === curr.failureTime);
+
+          // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+          if (match) {
+            if (!match.children) {
+              match.children = [];
+            }
+
+            match.children.push({
+              ata: "",
+              failureNameInfo: "",
+              failureState:"",
+              failureTime: "",
+              fault: "",
+              fde: curr.fde,
+              fimcodeInfo: "",
+              flightLeg: "",
+              flightPhase: "",
+              id: "",
+              index: curr.index,
+              maintenceText: curr.maintenceText,
+              maintenceTime: curr.maintenceTime
+            });
+          } else {
+            // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+        this.existingFailureArray = mergedArray
       }else{
         this.existingFailureArray = []
       }

@@ -59,7 +59,7 @@
             <div v-if="screenArray.length == 0" class="content-alert">
               No Alive Data
             </div>
-            <div v-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'" class="content-alert">
+            <div v-else-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'" class="content-alert">
               No Alive Data1
             </div>
             <div v-else

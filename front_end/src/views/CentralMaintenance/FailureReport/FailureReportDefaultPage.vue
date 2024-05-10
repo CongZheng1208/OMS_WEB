@@ -67,12 +67,11 @@
 
 
       <el-dialog
-        title="Error Message"
-        style="font-size: 15px; color: white;"
+        title="ERROR MESSAGE"
         :visible.sync="isParameterSelected"
         width="30%"
       >
-        <span style="font-size: 15px; color: white;">Please select a failure item!</span>
+        <p>Please select a failure item!</p>
         <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="isParameterSelected = false">OK</el-button>
         </span>

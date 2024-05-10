@@ -50,7 +50,7 @@
      <el-row>
       <div>
         <div class="custom-card" shadow="hover" style="height: 60vh"
-          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '2' "
+          v-if="isSuccess"
           v-loading="loading"
           element-loading-text="Data Loading..."
           element-loading-spinner="el-icon-loading"
@@ -67,7 +67,7 @@
         </div>
 
         <div class="custom-card" shadow="hover" style="height: 60vh"
-          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '7'"
+          v-if="isError"
           v-loading="loading"
           element-loading-text="Data Loading..."
           element-loading-spinner="el-icon-loading"
@@ -87,7 +87,7 @@
         </div>
 
         <div class="custom-card" shadow="hover" style="height: 60vh"
-          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '6' "
+          v-if="isInhibit"
           v-loading="loading"
           element-loading-text="Data Loading..."
           element-loading-spinner="el-icon-loading"
@@ -113,7 +113,7 @@
         </div>
 
         <div shadow="hover" style="height: 65vh"
-          v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '5' "
+          v-if="isFault"
           v-loading="loading"
           element-loading-text="Data Loading..."
           element-loading-spinner="el-icon-loading"
@@ -170,6 +170,11 @@ import Clock from '@/components/Clock'
 export default {
   data() {
     return {
+      isSuccess: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "2",
+      isInhibit: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "6",
+      isFault: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "5",
+      isError: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "7",
+
       selectedTestId: "",
       testDict: testTypeEnum,
       testStatusDict: testStatusEnum,
@@ -194,6 +199,7 @@ export default {
     customSortMethodForProgressColumn
   },
   mounted() {
+    console.log("$store.state.groundTestList.currentGroundTest",this.$store.state.groundTestList.currentGroundTest)
     setTimeout(() => {
       this.loading = false;
     }, 500);

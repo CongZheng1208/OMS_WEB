@@ -217,11 +217,7 @@
        */
       updateCurrentGroundTestLists() {
 
-        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests
-        // console.log("  this.currentGroundTestLists is:")
-        // console.log(  this.currentGroundTestLists)
-
-        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.map(test => {
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.filter(item => parseInt(item.FlightLeg) == 0).map(test => {
           if(test.InitiatedTest_Status == '2' || test.InitiatedTest_Status == '9'){
             return {
               ...test,
@@ -241,6 +237,8 @@
             };
           }
         });
+
+        //console.log("this.currentGroundTestLists",this.currentGroundTestLists)
       },
 
       printPage,

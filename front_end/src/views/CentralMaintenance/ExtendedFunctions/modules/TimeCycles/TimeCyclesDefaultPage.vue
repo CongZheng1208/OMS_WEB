@@ -9,24 +9,40 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-table
-        height="65vh"
-        :data="timeCycleData"
-        :sort-method="customSortMethodForProgressColumn"
-        :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
-        :empty-text="'No Data Display'"
-        v-loading="loading"
-        element-loading-text="Data Loading..."
-        element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.5)"
-      >
-        <el-table-column :width="null" :min-width="5"></el-table-column>
-        <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="MemberSystemName" label="Equipment Name" sortable :width="null" :min-width="100"></el-table-column>
-        <el-table-column prop="status" label="Status" sortable :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="hours" label="Hours"  :width="null" :min-width="50"></el-table-column>
-        <el-table-column prop="cycles" label="Cycles"  :width="null" :min-width="50" >
-
+      <el-table height="65vh"
+                :data="timeCycleData"
+                :sort-method="customSortMethodForProgressColumn"
+                :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                :empty-text="'No Data Display'"
+                v-loading="loading"
+                element-loading-text="Data Loading..."
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.5)">
+        <el-table-column :width="null"
+                         :min-width="5"></el-table-column>
+        <el-table-column prop="ATA"
+                         label="ATA"
+                         sortable
+                         :width="null"
+                         :min-width="50"></el-table-column>
+        <el-table-column prop="MemberSystemName"
+                         label="Equipment Name"
+                         sortable
+                         :width="null"
+                         :min-width="100"></el-table-column>
+        <el-table-column prop="status"
+                         label="Status"
+                         sortable
+                         :width="null"
+                         :min-width="50"></el-table-column>
+        <el-table-column prop="hours"
+                         label="Hours"
+                         :width="null"
+                         :min-width="50"></el-table-column>
+        <el-table-column prop="cycles"
+                         label="Cycles"
+                         :width="null"
+                         :min-width="50">
         </el-table-column>
         <el-table-column :width="null"
                          :min-width="5"></el-table-column>

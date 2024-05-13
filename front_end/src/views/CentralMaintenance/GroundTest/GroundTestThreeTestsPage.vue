@@ -88,10 +88,10 @@ export default {
           InitiatedTest_Index: initiatedTestIDs,
           MemberSystemID: "",
 
-          currentScreenId: "",
-          selectedOption: "",
-        });
-        handleTestOrder(tmp)
+            currentScreenId: "",
+            selectedOption: "",
+          });
+          this.handleTestOrder(tmp)
 
         this.$router.push({ name: "TestList" });
       }
@@ -104,25 +104,24 @@ export default {
       this.selectedTests.splice(index, 1);
     },
 
-    /**
-     * 本函数用于跳转页面
-     */
-    goSelectTestPage() {
-      clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
-      this.$router.push({ name: "SelectTestNew" });
+      /**
+       * 本函数用于跳转页面
+       */
+      goSelectTestPage() {
+        clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
+        this.$router.push({ name: "SelectTestNew" });
+      },
+      printPage,
+      handleTestOrder,
     },
-    printPage,
-    handleTestOrder,
-  },
-  mounted() {
-    this.selectedTests = this.$route.params.selectedTests
-    this.selectedTests.forEach(test => {
-      if (test.Preconditions && test.Preconditions.includes(';')) {
-        test.Preconditions = test.Preconditions.split(';').map(item => item.trim());
-        test.Preconditions = test.Preconditions.filter(item => item !== '');
-      }
-    });
-    console.log("data here", this.selectedTests)
+    mounted() {
+      this.selectedTests =  this.$route.params.selectedTests
+      this.selectedTests.forEach(test => {
+        if (test.Preconditions && test.Preconditions.includes(';')) {
+          test.Preconditions = test.Preconditions.split(';').map(item => item.trim());
+          test.Preconditions = test.Preconditions.filter(item => item !== '');
+        }
+      });
 
     setTimeout(() => {
       this.loading = false;

@@ -1,8 +1,53 @@
 <template>
   <div>
-    <el-header height="10vh">
-    </el-header>
     <el-main>
+      <el-row :gutter="2">
+        <el-col :span="12">
+          <el-table
+            highlight-current-row
+            height="67vh"
+            style=" background-color: rgb(46, 45, 45)"
+            @row-click="handleATARowClick"
+            :data="ATAs"
+            :sort-method="customSortMethodForProgressColumn"
+            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+            :empty-text="'No Data Display'"
+          >
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+            <el-table-column prop="ataNumber" label="ATA Selection" sortable :width="null" :min-width="20"></el-table-column>
+            <el-table-column prop="systemName" label="System Name" sortable :width="null" :min-width="30"></el-table-column>
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+          </el-table>
+        </el-col>
+        <el-col :span="12">
+          <el-table
+            highlight-current-row
+            height="67vh"
+            style=" background-color: rgb(46, 45, 45)"
+            @row-click="handleEquipmentRowClick"
+            :data="Equis"
+            :sort-method="customSortMethodForProgressColumn"
+            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+            :empty-text="'No Data Display'"
+          >
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+            <el-table-column prop="MemberSystemName" label="Equiment Name" sortable :width="null" :min-width="35"></el-table-column>
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+      <div class="table-outer-number">
+        Total Number: {{ Equis.length }}
+      </div>
+
+
+      <el-dialog :visible.sync="isMemberSystemIDAddedMsg" title="CONFIRM">
+        <p>Are you sure you want to  ADD  the parameter "{{ selectedEqui.MemberSystemName }}"?</p>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="confirmAdd">Confirm</el-button>
+          <el-button @click="cancelAdd">Cancel</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -19,67 +64,95 @@
   </div>
 </template>
 <script>
-import qs from 'qs'
-import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils'
+  import qs from 'qs'
+  import {printPage, customSortMethodForProgressColumn, handleTestOrder} from '@/utils/utils.js'
+  import { getATAandEqui } from '@/services/centralMaintenance/extendedFunctions/index.js';
 
-export default {
-  name: "DefaultResetPage",
-  data() {
-    return {
+  export default {
+    name: "DefaultResetPage",
+    data() {
+      return {
+        ATAs: [],
+        Equis: [],
+        isMemberSystemIDAddedMsg: false,
+        selectedEqui: {},
+        selectedMemberSystemIds: []
 
-      displaySelected: 'NVMDataRetrieval',
-      NVMDataRetrievalSelected: true,
-      NVMDataResetSelected: false,
-
-      dataForRetrieval: [
-        { "id": "6", "ata": "27", "equipmentName": "HF_FCM_2", "startTime": "2023-07-11 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-        { "id": "7", "ata": "27", "equipmentName": "HLRM B on IMC", "startTime": "2023-07-13 10:17:29", "status": "In Progress", "elapsedTime": "00:05:51", "processPercent": "87" },
-        { "id": "8", "ata": "38", "equipmentName": "WWS", "startTime": "2023-07-15 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-        { "id": "9", "ata": "42", "equipmentName": "GPM L1", "startTime": "2023-07-09 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-        { "id": "10", "ata": "42", "equipmentName": "GPM R1", "startTime": "2023-04-20 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-        { "id": "11", "ata": "47", "equipmentName": "FTIS LRM on IMC", "startTime": "2023-05-13 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      ],
-      dataForReset: [{ "id": "1", "ata": "29", "equipmentName": "HLRM A on IMC", "startTime": "2023-07-10 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      { "id": "2", "ata": "29", "equipmentName": "HLRM B on IMC", "startTime": "2023-07-10 10:17:29", "status": "In Progress", "elapsedTime": "00:05:51", "processPercent": "87" },
-      { "id": "3", "ata": "31", "equipmentName": "HF_FWDEAFR", "startTime": "2023-07-10 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-      { "id": "4", "ata": "27", "equipmentName": "HF_FSECU_1", "startTime": "2023-07-10 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-      { "id": "5", "ata": "27", "equipmentName": "HF-FCM-1", "startTime": "2023-07-10 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-      { "id": "6", "ata": "27", "equipmentName": "HF_FCM_2", "startTime": "2023-07-11 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      { "id": "7", "ata": "27", "equipmentName": "HLRM B on IMC", "startTime": "2023-07-13 10:17:29", "status": "In Progress", "elapsedTime": "00:05:51", "processPercent": "87" },
-      { "id": "8", "ata": "38", "equipmentName": "WWS", "startTime": "2023-07-15 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-      { "id": "9", "ata": "42", "equipmentName": "GPM L1", "startTime": "2023-07-09 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-      { "id": "10", "ata": "42", "equipmentName": "GPM R1", "startTime": "2023-04-20 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-      { "id": "11", "ata": "47", "equipmentName": "FTIS LRM on IMC", "startTime": "2023-05-13 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      { "id": "12", "ata": "38", "equipmentName": "WWS", "startTime": "2023-07-15 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-      { "id": "13", "ata": "42", "equipmentName": "GPM L1", "startTime": "2023-07-09 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-      { "id": "14", "ata": "42", "equipmentName": "GPM R1", "startTime": "2023-04-20 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-      { "id": "15", "ata": "47", "equipmentName": "FTIS LRM on IMC", "startTime": "2023-05-13 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      ],
-    };
-  },
-  methods: {
-    /**
-     * 本函数用于跳转页面
-     */
-    goDefaultPage() {
-      this.$router.push({ name: "TimeCycles" });
+      };
     },
-
-    sendOrder() {
-      let tmp = qs.stringify({
-        OrderType: "ABORTALL",
-        currentPage: "TestList",
+    created(){
+      getATAandEqui().then(response => {
+        this.ataEquiData = response
+        Object.keys(response).forEach(key => {
+          this.ATAs.push({
+            ataNumber: key,
+            systemName: "to be done",
+          });
+        });
       });
-
-      this.handleTestOrder(tmp)
     },
+    methods: {
+      /**
+       * 本函数用于跳转页面
+       */
+      goDefaultPage() {
+        this.$router.push({ name: "TimeCycles" });
+      },
 
-    changeRadio,
-    printPage,
-    handleTestOrder,
-    customSortMethodForProgressColumn
+      /**
+       * 本函数用于选中某个ATA
+       * @param {Object} row
+       */
+      handleATARowClick(row) {
+        this.Equis =  this.ataEquiData[row.ataNumber]
+      },
+
+      /**
+       * 本函数用于选中要进行的装备
+       * @param {Object} row
+       */
+      handleEquipmentRowClick(row) {
+        this.isMemberSystemIDAddedMsg = true
+        this.selectedEqui = row
+      },
+
+      confirmAdd(){
+        if (this.selectedMemberSystemIds.includes(this.selectedEqui.memberSystemId)) {
+          this.$message('This equipment has been selected');
+        } else if (this.selectedEqui.support == "1"){
+          // 判断逻辑：若该项目的support值为1且avail为0，则无法被添加
+          if( this.selectedEqui.avail !== "0") {
+            this.$message('This equipment is currently unavailable');
+          }else{
+            this.selectedMemberSystemIds.push(this.selectedEqui.memberSystemId);
+            this.$message({ message: 'Successfully selected', type: 'success'});
+          }
+        }
+        this.isMemberSystemIDAddedMsg = false
+        // console.log( this.selectedMemberSystemIds)
+      },
+
+      cancelAdd(){
+        this.$message({
+          message: 'Already canceled'
+        });
+        this.isMemberSystemIDAddedMsg = false
+      },
+
+      sendOrder(){
+        let tmp = qs.stringify({
+          OrderType: "TCRETRIEVE",
+          currentPage: "TimeCyclesSelect",
+          selectedEquipmentID: this.selectedMemberSystemIds
+        });
+        this.handleTestOrder(tmp)
+      },
+
+      printPage,
+      handleTestOrder,
+      customSortMethodForProgressColumn
+    }
   }
-}
 
 </script>
 <style scoped></style>

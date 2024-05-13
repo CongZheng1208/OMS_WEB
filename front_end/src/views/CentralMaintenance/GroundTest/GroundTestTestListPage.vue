@@ -245,31 +245,29 @@ export default {
      */
     updateCurrentGroundTestLists() {
 
-      this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests
-      // console.log("  this.currentGroundTestLists is:")
-      // console.log(  this.currentGroundTestLists)
+        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.filter(item => parseInt(item.FlightLeg) == 0).map(test => {
+          if(test.InitiatedTest_Status == '2' || test.InitiatedTest_Status == '9'){
+            return {
+              ...test,
+              progress: parseFloat(100)
+            };
+          }else if(test.InitiatedTest_Status == '0' || test.InitiatedTest_Status == '5'|| test.InitiatedTest_Status == '7'|| test.InitiatedTest_Status == '6'){
+            return {
+              ...test,
+              progress: parseFloat(0)
+            };
+          }else{
+            const currentTime = new Date().getTime();
+            const startTime = new Date(test.StartTime).getTime();
+            return {
+              ...test,
+              progress: parseInt(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99))
+            };
+          }
+        });
 
-      this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.map(test => {
-        if (test.InitiatedTest_Status == '2' || test.InitiatedTest_Status == '9') {
-          return {
-            ...test,
-            progress: parseFloat(100)
-          };
-        } else if (test.InitiatedTest_Status == '0' || test.InitiatedTest_Status == '5' || test.InitiatedTest_Status == '7' || test.InitiatedTest_Status == '6') {
-          return {
-            ...test,
-            progress: parseFloat(0)
-          };
-        } else {
-          const currentTime = new Date().getTime();
-          const startTime = new Date(test.StartTime).getTime();
-          return {
-            ...test,
-            progress: parseInt(Math.min((currentTime - startTime) / (600 * test.TestDurationTime), 99))
-          };
-        }
-      });
-    },
+        //console.log("this.currentGroundTestLists",this.currentGroundTestLists)
+      },
 
     printPage,
     handleTestOrder,

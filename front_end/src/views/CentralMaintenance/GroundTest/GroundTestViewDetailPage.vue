@@ -172,6 +172,11 @@ import Clock from '@/components/Clock'
 export default {
   data() {
     return {
+      isSuccess: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "2",
+      isInhibit: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "6",
+      isFault: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "5",
+      isError: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == "7",
+
       selectedTestId: "",
       testDict: testTypeEnum,
       testStatusDict: testStatusEnum,
@@ -196,6 +201,7 @@ export default {
     customSortMethodForProgressColumn
   },
   mounted() {
+    console.log("$store.state.groundTestList.currentGroundTest",this.$store.state.groundTestList.currentGroundTest)
     setTimeout(() => {
       this.loading = false;
     }, 500);

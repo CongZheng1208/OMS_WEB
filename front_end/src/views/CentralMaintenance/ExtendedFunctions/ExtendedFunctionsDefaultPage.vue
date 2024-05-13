@@ -1,45 +1,45 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header height="10vh">
+    <el-header height="13vh">
       <el-row style="width: 100%;">
         <el-col :span="4">
           <div class="el-header-title"> Select Option </div>
         </el-col>
         <el-col :span="5">
-          <div class="radio"
-               @click="changeRadioAndPush('EngineBalance')">
+          <div class="radio" @click="changeRadioAndPush('TimeCycles')">
             <input type="radio"
-                   name="retrieval-radio"
-                   :checked="displaySelected == 'EngineBalance'" />
-            <span>ENGINE BALANCE</span>
+              name="reset-radio"
+              :checked="displaySelected == 'TimeCycles'"
+            />
+            <span>Time Cycle Function</span>
+          </div>
+          <div class="radio" @click="changeRadioAndPush('FlightLegAndPhase')">
+            <input type="radio"
+              name="reset-radio"
+              :checked="displaySelected == 'FlightLegAndPhase'"
+            />
+            <span>Flight Leg/Phase operation</span>
           </div>
         </el-col>
         <el-col :span="5">
-          <div class="radio"
-               @click="changeRadioAndPush('FlightLegAndPhase')">
+          <div class="radio" @click="changeRadioAndPush('EngineBalance')">
             <input type="radio"
-                   name="reset-radio"
-                   :checked="displaySelected == 'FlightLegAndPhase'" />
-            <span>LEG/PHASE OPERATIONS</span>
+              name="retrieval-radio"
+              :checked="displaySelected == 'EngineBalance'"
+            />
+            <span>Engine Trim Balance Function</span>
+          </div>
+          <div class="radio" @click="changeRadioAndPush('OtherFunctions')">
+            <input type="radio"
+              name="reset-radio"
+              :checked="displaySelected == 'OtherFunctions'"
+            />
+            <span>Other Function</span>
           </div>
         </el-col>
-        <el-col :span="5">
-          <div class="radio"
-               @click="changeRadioAndPush('TimeCycles')">
-            <input type="radio"
-                   name="reset-radio"
-                   :checked="displaySelected == 'TimeCycles'" />
-            <span>TIME CYCLES</span>
-          </div>
-        </el-col>
-        <el-col :span="5">
-          <div class="radio"
-               @click="changeRadioAndPush('OtherFunctions')">
-            <input type="radio"
-                   name="reset-radio"
-                   :checked="displaySelected == 'OtherFunctions'" />
-            <span>OTHER FUNCTIONS</span>
-          </div>
+
+        <el-col :span="10">
+
         </el-col>
       </el-row>
     </el-header>

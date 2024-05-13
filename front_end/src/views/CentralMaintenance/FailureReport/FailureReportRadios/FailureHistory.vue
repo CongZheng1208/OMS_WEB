@@ -1,93 +1,117 @@
 <template>
   <el-row>
-    <el-table highlight-current-row
-              style="width: 100%; background-color: rgb(46, 45, 45);"
-              :data="filteredFailure"
-              :sort-method="customSortMethodForProgressColumn"
-              :header-cell-style="{
-                background: '#404040',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
-              height="65vh"
-              :cell-style="{ 'text-align': 'center' }"
-              :empty-text="'No Data Display'"
-              row-key="index"
-              :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-              @current-change="tableRowClicked">
-      <el-table-column :width="null"
-                       :min-width="10"></el-table-column>
-      <el-table-column prop="ata"
-                       label="ATA"
-                       sortable
-                       :width="null"
-                       :min-width="30"
-                       :filters="ataFilters"
-                       :filter-method="filterHandler"></el-table-column>
-      <el-table-column prop="fimcodeInfo"
-                       label="FIM Code"
-                       :width="null"
-                       :min-width="45">
-        <template slot="header"
-                  slot-scope="scope">
-          <el-input style="width: 15vh;"
-                    v-model="searchFimCodeInput"
-                    size="mini"
-                    placeholder="FIM Code"
-                    clearable />
+    <el-table
+      highlight-current-row
+      style="width: 100%; background-color: rgb(46, 45, 45);"
+      :data="filteredFailure"
+      :sort-method="customSortMethodForProgressColumn"
+      :header-cell-style="{
+        background: '#404040',
+        color: '#FFFFFF',
+        font: '14px',
+        'text-align': 'center',
+      }"
+      height="65vh"
+      :cell-style="{ 'text-align': 'center' }"
+      :empty-text="'No Data Display'"
+      row-key="index"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      @current-change="tableRowClicked"
+      v-loading="loading"
+      element-loading-text="Data Loading..."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.5)"
+    >
+      <el-table-column :width="null" :min-width="10"></el-table-column>
+      <el-table-column
+        prop="ata"
+        label="ATA"
+        sortable
+        :width="null"
+        :min-width="30"
+        :filters="ataFilters"
+        :filter-method="filterHandler"
+      ></el-table-column>
+      <el-table-column
+        prop="fimcodeInfo"
+        label="FIM Code"
+        :width="null"
+        :min-width="45"
+      >
+        <template slot="header" slot-scope="scope">
+          <el-input
+            style="width: 15vh;"
+            v-model="searchFimCodeInput"
+            size="mini"
+            placeholder="FIM Code"
+            clearable
+          />
           <i class="el-icon-search"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="failureNameInfo"
-                       label="Failure Name"
-                       :width="null"
-                       :min-width="85">
-        <template slot="header"
-                  slot-scope="scope">
-          <el-input style="width: 20vh"
-                    v-model="searchFailureNameInput"
-                    size="mini"
-                    placeholder="Failure Name"
-                    clearable />
+      <el-table-column
+        prop="failureNameInfo"
+        label="Failure Name"
+        :width="null"
+        :min-width="75"
+      >
+        <template slot="header" slot-scope="scope">
+          <el-input
+            style="width: 20vh"
+            v-model="searchFailureNameInput"
+            size="mini"
+            placeholder="Failure Name"
+            clearable
+          />
           <i class="el-icon-search"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="failureState"
-                       label="Failure Status"
-                       sortable
-                       :width="null"
-                       :min-width="45"></el-table-column>
-      <el-table-column prop="flightPhase"
-                       label="Flight Phase"
-                       sortable
-                       :width="null"
-                       :min-width="30"
-                       :filters="phaseFilters"
-                       :filter-method="filterHandler"></el-table-column>
-      <el-table-column prop="failureTime"
-                       label="Date/Time"
-                       sortable
-                       :width="null"
-                       :min-width="55"></el-table-column>
-      <el-table-column prop="fde.FDEText"
-                       label="FDE Text"
-                       :width="null"
-                       :min-width="60"></el-table-column>
-      <el-table-column prop="flightLeg"
-                       label="Flight Leg"
-                       sortable
-                       :width="null"
-                       :min-width="35"
-                       :filters="legFilters"
-                       :filter-method="filterHandler"></el-table-column>
-      <el-table-column :width="null"
-                       :min-width="5"></el-table-column>
+      <el-table-column
+        prop="failureState"
+        label="Failure Status"
+        sortable
+        :width="null"
+        :min-width="55"
+      ></el-table-column>
+      <el-table-column
+        prop="flightPhase"
+        label="Flight Phase"
+        sortable
+        :width="null"
+        :min-width="40"
+        :filters="phaseFilters"
+        :filter-method="filterHandler"
+      ></el-table-column>
+      <el-table-column
+        prop="failureTime"
+        label="Date/Time"
+        sortable
+        :width="null"
+        :min-width="55"
+      ></el-table-column>
+      <el-table-column
+        prop="fde.FDEText"
+        label="FDE Text"
+        :width="null"
+        :min-width="60"
+      ></el-table-column>
+      <el-table-column
+        prop="flightLeg"
+        label="Flight Leg"
+        sortable
+        :width="null"
+        :min-width="35"
+        :filters="legFilters"
+        :filter-method="filterHandler"
+      ></el-table-column>
+      <el-table-column :width="null" :min-width="5"></el-table-column>
     </el-table>
-    <el-dialog style="font-size: 15px; color: white;"
-               :visible.sync="isFlightLegsSelected"
-               width="50%">
-      <el-row style=" margin-left: 15px; margin-right: 15px;">
+    <el-dialog
+      style="font-size: 15px; color: white;"
+      :visible.sync="isFlightLegsSelected"
+      width="50%"
+    >
+      <el-row style=" margin-left: 15px; margin-right: 15px;" >
         <el-col :span="8">
           <div class="radio"
                @click="dialogSelected = 'ATA'">
@@ -116,10 +140,11 @@
           </div>
         </el-col>
       </el-row>
-      <el-row style=" margin-left: 15px; margin-right: 15px;">
-        <el-table v-if="dialogSelected == 'ATA'"
-                  :data="ataFilters"
-                  style="
+      <el-row style=" margin-left: 15px; margin-right: 15px;" >
+        <el-table
+          v-if="dialogSelected == 'ATA'"
+          :data="ataFilters"
+          style="
             width: 100%;
             background-color: rgb(52, 52, 52);
             margin-top: 1vh;
@@ -146,8 +171,10 @@
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
         </el-table>
-        <el-table v-if="dialogSelected == 'flightPhase'"
-                  style="
+
+        <el-table
+          v-if="dialogSelected == 'flightPhase'"
+          style="
             width: 100%;
             background-color: rgb(52, 52, 52);
             margin-top: 1vh;
@@ -211,9 +238,10 @@
                    @click="isFlightLegsSelected = false">Back</el-button>
       </span>
     </el-dialog>
+
     <div class="table-outer-number">
-      <button class="footer-btn"
-              @click="isFlightLegsSelected = true">Count</button> Number of Tests: {{ failureCountTotal }}
+      <button class="table-outer-button" @click="isFlightLegsSelected = true">Count</button>
+      Number of Failures: {{ failureCountTotal }}
     </div>
   </el-row>
 </template>
@@ -237,8 +265,20 @@ export default {
 
       searchFimCodeInput: '',
       searchFailureNameInput: '',
-
+      interval: null,
+      loading: true
     };
+  },
+  created() {
+    this.interval = setInterval(() => {
+      this.getfailureArray();
+    }, 1000); // 每秒执行一次
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 
   methods: {
@@ -272,17 +312,55 @@ export default {
      */
     getfailureArray() {
 
-
-
-      if (this.$store.state.failureList.resFailureData.length !== undefined) {
+      if(this.$store.state.failureList.resFailureData.length !==undefined){
         //深度拷贝，不改变state中resFailureData的原始数据
         const existingFailureOri = JSON.parse(
           JSON.stringify(this.$store.state.failureList.resFailureData)
         );
 
-        this.existingFailureArray = existingFailureOri
 
-        this.ataFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
+
+        // 创建一个新数组来存放结果
+        let mergedArray = existingFailureOri.reduce((acc, curr) => {
+          // 检查当前对象是否与已有对象相匹配
+          let match = acc.find(item => item.failureNameInfo === curr.failureNameInfo && item.failureTime === curr.failureTime);
+
+          // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+          if (match) {
+            if (!match.children) {
+              match.children = [];
+            }
+
+            match.children.push({
+              ata: "",
+              failureNameInfo: "",
+              failureState:"",
+              failureTime: "",
+              fault: "",
+              fde: curr.fde,
+              fimcodeInfo: "",
+              flightLeg: "",
+              flightPhase: "",
+              id: "",
+              index: curr.index,
+              maintenceText: curr.maintenceText,
+              maintenceTime: curr.maintenceTime
+            });
+          } else {
+            // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+
+        this.existingFailureArray = mergedArray
+
+        // 输出合并后的数组
+        //console.log(mergedArray);
+
+
+
+        this.ataFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
           const filteredItems = this.existingFailureArray.filter(item => item.ata === value);
           return {
             text: value,

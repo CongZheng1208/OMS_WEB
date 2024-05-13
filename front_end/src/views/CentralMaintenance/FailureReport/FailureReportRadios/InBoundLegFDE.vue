@@ -104,6 +104,8 @@ export default {
     return {
       postFlightReportArray: [],
       isPdfPageSelected: false,
+      interval: null,
+      loading: true
     };
   },
   computed: {
@@ -119,6 +121,17 @@ export default {
         }
       }
     }
+  },
+  created() {
+    this.interval = setInterval(() => {
+      this.getPostFlightReportArray();
+    }, 1000);
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
   },
 
   methods: {
@@ -187,15 +200,10 @@ export default {
       } else {
         this.postFlightReportArray = []
       }
-      // console.log("postFlightReportOri is",postFlightReportOri)
-      // console.log("pfr is:",this.postFlightReportArray)
+      console.log("postFlightReportOri is",postFlightReportOri)
+      console.log("pfr is:",this.postFlightReportArray)
     },
-
-
     customSortMethodForProgressColumn
-  },
-  created() {
-    this.getPostFlightReportArray();
   },
 };
 </script>

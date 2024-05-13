@@ -141,9 +141,7 @@ export default {
       selectedTests: [],
 
 
-      InterferingTestIndexs: [],
-
-
+        InterferingTestIndexs: [],
 
       selectedTestId: "",
       isTestNotBeSelected: false,

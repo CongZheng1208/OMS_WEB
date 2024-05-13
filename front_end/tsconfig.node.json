@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"module": "ES2015",
+		"moduleResolution": "bundler",
+		"skipLibCheck": true
+	},
+	"include": [
+		"vite.config.ts",
+		"vitest-setup.ts"
+	]
+}

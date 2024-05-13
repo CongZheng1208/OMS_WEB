@@ -5,8 +5,8 @@
   </div>
 </template>
 
-<script>
-import Menus from '@/components/Menus'
+<script lang="ts">
+import Menus from '@/components/Menus/index.vue'
 export default {
   name: "ConditionMonitoring",
   components: {Menus},

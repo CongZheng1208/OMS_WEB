@@ -1,271 +1,224 @@
 <template>
   <el-row>
-    <el-table
-      highlight-current-row
-      style="width: 100%; background-color: rgb(46, 45, 45);"
-      :data="filteredFailure"
-      :sort-method="customSortMethodForProgressColumn"
-      :header-cell-style="{
-        background: '#404040',
-        color: '#FFFFFF',
-        font: '14px',
-        'text-align': 'center',
-      }"
-      height="65vh"
-      :cell-style="{ 'text-align': 'center' }"
-      :empty-text="'No Data Display'"
-      row-key="index"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      @current-change="tableRowClicked"
-    >
-      <el-table-column :width="null" :min-width="10"></el-table-column>
-      <el-table-column
-        prop="ata"
-        label="ATA"
-        sortable
-        :width="null"
-        :min-width="30"
-        :filters="ataFilters"
-        :filter-method="filterHandler"
-      ></el-table-column>
-      <el-table-column
-        prop="fimcodeInfo"
-        label="FIM Code"
-        :width="null"
-        :min-width="45"
-      >
-        <template slot="header" slot-scope="scope">
-          <el-input
-            style="width: 15vh;"
-            v-model="searchFimCodeInput"
-            size="mini"
-            placeholder="FIM Code"
-            clearable
-          />
+    <el-table highlight-current-row
+              style="width: 100%; background-color: rgb(46, 45, 45);"
+              :data="filteredFailure"
+              :sort-method="customSortMethodForProgressColumn"
+              :header-cell-style="{
+                background: '#404040',
+                color: '#FFFFFF',
+                font: '14px',
+                'text-align': 'center',
+              }"
+              height="65vh"
+              :cell-style="{ 'text-align': 'center' }"
+              :empty-text="'No Data Display'"
+              row-key="index"
+              :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+              @current-change="tableRowClicked">
+      <el-table-column :width="null"
+                       :min-width="10"></el-table-column>
+      <el-table-column prop="ata"
+                       label="ATA"
+                       sortable
+                       :width="null"
+                       :min-width="30"
+                       :filters="ataFilters"
+                       :filter-method="filterHandler"></el-table-column>
+      <el-table-column prop="fimcodeInfo"
+                       label="FIM Code"
+                       :width="null"
+                       :min-width="45">
+        <template slot="header"
+                  slot-scope="scope">
+          <el-input style="width: 15vh;"
+                    v-model="searchFimCodeInput"
+                    size="mini"
+                    placeholder="FIM Code"
+                    clearable />
           <i class="el-icon-search"></i>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="failureNameInfo"
-        label="Failure Name"
-        :width="null"
-        :min-width="85"
-      >
-        <template slot="header" slot-scope="scope">
-          <el-input
-            style="width: 20vh"
-            v-model="searchFailureNameInput"
-            size="mini"
-            placeholder="Failure Name"
-            clearable
-          />
+      <el-table-column prop="failureNameInfo"
+                       label="Failure Name"
+                       :width="null"
+                       :min-width="85">
+        <template slot="header"
+                  slot-scope="scope">
+          <el-input style="width: 20vh"
+                    v-model="searchFailureNameInput"
+                    size="mini"
+                    placeholder="Failure Name"
+                    clearable />
           <i class="el-icon-search"></i>
         </template>
-
       </el-table-column>
-      <el-table-column
-        prop="failureState"
-        label="Failure Status"
-        sortable
-        :width="null"
-        :min-width="45"
-      ></el-table-column>
-      <el-table-column
-        prop="flightPhase"
-        label="Flight Phase"
-        sortable
-        :width="null"
-        :min-width="30"
-        :filters="phaseFilters"
-        :filter-method="filterHandler"
-      ></el-table-column>
-      <el-table-column
-        prop="failureTime"
-        label="Date/Time"
-        sortable
-        :width="null"
-        :min-width="55"
-      ></el-table-column>
-      <el-table-column
-        prop="fde.FDEText"
-        label="FDE Text"
-        :width="null"
-        :min-width="60"
-      ></el-table-column>
-      <el-table-column
-        prop="flightLeg"
-        label="Flight Leg"
-        sortable
-        :width="null"
-        :min-width="35"
-        :filters="legFilters"
-        :filter-method="filterHandler"
-      ></el-table-column>
-
-
-      <el-table-column :width="null" :min-width="5"></el-table-column>
+      <el-table-column prop="failureState"
+                       label="Failure Status"
+                       sortable
+                       :width="null"
+                       :min-width="45"></el-table-column>
+      <el-table-column prop="flightPhase"
+                       label="Flight Phase"
+                       sortable
+                       :width="null"
+                       :min-width="30"
+                       :filters="phaseFilters"
+                       :filter-method="filterHandler"></el-table-column>
+      <el-table-column prop="failureTime"
+                       label="Date/Time"
+                       sortable
+                       :width="null"
+                       :min-width="55"></el-table-column>
+      <el-table-column prop="fde.FDEText"
+                       label="FDE Text"
+                       :width="null"
+                       :min-width="60"></el-table-column>
+      <el-table-column prop="flightLeg"
+                       label="Flight Leg"
+                       sortable
+                       :width="null"
+                       :min-width="35"
+                       :filters="legFilters"
+                       :filter-method="filterHandler"></el-table-column>
+      <el-table-column :width="null"
+                       :min-width="5"></el-table-column>
     </el-table>
-
-    <el-dialog
-      style="font-size: 15px; color: white;"
-      :visible.sync="isFlightLegsSelected"
-      width="50%"
-    >
-      <el-row style=" margin-left: 15px; margin-right: 15px;" >
+    <el-dialog style="font-size: 15px; color: white;"
+               :visible.sync="isFlightLegsSelected"
+               width="50%">
+      <el-row style=" margin-left: 15px; margin-right: 15px;">
         <el-col :span="8">
-          <div class="radio"  @click="dialogSelected = 'ATA'">
-            <input
-              name="select-flightLegs-radio"
-              type="radio"
-              :checked="dialogSelected == 'ATA'"
-            />
-            <label class="form-check-label">ATA</label>
+          <div class="radio"
+               @click="dialogSelected = 'ATA'">
+            <input name="select-flightLegs-radio"
+                   type="radio"
+                   :checked="dialogSelected == 'ATA'" />
+            <label>ATA</label>
           </div>
         </el-col>
-        <el-col  :span="8">
-          <div class="radio"  @click="dialogSelected ='flightPhase'">
-            <input
-              name="select-flightLegs-radio"
-              type="radio"
-              :checked="dialogSelected == 'flightPhase'"
-            />
-            <label class="form-check-label">Flight Phase</label>
+        <el-col :span="8">
+          <div class="radio"
+               @click="dialogSelected = 'flightPhase'">
+            <input name="select-flightLegs-radio"
+                   type="radio"
+                   :checked="dialogSelected == 'flightPhase'" />
+            <label>Flight Phase</label>
           </div>
         </el-col>
-        <el-col  :span="8">
-          <div class="radio"  @click="dialogSelected = 'flightLeg'">
-            <input
-              name="select-flightLegs-radio"
-              type="radio"
-              :checked="dialogSelected == 'flightLeg'"
-            />
-            <label class="form-check-label">Flight Leg</label>
+        <el-col :span="8">
+          <div class="radio"
+               @click="dialogSelected = 'flightLeg'">
+            <input name="select-flightLegs-radio"
+                   type="radio"
+                   :checked="dialogSelected == 'flightLeg'" />
+            <label>Flight Leg</label>
           </div>
         </el-col>
       </el-row>
-
-
-      <el-row style=" margin-left: 15px; margin-right: 15px;" >
-        <el-table
-          v-if="dialogSelected == 'ATA'"
-          :data="ataFilters"
-          style="
+      <el-row style=" margin-left: 15px; margin-right: 15px;">
+        <el-table v-if="dialogSelected == 'ATA'"
+                  :data="ataFilters"
+                  style="
             width: 100%;
             background-color: rgb(52, 52, 52);
             margin-top: 1vh;
             margin-bottom: 1vh;
           "
-          :header-cell-style="{
-            background:  'rgb(52, 52, 52)',
-            color: '#FFFFFF',
-            font: '14px',
-            'text-align': 'center',
-          }"
-          :cell-style="{ 'text-align': 'center' }"
-          :empty-text="'No Data Display'"
-        >
-          <el-table-column :width="null" :min-width="10"></el-table-column>
-          <el-table-column
-            prop="text"
-            label="ATA"
-            :width="null"
-            :min-width="30"
-          ></el-table-column>
-          <el-table-column
-            prop="count"
-            label="Count"
-            :width="null"
-            :min-width="55"
-          ></el-table-column>
-          <el-table-column :width="null" :min-width="10"></el-table-column>
+                  :header-cell-style="{
+                    background: 'rgb(52, 52, 52)',
+                    color: '#FFFFFF',
+                    font: '14px',
+                    'text-align': 'center',
+                  }"
+                  :cell-style="{ 'text-align': 'center' }"
+                  :empty-text="'No Data Display'">
+          <el-table-column :width="null"
+                           :min-width="10"></el-table-column>
+          <el-table-column prop="text"
+                           label="ATA"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column prop="count"
+                           label="Count"
+                           :width="null"
+                           :min-width="55"></el-table-column>
+          <el-table-column :width="null"
+                           :min-width="10"></el-table-column>
         </el-table>
-
-
-        <el-table
-          v-if="dialogSelected == 'flightPhase'"
-          style="
+        <el-table v-if="dialogSelected == 'flightPhase'"
+                  style="
             width: 100%;
             background-color: rgb(52, 52, 52);
             margin-top: 1vh;
             margin-bottom: 1vh;
           "
-          :data="phaseFilters"
-          :header-cell-style="{
-            background:  'rgb(52, 52, 52)',
-            color: '#FFFFFF',
-            font: '14px',
-            'text-align': 'center',
-          }"
-          :cell-style="{ 'text-align': 'center' }"
-          :empty-text="'No Data Display'"
-        >
-          <el-table-column :width="null" :min-width="10"></el-table-column>
-          <el-table-column
-            prop="text"
-            label="Phase"
-            :width="null"
-            :min-width="30"
-          ></el-table-column>
-          <el-table-column
-            prop="count"
-            label="Count"
-            :width="null"
-            :min-width="55"
-          ></el-table-column>
-          <el-table-column :width="null" :min-width="10"></el-table-column>
+                  :data="phaseFilters"
+                  :header-cell-style="{
+                    background: 'rgb(52, 52, 52)',
+                    color: '#FFFFFF',
+                    font: '14px',
+                    'text-align': 'center',
+                  }"
+                  :cell-style="{ 'text-align': 'center' }"
+                  :empty-text="'No Data Display'">
+          <el-table-column :width="null"
+                           :min-width="10"></el-table-column>
+          <el-table-column prop="text"
+                           label="Phase"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column prop="count"
+                           label="Count"
+                           :width="null"
+                           :min-width="55"></el-table-column>
+          <el-table-column :width="null"
+                           :min-width="10"></el-table-column>
         </el-table>
-
-
-        <el-table
-          v-if="dialogSelected == 'flightLeg'"
-          :data="legFilters"
-          style="
+        <el-table v-if="dialogSelected == 'flightLeg'"
+                  :data="legFilters"
+                  style="
             width: 100%;
             background-color: rgb(52, 52, 52);
             margin-top: 1vh;
             margin-bottom: 1vh;
           "
-          :header-cell-style="{
-            background:  'rgb(52, 52, 52)',
-            color: '#FFFFFF',
-            font: '14px',
-            'text-align': 'center',
-          }"
-          :cell-style="{ 'text-align': 'center' }"
-          :empty-text="'No Data Display'"
-        >
-          <el-table-column :width="null" :min-width="10"></el-table-column>
-          <el-table-column
-            prop="text"
-            label="Leg"
-            :width="null"
-            :min-width="30"
-          ></el-table-column>
-          <el-table-column
-            prop="count"
-            label="Count"
-            :width="null"
-            :min-width="55"
-          ></el-table-column>
-          <el-table-column :width="null" :min-width="10"></el-table-column>
+                  :header-cell-style="{
+                    background: 'rgb(52, 52, 52)',
+                    color: '#FFFFFF',
+                    font: '14px',
+                    'text-align': 'center',
+                  }"
+                  :cell-style="{ 'text-align': 'center' }"
+                  :empty-text="'No Data Display'">
+          <el-table-column :width="null"
+                           :min-width="10"></el-table-column>
+          <el-table-column prop="text"
+                           label="Leg"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column prop="count"
+                           label="Count"
+                           :width="null"
+                           :min-width="55"></el-table-column>
+          <el-table-column :width="null"
+                           :min-width="10"></el-table-column>
         </el-table>
       </el-row>
-
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="isFlightLegsSelected = false">Back</el-button>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button type="primary"
+                   @click="isFlightLegsSelected = false">Back</el-button>
       </span>
     </el-dialog>
-
-
     <div class="table-outer-number">
-      <button class="footer-btn" @click="isFlightLegsSelected = true">Count</button>
-      Number of Tests: {{ failureCountTotal }}
+      <button class="footer-btn"
+              @click="isFlightLegsSelected = true">Count</button> Number of Tests: {{ failureCountTotal }}
     </div>
   </el-row>
 </template>
-
 <script>
-import {customSortMethodForProgressColumn} from '@/utils/utils.js'
+import { customSortMethodForProgressColumn } from '@/utils/utils'
 export default {
   components: {},
   name: "ExistingFailures",
@@ -321,7 +274,7 @@ export default {
 
 
 
-      if(this.$store.state.failureList.resFailureData.length !==undefined){
+      if (this.$store.state.failureList.resFailureData.length !== undefined) {
         //深度拷贝，不改变state中resFailureData的原始数据
         const existingFailureOri = JSON.parse(
           JSON.stringify(this.$store.state.failureList.resFailureData)
@@ -329,7 +282,7 @@ export default {
 
         this.existingFailureArray = existingFailureOri
 
-        this.ataFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
+        this.ataFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
           const filteredItems = this.existingFailureArray.filter(item => item.ata === value);
           return {
             text: value,
@@ -338,7 +291,7 @@ export default {
           };
         });
 
-        this.phaseFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightPhase))).map(value => {
+        this.phaseFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightPhase))).map(value => {
           const filteredItems = this.existingFailureArray.filter(item => item.flightPhase === value);
           return {
             text: value,
@@ -347,7 +300,7 @@ export default {
           };
         });
 
-        this.legFilters =  Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
+        this.legFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
           const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
           return {
             text: value,
@@ -355,7 +308,7 @@ export default {
             count: filteredItems.length
           };
         });
-      }else{
+      } else {
         this.existingFailureArray = []
       }
     },
@@ -382,6 +335,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
+<style scoped></style>

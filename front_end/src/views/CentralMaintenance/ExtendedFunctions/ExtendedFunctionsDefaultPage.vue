@@ -3,43 +3,41 @@
     <el-header height="10vh">
       <el-row style="width: 100%;">
         <el-col :span="4">
-          <div class="el-header-title">
-            Select Option
-          </div>
+          <div class="el-header-title"> Select Option </div>
         </el-col>
         <el-col :span="5">
-          <div class="radio" @click="changeRadioAndPush('EngineBalance')">
+          <div class="radio"
+               @click="changeRadioAndPush('EngineBalance')">
             <input type="radio"
-              name="retrieval-radio"
-              :checked="displaySelected == 'EngineBalance'"
-            />
+                   name="retrieval-radio"
+                   :checked="displaySelected == 'EngineBalance'" />
             <span>ENGINE BALANCE</span>
           </div>
         </el-col>
         <el-col :span="5">
-          <div class="radio" @click="changeRadioAndPush('FlightLegAndPhase')">
+          <div class="radio"
+               @click="changeRadioAndPush('FlightLegAndPhase')">
             <input type="radio"
-              name="reset-radio"
-              :checked="displaySelected == 'FlightLegAndPhase'"
-            />
+                   name="reset-radio"
+                   :checked="displaySelected == 'FlightLegAndPhase'" />
             <span>LEG/PHASE OPERATIONS</span>
           </div>
         </el-col>
         <el-col :span="5">
-          <div class="radio" @click="changeRadioAndPush('TimeCycles')">
+          <div class="radio"
+               @click="changeRadioAndPush('TimeCycles')">
             <input type="radio"
-              name="reset-radio"
-              :checked="displaySelected == 'TimeCycles'"
-            />
+                   name="reset-radio"
+                   :checked="displaySelected == 'TimeCycles'" />
             <span>TIME CYCLES</span>
           </div>
         </el-col>
         <el-col :span="5">
-          <div class="radio" @click="changeRadioAndPush('OtherFunctions')">
+          <div class="radio"
+               @click="changeRadioAndPush('OtherFunctions')">
             <input type="radio"
-              name="reset-radio"
-              :checked="displaySelected == 'OtherFunctions'"
-            />
+                   name="reset-radio"
+                   :checked="displaySelected == 'OtherFunctions'" />
             <span>OTHER FUNCTIONS</span>
           </div>
         </el-col>
@@ -52,16 +50,15 @@
     </el-main>
   </div>
 </template>
-
 <script>
 
-import {printPage, customSortMethodForProgressColumn,changeRadio} from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils'
 import TimeCycles from './modules/TimeCycles/TimeCyclesDefaultPage.vue'
 import LegPhaseOperation from './modules/LegPhaseOperation.vue'
 
 export default {
   name: "DefaultResetPage",
-  components: {TimeCycles, LegPhaseOperation},
+  components: { TimeCycles, LegPhaseOperation },
   data() {
     return {
       displaySelected: 'TimeCycles',
@@ -81,7 +78,4 @@ export default {
 }
 
 </script>
-
-<style scoped>
-</style>
-
+<style scoped></style>

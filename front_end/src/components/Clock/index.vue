@@ -1,11 +1,7 @@
 <template>
-  <div class="col status-bar">
-    A/C Reg: {{ acReg }} <br>
-    {{currentDate}} {{ currentTime }}
-  </div>
+  <div class="col status-bar"> A/C Reg: {{ acReg }} <br> {{ currentDate }} {{ currentTime }} </div>
 </template>
-
-<script>
+<script lang="ts">
 export default {
   data() {
     return {
@@ -13,7 +9,7 @@ export default {
     }
   },
   computed: {
-    currentTime() {
+    currentTime(): string {
       return this.$store.state.groundTestList.currentTime;
     },
     currentDate() {

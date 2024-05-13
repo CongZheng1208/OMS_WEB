@@ -1,17 +1,16 @@
 <template>
-  <div id="app" >
-    <Menus :menus="menus"/>
+  <div id="app">
+    <Menus :menus="menus" />
     <router-view />
   </div>
 </template>
-
-<script>
-import Menus from '@/components/Menus'
+<script lang="ts">
+import Menus from '@/components/Menus/index.vue'
 import { getConnect } from '@/services/centralMaintenance/groundTest/index.js';
 
 export default {
   name: "App",
-  components: {Menus},
+  components: { Menus },
   data() {
     return {
       menus: [
@@ -31,9 +30,9 @@ export default {
           routeName: "DataLoad",
         },
         {
-          name: "Utility",
+          name: "Management",
           isActive: false,
-          routeName: "Utility",
+          routeName: "Management",
         },
       ],
     };
@@ -55,7 +54,6 @@ export default {
   }
 };
 </script>
-
 <style>
 @import "styles/A661Style.css";
 </style>

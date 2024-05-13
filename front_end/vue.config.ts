@@ -1,6 +1,6 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
-  runtimeCompiler:true,
+  runtimeCompiler: true,
   transpileDependencies: true,
   lintOnSave: false,
-})
+});

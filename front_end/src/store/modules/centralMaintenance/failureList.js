@@ -1,5 +1,4 @@
 // Vuex模块化
-
 // FailureReport下的data
 import { getFailureList, getFDEList } from '../../../services/centralMaintenance/failureReport';
 

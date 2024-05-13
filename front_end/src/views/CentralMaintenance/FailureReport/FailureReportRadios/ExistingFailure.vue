@@ -1,88 +1,69 @@
 <template>
   <div style="height: 60vh">
-    <el-table
-      highlight-current-row
-      style="width: 100%;background-color: rgb(46, 45, 45)"
-      :data="existingFailureArray"
-      :sort-method="customSortMethodForProgressColumn"
-      :header-cell-style="{
-        background: '#404040',
-        color: '#FFFFFF',
-        font: '14px',
-        'text-align': 'center',
-      }"
-      height="65vh"
-      :cell-style="{ 'text-align': 'center' }"
-      :empty-text="'No Data Display'"
-      row-key="index"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      @current-change="tableRowClicked"
-    >
-      <el-table-column :width="null" :min-width="10"></el-table-column>
-      <el-table-column
-        prop="fimcodeInfo"
-        label="FIM Code"
-        :width="null"
-        sortable
-        :min-width="30"
-      > </el-table-column>
-      <el-table-column
-        prop="failureNameInfo"
-        label="Failure Text"
-        :width="null"
-        :min-width="85"
-      ></el-table-column>
-      <el-table-column
-        prop="failureState"
-        label="Failure Status"
-        :width="null"
-        :min-width="45"
-      ></el-table-column>
-      <el-table-column
-        prop="flightPhase"
-        label="Flight Phase"
-        sortable
-        :width="null"
-        :min-width="35"
-      ></el-table-column>
-      <el-table-column
-        prop="failureTime"
-        label="Date/Time"
-        sortable
-        :width="null"
-        :min-width="55"
-      ></el-table-column>
-      <el-table-column
-        prop="fde.FDECode"
-        label="FDE Code"
-        :width="null"
-        :min-width="35"
-      ></el-table-column>
-      <el-table-column
-        prop="fde.FDEText"
-        label="FDE Text"
-        sortable
-        :width="null"
-        :min-width="60"
-      ></el-table-column>
-      <el-table-column
-        prop="flightLeg"
-        label="Flight Leg"
-        sortable
-        :width="null"
-        :min-width="35"
-      ></el-table-column>
-      <el-table-column :width="null" :min-width="5"></el-table-column>
+    <el-table highlight-current-row
+              style="width: 100%;background-color: rgb(46, 45, 45)"
+              :data="existingFailureArray"
+              :sort-method="customSortMethodForProgressColumn"
+              :header-cell-style="{
+                background: '#404040',
+                color: '#FFFFFF',
+                font: '14px',
+                'text-align': 'center',
+              }"
+              height="65vh"
+              :cell-style="{ 'text-align': 'center' }"
+              :empty-text="'No Data Display'"
+              row-key="index"
+              :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+              @current-change="tableRowClicked">
+      <el-table-column :width="null"
+                       :min-width="10"></el-table-column>
+      <el-table-column prop="fimcodeInfo"
+                       label="FIM Code"
+                       :width="null"
+                       sortable
+                       :min-width="30"> </el-table-column>
+      <el-table-column prop="failureNameInfo"
+                       label="Failure Text"
+                       :width="null"
+                       :min-width="85"></el-table-column>
+      <el-table-column prop="failureState"
+                       label="Failure Status"
+                       :width="null"
+                       :min-width="45"></el-table-column>
+      <el-table-column prop="flightPhase"
+                       label="Flight Phase"
+                       sortable
+                       :width="null"
+                       :min-width="35"></el-table-column>
+      <el-table-column prop="failureTime"
+                       label="Date/Time"
+                       sortable
+                       :width="null"
+                       :min-width="55"></el-table-column>
+      <el-table-column prop="fde.FDECode"
+                       label="FDE Code"
+                       :width="null"
+                       :min-width="35"></el-table-column>
+      <el-table-column prop="fde.FDEText"
+                       label="FDE Text"
+                       sortable
+                       :width="null"
+                       :min-width="60"></el-table-column>
+      <el-table-column prop="flightLeg"
+                       label="Flight Leg"
+                       sortable
+                       :width="null"
+                       :min-width="35"></el-table-column>
+      <el-table-column :width="null"
+                       :min-width="5"></el-table-column>
     </el-table>
-    <div class="table-outer-number">
-      Number of Failures: {{ existingFailureArray.length }}
-    </div>
+    <div class="table-outer-number"> Number of Failures: {{ existingFailureArray.length }} </div>
   </div>
 </template>
-
 <script>
-import {customSortMethodForProgressColumn} from '@/utils/utils.js'
-import {flightPhaseEnum, failureStateEnum} from '@/globals/enums.js'
+import { customSortMethodForProgressColumn } from '@/utils/utils'
+import { flightPhaseEnum, failureStateEnum } from '@/globals/enums.js'
 export default {
   components: {},
   name: "ExistingFailures",
@@ -128,9 +109,9 @@ export default {
     getfailureArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
       const existingFailureOri = this.$store.state.failureList.resFailureData;
-      if(existingFailureOri.length !== undefined){
+      if (existingFailureOri.length !== undefined) {
         this.existingFailureArray = existingFailureOri.filter(item => item.failureState === 'ACTV');
-      }else{
+      } else {
         this.existingFailureArray = []
       }
     },
@@ -142,6 +123,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
+<style scoped></style>

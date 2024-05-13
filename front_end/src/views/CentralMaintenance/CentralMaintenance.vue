@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Menus from '@/components/Menus'
+import Menus from '@/components/Menus/index.vue'
 export default {
   name: "CentralMaintenance",
   components: {Menus},

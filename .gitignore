@@ -13,3 +13,8 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+.VSCodeCounter/
+/build
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*

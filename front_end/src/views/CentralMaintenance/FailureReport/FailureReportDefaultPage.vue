@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: rgb(45, 45, 45);">
+  <div class="bg-[rgb(45, 45, 45)]">
     <el-header style=" height: 13vh;">
       <el-row style="width: 100%;">
         <el-col :span="3">
@@ -53,16 +53,14 @@
         <existing-failure v-if="displaySelected == 'existingFailureSelected'" />
         <failure-history v-if="displaySelected == 'failuresHistorySelected'" />
       </div>
-
-
-      <el-dialog
-        title="ERROR MESSAGE"
-        :visible.sync="isParameterSelected"
-        width="30%"
-      >
+      <el-dialog title="ERROR MESSAGE"
+                 :visible.sync="isParameterSelected"
+                 width="30%">
         <p>Please select a failure item!</p>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="isParameterSelected = false">OK</el-button>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isParameterSelected = false">OK</el-button>
         </span>
       </el-dialog>
       <el-dialog style="font-size: 15px; color: white;"
@@ -130,7 +128,7 @@
     </el-footer>
   </div>
 </template>
-<script>
+<script lang="ts">
 import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE.vue";
 import ExistingFde from "./FailureReportRadios/ExistingFDE.vue";
 import ExistingFailure from "./FailureReportRadios/ExistingFailure.vue";

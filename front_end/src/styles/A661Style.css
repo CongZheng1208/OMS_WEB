@@ -71,11 +71,8 @@
   border-right: none;
   border-top: none;
 
-  box-shadow: 0px 0px 15px 0px #17bef1;
-
   font-weight: bold;
   font-size: 16px;
-
 }
 
 .el-header-title {
@@ -184,10 +181,8 @@
 .el-table {
   width: 100%;
   background-color: rgb(46, 45, 45);
-
   border-top: none;
   border-bottom: none;
-
   border: 1px solid rgb(111, 111, 111);
 }
 
@@ -237,9 +232,7 @@
   padding: 1vh;
 }
 
-
-
-.table-outer-button{
+.table-outer-button {
   width: 20vh;
   height: 5.5vh;
 
@@ -263,7 +256,7 @@
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
-  color: #ffffff
+  color: #ffffff;
 }
 
 .table-outer-note {
@@ -409,13 +402,9 @@
   position: absolute;
   bottom: 2vh;
   left: 5vh;
-
   padding: 1.5vh;
-
   background-color: #646464;
-
   color: white;
-
   border: 1px solid rgb(111, 111, 111);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
   transition: background-color 0.3s ease;
@@ -475,10 +464,8 @@
   font-weight: bold;
 
   padding: 1vh;
-
   border-radius: 3px;
   border: 1px solid rgb(111, 111, 111);
-
   box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
   background-color: rgb(65, 65, 65);
 
@@ -525,9 +512,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-
   z-index: 100;
-
   background-color: rgb(46, 45, 45);
   box-shadow: 0px 0px 30px 0px #17bef1;
 }

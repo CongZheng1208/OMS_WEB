@@ -1,27 +1,25 @@
 <template>
   <el-row v-if="!isPdfPageSelected">
-    <el-table
-      highlight-current-row
-      style="width: 100%; background-color: rgb(46, 45, 45);"
-      :data="existingFDEArray"
-      height="65vh"
-      :sort-method="customSortMethodForProgressColumn"
-      :header-cell-style="{
-        background: '#404040',
-        color: '#FFFFFF',
-        font: '14px',
-        'text-align': 'center',
-      }"
-      :cell-style="{ 'text-align': 'center' }"
-      row-key="FDECode"
-      :empty-text="'No Data Display'"
-      @current-change="tableRowClicked"
-      :row-class-name="rowClassName"
-      v-loading="loading"
-      element-loading-text="Data Loading..."
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(0, 0, 0, 0.5)"
-    >
+    <el-table highlight-current-row
+              style="width: 100%; background-color: rgb(46, 45, 45);"
+              :data="existingFDEArray"
+              height="65vh"
+              :sort-method="customSortMethodForProgressColumn"
+              :header-cell-style="{
+                background: '#404040',
+                color: '#FFFFFF',
+                font: '14px',
+                'text-align': 'center',
+              }"
+              :cell-style="{ 'text-align': 'center' }"
+              row-key="FDECode"
+              :empty-text="'No Data Display'"
+              @current-change="tableRowClicked"
+              :row-class-name="rowClassName"
+              v-loading="loading"
+              element-loading-text="Data Loading..."
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.5)">
       <!-- <el-button>test</el-button> -->
       <el-table-column :width="null"
                        :min-width="10"></el-table-column>

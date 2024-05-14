@@ -1,21 +1,21 @@
 <template>
   <div>
     <Selection />
-    <div class="flex px-6">
-      <table class="flex-1 text-center text-lg fontbold text-start p6">
+    <div class="p-6  h-140 overflow-y-auto">
+      <table>
         <tr>
-          <th class="text-start">Date</th>
-          <th class="text-start">Password</th>
-          <th class="text-start">Connection Type</th>
-          <th class="text-start">Login Status</th>
-          <th class="text-start">Last Login Time</th>
-          <th class="text-start">Pemitted to Log Out</th>
+          <th>Date</th>
+          <th>Password</th>
+          <th>Connection Type</th>
+          <th>Login Status</th>
+          <th>Last Login Time</th>
+          <th>Pemitted to Log Out</th>
         </tr>
-        <tr class="h14">
-          <td class="text-start">User D</td>
-          <td class="text-start">**8*********</td>
-          <td class="text-start">PDF</td>
-          <td class="text-start">2022/01/01 12:00:00</td>
+        <tr>
+          <td>User D</td>
+          <td>**8*********</td>
+          <td>PDF</td>
+          <td>2022/01/01 12:00:00</td>
         </tr>
       </table>
     </div>
@@ -54,15 +54,21 @@ export default {
 </script>
 <style lang='scss' scoped>
 table {
+  @apply w-full text-lg fontbold text-start border;
   border-collapse: collapse;
 }
 
 td,
 th {
-  @apply p1;
+  @apply p3 text-center;
+}
+
+
+tr {
+  border: 1px solid rgb(111, 111, 111);
 }
 
 tr:first-child {
-  border: 2px solid white;
+  @apply bg-[#404040] border-b-white border;
 }
 </style>

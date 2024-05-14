@@ -1,15 +1,14 @@
 <template>
   <div class="container-fluid">
-    <Menus :menus="menus"/>
+    <Menus :menus="menus" />
     <router-view />
   </div>
 </template>
-
 <script>
 import Menus from '@/components/Menus/index.vue'
 export default {
   name: "CentralMaintenance",
-  components: {Menus},
+  components: { Menus },
   data() {
     return {
       FailureReportTimer: "",
@@ -56,7 +55,7 @@ export default {
      * 本函数用于mounted和menus中：调用store中mutations的getCurrentTestsPhp\getAllAtaEquiTestsPhp函数，初始化、更新ata/equi/test数据
      *
      */
-     getGroundTestPhp() {
+    getGroundTestPhp() {
       this.$store.commit("groundTestList/getCurrentTestsPhp");
       this.$store.commit("groundTestList/getAllAtaEquiTestsPhp");
       this.$store.commit("groundTestList/getTextById");
@@ -92,14 +91,11 @@ export default {
     },
   },
 
-  mounted () {
+  mounted() {
     //调用getfailureReportPhp函数，初始化、更新failure数据
     this.getfailureReportPhp();
     this.getGroundTestPhp();
   },
 };
 </script>
-
-<style scoped>
-</style>
-
+<style scoped></style>

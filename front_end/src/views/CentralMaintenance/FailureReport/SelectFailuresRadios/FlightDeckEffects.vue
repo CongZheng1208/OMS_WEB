@@ -1,29 +1,31 @@
 <template>
   <div>
-    <el-row >
-      <div style="float: left; margin: 15px;  font-weight: bold;">
-        Count 1:  2024/04/21 14:01:43  Power On
-      </div>
+    <el-row>
+      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/21 14:01:43 Power On </div>
     </el-row>
-    <el-row >
-      <table class="transparent-table" show-empty empty-text="No data available">
+    <el-row>
+      <table class="transparent-table"
+             show-empty
+             empty-text="No data available">
         <thead>
           <tr>
-            <th v-for="(value, key) in dataArray[0]" :key="key">{{ key }}</th>
+            <th v-for="(value, key) in dataArray[0]"
+                :key="key">{{ key }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in dataArray" :key="index">
-            <td v-for="(value, key) in item" :key="key">{{ value }}</td>
+          <tr v-for="(item, index) in dataArray"
+              :key="index">
+            <td v-for="(value, key) in item"
+                :key="key">{{ value }}</td>
           </tr>
         </tbody>
       </table>
     </el-row>
   </div>
 </template>
-
 <script>
-import {fdeStatusEnum, fdeClassEnum} from '@/globals/enums.js'
+import { fdeStatusEnum, fdeClassEnum } from '@/globals/enums.js'
 
 export default {
   name: "FlightDeckEffects",
@@ -73,7 +75,7 @@ export default {
       this.selectedData.push(objSelectedData);
       console.log("this.selectedData:", this.selectedData);
 
-      this.dataArray =  [this.selectedData[0].fde]
+      this.dataArray = [this.selectedData[0].fde]
 
     },
   },
@@ -90,6 +92,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
+<style scoped></style>

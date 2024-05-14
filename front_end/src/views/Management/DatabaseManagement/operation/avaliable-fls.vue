@@ -30,22 +30,17 @@
         </div>
         <button class="ml5 rounded px2 py1 mr3 text-lg border jianbian">Select File</button>
       </div>
-      <div class="m-3 border flex p-1">
-        <table class="
-           flex-1
-           text-start
-           text-lg
-           fontbold
-           text-start">
+      <div class="m-3 border  p-1">
+        <table>
           <tr>
-            <th class="text-start pl3">Upload File</th>
-            <th class="text-start pl3">Part Number</th>
-            <th class="text-start pl3">Upload Duration</th>
+            <th>Upload File</th>
+            <th>Part Number</th>
+            <th>Upload Duration</th>
           </tr>
           <tr>
-            <td class="text-start pl3">ZFGTU.tar</td>
-            <td class="text-start pl3">XXXXXXXXX1</td>
-            <td class="text-start pl3">03:25</td>
+            <td>ZFGTU.tar</td>
+            <td>XXXXXXXXX1</td>
+            <td>03:25</td>
           </tr>
         </table>
       </div>
@@ -53,17 +48,16 @@
         <button class="ml5 rounded px2 py1 mr3 text-lg border jianbian">Upload</button>
       </div>
     </div>
-    <div class="w-1/2 border-t   flex flex-col justify-between">
+    <div class="w-1/2 border-t flex flex-col justify-between">
       <div class="p2 flex h-140 overflow-y-auto">
-        <table class="flex-1 text-center text-lg fontbold text-start">
+        <table>
           <tr>
-            <th class="text-start">Upload File</th>
-            <th class="text-start">Upload Status</th>
-            <th class="text-start">Upload Start</th>
-            <th class="text-start">Part Number</th>
+            <th>Upload File</th>
+            <th>Upload Status</th>
+            <th>Upload Start</th>
+            <th>Part Number</th>
           </tr>
-          <tr v-for="item in 10"
-              class="h14">
+          <tr v-for="item in 10">
             <td>QAR Data</td>
             <td>0</td>
             <td>2022/01/01 12:00:00</td>
@@ -73,7 +67,7 @@
       </div>
       <div class=" flex p2 items-center justify-between">
         <div class="text-lg font-bold"> Number of Records: 3 </div>
-        <button class="p2 text-lg rounded-xl border jianbian">Clear</button>
+        <button class="p2 text-lg rounded-xl border footer-btn">Clear</button>
       </div>
     </div>
   </div>
@@ -104,27 +98,35 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.jianbian {
-  font-weight: bold;
-  background-image: linear-gradient(white, black);
-  color: white;
-  /* text-lg 类可能意味着大号文字，这里使用 CSS 的 large 值 */
-  border-radius: 10px;
-  /* rounded-xl 类可能意味着较大的圆角，这里假设为 10px */
-  border: 1px solid black;
-  /* border 类可能意味着有边框，这里添加一个黑色边框 */
-}
-
 table {
+  @apply w-full text-lg fontbold text-start border;
   border-collapse: collapse;
 }
 
 td,
 th {
-  @apply p1;
+  @apply p3 text-center;
+}
+
+
+tr {
+  border: 1px solid rgb(111, 111, 111);
 }
 
 tr:first-child {
-  border: 2px solid white;
+  @apply bg-[#404040] border-b-white border;
+}
+
+.footer-btn {
+  width: 20vh;
+  height: 5.5vh;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 1vh;
+  border-radius: 3px;
+  border: 1px solid rgb(111, 111, 111);
+  box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
+  background-color: rgb(65, 65, 65);
+  transition: box-shadow 0.3s ease background-color 0.3s ease;
 }
 </style>

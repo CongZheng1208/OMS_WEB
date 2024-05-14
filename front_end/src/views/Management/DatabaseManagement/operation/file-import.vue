@@ -51,17 +51,16 @@
         </div>
       </div>
     </div>
-    <div class="w-1/2 border-t   flex flex-col justify-between">
-      <div class="p2 flex h-140 overflow-y-auto">
-        <table class="flex-1 text-center text-lg fontbold text-start">
-          <tr class="">
-            <th class="text-start">File Name</th>
-            <th class="text-start">Flight Leg</th>
-            <th class="text-start">Time</th>
-            <th class="text-start">Size</th>
+    <div class="w-1/2 border-t flex flex-col justify-between">
+      <div class="p2 h-140 overflow-y-auto">
+        <table>
+          <tr>
+            <th>File Name</th>
+            <th>Flight Leg</th>
+            <th>Time</th>
+            <th>Size</th>
           </tr>
-          <tr v-for="item in 10"
-              :class="item === 1 ? 'folder-color' : ''">
+          <tr v-for="item in 3">
             <td>QAR Data</td>
             <td>0</td>
             <td>2022/01/01 12:00:00</td>
@@ -69,14 +68,17 @@
           </tr>
         </table>
       </div>
-      <div class="border flex p2">
+      <div class="
+              border
+              flex
+              p2">
         <div class="flex-1 ">
           <div class="flex gap2">
-            <button class="p2 text-lg rounded-xl border jianbian">Select All </button>
-            <button class="p2 text-lg rounded-xl border jianbian">Delete </button>
+            <button class="footer-btn">Select All </button>
+            <button class="footer-btn">Delete </button>
           </div>
         </div>
-        <button class="p2 text-lg rounded-xl border jianbian">Clear</button>
+        <button class="footer-btn">Clear</button>
       </div>
     </div>
   </div>
@@ -107,40 +109,38 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.jianbian {
-  font-weight: bold;
-  background-image: linear-gradient(white, black);
-  color: white;
-  /* text-lg 类可能意味着大号文字，这里使用 CSS 的 large 值 */
-  border-radius: 10px;
-  /* rounded-xl 类可能意味着较大的圆角，这里假设为 10px */
-  border: 1px solid black;
-  /* border 类可能意味着有边框，这里添加一个黑色边框 */
-}
-
-.folder-color {
-  background: linear-gradient(to bottom, white, #666, white);
-  color: white;
-  /* 设置按钮颜色为白色确保可读性 */
-  padding: 10px;
-  /* p2 类可能意味着 padding，这里确保样式的一致性 */
-  font-size: large;
-  /* rounded-xl 类可能意味着较大的圆角，这里假设为 10px */
-  border: 1px solid black;
-  /* border 类可能意味着有边框，这里添加一个黑色边框 */
-}
-
-
 table {
+  @apply w-full text-lg fontbold text-start border;
   border-collapse: collapse;
 }
 
 td,
 th {
-  @apply p1;
+  @apply p3 text-center;
+}
+
+
+tr {
+
+  border: 1px solid rgb(111, 111, 111);
 }
 
 tr:first-child {
-  border: 2px solid white;
+  @apply bg-[#404040] border-b-white border;
+}
+
+.footer-btn {
+  width: 20vh;
+  height: 5.5vh;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 1vh;
+  border-radius: 3px;
+  border: 1px solid rgb(111, 111, 111);
+
+  box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
+  background-color: rgb(65, 65, 65);
+
+  transition: box-shadow 0.3s ease background-color 0.3s ease;
 }
 </style>

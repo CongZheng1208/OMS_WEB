@@ -2,6 +2,7 @@
 import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
 import UnoCSS from "unocss/vite";
+import { codeInspectorPlugin } from "code-inspector-plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,6 +27,9 @@ export default defineConfig({
   },
   plugins: [
     createVuePlugin(),
+    codeInspectorPlugin({
+      bundler: "vite",
+    }),
     UnoCSS({
       configFile: "uno.config.ts",
     }),

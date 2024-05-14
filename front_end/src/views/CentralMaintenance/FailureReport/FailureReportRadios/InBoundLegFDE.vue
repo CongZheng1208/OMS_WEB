@@ -89,7 +89,7 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { customSortMethodForProgressColumn } from '@/utils/utils'
 import { fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum } from '@/globals/enums.js'
 import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
@@ -200,8 +200,8 @@ export default {
       } else {
         this.postFlightReportArray = []
       }
-      console.log("postFlightReportOri is",postFlightReportOri)
-      console.log("pfr is:",this.postFlightReportArray)
+      console.log("postFlightReportOri is", postFlightReportOri)
+      console.log("pfr is:", this.postFlightReportArray)
     },
     customSortMethodForProgressColumn
   },

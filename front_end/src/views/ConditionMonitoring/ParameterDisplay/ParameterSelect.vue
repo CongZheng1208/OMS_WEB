@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-header style="height: 16vh;">
-      <el-row style="width: 100%;">
+      <el-row class="w-full">
         <el-col :span="2">
           <div class="el-header-title"> Select Option </div>
         </el-col>
@@ -41,7 +41,7 @@
     <RawDataDisplay v-if="displaySelected == 'raw'"></RawDataDisplay>
   </div>
 </template>
-<script>
+<script lang="ts">
 import ParamListDisplay from './ParamListDisplay/ParamListDisplay.vue'
 import ParamGraphicDisplay from './ParamGraphicDisplay/ParamFlightShow.vue'
 import RawDataDisplay from './RawDataDisplay/RawDataDisplay.vue'

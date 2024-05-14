@@ -2,7 +2,7 @@
   <div class="w-full flex">
     <div class="fontbold w-40 pl6 pt3 text-lg"> Section Option </div>
     <div class="flex">
-      <div class="">
+      <div>
         <div class="radio"
              @click="goto('fileImport')">
           <input name="param-display-radio1"

@@ -1,12 +1,14 @@
 <template>
   <div>
     <Selection />
-    <div class="border-t fixed bottom-0  w-full">
-      <div class="flex justify-between w-full items-center my-2">
-        <button class="p2 text-lg rounded-xl border jianbian ml-3 text-center">Print </button>
-        <button class="p2 text-lg rounded-xl border jianbian mr-3">Download</button>
+    <el-footer>
+      <div>
+        <button class="footer-btn">PRINT</button>
       </div>
-    </div>
+      <div>
+        <button class="footer-btn">DOWNLOAD</button>
+      </div>
+    </el-footer>
     <router-view></router-view>
   </div>
 </template>

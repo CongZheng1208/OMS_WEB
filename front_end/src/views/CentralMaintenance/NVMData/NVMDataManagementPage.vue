@@ -1,166 +1,376 @@
 <template>
-  <div>
-    <el-header height="10vh">
+  <div style="background-color: rgb(45, 45, 45);">
+    <el-header height="12vh">
       <el-row style="width: 100%;">
-        <el-col :span="5">
-          <div class="el-header-title">
-            Select ATA System and Equipment
-          </div>
+        <el-col :span="6">
+          <div class="el-header-title"> Select ATA System and Equipment </div>
         </el-col>
-        <el-col :span="3">
-          <div class="radio" @click="changeRadio('NVMDataRetrieval')">
+        <el-col :span="15">
+          <div class="radio"
+               @click="changeRadio('NVMDataRetrieval')">
             <input type="radio"
-              name="retrieval-radio"
-              :checked="displaySelected == 'NVMDataRetrieval'"
-            />
+                   name="retrieval-radio"
+                   :checked="displaySelected == 'NVMDataRetrieval'" />
             <span>RETRIEVAL</span>
           </div>
-        </el-col>
-        <el-col :span="3">
-          <div class="radio" @click="changeRadio('NVMDataReset')">
+          <div class="radio"
+               @click="changeRadio('NVMDataReset')">
             <input type="radio"
-              name="reset-radio"
-              :checked="displaySelected == 'NVMDataReset'"
-            />
+                   name="reset-radio"
+                   :checked="displaySelected == 'NVMDataReset'" />
             <span>RESET(ALL LEGS)</span>
           </div>
         </el-col>
+        <el-col :span="3">
+          <Clock />
+        </el-col>
       </el-row>
     </el-header>
-
     <el-main>
       <el-row :gutter="2">
-        <el-col :span="12">
-          <el-table
-            v-if="displaySelected == 'NVMDataRetrieval'"
-            highlight-current-row
-            height="65vh"
-            style=" background-color: rgb(46, 45, 45)"
-
-            :data="dataForRetrieval"
-            :sort-method="customSortMethodForProgressColumn"
-            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
-            :empty-text="'No Data Display'"
-          >
-            <el-table-column :width="null" :min-width="5"></el-table-column>
-            <el-table-column prop="ata" label="ATA" sortable :width="null" :min-width="15"></el-table-column>
-            <el-table-column prop="equipmentName" label="System Name" sortable :width="null" :min-width="35"></el-table-column>
-            <el-table-column :width="null" :min-width="5"></el-table-column>
+        <el-col :span="11">
+          <el-table v-if="displaySelected == 'NVMDataRetrieval'"
+                    highlight-current-row
+                    height="68vh"
+                    style=" background-color: rgb(46, 45, 45)"
+                    @row-click="handleATARowClickRetrieval"
+                    :data="ATAsRetrieval"
+                    :sort-method="customSortMethodForProgressColumn"
+                    :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                    :empty-text="'No Data Display'">
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
+            <el-table-column prop="ataNumber"
+                             label="ATA"
+                             sortable
+                             :width="null"
+                             :min-width="15"></el-table-column>
+            <el-table-column prop="equipmentName"
+                             label="System Name"
+                             sortable
+                             :width="null"
+                             :min-width="35">{{ "To be continue" }}</el-table-column>
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
           </el-table>
-          <el-table
-            v-else
-            highlight-current-row
-            height="65vh"
-            style=" background-color: rgb(46, 45, 45)"
-
-            :data="dataForReset"
-            :sort-method="customSortMethodForProgressColumn"
-            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
-            :empty-text="'No Data Display'"
-          >
-            <el-table-column :width="null" :min-width="5"></el-table-column>
-            <el-table-column prop="ata" label="ATA" sortable :width="null" :min-width="15"></el-table-column>
-            <el-table-column prop="equipmentName" label="System Name" sortable :width="null" :min-width="35"></el-table-column>
-            <el-table-column :width="null" :min-width="5"></el-table-column>
+          <el-table v-else
+                    highlight-current-row
+                    height="68vh"
+                    style=" background-color: rgb(46, 45, 45)"
+                    @row-click="handleATARowClickReset"
+                    :data="ATAsReset"
+                    :sort-method="customSortMethodForProgressColumn"
+                    :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                    :empty-text="'No Data Display'">
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
+            <el-table-column prop="ataNumber"
+                             label="ATA"
+                             sortable
+                             :width="null"
+                             :min-width="15"></el-table-column>
+            <el-table-column prop="equipmentName"
+                             label="System Name"
+                             sortable
+                             :width="null"
+                             :min-width="35">{{ "To be continue" }}</el-table-column>
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="12">
-          <el-table
-            highlight-current-row
-            height="65vh"
-            style=" background-color: rgb(46, 45, 45)"
-
-            :data="dataForReset"
-            :sort-method="customSortMethodForProgressColumn"
-            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
-            :empty-text="'No Data Display'"
-          >
-            <el-table-column :width="null" :min-width="5"></el-table-column>
-            <el-table-column prop="equipmentName" label="Equiment Name" sortable :width="null" :min-width="35"></el-table-column>
-            <el-table-column prop="startTime" label="Availability" sortable :width="null" :min-width="25"></el-table-column>
-            <el-table-column :width="null" :min-width="5"></el-table-column>
+        <el-col :span="13">
+          <el-table v-if="displaySelected == 'NVMDataRetrieval'"
+                    highlight-current-row
+                    height="68vh"
+                    style=" background-color: rgb(46, 45, 45)"
+                    @row-click="handleEquipmentRetrievalRowClick"
+                    :data="EquisRetrieval"
+                    :sort-method="customSortMethodForProgressColumn"
+                    :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                    :empty-text="'No Data Display'"
+                    :row-class-name="rowTestName">
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
+            <el-table-column prop="memberSystemName"
+                             label="Equiment Name"
+                             sortable
+                             :width="null"
+                             :min-width="35"></el-table-column>
+            <el-table-column prop="avai"
+                             label="Availability"
+                             sortable
+                             :width="null"
+                             :min-width="25"
+                             :formatter="formatEquiAvailablilty"></el-table-column>
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
+          </el-table>
+          <el-table v-else
+                    highlight-current-row
+                    height="68vh"
+                    style=" background-color: rgb(46, 45, 45)"
+                    @row-click="handleEquipmentResetRowClick"
+                    :data="EquisReset"
+                    :sort-method="customSortMethodForProgressColumn"
+                    :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                    :empty-text="'No Data Display'"
+                    :row-class-name="rowTestName">
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
+            <el-table-column prop="memberSystemName"
+                             label="Equiment Name"
+                             sortable
+                             :width="null"
+                             :min-width="35"></el-table-column>
+            <el-table-column prop="avai"
+                             label="Availability"
+                             sortable
+                             :width="null"
+                             :min-width="25"
+                             :formatter="formatEquiAvailablilty"></el-table-column>
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
           </el-table>
         </el-col>
       </el-row>
+      <el-dialog :visible.sync="isRetrievalAddedMsg"
+                 title="CONFIRM">
+        <p>Are you sure you want to ADD the parameter "{{ selectedEquiRetrieval.memberSystemName }}"?</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="confirmRetrievalAdd">Confirm</el-button>
+          <el-button @click="cancelRetrievalAdd">Cancel</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog :visible.sync="isResetAddedMsg"
+                 title="CONFIRM">
+        <p>Are you sure you want to ADD the parameter "{{ selectedEquiReset.memberSystemName }}"?</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="confirmResetAdd">Confirm</el-button>
+          <el-button @click="cancelResetAdd">Cancel</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
-        <button class="footer-btn" @click="printPage">PRINT</button>
+        <button class="footer-btn"
+                @click="printPage">PRINT</button>
       </div>
       <div>
-        <button class="footer-btn" @click="goDefaultPage()">BACK</button>
-        <button class="footer-btn" @click="sendOrder()">SEND</button>
+        <button class="footer-btn"
+                @click="goDefaultPage()">BACK</button>
+        <button class="footer-btn"
+                v-if="displaySelected == 'NVMDataRetrieval'"
+                @click="sendRetrievalOrder()">RETRIEVAL</button>
+        <button class="footer-btn"
+                v-if="displaySelected == 'NVMDataReset'"
+                @click="sendResetOrder()">RESET</button>
       </div>
     </el-footer>
   </div>
 </template>
-
 <script>
-  import qs from 'qs'
-  import {printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder} from '@/utils/utils.js'
+import Clock from '@/components/Clock'
+import qs from 'qs'
+import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils.js'
+import { getRetrievalATAandEqui, getResetATAandEqui } from '@/services/centralMaintenance/nvmData/index.js';
 
-  export default {
-    name: "DefaultResetPage",
-    data() {
-      return {
 
-        displaySelected: 'NVMDataRetrieval',
-        NVMDataRetrievalSelected: true,
-        NVMDataResetSelected: false,
+export default {
+  name: "DefaultResetPage",
+  data() {
+    return {
 
-        dataForRetrieval: [
-                      {"id":"6","ata":"27","equipmentName":"HF_FCM_2","startTime":"2023-07-11 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                      {"id":"7","ata":"27","equipmentName":"HLRM B on IMC","startTime":"2023-07-13 10:17:29","status":"In Progress","elapsedTime":"00:05:51","processPercent":"87"},
-                      {"id":"8","ata":"38","equipmentName":"WWS","startTime":"2023-07-15 09:55:11","status":"Error","elapsedTime":"00:03:25","processPercent":null},
-                      {"id":"9","ata":"42","equipmentName":"GPM L1","startTime":"2023-07-09 09:52:06","status":"Completed","elapsedTime":"00:06:12","processPercent":null},
-                      {"id":"10","ata":"42","equipmentName":"GPM R1","startTime":"2023-04-20 09:43:10","status":"Completed","elapsedTime":"00:03:07","processPercent":null},
-                      {"id":"11","ata":"47","equipmentName":"FTIS LRM on IMC","startTime":"2023-05-13 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                    ],
-        dataForReset: [{"id":"1","ata":"29","equipmentName":"HLRM A on IMC","startTime":"2023-07-10 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                      {"id":"2","ata":"29","equipmentName":"HLRM B on IMC","startTime":"2023-07-10 10:17:29","status":"In Progress","elapsedTime":"00:05:51","processPercent":"87"},
-                      {"id":"3","ata":"31","equipmentName":"HF_FWDEAFR","startTime":"2023-07-10 09:55:11","status":"Error","elapsedTime":"00:03:25","processPercent":null},
-                      {"id":"4","ata":"27","equipmentName":"HF_FSECU_1","startTime":"2023-07-10 09:52:06","status":"Completed","elapsedTime":"00:06:12","processPercent":null},
-                      {"id":"5","ata":"27","equipmentName":"HF-FCM-1","startTime":"2023-07-10 09:43:10","status":"Completed","elapsedTime":"00:03:07","processPercent":null},
-                      {"id":"6","ata":"27","equipmentName":"HF_FCM_2","startTime":"2023-07-11 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                      {"id":"7","ata":"27","equipmentName":"HLRM B on IMC","startTime":"2023-07-13 10:17:29","status":"In Progress","elapsedTime":"00:05:51","processPercent":"87"},
-                      {"id":"8","ata":"38","equipmentName":"WWS","startTime":"2023-07-15 09:55:11","status":"Error","elapsedTime":"00:03:25","processPercent":null},
-                      {"id":"9","ata":"42","equipmentName":"GPM L1","startTime":"2023-07-09 09:52:06","status":"Completed","elapsedTime":"00:06:12","processPercent":null},
-                      {"id":"10","ata":"42","equipmentName":"GPM R1","startTime":"2023-04-20 09:43:10","status":"Completed","elapsedTime":"00:03:07","processPercent":null},
-                      {"id":"11","ata":"47","equipmentName":"FTIS LRM on IMC","startTime":"2023-05-13 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                      {"id":"12","ata":"38","equipmentName":"WWS","startTime":"2023-07-15 09:55:11","status":"Error","elapsedTime":"00:03:25","processPercent":null},
-                      {"id":"13","ata":"42","equipmentName":"GPM L1","startTime":"2023-07-09 09:52:06","status":"Completed","elapsedTime":"00:06:12","processPercent":null},
-                      {"id":"14","ata":"42","equipmentName":"GPM R1","startTime":"2023-04-20 09:43:10","status":"Completed","elapsedTime":"00:03:07","processPercent":null},
-                      {"id":"15","ata":"47","equipmentName":"FTIS LRM on IMC","startTime":"2023-05-13 10:25:33","status":"Queued","elapsedTime":null,"processPercent":null},
-                    ],
-      };
-    },
-    methods: {
-      /**
-       * 本函数用于跳转页面
-       */
-       goDefaultPage() {
-        this.$router.push({ name: "NVMDataDefault" });
-      },
+      displaySelected: 'NVMDataRetrieval',
 
-      sendOrder(){
-        let tmp = qs.stringify({
-          OrderType: "ABORTALL",
+      ATAsRetrieval: [],
+      ATAsReset: [],
 
-          currentPage: "TestList",
+      EquisRetrieval: [],
+      EquisReset: [],
+
+      selectedEquiRetrieval: {},
+      selectedEquiReset: {},
+
+      selectedMemberSystemIdsRetrieval: [],
+      selectedMemberSystemIdsReset: [],
+
+      isRetrievalAddedMsg: false,
+      isResetAddedMsg: false,
+    };
+  },
+  created() {
+    getRetrievalATAandEqui().then(response => {
+      this.ataEquiDataRetrieval = response
+      Object.keys(response).forEach(key => {
+        this.ATAsRetrieval.push({
+          ataNumber: key,
+          systemName: "to be done",
         });
+      });
+    });
+    getResetATAandEqui().then(response => {
+      this.ataEquiDataReset = response
+      Object.keys(response).forEach(key => {
+        this.ATAsReset.push({
+          ataNumber: key,
+          systemName: "to be done",
+        });
+      });
+    });
+  },
+  components: {
+    Clock
+  },
+  methods: {
+    /**
+     * 本函数用于跳转页面
+     */
+    goDefaultPage() {
+      this.$router.push({ name: "NVMDataDefault" });
+    },
 
-        this.handleTestOrder(tmp)
-      },
+    /**
+     * 本函数用于设置EquiAvailablilty的显示格式
+     * @param {*} row table选中行信息
+     */
+    formatEquiAvailablilty(row) {
+      return row.avai == "1" ? "Available" : "Unavailable";
+    },
 
-      changeRadio,
-      printPage,
-      handleTestOrder,
-      customSortMethodForProgressColumn
-    }
+    /**
+     * 本函数用于确定某行是否可被选中样式
+     * @param {*} row table选中行信息
+     */
+    rowTestName({ row }) {
+      return row.avai == "1" ? '' : 'disable-row';
+    },
+
+    /**
+     * 本函数用于选中某个ATA
+     * @param {Object} row
+     */
+    handleATARowClickRetrieval(row) {
+      this.EquisRetrieval = this.ataEquiDataRetrieval[row.ataNumber]
+    },
+
+    /**
+     * 本函数用于选中要进行的装备
+     * @param {Object} row
+     */
+    handleEquipmentRetrievalRowClick(row) {
+      if (row.avai !== "1") {
+        this.$message({
+          type: 'warning',
+          message: 'This nvm is unavailable!'
+        });
+      } else {
+        this.isRetrievalAddedMsg = true
+        this.selectedEquiRetrieval = row
+      }
+    },
+
+    confirmRetrievalAdd() {
+      if (this.selectedMemberSystemIdsRetrieval.includes(this.selectedEquiRetrieval.memberSystemId)) {
+        this.$message('This equipment has been selected');
+      } else if (this.selectedEquiRetrieval.avai !== "1") {
+        this.$message('This equipment is currently unavailable');
+      } else {
+        this.selectedMemberSystemIdsRetrieval.push(this.selectedEquiRetrieval.memberSystemId);
+        this.$message({ message: 'Successfully selected', type: 'success' });
+      }
+      this.isRetrievalAddedMsg = false
+    },
+
+    cancelRetrievalAdd() {
+      this.$message({
+        message: 'Already canceled'
+      });
+      this.isRetrievalAddedMsg = false
+    },
+
+
+
+
+    /**
+     * 本函数用于选中某个ATA
+     * @param {Object} row
+     */
+    handleATARowClickReset(row) {
+      this.EquisReset = this.ataEquiDataReset[row.ataNumber]
+    },
+    /**
+     * 本函数用于选中要进行的装备
+     * @param {Object} row
+     */
+    handleEquipmentResetRowClick(row) {
+      if (row.avai !== "1") {
+        this.$message({
+          type: 'warning',
+          message: 'This nvm is unavailable!'
+        });
+      } else {
+        this.isResetAddedMsg = true
+        this.selectedEquiReset = row
+      }
+    },
+
+    confirmResetAdd() {
+      if (this.selectedMemberSystemIdsReset.includes(this.selectedEquiReset.memberSystemId)) {
+        this.$message('This equipment has been selected');
+      } else if (this.selectedEquiReset.avai !== "1") {
+        this.$message('This equipment is currently unavailable');
+      } else {
+        this.selectedMemberSystemIdsReset.push(this.selectedEquiReset.memberSystemId);
+        this.$message({ message: 'Successfully selected', type: 'success' });
+      }
+      this.isResetAddedMsg = false
+    },
+
+    cancelResetAdd() {
+      this.$message({
+        message: 'Already canceled'
+      });
+      this.isResetAddedMsg = false
+    },
+
+
+    sendRetrievalOrder() {
+      let tmp = qs.stringify({
+        OrderType: "NVMRETRIEVAL",
+
+        currentPage: "NVMDataManagement",
+        selectedEquipmentID: this.selectedMemberSystemIdsRetrieval,
+      });
+
+      this.handleTestOrder(tmp)
+      // this.interval = setInterval(() => {
+      //   this.handleTestOrder(tmp)
+      // }, 1000);
+
+
+    },
+
+    sendResetOrder() {
+      let tmp = qs.stringify({
+        OrderType: "NVMRESET",
+
+        currentPage: "NVMDataManagement",
+        selectedEquipmentID: this.selectedMemberSystemIdsReset,
+      });
+
+      this.handleTestOrder(tmp)
+    },
+
+    changeRadio,
+    printPage,
+    handleTestOrder,
+    customSortMethodForProgressColumn
   }
+}
 
 </script>
-
-<style scoped>
-</style>
-
+<style scoped></style>

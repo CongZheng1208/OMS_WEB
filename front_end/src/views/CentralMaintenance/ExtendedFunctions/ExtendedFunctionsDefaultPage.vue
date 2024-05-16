@@ -13,14 +13,14 @@
               name="reset-radio"
               :checked="displaySelected == 'TimeCycles'"
             />
-            <span>Time Cycle Function</span>
+            <span>Time Cycle</span>
           </div>
           <div class="radio" @click="changeRadioAndPush('FlightLegAndPhase')">
             <input type="radio"
               name="reset-radio"
               :checked="displaySelected == 'FlightLegAndPhase'"
             />
-            <span>Flight Leg/Phase operation</span>
+            <span>Flight Leg/Phase Operation</span>
           </div>
         </el-col>
         <el-col :span="5">
@@ -29,14 +29,14 @@
               name="retrieval-radio"
               :checked="displaySelected == 'EngineBalance'"
             />
-            <span>Engine Trim Balance Function</span>
+            <span>Engine Trim Balance</span>
           </div>
           <div class="radio" @click="changeRadioAndPush('OtherFunctions')">
             <input type="radio"
               name="reset-radio"
               :checked="displaySelected == 'OtherFunctions'"
             />
-            <span>Other Function</span>
+            <span>Other Functions</span>
           </div>
         </el-col>
 

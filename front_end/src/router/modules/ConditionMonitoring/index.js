@@ -30,7 +30,21 @@ const ConditionMonitoringRoutes = {
     {
       path: 'eventMonitoring',
       name: 'EventMonitoring',
-      component: () => import('@/views/ConditionMonitoring/EventMonitoring/EventMonitoring.vue')
+      component: () => import('@/views/ConditionMonitoring/EventMonitoring/index.vue'),
+      children: [
+        {
+          path: 'eventSelect',
+          name: 'EventSelect',
+          component: () => import('@/views/ConditionMonitoring/EventMonitoring/EventSelect.vue')
+        },
+        {
+          path: 'parameterMonitoring',
+          name: 'ParameterMonitoring',
+          component: () => import('@/views/ConditionMonitoring/EventMonitoring/ParameterMonitoring.vue')
+        }
+
+
+      ]
     },
   ]
 }

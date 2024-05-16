@@ -10,13 +10,12 @@
 
   background-color: rgb(45, 45, 45);
 
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #ffffff;
 }
-
 
 /**
  * 全局导航菜单栏相关样式
@@ -43,19 +42,17 @@
   line-height: 6vh;
 }
 
-
 /**
  * 全局容器样式
  */
 
 .el-row {
-  color:white
+  color: white;
 }
 
 .container-fluid {
   height: 62vh;
 }
-
 
 /**
  * 全局页面头部相关样式
@@ -80,10 +77,8 @@
 
   box-shadow: 0px 0px 15px 0px #17bef1;
 
-
   font-weight: bold;
   font-size: 16px;
-
 }
 
 .el-header-title {
@@ -98,7 +93,7 @@
   margin-top: 1vh;
 }
 
-.el-header-subcontainer{
+.el-header-subcontainer {
   display: flex;
   align-items: center;
 }
@@ -126,7 +121,6 @@
   background-color: rgb(46, 45, 45);
   color: #ffffff;
 }
-
 
 .radio {
   display: flex;
@@ -158,15 +152,15 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: rgb(37,37,37);
+  background-color: rgb(37, 37, 37);
   transition: background-color 0.2s ease-in;
 }
 
 .radio input[type="radio"]:checked:before {
-  background-color: rgb(32,255,255);
+  background-color: rgb(32, 255, 255);
 }
 
-.controller{
+.controller {
   margin-top: -6.5%;
   margin-left: 30%;
   position: absolute;
@@ -182,13 +176,12 @@
   padding: 0;
 }
 
-.el-subheader{
+.el-subheader {
   text-align: left;
 
-  padding:1vh;
-  font-weight: bold
+  padding: 1vh;
+  font-weight: bold;
 }
-
 
 .el-table {
   width: 100%;
@@ -210,7 +203,7 @@
   background-color: rgb(46, 45, 45);
 }
 
-.el-table--enable-row-hover .el-table__body tr:hover>td{
+.el-table--enable-row-hover .el-table__body tr:hover > td {
   background-color: #3b3b3c !important;
 }
 
@@ -218,13 +211,8 @@
   background-color: #2b2b2be7 !important;
 }
 
-/* .test-table .el-table__body tr:not(.current-row) > td {
-  background-color:  #3b3b3c !important;
-  color: #908f8f;
-} */
-
 .el-table__body tr.disable-row > td {
-  background-color:  #3b3b3c !important;
+  background-color: #3b3b3c !important;
   color: #908f8f;
 }
 
@@ -233,14 +221,6 @@
   font-size: 18px;
 }
 
-
-
-
-
-
-
-
-
 .transparent-table {
   border-collapse: collapse;
   color: white; /* 设置字体颜色为白色 */
@@ -248,24 +228,26 @@
   width: 100%;
 }
 
-.transparent-table th, .transparent-table td {
+.transparent-table th,
+.transparent-table td {
   border: none;
-  padding: 1vh
+  padding: 1vh;
 }
 
+.table-outer-button {
+  /* width: 4vh;
+  height: 4vh;
+  margin: 2vh; */
 
-
-.table-outer-button{
-  width: 20vh;
-  height: 5.5vh;
-
-  color: white;
   font-size: 16px;
   font-weight: bold;
 
-  padding: 1vh;
+  margin-right: 2vh;
 
-  border-radius: 3px;
+  color: white;
+
+  /*
+  border-radius: 3px; */
   border: 1px solid rgb(111, 111, 111);
 
   box-shadow: 10px 10px 10px 0px rgba(42, 42, 42, 0.5);
@@ -279,17 +261,25 @@
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
-  color: #ffffff
+  color: #ffffff;
 }
 
-.table-outer-note{
+.table-outer-button:active {
+  box-shadow: 5px 5px 20px 0px #17bef1;
+  border: 1px solid rgb(111, 111, 111);
+
+  background-color: rgb(88, 88, 88);
+  color: #17bef1;
+}
+
+.table-outer-note {
   position: absolute;
   bottom: 5vh;
   right: 12vh;
   color: rgb(174, 174, 174);
 }
 
-.table-outer-number{
+.table-outer-number {
   position: absolute;
   bottom: 5vh;
   right: 12vh;
@@ -305,12 +295,9 @@
   font-weight: bold;
 }
 
-
 .row-disabled {
   background-color: #f0f0f0; /* 灰白色 */
 }
-
-
 
 .el-dialog {
   background-color: rgb(58, 58, 58);
@@ -325,15 +312,9 @@
   color: rgb(213, 213, 213);
 }
 
-
-
-
-
-
 .total-container {
   height: 60vh;
 }
-
 
 .sub-container {
   display: flex;
@@ -353,7 +334,6 @@
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
 }
 
-
 .div-title {
   font-size: 18px;
   font-weight: bold;
@@ -366,16 +346,8 @@
   margin-left: 1vh;
   text-align: left; /* 文字左对齐 */
   margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
-  padding: 1vh
+  padding: 1vh;
 }
-
-
-
-
-
-
-
-
 
 .custom-card {
   overflow: auto;
@@ -401,7 +373,6 @@
   margin-left: 2vh;
   margin-right: 2vh;
 
-
   color: white;
   font-size: 18px;
   font-weight: bold;
@@ -415,9 +386,9 @@
   padding-top: 10vh; /* 确保内容不被表头部分遮挡 */
   padding: 1vh; /* 为内容区域添加内边距 */
   text-align: left; /* 文字左对齐 */
-  margin-top: 2vh;
-  margin-left: 2vh;
-  margin-right: 2vh;
+  margin-top: 4vh;
+  margin-left: 4vh;
+  margin-right: 4vh;
 }
 
 .content-item {
@@ -439,7 +410,6 @@
   margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
   margin-top: 5vh; /* 为每个列表项添加下外边距 */
 }
-
 
 .custom-footer {
   position: absolute;
@@ -469,7 +439,6 @@
   color: white;
 }
 
-
 .el-main-subtitle {
   color: white;
   font-size: 18px;
@@ -485,12 +454,12 @@
   margin-bottom: 2vh; /* 控制选项的间距 */
 }
 
-.html_page{
+.html_page {
   width: 100%;
   position: relative;
 }
 
-.html_close_btn{
+.html_close_btn {
   position: absolute;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
   top: 2vh;
@@ -498,13 +467,10 @@
   z-index: 2;
 }
 
-.html_OMD{
+.html_OMD {
   width: 100%;
   height: 68vh;
 }
-
-
-
 
 .main-btn {
   width: 20vh;
@@ -530,7 +496,7 @@
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
-  color: #ffffff
+  color: #ffffff;
 }
 
 .main-btn:active {
@@ -538,7 +504,7 @@
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
-  color: #17bef1
+  color: #17bef1;
 }
 
 .main-btn[disabled] {
@@ -547,14 +513,11 @@
   border: 1px solid rgb(111, 111, 111);
 }
 
-
 .main-btn[disabled]:hover {
   background-color: #a7a7a7; /* 设置禁用状态下的背景色 */
   color: #767676; /* 设置禁用状态下的文字颜色 */
   border: 1px solid rgb(111, 111, 111);
 }
-
-
 
 /**
  * 全局页面尾部相关样式
@@ -599,7 +562,7 @@
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
-  color: #ffffff
+  color: #ffffff;
 }
 
 .footer-btn:active {
@@ -607,7 +570,7 @@
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
-  color: #17bef1
+  color: #17bef1;
 }
 
 .footer-btn[disabled] {
@@ -615,7 +578,6 @@
   color: #666; /* 设置禁用状态下的文字颜色 */
   border: 1px solid rgb(111, 111, 111);
 }
-
 
 .footer-btn[disabled]:hover {
   background-color: #a7a7a7; /* 设置禁用状态下的背景色 */

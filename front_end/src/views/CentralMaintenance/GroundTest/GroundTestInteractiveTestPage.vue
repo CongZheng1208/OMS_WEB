@@ -43,6 +43,9 @@
                 <div v-if="screenArray.length == 0" class="content-alert">
                   No Alive Data
                 </div>
+                <div v-else-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'" class="content-alert">
+                  No Alive Interactive Test
+                </div>
                 <div v-else
                   class="content-item">
                   {{ currentScreem }}
@@ -60,7 +63,7 @@
               No Alive Data
             </div>
             <div v-else-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'" class="content-alert">
-              No Alive Data1
+              No Alive Interactive Test
             </div>
             <div v-else
               class="radio"
@@ -140,7 +143,7 @@ export default {
           OrderType: "CONTINUE",
 
           currentPage: "InteractiveTest",
-          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index,
+          InitiatedTest_Index: [this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index],
           MemberSystemID: "",
 
           currentScreenId: this.currentStepId,

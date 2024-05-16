@@ -26,7 +26,7 @@ export default {
         {
           name: "Event Monitoring",
           isActive: false,
-          routeName: "EventMonitoring",
+          routeName: "EventSelect",
         },
       ],
     };

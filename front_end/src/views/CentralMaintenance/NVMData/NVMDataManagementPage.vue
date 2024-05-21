@@ -7,14 +7,14 @@
         </el-col>
         <el-col :span="15">
           <div class="radio"
-               @click="changeRadio('NVMDataRetrieval')">
+               @click="changeRadio('NVMDataRetrieval'); clearSelectedOptions()">
             <input type="radio"
                    name="retrieval-radio"
                    :checked="displaySelected == 'NVMDataRetrieval'" />
             <span>RETRIEVAL</span>
           </div>
           <div class="radio"
-               @click="changeRadio('NVMDataReset')">
+               @click="changeRadio('NVMDataReset'); clearSelectedOptions()">
             <input type="radio"
                    name="reset-radio"
                    :checked="displaySelected == 'NVMDataReset'" />
@@ -49,7 +49,8 @@
                              label="System Name"
                              sortable
                              :width="null"
-                             :min-width="35">{{ "To be continue" }}</el-table-column>
+                             :min-width="35"
+                             :formatter="formatATAName"></el-table-column>
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
@@ -73,7 +74,8 @@
                              label="System Name"
                              sortable
                              :width="null"
-                             :min-width="35">{{ "To be continue" }}</el-table-column>
+                             :min-width="35"
+                             :formatter="formatATAName"></el-table-column>
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
@@ -175,6 +177,7 @@
 <script>
 import Clock from '@/components/Clock'
 import qs from 'qs'
+import { ataNameEnum } from '@/globals/enums.js'
 import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils.js'
 import { getRetrievalATAandEqui, getResetATAandEqui } from '@/services/centralMaintenance/nvmData/index.js';
 
@@ -226,6 +229,16 @@ export default {
     Clock
   },
   methods: {
+    clearSelectedOptions() {
+
+      this.selectedEquiRetrieval = {};
+      this.selectedEquiReset = {};
+      this.selectedMemberSystemIdsRetrieval = [];
+      this.selectedMemberSystemIdsReset = []
+
+      this.EquisRetrieval = []
+      this.EquisReset = []
+    },
     /**
      * 本函数用于跳转页面
      */
@@ -239,6 +252,15 @@ export default {
      */
     formatEquiAvailablilty(row) {
       return row.avai == "1" ? "Available" : "Unavailable";
+    },
+
+    /**
+     * 本函数用于
+     * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
+     * @param {*} row table选中行信息
+     */
+    formatATAName(row) {
+      return ataNameEnum[row.ataNumber.substring(0, 2)];
     },
 
     /**
@@ -291,9 +313,6 @@ export default {
       });
       this.isRetrievalAddedMsg = false
     },
-
-
-
 
     /**
      * 本函数用于选中某个ATA

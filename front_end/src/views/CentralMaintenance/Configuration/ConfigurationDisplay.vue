@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div v-loading="loading"
+       element-loading-text="Data Loading..."
+       element-loading-spinner="el-icon-loading"
+       element-loading-background="rgba(0, 0, 0, 0.5)">
     <el-header height="12vh">
       <el-row style="width: 100%;">
         <el-col :span="3">
           <div class="el-header-title"> Selection: </div>
         </el-col>
         <el-col :span="10">
-          <div class="el-header-subtitle">
-            <li>ATA: {{ }} </li>
-            <li>Equipment Name: {{ }} </li>
-          </div>
+          <div class="el-header-subtitle"> ATA: {{ currentATA }} </div>
+          <div class="el-header-subtitle"> Equipment Name: {{ currentEquipmentName }} </div>
         </el-col>
       </el-row>
     </el-header>
@@ -17,47 +18,53 @@
       <el-row :gutter="2">
         <el-col :span="12">
           <div
-               style="  height: 32vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
-            <div class="div-title"> Hardware Information </div>
-            <!-- <div class="div-content-item ">
-              <li style="padding: 1vh">Part Number: {{ }}</li>
-              <li style="padding: 1vh">Part Description: {{ }}</li>
-              <li style="padding: 1vh">Serial Number: {{ }}</li>
-              <li style="padding: 1vh">Modification Status: {{ }}</li>
-            </div> -->
-            <template>
-              <div>
-                <!-- <div v-for="item in stringArray"
-                     :key="item.Name"
-                     :style="{ background: item.highlight ? 'yellow' : 'none' }">
-                  <p>{{ item["Part Number"] }}</p>
-                  <p>{{ item["Part Description"] }}</p>
-                </div> -->
-              </div>
-            </template>
+               style=" overflow: auto; height: 32vh; max-height: 32vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
+            <div class="div-title"
+                 style=" position: sticky;top: 0;"> Hardware Information </div>
+            <div v-if="currentHardwareInformation.length === 0"
+                 class="content-alert"> No Alive Data </div>
+            <div v-else
+                 class="div-content-item"
+                 v-for="(item, index) in currentHardwareInformation"
+                 :key="item.Part">
+              <p :style="{ backgroundColor: item.PartNumberColor }">Part Number: {{ item['Part Number'] }}</p>
+              <p :style="{ backgroundColor: item.PartDescriptionColor }">Part Description:
+                {{ item['Part Description'] }}</p>
+              <p :style="{ backgroundColor: item.SerialNumberColor }">Serial Number: {{ item['Serial Number'] }}</p>
+              <p :style="{ backgroundColor: item.ModificationStatusColor }">Modification Status:
+                {{ item['Modification Status'] }}</p>
+            </div>
           </div>
           <div
                style="  height: 20vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
             <div class="div-title"> Additional Information </div>
+            <div v-if="currentAdditionalInformation.length === 0"
+                 class="content-alert"> No Alive Data </div>
+            <div v-else> {{ currentAdditionalInformation }} </div>
           </div>
         </el-col>
         <el-col :span="12">
           <div
-               style=" height: 61vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh;  margin-right: 0.5vh; margin-top: 0.5vh;">
-            <div class="div-title"> Software Information </div>
-            <div class="div-content-item ">
-              <li style="padding: 1vh">Location ID: {{ }}</li>
-              <li style="padding: 1vh">Location Description: {{ }}</li>
-            </div>
-            <div class="div-title"> Software Part Data Item 1: </div>
-            <div class="div-content-item ">
-              <li style="padding: 1vh">Part Number: {{ }}</li>
-              <li style="padding: 1vh">Part Description: {{ }}</li>
-            </div>
-            <div class="div-title"> Software Part Data Item 2: </div>
-            <div class="div-content-item ">
-              <li style="padding: 1vh">Part Number: {{ }}</li>
-              <li style="padding: 1vh">Part Description: {{ }}</li>
+               style=" overflow: auto; height: 61vh; max-height: 61vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-top: 0.5vh;">
+            <div class="div-title"
+                 style=" position: sticky;top: 0;"> Software Information </div>
+            <div v-if="currentSoftwareInformation.length === 0"
+                 class="content-alert"> No Alive Data </div>
+            <div v-else
+                 class="div-content-item"
+                 v-for="entry in currentSoftwareInformation"
+                 :key="entry.LocationID">
+              <p>Location ID: {{ entry['Location ID'] }}</p>
+              <p>Location Description: {{ entry['Location Description'] }}</p>
+              <ul>
+                <div v-for="softwarePart in entry['Software Part Data']"
+                     :key="softwarePart.Part">
+                  <p style="padding-top: 1vh; font-weight: bold;"> Software Part Data Item: {{ softwarePart['LIN'] }}
+                  </p>
+                  <p> Part Number: {{ softwarePart['Part Number'] }}</p>
+                  <p> Part Description: {{ softwarePart['Part Description'] }}</p>
+                </div>
+              </ul>
             </div>
           </div>
         </el-col>
@@ -84,42 +91,65 @@ export default {
   name: "ConfigurationDisplay",
   data() {
     return {
-      // stringArray: [
-      //   {
-      //     "Part Number": "111abc",
-      //     "Part Description": "general processing module 111",
-      //     "Name": "LRU1",
-      //     "Serial Number": "COMMAND_661",
-      //     "Modification Status": "Modified",
-      //     "LIN": "XYZ333"
-      //   },
-      //   {
-      //     "Part Number": "222efg",
-      //     "Part Description": "general processing module 222",
-      //     "Name": "LRU2",
-      //     "Serial Number": "COMMAND_664",
-      //     "Modification Status": "Not Modified",
-      //     "LIN": "EFG222"
-      //   }
-      // ]
+      currentATA: "",
+      currentEquipmentName: "",
+      currentHardwareInformation: {},
+      currentSoftwareInformation: {},
+      currentAdditionalInformation: "",
+
+      configurationTimer: "",
+
+      fullscreenLoading: false,
+      loading: true,
     };
   },
   mounted() {
-    console.log("this.$route.params", this.$route.params.selectedEqui)
-
 
     let tmp = qs.stringify({
       ATA: this.$route.params.selectedEqui.ATA,
       equipmentName: this.$route.params.selectedEqui.equipmentName
     })
 
-    setInterval(() => {
+    this.currentATA = this.$route.params.selectedEqui.ata
+    this.currentEquipmentName = this.$route.params.selectedEqui.equipmentName
+
+
+    this.configurationTimer = setInterval(() => {
       postConfigData(tmp).then(response => {
         console.log(response)
+        // console.log(response.hardwareInformation.trim().length === 0)
+        // console.log(response.softwareInformation.trim().length === 0)
+        // console.log(response.additionalInformation.trim().length === 0)
+
+        if (response.hardwareInformation.trim().length === 0) {
+          this.currentHardwareInformation = []
+        } else {
+          this.currentHardwareInformation = JSON.parse(response.hardwareInformation)
+        }
+
+
+        if (response.softwareInformation.trim().length === 0) {
+          this.currentSoftwareInformation = []
+        } else {
+          this.currentSoftwareInformation = JSON.parse(response.softwareInformation)
+        }
+
+        if (response.additionalInformation.trim().length === 0) {
+          this.currentAdditionalInformation = ""
+        } else {
+          this.currentAdditionalInformation = response.additionalInformation
+        }
       }).catch(error => {
         console.error('Error in Postting pdf url:', error);
       });
     }, 1000);
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+  },
+  beforeDestroy() {
+    clearInterval(this.configurationTimer);
   },
   methods: {
     /**
@@ -131,7 +161,7 @@ export default {
     printPage,
     handleTestOrder,
     customSortMethodForProgressColumn
-  }
+  },
 }
 
 </script>

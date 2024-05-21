@@ -3,7 +3,7 @@
     <el-header style="height: 12vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
-          <div class="el-header-subcontainer"> Pre-Conditions of Selected Tests </div>
+          <div class="el-header-title"> Pre-Conditions of Selected Tests </div>
         </el-col>
         <el-col :span="3">
           <Clock />
@@ -24,9 +24,7 @@
                      class="content-alert"> No Alive Data </div>
                 <div v-for="precondition in item.Preconditions"
                      :key="precondition"
-                     class="content-item">
-                  <li>{{ precondition }}</li>
-                </div>
+                     class="content-item"> {{ precondition }} </div>
               </el-col>
               <el-col :span="4">
                 <button class="footer-btn"

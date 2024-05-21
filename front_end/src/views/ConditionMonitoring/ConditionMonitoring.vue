@@ -1,15 +1,14 @@
 <template>
   <div class="container-fluid">
-    <Menus :menus="menus"/>
+    <Menus :menus="menus" />
     <router-view />
   </div>
 </template>
-
 <script>
 import Menus from '@/components/Menus'
 export default {
   name: "ConditionMonitoring",
-  components: {Menus},
+  components: { Menus },
   data() {
     return {
       menus: [
@@ -26,14 +25,11 @@ export default {
         {
           name: "Event Monitoring",
           isActive: false,
-          routeName: "EventSelect",
+          routeName: "EventDisplay",
         },
       ],
     };
   }
 };
 </script>
-
-<style scoped>
-</style>
-
+<style scoped></style>

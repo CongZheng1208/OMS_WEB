@@ -98,7 +98,7 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'ATA'" />
-            <label class="form-check-label">ATA</label>
+            <label class="form-check-label" style="color:black">ATA</label>
           </div>
         </el-col>
         <el-col :span="8">
@@ -107,7 +107,7 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'flightPhase'" />
-            <label class="form-check-label">Flight Phase</label>
+            <label class="form-check-label" style="color:black">Flight Phase</label>
           </div>
         </el-col>
         <el-col :span="8">
@@ -116,7 +116,7 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'flightLeg'" />
-            <label class="form-check-label">Flight Leg</label>
+            <label class="form-check-label" style="color:black">Flight Leg</label>
           </div>
         </el-col>
       </el-row>

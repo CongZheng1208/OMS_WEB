@@ -29,7 +29,8 @@
                              label="System Name"
                              sortable
                              :width="null"
-                             :min-width="35">{{ "To be continue" }}</el-table-column>
+                             :min-width="35"
+                             :formatter="formatATAName"></el-table-column>
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
@@ -55,6 +56,16 @@
           </el-table>
         </el-col>
       </el-row>
+      <el-dialog title="ERROR MESSAGE"
+                 :visible.sync="isEquiSelected"
+                 width="30%">
+        <p style="color:black">Please select a configuration item!</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isEquiSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -71,7 +82,7 @@
 <script>
 import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
 import { getATAandEqui } from '@/services/centralMaintenance/configuration/index.js';
-
+import { ataNameEnum } from '@/globals/enums.js'
 
 export default {
   name: "ConfigurationDisplay",
@@ -79,7 +90,8 @@ export default {
     return {
       ATAs: [],
       Equis: [],
-      selectedEqui: {}
+      selectedEqui: {},
+      isEquiSelected: false
 
     };
   },
@@ -99,7 +111,12 @@ export default {
      * 本函数用于跳转页面
      */
     goDisplayPage() {
-      this.$router.push({ name: "ConfigurationDisplay", params: { selectedEqui: this.selectedEqui } });
+      //判断是否选择表格某一行数据，若否则提示选择，若是则跳转至SelectFailuresDetails页面
+      if (Object.keys(this.selectedEqui).length === 0) {
+        this.isEquiSelected = true
+      } else {
+        this.$router.push({ name: "ConfigurationDisplay", params: { selectedEqui: this.selectedEqui } });
+      }
     },
 
 
@@ -117,9 +134,18 @@ export default {
      */
     handleEquipmentRowClick(row) {
       this.selectedEqui = row
-      console.log(JSON.parse(row.hardwareInformation))
     },
 
+
+
+    /**
+     * 本函数用于
+     * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
+     * @param {*} row table选中行信息
+     */
+    formatATAName(row) {
+      return ataNameEnum[row.ataNumber.substring(0, 2)];
+    },
     printPage,
     handleTestOrder,
     customSortMethodForProgressColumn

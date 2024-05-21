@@ -144,11 +144,12 @@ export default {
      * @returns {number} 该进度值对应的颜色rgb值
      */
     getProgressColor(progress) {
-      if (progress < 100){
-        return '#51cef1';
-      } else {
-        return '#66CC99';
-      }
+      // if (progress < 100){
+      //   return '#51cef1';
+      // } else {
+      //   return '#66CC99';
+      // }
+      return '#51cef1';
     },
 
     /**
@@ -176,7 +177,7 @@ export default {
      * @param {*} row table选中行信息
      */
      rowTestName({ row }) {
-      return  this.selectedRow.InitiatedTest_Index  == row.InitiatedTest_Index ? 'current-row' : '';
+      return  this.selectedRow.InitiatedTest_Index  == row.InitiatedTest_Index && this.selectedRow.StartTime  == row.StartTime ? 'current-row' : '';
     },
 
     /**

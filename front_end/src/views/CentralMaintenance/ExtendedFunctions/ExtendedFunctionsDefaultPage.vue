@@ -36,7 +36,7 @@
               name="reset-radio"
               :checked="displaySelected == 'OtherFunctions'"
             />
-            <span>Other Functions</span>
+            <span>Other Function</span>
           </div>
         </el-col>
 

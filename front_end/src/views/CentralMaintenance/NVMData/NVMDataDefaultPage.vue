@@ -7,14 +7,14 @@
         </el-col>
         <el-col :span="18">
           <div class="radio"
-               @click="changeRadio('NVMDataRetrieval')">
+               @click="changeRadio('NVMDataRetrieval');selectedRetrievalData=[];selectedResetData=[]">
             <input type="radio"
                    name="retrieval-radio"
                    :checked="displaySelected == 'NVMDataRetrieval'" />
             <span>RETRIEVAL</span>
           </div>
           <div class="radio"
-               @click="changeRadio('NVMDataReset')">
+               @click="changeRadio('NVMDataReset');selectedRetrievalData=[];selectedResetData=[]">
             <input type="radio"
                    name="reset-radio"
                    :checked="displaySelected == 'NVMDataReset'" />
@@ -216,9 +216,9 @@ export default {
     },
 
     /**
- * 本函数用于确定某行是否可被选中样式
- * @param {*} row table选中行信息
- */
+     * 本函数用于确定某行是否可被选中样式
+     * @param {*} row table选中行信息
+     */
     rowResetName({ row }) {
       return this.selectedResetData.memberSystemId == row.memberSystemId ? 'current-row' : '';
     },

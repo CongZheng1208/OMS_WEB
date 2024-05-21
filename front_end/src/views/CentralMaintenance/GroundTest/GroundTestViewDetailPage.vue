@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-header style="height: 12vh;">
-      <el-row style="width: 100%;">
+    <el-header style="height: 14vh;">
+      <el-row style="width: 100%; margin-top: 1vh;">
         <el-col :span="7">
           <div class="el-header-subcontainer">
             <span class="el-header-dot"></span> ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
@@ -172,7 +172,7 @@ export default {
       selectedTestId: "",
       testDict: testTypeEnum,
       testStatusDict: testStatusEnum,
-      loading: true
+      loading: false
     }
   },
   components: {
@@ -194,9 +194,9 @@ export default {
   },
   mounted() {
     console.log("$store.state.groundTestList.currentGroundTest", this.$store.state.groundTestList.currentGroundTest)
-    setTimeout(() => {
-      this.loading = false;
-    }, 500);
+    // setTimeout(() => {
+    //   this.loading = false;
+    // }, 100);
   }
 }
 

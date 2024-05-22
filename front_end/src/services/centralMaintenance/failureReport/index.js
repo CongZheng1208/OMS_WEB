@@ -2,34 +2,52 @@
 
 import { http } from "../../../utils/http";
 
-
 const API = {
+  GET_FDE_LIST: "centralMaintenance/FailureReportNew/fdesNew.php",
+  GET_FAILURE_LIST: "centralMaintenance/FailureReportNew/failuresNew.php",
 
-  GET_FDE_LIST: 'centralMaintenance/FailureReportNew/fdesNew.php',
-  GET_FAILURE_LIST: 'centralMaintenance/FailureReportNew/failuresNew.php',
+  POST_NOTE: "centralMaintenance/FailureReportNew/postNote.php",
+  POST_FIMCODE_FOR_URL:
+    "centralMaintenance/FailureReportNew/postFimCodeForURL.php",
 
-  POST_FIMCODE_FOR_URL: 'centralMaintenance/FailureReportNew/postFimCodeForURL.php',
-}
+  ADD_NOTE: "centralMaintenance/FailureReportNew/addNote.php",
+};
 
 // APIs
 export const getFailureList = () => {
   return http({
     url: API.GET_FAILURE_LIST,
-    method: 'GET'
-  })
-}
+    method: "GET",
+  });
+};
 
 export const getFDEList = () => {
   return http({
     url: API.GET_FDE_LIST,
-    method: 'GET'
-  })
-}
+    method: "GET",
+  });
+};
 
 export const postFimCodeForURL = (index) => {
   return http({
     url: API.POST_FIMCODE_FOR_URL,
-    method: 'POST',
-    data: index
-  })
-}
+    method: "POST",
+    data: index,
+  });
+};
+
+export const postNote = (index) => {
+  return http({
+    url: API.POST_NOTE,
+    method: "POST",
+    data: index,
+  });
+};
+
+export const addNote = (index) => {
+  return http({
+    url: API.ADD_NOTE,
+    method: "POST",
+    data: index,
+  });
+};

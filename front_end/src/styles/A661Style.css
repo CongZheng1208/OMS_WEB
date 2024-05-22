@@ -84,7 +84,7 @@
 .el-header-title {
   font-weight: bold;
   font-size: 18px;
-  text-shadow: 2px 2px 2px #000;
+  /* text-shadow: 2px 2px 2px #000; */
   margin-top: 1vh;
 }
 
@@ -233,10 +233,6 @@
   border: none;
   padding: 1vh;
 }
-
-
-
-
 
 .table-outer-button {
   /* width: 4vh;

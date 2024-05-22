@@ -155,6 +155,26 @@
           <el-button @click="cancelResetAdd">Cancel</el-button>
         </span>
       </el-dialog>
+      <el-dialog title="ERROR MESSAGE"
+                 :visible.sync="isRetrievalSelected"
+                 width="30%">
+        <p style="color:black">Please select a retrieval item!</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isRetrievalSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog title="ERROR MESSAGE"
+                 :visible.sync="isResetSelected"
+                 width="30%">
+        <p style="color:black">Please select a reset item!</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isResetSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -203,6 +223,9 @@ export default {
 
       isRetrievalAddedMsg: false,
       isResetAddedMsg: false,
+
+      isRetrievalSelected: false,
+      isResetSelected: false,
     };
   },
   created() {
@@ -301,7 +324,7 @@ export default {
       } else if (this.selectedEquiRetrieval.avai !== "1") {
         this.$message('This equipment is currently unavailable');
       } else {
-        this.selectedMemberSystemIdsRetrieval.push(this.selectedEquiRetrieval.memberSystemId);
+        this.selectedMemberSystemIdsRetrieval.push(parseInt(this.selectedEquiRetrieval.memberSystemId));
         this.$message({ message: 'Successfully selected', type: 'success' });
       }
       this.isRetrievalAddedMsg = false
@@ -343,7 +366,7 @@ export default {
       } else if (this.selectedEquiReset.avai !== "1") {
         this.$message('This equipment is currently unavailable');
       } else {
-        this.selectedMemberSystemIdsReset.push(this.selectedEquiReset.memberSystemId);
+        this.selectedMemberSystemIdsReset.push(parseInt(this.selectedEquiReset.memberSystemId));
         this.$message({ message: 'Successfully selected', type: 'success' });
       }
       this.isResetAddedMsg = false
@@ -358,30 +381,35 @@ export default {
 
 
     sendRetrievalOrder() {
-      let tmp = qs.stringify({
-        OrderType: "NVMRETRIEVAL",
+      if (this.selectedMemberSystemIdsRetrieval.length === 0) {
+        this.isRetrievalSelected = true
+      } else {
+        let tmp = qs.stringify({
+          OrderType: "NVMRETRIEVAL",
+          currentPage: "NVMDataManagement",
+          selectedEquipmentID: this.selectedMemberSystemIdsRetrieval,
+        });
 
-        currentPage: "NVMDataManagement",
-        selectedEquipmentID: this.selectedMemberSystemIdsRetrieval,
-      });
-
-      this.handleTestOrder(tmp)
-      // this.interval = setInterval(() => {
-      //   this.handleTestOrder(tmp)
-      // }, 1000);
-
-
+        this.handleTestOrder(tmp)
+        // this.interval = setInterval(() => {
+        //   this.handleTestOrder(tmp)
+        // }, 1000);
+        this.selectedMemberSystemIdsRetrieval = []
+      }
     },
 
     sendResetOrder() {
-      let tmp = qs.stringify({
-        OrderType: "NVMRESET",
-
-        currentPage: "NVMDataManagement",
-        selectedEquipmentID: this.selectedMemberSystemIdsReset,
-      });
-
-      this.handleTestOrder(tmp)
+      if (this.selectedMemberSystemIdsReset.length === 0) {
+        this.isResetSelected = true
+      } else {
+        let tmp = qs.stringify({
+          OrderType: "NVMRESET",
+          currentPage: "NVMDataManagement",
+          selectedEquipmentID: this.selectedMemberSystemIdsReset,
+        });
+        this.handleTestOrder(tmp)
+        this.selectedMemberSystemIdsReset = []
+      }
     },
 
     changeRadio,

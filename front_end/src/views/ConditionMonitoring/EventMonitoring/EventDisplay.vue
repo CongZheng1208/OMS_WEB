@@ -159,11 +159,11 @@
     <el-footer>
       <div>
         <button class="footer-btn"
-                @click="saveSele()">PRINT</button>
+                @click="printPage()">PRINT</button>
       </div>
       <div>
         <button class="footer-btn"
-                @click="clearSele()">FLIGHT LEGS</button>
+                @click="isFlightLegsSelected = true">FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="startView">SELECT</button>
       </div>
@@ -195,19 +195,16 @@ export default {
     goSelectPage() {
       this.$router.push({ name: "ConfigurationDisplay" });
     },
-
+    printPage,
+    changeRadio,
     customSortMethodForProgressColumn,
   },
   mounted() {
-
     getEvent().then(response => {
       this.allEvent = response
     }).catch(error => {
       console.error('Error in fetching parameter list:', error);
     });
-
-
-
   },
   computed: {
 

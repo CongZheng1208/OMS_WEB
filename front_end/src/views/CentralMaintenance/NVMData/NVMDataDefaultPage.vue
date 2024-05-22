@@ -7,14 +7,14 @@
         </el-col>
         <el-col :span="18">
           <div class="radio"
-               @click="changeRadio('NVMDataRetrieval');selectedRetrievalData=[];selectedResetData=[]">
+               @click="changeRadio('NVMDataRetrieval'); selectedRetrievalData = []; selectedResetData = []">
             <input type="radio"
                    name="retrieval-radio"
                    :checked="displaySelected == 'NVMDataRetrieval'" />
             <span>RETRIEVAL</span>
           </div>
           <div class="radio"
-               @click="changeRadio('NVMDataReset');selectedRetrievalData=[];selectedResetData=[]">
+               @click="changeRadio('NVMDataReset'); selectedRetrievalData = []; selectedResetData = []">
             <input type="radio"
                    name="reset-radio"
                    :checked="displaySelected == 'NVMDataReset'" />
@@ -127,13 +127,15 @@
             <div class="custom-content"
                  v-if="displaySelected == 'NVMDataRetrieval'">
               <div v-if="Object.keys(selectedRetrievalData).length !== 0">{{ selectedRetrievalData.details }}
-                <el-progress :percentage=parseInt(selectedRetrievalData.processPercent)></el-progress></div>
+                <el-progress v-if="['INPROGRESS', 'COMPLETE'].includes(selectedRetrievalData.status)"
+                             :percentage=parseInt(selectedRetrievalData.processPercent)></el-progress></div>
               <div v-else
                    class="content-alert"> No Alive Data </div>
             </div>
             <div class="custom-content"
-                 v-else> {{ selectedResetData.details }} <div v-if="Object.keys(selectedResetData).length !== 0">
-                {{ selectedResetData.details }} <el-progress
+                 v-else>
+              <div v-if="Object.keys(selectedResetData).length !== 0"> {{ selectedResetData.details }} <el-progress
+                             v-if="['INPROGRESS', 'COMPLETE'].includes(selectedResetData.status)"
                              :percentage=parseInt(selectedResetData.processPercent)></el-progress></div>
               <div v-else
                    class="content-alert"> No Alive Data </div>

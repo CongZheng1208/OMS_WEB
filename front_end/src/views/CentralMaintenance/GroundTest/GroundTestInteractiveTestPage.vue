@@ -40,6 +40,8 @@
               <div class="custom-content">
                 <div v-if="screenArray.length == 0"
                      class="content-alert"> No Alive Data </div>
+                <div v-else-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'"
+                     class="content-alert"> No Alive Interactive Test </div>
                 <div v-else
                      class="content-item"> {{ currentScreem }} </div>
               </div>
@@ -52,8 +54,8 @@
                  style="margin-top: 4vh"> Interactive Option </div>
             <div v-if="screenArray.length == 0"
                  class="content-alert"> No Alive Data </div>
-            <div v-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'"
-                 class="content-alert"> No Alive Data1 </div>
+            <div v-else-if="$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == '0'"
+                 class="content-alert"> No Alive Interactive Test </div>
             <div v-else
                  class="radio"
                  v-for="option in currentOptions"
@@ -64,7 +66,7 @@
                        type="radio"
                        :value="option.ResponseId"
                        v-model="selectedOption" />
-                <label>{{ option.ResponseText }}</label>
+                <label class="form-check-label">{{ option.ResponseText }}</label>
               </div>
             </div>
           </div>
@@ -85,7 +87,7 @@
   </div>
 </template>
 <script>
-import { customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
+import { customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
 import Clock from '@/components/Clock'
 import qs from 'qs'
 
@@ -129,7 +131,7 @@ export default {
           OrderType: "CONTINUE",
 
           currentPage: "InteractiveTest",
-          InitiatedTest_Index: this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index,
+          InitiatedTest_Index: [this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index],
           MemberSystemID: "",
 
           currentScreenId: this.currentStepId,
@@ -173,7 +175,7 @@ export default {
 
 
         return;
-      } else if (count >= 5) {
+      } else if (count >= 10) {
         // 如果时间超过5秒，也停止刷新并退出
         loading.close();
         this.$message({ message: 'Exceeded maximum refresh time', type: 'warning' });

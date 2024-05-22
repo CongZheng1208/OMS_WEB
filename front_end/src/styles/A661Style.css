@@ -8,6 +8,7 @@
   left: 0;
   right: 0;
   background-color: rgb(45, 45, 45);
+
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24,7 +25,7 @@
 
 .el-menu-item-active {
   background-image: linear-gradient(#363636, rgb(97, 97, 97));
-  box-shadow: 5px 5px 30px 0px #17bef1;
+  box-shadow: 2px 2px 10px 0px #17bef1;
   border: none;
 }
 
@@ -71,14 +72,16 @@
   border-right: none;
   border-top: none;
 
-  font-weight: bold;
+  box-shadow: 0px 0px 10px 0px #17bef1;
+
+  /* font-weight: bold; */
   font-size: 16px;
 }
 
 .el-header-title {
   font-weight: bold;
   font-size: 18px;
-  text-shadow: 2px 2px 2px #000;
+  /* text-shadow: 2px 2px 2px #000; */
   margin-top: 1vh;
 }
 
@@ -94,12 +97,12 @@
 
 .el-header-dot {
   display: inline-block;
-  width: 0.7vh;
+  /* width: 0.7vh;
   height: 0.7vh;
   margin-right: 1vh;
   background-color: rgb(255, 255, 255);
   border-radius: 50%;
-  align-self: center;
+  align-self: center; */
 }
 
 .el-select .el-input__inner {
@@ -201,13 +204,8 @@
 }
 
 .el-table__body tr.current-row > td {
-  background-color: #2b2b2be7 !important;
+  background-color: #383838e7 !important;
 }
-
-/* .test-table .el-table__body tr:not(.current-row) > td {
-  background-color:  #3b3b3c !important;
-  color: #908f8f;
-} */
 
 .el-table__body tr.disable-row > td {
   background-color: #3b3b3c !important;
@@ -233,16 +231,19 @@
 }
 
 .table-outer-button {
-  width: 20vh;
-  height: 5.5vh;
+  /* width: 4vh;
+  height: 4vh;
+  margin: 2vh; */
 
-  color: white;
   font-size: 16px;
   font-weight: bold;
 
-  padding: 1vh;
+  margin-right: 2vh;
 
-  border-radius: 3px;
+  color: white;
+
+  /*
+  border-radius: 3px; */
   border: 1px solid rgb(111, 111, 111);
 
   box-shadow: 10px 10px 10px 0px rgba(42, 42, 42, 0.5);
@@ -252,11 +253,19 @@
 }
 
 .table-outer-button:hover {
-  box-shadow: 5px 5px 20px 0px #17bef1;
+  box-shadow: 2px 2px 10px 0px #17bef1;
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
   color: #ffffff;
+}
+
+.table-outer-button:active {
+  box-shadow: 2px 2px 10px 0px #17bef1;
+  border: 1px solid rgb(111, 111, 111);
+
+  background-color: rgb(88, 88, 88);
+  color: #17bef1;
 }
 
 .table-outer-note {
@@ -300,7 +309,7 @@
 }
 
 .total-container {
-  height: 60vh;
+  height: 62vh;
 }
 
 .sub-container {
@@ -373,16 +382,15 @@
   padding-top: 10vh; /* 确保内容不被表头部分遮挡 */
   padding: 1vh; /* 为内容区域添加内边距 */
   text-align: left; /* 文字左对齐 */
-  margin-top: 2vh;
-  margin-left: 2vh;
-  margin-right: 2vh;
+  margin-top: 4vh;
+  margin-left: 4vh;
+  margin-right: 4vh;
 }
 
 .content-item {
   margin-top: 1vh;
   margin-left: 1vh;
   text-align: left; /* 文字左对齐 */
-  margin-bottom: 2vh; /* 为每个列表项添加下外边距 */
 }
 
 .custom-subtitle {
@@ -514,7 +522,7 @@
   width: 100%;
   z-index: 100;
   background-color: rgb(46, 45, 45);
-  box-shadow: 0px 0px 30px 0px #17bef1;
+  box-shadow: 0px 0px 10px 0px #17bef1;
 }
 
 .footer-btn {
@@ -537,7 +545,7 @@
 }
 
 .footer-btn:hover {
-  box-shadow: 5px 5px 20px 0px #17bef1;
+  box-shadow: 2px 2px 10px 0px #17bef1;
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);
@@ -545,7 +553,7 @@
 }
 
 .footer-btn:active {
-  box-shadow: 5px 5px 20px 0px #17bef1;
+  box-shadow: 2px 2px 10px 0px #17bef1;
   border: 1px solid rgb(111, 111, 111);
 
   background-color: rgb(88, 88, 88);

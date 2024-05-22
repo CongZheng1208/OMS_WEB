@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-header style="height: 12vh;">
-      <el-row style="width: 100%;">
+    <el-header style="height: 14vh;">
+      <el-row style="width: 100%; margin-top: 1vh;">
         <el-col :span="7">
           <div class="el-header-subcontainer">
             <span class="el-header-dot"></span> ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
@@ -34,7 +34,8 @@
             {{ new Date($store.state.groundTestList.currentGroundTest.StartTime).toLocaleString() }}
           </div>
           <div class="el-header-subcontainer">
-            <span class="el-header-dot"></span> End Time: {{ }}
+            <span class="el-header-dot"></span> End Time:
+            {{ new Date($store.state.groundTestList.currentGroundTest.EndTime).toLocaleString() }}
           </div>
         </el-col>
         <el-col :span="3">
@@ -48,7 +49,7 @@
           <div class="custom-card"
                shadow="hover"
                style="height: 60vh"
-               v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '2'"
+               v-if="isSuccess"
                v-loading="loading"
                element-loading-text="Data Loading..."
                element-loading-spinner="el-icon-loading"
@@ -63,7 +64,7 @@
           <div class="custom-card"
                shadow="hover"
                style="height: 60vh"
-               v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '7'"
+               v-if="isError"
                v-loading="loading"
                element-loading-text="Data Loading..."
                element-loading-spinner="el-icon-loading"
@@ -80,7 +81,7 @@
           <div class="custom-card"
                shadow="hover"
                style="height: 60vh"
-               v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '6'"
+               v-if="isInhibit"
                v-loading="loading"
                element-loading-text="Data Loading..."
                element-loading-spinner="el-icon-loading"
@@ -88,64 +89,55 @@
             <div class="custom-header">TEST INHIBIT CONDITIONS</div>
             <div class="custom-content">
               <el-row style="width: 100%;">
-                <div v-if="$store.state.groundTestList.currentGroundTest.InhibitConditions.length === 1 && $store.state.groundTestList.currentGroundTest.InhibitConditions[0] === ''"
+                <div v-if="$store.state.groundTestList.currentGroundTest.InhibitConditions_Trigger_Index === ''"
                      class="content-alert"> No Alive Data </div>
                 <div v-else
-                     v-for="inhibitCondition in $store.state.groundTestList.currentGroundTest.InhibitConditions"
-                     :key="inhibitCondition.id"
                      class="content-item">
-                  <li>{{ inhibitCondition }}</li>
+                  <li>{{ $store.state.groundTestList.currentGroundTest.InhibitConditions_Trigger_Index }}</li>
                 </div>
               </el-row>
             </div>
           </div>
-          <div shadow="hover"
-               style="height: 65vh"
-               v-if="$store.state.groundTestList.currentGroundTest.InitiatedTest_Status == '5'"
+          <div class="custom-card"
+               shadow="hover"
+               style="height: 60vh"
+               v-if="isFault"
                v-loading="loading"
                element-loading-text="Data Loading..."
                element-loading-spinner="el-icon-loading"
                element-loading-background="rgba(0, 0, 0, 0.5)">
-            <el-table highlight-current-row
-                      height="65vh"
-                      style=" background-color: rgb(46, 45, 45)"
-                      :sort-method="customSortMethodForProgressColumn"
-                      :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                      :empty-text="'No Data Display'"
-                      v-loading="loading"
-                      element-loading-text="Data Loading..."
-                      element-loading-spinner="el-icon-loading"
-                      element-loading-background="rgba(0, 0, 0, 0.5)">
-              <el-table-column :width="null"
-                               :min-width="5"></el-table-column>
-              <el-table-column prop="ATA"
-                               label="ATA"
-                               sortable
-                               :width="null"
-                               :min-width="50"></el-table-column>
-              <el-table-column prop="Fault Name"
-                               label="Fault Name"
-                               sortable
-                               :width="null"
-                               :min-width="150"></el-table-column>
-              <el-table-column prop="Fault Status"
-                               label="Fault Status"
-                               sortable
-                               :width="null"
-                               :min-width="120"></el-table-column>
-              <el-table-column prop="Failure Name"
-                               label="Failure Name"
-                               sortable
-                               :width="null"
-                               :min-width="150"></el-table-column>
-              <el-table-column prop="Failure Status"
-                               label="Failure Status"
-                               sortable
-                               :width="null"
-                               :min-width="120"></el-table-column>
-              <el-table-column :width="null"
-                               :min-width="5"></el-table-column>
-            </el-table>
+            <div class="custom-header">FAULT DETAILS</div>
+            <div class="custom-content">
+              <el-row style="width: 100%;">
+                <div v-if="$store.state.groundTestList.currentGroundTest.FailingFault_Trigger_Index === ''"
+                     class="content-alert"> No Alive Data </div>
+                <div v-else
+                     class="content-item">
+                  <li>{{ $store.state.groundTestList.currentGroundTest.FailingFault_Trigger_Index }}</li>
+                </div>
+              </el-row>
+            </div>
+            <!-- <el-table
+            highlight-current-row
+            height="65vh"
+            style=" background-color: rgb(46, 45, 45)"
+
+            :sort-method="customSortMethodForProgressColumn"
+            :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
+            :empty-text="'No Data Display'"
+            v-loading="loading"
+            element-loading-text="Data Loading..."
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.5)"
+          >
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+            <el-table-column prop="ATA" label="ATA" sortable :width="null" :min-width="50"></el-table-column>
+            <el-table-column prop="Fault Name" label="Fault Name" sortable :width="null" :min-width="150"></el-table-column>
+            <el-table-column prop="Fault Status" label="Fault Status" sortable :width="null" :min-width="120"></el-table-column>
+            <el-table-column prop="Failure Name" label="Failure Name" sortable :width="null" :min-width="150"></el-table-column>
+            <el-table-column prop="Failure Status" label="Failure Status" sortable :width="null" :min-width="120"></el-table-column>
+            <el-table-column :width="null" :min-width="5"></el-table-column>
+          </el-table> -->
             <div class="table-inner-number"> Number of Fault: {{ }} </div>
           </div>
         </div>
@@ -164,7 +156,7 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn } from '@/utils/utils'
+import { printPage, customSortMethodForProgressColumn } from '@/utils/utils.js'
 import { testTypeEnum, testStatusEnum } from '@/globals/enums.js'
 
 import Clock from '@/components/Clock'
@@ -180,7 +172,7 @@ export default {
       selectedTestId: "",
       testDict: testTypeEnum,
       testStatusDict: testStatusEnum,
-      loading: true
+      loading: false
     }
   },
   components: {
@@ -201,10 +193,10 @@ export default {
     customSortMethodForProgressColumn
   },
   mounted() {
-    console.log("$store.state.groundTestList.currentGroundTest",this.$store.state.groundTestList.currentGroundTest)
-    setTimeout(() => {
-      this.loading = false;
-    }, 500);
+    console.log("$store.state.groundTestList.currentGroundTest", this.$store.state.groundTestList.currentGroundTest)
+    // setTimeout(() => {
+    //   this.loading = false;
+    // }, 100);
   }
 }
 

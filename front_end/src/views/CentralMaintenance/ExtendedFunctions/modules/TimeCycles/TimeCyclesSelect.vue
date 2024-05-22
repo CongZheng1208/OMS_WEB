@@ -35,7 +35,8 @@
                     :data="Equis"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'No Data Display'"
+                    :row-class-name="rowTestName">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="MemberSystemName"
@@ -48,7 +49,13 @@
           </el-table>
         </el-col>
       </el-row>
-      <div class="table-outer-number"> Total Number: {{ Equis.length }} </div>
+      <div class="table-outer-number">
+        <el-button circle
+                   slot="reference"
+                   class="table-outer-button"
+                   icon="el-icon-circle-plus-outline"
+                   @click="isMemberSystemIDAddedAllMsg = true"></el-button> Total Number: {{ Equis.length }}
+      </div>
       <el-dialog :visible.sync="isMemberSystemIDAddedMsg"
                  title="CONFIRM">
         <p>Are you sure you want to ADD the parameter "{{ selectedEqui.MemberSystemName }}"?</p>
@@ -56,6 +63,16 @@
               class="dialog-footer">
           <el-button type="primary"
                      @click="confirmAdd">Confirm</el-button>
+          <el-button @click="cancelAdd">Cancel</el-button>
+        </span>
+      </el-dialog>
+      <el-dialog :visible.sync="isMemberSystemIDAddedAllMsg"
+                 title="CONFIRM">
+        <p>Are you sure you want to ADD ALL of "{{ Equis.map(item => item.MemberSystemName).join(', ') }}"?</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="confirmAddAll">Confirm</el-button>
           <el-button @click="cancelAdd">Cancel</el-button>
         </span>
       </el-dialog>
@@ -74,9 +91,9 @@
     </el-footer>
   </div>
 </template>
-<script lang="ts">
+<script>
 import qs from 'qs'
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
 import { getATAandEqui } from '@/services/centralMaintenance/extendedFunctions/index.js';
 
 export default {
@@ -86,6 +103,7 @@ export default {
       ATAs: [],
       Equis: [],
       isMemberSystemIDAddedMsg: false,
+      isMemberSystemIDAddedAllMsg: false,
       selectedEqui: {},
       selectedMemberSystemIds: []
 
@@ -127,6 +145,14 @@ export default {
       this.selectedEqui = row
     },
 
+    /**
+     * 本函数用于确定某行是否可被选中样式
+     * @param {*} row table选中行信息
+     */
+    rowTestName({ row }) {
+      return this.selectedMemberSystemIds.includes(row.memberSystemId) ? 'current-row ' : '';
+    },
+
     confirmAdd() {
       if (this.selectedMemberSystemIds.includes(this.selectedEqui.memberSystemId)) {
         this.$message('This equipment has been selected');
@@ -138,9 +164,32 @@ export default {
           this.selectedMemberSystemIds.push(this.selectedEqui.memberSystemId);
           this.$message({ message: 'Successfully selected', type: 'success' });
         }
+      } else {
+        this.$message('This equipment is currently unsupportable');
       }
       this.isMemberSystemIDAddedMsg = false
       // console.log( this.selectedMemberSystemIds)
+    },
+
+
+    confirmAddAll() {
+
+      this.Equis.forEach((equipment) => {
+        if (this.selectedMemberSystemIds.includes(equipment.memberSystemId)) {
+          this.$message('This equipment has been selected');
+        } else if (equipment.support == "1") {
+          if (equipment.avail !== "0") {
+            this.$message('This equipment is currently unavailable');
+          } else {
+            this.selectedMemberSystemIds.push(equipment.memberSystemId);
+            this.$message({ message: 'Successfully selected', type: 'success' });
+          }
+        } else {
+          this.$message('This equipment is currently unsupportable');
+        }
+      });
+
+      this.isMemberSystemIDAddedAllMsg = false
     },
 
     cancelAdd() {
@@ -148,6 +197,7 @@ export default {
         message: 'Already canceled'
       });
       this.isMemberSystemIDAddedMsg = false
+      this.isMemberSystemIDAddedAllMsg = false
     },
 
     sendOrder() {
@@ -157,6 +207,10 @@ export default {
         selectedEquipmentID: this.selectedMemberSystemIds
       });
       this.handleTestOrder(tmp)
+      this.selectedMemberSystemIds = []
+
+      this.$router.push({ name: "TimeCycles" });
+
     },
 
     printPage,

@@ -1,23 +1,10 @@
 <?php
-
-    // include 'connect.php';
-
-    // // 从POST请求中获取消息
-    // $message = json_encode($_POST);
-
-    // // 发送消息到目标服务器
-    // socket_write($socket, $message, strlen($message));
-
-    // // 关闭连接
-    // socket_close($socket);
-
     $message = json_encode($_POST);
     // 创建TCP Socket
     $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
     // 设定要连接的目标服务器和端口
-    // $target_address = '192.168.1.149';
-    $target_address = '192.168.0.10';
+    $target_address = '192.168.1.10';
     $target_port = 5001;
 
     // 连接到目标服务器

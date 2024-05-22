@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <Menus :menus="menus"/>
+    <Menus :menus="menus" />
     <router-view />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import Menus from '@/components/Menus/index.vue'
 export default {
   name: "ConditionMonitoring",
-  components: {Menus},
+  components: { Menus },
   data() {
     return {
       menus: [
@@ -26,14 +26,11 @@ export default {
         {
           name: "Event Monitoring",
           isActive: false,
-          routeName: "EventMonitoring",
+          routeName: "EventDisplay",
         },
       ],
     };
   }
 };
 </script>
-
-<style scoped>
-</style>
-
+<style scoped></style>

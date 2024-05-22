@@ -3,7 +3,7 @@
     <el-header style="height: 12vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
-          <div class="el-header-subcontainer"> Pre-Conditions of Selected Tests </div>
+          <div class="el-header-title"> Pre-Conditions of Selected Tests </div>
         </el-col>
         <el-col :span="3">
           <Clock />
@@ -24,9 +24,7 @@
                      class="content-alert"> No Alive Data </div>
                 <div v-for="precondition in item.Preconditions"
                      :key="precondition"
-                     class="content-item">
-                  <li>{{ precondition }}</li>
-                </div>
+                     class="content-item"> {{ precondition }} </div>
               </el-col>
               <el-col :span="4">
                 <button class="footer-btn"
@@ -52,7 +50,7 @@
   </div>
 </template>
 <script>
-import { printPage, handleTestOrder } from '@/utils/utils'
+import { printPage, handleTestOrder } from '@/utils/utils.js'
 import Clock from '@/components/Clock'
 import qs from 'qs'
 
@@ -88,10 +86,10 @@ export default {
           InitiatedTest_Index: initiatedTestIDs,
           MemberSystemID: "",
 
-            currentScreenId: "",
-            selectedOption: "",
-          });
-          this.handleTestOrder(tmp)
+          currentScreenId: "",
+          selectedOption: "",
+        });
+        this.handleTestOrder(tmp)
 
         this.$router.push({ name: "TestList" });
       }
@@ -104,24 +102,24 @@ export default {
       this.selectedTests.splice(index, 1);
     },
 
-      /**
-       * 本函数用于跳转页面
-       */
-      goSelectTestPage() {
-        clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
-        this.$router.push({ name: "SelectTestNew" });
-      },
-      printPage,
-      handleTestOrder,
+    /**
+     * 本函数用于跳转页面
+     */
+    goSelectTestPage() {
+      clearInterval(this.$store.state.groundTestList.currentGroundTestTimer)
+      this.$router.push({ name: "SelectTestNew" });
     },
-    mounted() {
-      this.selectedTests =  this.$route.params.selectedTests
-      this.selectedTests.forEach(test => {
-        if (test.Preconditions && test.Preconditions.includes(';')) {
-          test.Preconditions = test.Preconditions.split(';').map(item => item.trim());
-          test.Preconditions = test.Preconditions.filter(item => item !== '');
-        }
-      });
+    printPage,
+    handleTestOrder,
+  },
+  mounted() {
+    this.selectedTests = this.$route.params.selectedTests
+    this.selectedTests.forEach(test => {
+      if (test.Preconditions && test.Preconditions.includes(';')) {
+        test.Preconditions = test.Preconditions.split(';').map(item => item.trim());
+        test.Preconditions = test.Preconditions.filter(item => item !== '');
+      }
+    });
 
     setTimeout(() => {
       this.loading = false;

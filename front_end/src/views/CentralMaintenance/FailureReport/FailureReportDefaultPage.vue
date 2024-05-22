@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-[rgb(45, 45, 45)]">
+  <div style="background-color: rgb(45, 45, 45);">
     <el-header style=" height: 13vh;">
       <el-row style="width: 100%;">
         <el-col :span="3">
-          <div>Select Option:</div>
+          <div class="el-header-title">Select Option:</div>
         </el-col>
         <el-col :span="4">
           <div>
@@ -12,14 +12,14 @@
               <input name="failure-rep-radio"
                      type="radio"
                      :checked="displaySelected == 'legFDEsSelected'" />
-              <label>Post Flight Report</label>
+              <label class="form-check-label">Post Flight Report</label>
             </div>
             <div class="radio"
                  @click="changeRadio('existingFDEsSelected'); $store.state.failureList.selectedFailureId = -1">
               <input name="failure-rep-radio"
                      type="radio"
                      :checked="displaySelected == 'existingFDEsSelected'" />
-              <label>Existing FDEs</label>
+              <label class="form-check-label">Existing FDEs</label>
             </div>
           </div>
         </el-col>
@@ -30,14 +30,14 @@
               <input name="failure-rep-radio"
                      type="radio"
                      :checked="displaySelected == 'existingFailureSelected'" />
-              <label>Existing Failures</label>
+              <label class="form-check-label">Existing Failures</label>
             </div>
             <div class="radio"
                  @click="changeRadio('failuresHistorySelected'); $store.state.failureList.selectedFailureId = -1">
               <input name="failure-rep-radio"
                      type="radio"
                      :checked="displaySelected == 'failuresHistorySelected'" />
-              <label>Failures History</label>
+              <label class="form-check-label">Failures History</label>
             </div>
           </div>
         </el-col>
@@ -56,12 +56,14 @@
       <el-dialog title="ERROR MESSAGE"
                  :visible.sync="isParameterSelected"
                  width="30%">
-        <p>Please select a failure item!</p>
-        <span slot="footer"
-              class="dialog-footer">
-          <el-button type="primary"
-                     @click="isParameterSelected = false">OK</el-button>
-        </span>
+
+          <p style="color:black">Please select a failure item!</p>
+          <span slot="footer"
+                class="dialog-footer">
+            <el-button type="primary"
+                       @click="isParameterSelected = false">OK</el-button>
+          </span>
+
       </el-dialog>
       <el-dialog style="font-size: 15px; color: white;"
                  :visible.sync="isFlightLegsSelected"
@@ -74,11 +76,11 @@
               margin-bottom: 1vh;
             "
                     :header-cell-style="{
-                      background: 'rgb(52, 52, 52)',
-                      color: '#FFFFFF',
-                      font: '14px',
-                      'text-align': 'center',
-                    }"
+          background: 'rgb(52, 52, 52)',
+          color: '#FFFFFF',
+          font: '14px',
+          'text-align': 'center',
+        }"
                     :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'No Data Display'">
             <el-table-column :width="null"
@@ -128,14 +130,14 @@
     </el-footer>
   </div>
 </template>
-<script lang="ts">
-import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE.vue";
-import ExistingFde from "./FailureReportRadios/ExistingFDE.vue";
-import ExistingFailure from "./FailureReportRadios/ExistingFailure.vue";
-import FailureHistory from "./FailureReportRadios/FailureHistory.vue";
-import Clock from '@/components/Clock/index.vue'
+<script>
+import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE";
+import ExistingFde from "./FailureReportRadios/ExistingFde";
+import ExistingFailure from "./FailureReportRadios/ExistingFailure";
+import FailureHistory from "./FailureReportRadios/FailureHistory";
+import Clock from '@/components/Clock'
 
-import { printPage, changeRadio } from '@/utils/utils'
+import { printPage, changeRadio } from '@/utils/utils.js'
 
 export default {
   components: {

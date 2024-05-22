@@ -2,22 +2,26 @@
 //echo phpinfo();
 class ReturnJson
 {
-	public $equipmentId = 0;
-	public $ata = 0;
-	public $hours = "";
+	public $memberSystemId = "";
+	public $ATA = "";
+	public $MemberSystemName = "";
+	public $support = "";
 	public $status = "";
+	public $avail = "";
+	public $hours = "";
 	public $cycles = "";
-	public $isAvailable = 0;
+
 }
 
 // 在306的Centos系统里的mysql密码为123456
-$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+//$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+$con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
 
 if (!$con) {
 	die('Could not connect:' . mysqli_connect_error());
 }
 // 查表failure_log
-$query = "select * from time_cycles_status";
+$query = "select * from timeCycle";
 $result = mysqli_query($con, $query);
 $res = array();
 //查询结果的数量
@@ -26,12 +30,15 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$item = new ReturnJson();
 
-		$item->equipmentId = $row['equipmentId'];
-		$item->ata = $row['ata'];
-		$item->hours = $row['hours'];
+		$item->memberSystemId = $row['memberSystemId'];
+		$item->ATA = $row['ATA'];
+		$item->MemberSystemName = $row['MemberSystemName'];
+		$item->support = $row['support'];
 		$item->status = $row['status'];
+		$item->avail = $row['avail'];
+		$item->hours = $row['hours'];
 		$item->cycles = $row['cycles'];
-		$item->isAvailable = $row['isAvailable'];
+	
 		array_push($res, $item);
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 
-	$con = mysqli_connect("localhost", "root", "root", "OMHMS");
-	//$con = mysqli_connect("192.168.0.10", "root", "123456", "OMHMS");
+	//$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+	$con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
 
 
 	if (!$con) {
@@ -12,16 +12,15 @@
 	// 查询数据库中符合ID条件的数据
 	$query = "SELECT 
 	           InitiatedTest_Index,ATA,InitiatedTestName,
-			   InitiatedTest_Status,StartTime,MemberSystemName,TestDurationTime,TestType,
+			   InitiatedTest_Status,StartTime,EndTime,MemberSystemName,
+			   FlightLeg,
 
-			   InhibitConditions_RP_Index, InhibitCondition_Text,
-			   InterferingTests_Index, 
-			   FailingFault_Index, FailingFault_Trigger_Index,
-			   ScreenId, InteractiveScreenText, Screen_Trigger_Index, ResponseMessage,
+			   InhibitConditions_Trigger_Index,
+			   FailingFault_Trigger_Index,
+			   Screen_Trigger_Index
 			   Error_text
 
-
-			  FROM test_message 
+			  FROM test_log 
 			  WHERE InitiatedTest_Status != '9'";
 	
 	$result = mysqli_query($con, $query);
@@ -33,30 +32,58 @@
 
 		while($row = mysqli_fetch_assoc($result)){
 			$item = new stdClass();
+
 			$item->InitiatedTest_Index = $row['InitiatedTest_Index'];
 			$item->ATA = $row['ATA'];
 			$item->InitiatedTestName = $row['InitiatedTestName'];
 			$item->InitiatedTest_Status = $row['InitiatedTest_Status'];
 			$item->StartTime = $row['StartTime'];
+			$item->EndTime = $row['EndTime'];
 			$item->MemberSystemName = $row['MemberSystemName'];
-			$item->TestDurationTime = $row['TestDurationTime'];
-			$item->TestType = $row['TestType']; 
-
-
-			$item->InhibitConditions_RP_Index = $row['InhibitConditions_RP_Index'];
-			$item->InhibitCondition_Text = $row['InhibitCondition_Text'];
-			$item->InterferingTests_Index = $row['InterferingTests_Index'];
-
-			$item->FailingFault_Index = $row['FailingFault_Index'];
+			$item->FlightLeg = $row['FlightLeg'];
 			$item->FailingFault_Trigger_Index = $row['FailingFault_Trigger_Index'];
-			
-			$item->ScreenId = $row['ScreenId'];
-			$item->InteractiveScreenText = str_replace(array('–', '—', '•'), ' ', $row['InteractiveScreenText']); 
 			$item->Screen_Trigger_Index = $row['Screen_Trigger_Index'];
-			$item->ResponseMessage = @json_decode($row['ResponseMessage']);
-
 			$item->Error_text = $row['Error_text'];
+			$item->InhibitConditions_Trigger_Index = $row['InhibitConditions_Trigger_Index'];
 
+
+		
+
+			// 根据InitiatedTest_Index到test_message表中取得ScreenId和InteractiveScreenText字段
+			$testMessageQuery = "
+			 SELECT 
+			 TestDurationTime, TestType,
+			 ScreenId, InteractiveScreenText,
+			 ResponseMessage, InterferingTests_Index
+			 
+			 FROM test_message 
+			 WHERE InitiatedTest_Index = {$row['InitiatedTest_Index']}";
+			$testMessageResult = mysqli_query($con, $testMessageQuery);
+			
+			if (mysqli_num_rows($testMessageResult) > 0){
+				while($messageRow = mysqli_fetch_assoc($testMessageResult)){
+
+					$item->TestDurationTime = $messageRow['TestDurationTime'];
+					$item->TestType = $messageRow['TestType']; 
+					$item->ScreenId = $messageRow['ScreenId'];
+					$item->InteractiveScreenText = str_replace(array('–', '—', '•'), ' ', $messageRow['InteractiveScreenText']); 
+					$item->ResponseMessage = @json_decode($messageRow['ResponseMessage']);
+					$item->InterferingTests_Index = $messageRow['InterferingTests_Index'];
+		
+		
+					// $item->InhibitConditions_RP_Index = $row['InhibitConditions_RP_Index'];
+					// $item->InhibitCondition_Text = $row['InhibitCondition_Text'];
+					// $item->FailingFault_Index = $row['FailingFault_Index'];
+				}
+			} else {
+				// 如果没找到对应的test_message记录，可以设置默认值或者留空
+				$item->TestDurationTime = "";
+				$item->TestType = "";
+				$item->ScreenId = "";
+				$item->InteractiveScreenText = "";
+				$item->ResponseMessage = "";
+				$item->InterferingTests_Index = "";
+			}
 
 			array_push($res, json_decode(json_encode($item)));
 		}

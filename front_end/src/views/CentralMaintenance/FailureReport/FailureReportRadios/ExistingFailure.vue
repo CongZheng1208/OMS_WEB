@@ -62,11 +62,11 @@
       <el-table-column :width="null"
                        :min-width="5"></el-table-column>
     </el-table>
-    <div class="table-outer-number"> Number of Failures: {{ existingFailureArray.length }} </div>
+    <div class="table-outer-number">Number of Failures: {{ existingFailureArray.length }}</div>
   </el-row>
 </template>
 <script>
-import { customSortMethodForProgressColumn } from '@/utils/utils'
+import { customSortMethodForProgressColumn } from '@/utils/utils.js'
 import { flightPhaseEnum, failureStateEnum } from '@/globals/enums.js'
 export default {
   components: {},

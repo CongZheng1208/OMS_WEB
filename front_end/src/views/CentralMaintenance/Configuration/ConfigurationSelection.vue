@@ -13,13 +13,14 @@
           <el-table highlight-current-row
                     height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
-                    :data="dataForRetrieval"
+                    @row-click="handleATARowClick"
+                    :data="ATAs"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                     :empty-text="'No Data Display'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
-            <el-table-column prop="ata"
+            <el-table-column prop="ataNumber"
                              label="ATA"
                              sortable
                              :width="null"
@@ -28,7 +29,8 @@
                              label="System Name"
                              sortable
                              :width="null"
-                             :min-width="35"></el-table-column>
+                             :min-width="35"
+                             :formatter="formatATAName"></el-table-column>
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
@@ -37,7 +39,8 @@
           <el-table highlight-current-row
                     height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
-                    :data="dataForReset"
+                    :data="Equis"
+                    @row-click="handleEquipmentRowClick"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                     :empty-text="'No Data Display'">
@@ -53,6 +56,16 @@
           </el-table>
         </el-col>
       </el-row>
+      <el-dialog title="ERROR MESSAGE"
+                 :visible.sync="isEquiSelected"
+                 width="30%">
+        <p style="color:black">Please select a configuration item!</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isEquiSelected = false">OK</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -67,47 +80,71 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
+import { getATAandEqui } from '@/services/centralMaintenance/configuration/index.js';
+import { ataNameEnum } from '@/globals/enums.js'
 
 export default {
   name: "ConfigurationDisplay",
   data() {
     return {
+      ATAs: [],
+      Equis: [],
+      selectedEqui: {},
+      isEquiSelected: false
 
-
-
-      dataForRetrieval: [
-        { "id": "6", "ata": "27", "equipmentName": "HF_FCM_2", "startTime": "2023-07-11 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-        { "id": "7", "ata": "27", "equipmentName": "HLRM B on IMC", "startTime": "2023-07-13 10:17:29", "status": "In Progress", "elapsedTime": "00:05:51", "processPercent": "87" },
-        { "id": "8", "ata": "38", "equipmentName": "WWS", "startTime": "2023-07-15 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-        { "id": "9", "ata": "42", "equipmentName": "GPM L1", "startTime": "2023-07-09 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-        { "id": "10", "ata": "42", "equipmentName": "GPM R1", "startTime": "2023-04-20 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-        { "id": "11", "ata": "47", "equipmentName": "FTIS LRM on IMC", "startTime": "2023-05-13 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      ],
-      dataForReset: [{ "id": "1", "ata": "29", "equipmentName": "HLRM A on IMC", "startTime": "2023-07-10 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      { "id": "2", "ata": "29", "equipmentName": "HLRM B on IMC", "startTime": "2023-07-10 10:17:29", "status": "In Progress", "elapsedTime": "00:05:51", "processPercent": "87" },
-      { "id": "3", "ata": "31", "equipmentName": "HF_FWDEAFR", "startTime": "2023-07-10 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-      { "id": "4", "ata": "27", "equipmentName": "HF_FSECU_1", "startTime": "2023-07-10 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-      { "id": "5", "ata": "27", "equipmentName": "HF-FCM-1", "startTime": "2023-07-10 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-      { "id": "6", "ata": "27", "equipmentName": "HF_FCM_2", "startTime": "2023-07-11 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      { "id": "7", "ata": "27", "equipmentName": "HLRM B on IMC", "startTime": "2023-07-13 10:17:29", "status": "In Progress", "elapsedTime": "00:05:51", "processPercent": "87" },
-      { "id": "8", "ata": "38", "equipmentName": "WWS", "startTime": "2023-07-15 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-      { "id": "9", "ata": "42", "equipmentName": "GPM L1", "startTime": "2023-07-09 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-      { "id": "10", "ata": "42", "equipmentName": "GPM R1", "startTime": "2023-04-20 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-      { "id": "11", "ata": "47", "equipmentName": "FTIS LRM on IMC", "startTime": "2023-05-13 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      { "id": "12", "ata": "38", "equipmentName": "WWS", "startTime": "2023-07-15 09:55:11", "status": "Error", "elapsedTime": "00:03:25", "processPercent": null },
-      { "id": "13", "ata": "42", "equipmentName": "GPM L1", "startTime": "2023-07-09 09:52:06", "status": "Completed", "elapsedTime": "00:06:12", "processPercent": null },
-      { "id": "14", "ata": "42", "equipmentName": "GPM R1", "startTime": "2023-04-20 09:43:10", "status": "Completed", "elapsedTime": "00:03:07", "processPercent": null },
-      { "id": "15", "ata": "47", "equipmentName": "FTIS LRM on IMC", "startTime": "2023-05-13 10:25:33", "status": "Queued", "elapsedTime": null, "processPercent": null },
-      ],
     };
+  },
+  created() {
+    getATAandEqui().then(response => {
+      this.ataEquiData = response
+      Object.keys(response).forEach(key => {
+        this.ATAs.push({
+          ataNumber: key,
+          systemName: "to be done",
+        });
+      });
+    });
   },
   methods: {
     /**
      * 本函数用于跳转页面
      */
     goDisplayPage() {
-      this.$router.push({ name: "ConfigurationDisplay" });
+      //判断是否选择表格某一行数据，若否则提示选择，若是则跳转至SelectFailuresDetails页面
+      if (Object.keys(this.selectedEqui).length === 0) {
+        this.isEquiSelected = true
+      } else {
+        this.$router.push({ name: "ConfigurationDisplay", params: { selectedEqui: this.selectedEqui } });
+      }
+    },
+
+
+    /**
+     * 本函数用于选中某个ATA
+     * @param {Object} row
+     */
+    handleATARowClick(row) {
+      this.Equis = this.ataEquiData[row.ataNumber]
+    },
+
+    /**
+     * 本函数用于选中要进行的装备
+     * @param {Object} row
+     */
+    handleEquipmentRowClick(row) {
+      this.selectedEqui = row
+    },
+
+
+
+    /**
+     * 本函数用于
+     * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
+     * @param {*} row table选中行信息
+     */
+    formatATAName(row) {
+      return ataNameEnum[row.ataNumber.substring(0, 2)];
     },
     printPage,
     handleTestOrder,

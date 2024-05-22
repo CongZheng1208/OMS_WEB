@@ -23,7 +23,8 @@
                   v-loading="loading"
                   element-loading-text="Data Loading..."
                   element-loading-spinner="el-icon-loading"
-                  element-loading-background="rgba(0, 0, 0, 0.5)">
+                  element-loading-background="rgba(0, 0, 0, 0.5)"
+                  :row-class-name="rowTestName">
           <el-table-column :width="null"
                            :min-width="5"></el-table-column>
           <el-table-column prop="ATA"
@@ -57,18 +58,17 @@
                            sortable
                            :width="null"
                            :min-width="80">
-            <!-- <template slot-scope="scope">
-              <el-progress
-                :percentage="scope.row.progress"
-                :color="getProgressColor(scope.row.progress)"
-                :format="percent => `${percent}%`"
-                :stroke-width=14
-                text-color = #ffffff
-                define-back-color = #505050
-                stroke-linecap=square
-              >
+            <template slot-scope="scope">
+              <el-progress :percentage="scope.row.progress"
+                           :color="getProgressColor(scope.row.progress)"
+                           :format="percent => `${percent}%`"
+                           :stroke-width=14
+                           text-color=#ffffff
+                           define-back-color=#505050
+                           stroke-linecap=square>
               </el-progress>
-            </template> --> </el-table-column>
+            </template>
+          </el-table-column>
           <el-table-column :width="null"
                            :min-width="5"></el-table-column>
         </el-table>
@@ -81,12 +81,16 @@
                 @click="printPage">PRINT</button>
       </div>
       <div>
-        <!-- <button class="footer-btn" @click="goViewDetailPage" :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAILS</button> -->
-        <!-- <button class="footer-btn" @click="goInteractiveTextPage"      :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button> -->
         <button class="footer-btn"
+                @click="goViewDetailPage"
+                :disabled="!['2', '5', '6', '7'].includes(selectedRow.InitiatedTest_Status)">VIEW DETAILS</button>
+        <button class="footer-btn"
+                @click="goInteractiveTextPage"
+                :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button>
+        <!-- <button class="footer-btn"
                 @click="goViewDetailPage">VIEW DETAILS</button>
         <button class="footer-btn"
-                @click="goInteractiveTextPage">RESPOND</button>
+                @click="goInteractiveTextPage">RESPOND</button> -->
         <button class="footer-btn"
                 @click="goNewTestPage">NEW TEST</button>
         <button class="footer-btn"
@@ -101,8 +105,8 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
-import Clock from '@/components/Clock/index.vue'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
+import Clock from '@/components/Clock'
 import { testStatusEnum } from '@/globals/enums.js'
 import qs from 'qs'
 export default {
@@ -131,7 +135,7 @@ export default {
       this.selectedRow = row
       this.$store.state.groundTestList.currentGroundTestID = row.InitiatedTest_Index
 
-      console.log(this.$store.state.groundTestList.currentGroundTestID)
+      console.log("select test is:", row)
     },
 
     /**
@@ -140,18 +144,12 @@ export default {
      * @returns {number} 该进度值对应的颜色rgb值
      */
     getProgressColor(progress) {
-      return '#51cef1';
-      // if (progress < 20) {
-      //   return '#FF6666';
-      // } else if (progress >= 20 && progress < 40) {
-      //   return '#ffd700';
-      // } else if (progress >= 40 && progress < 80) {
-      //   return '#00ced1';
-      // } else if (progress >= 80 && progress < 100){
+      // if (progress < 100){
       //   return '#51cef1';
       // } else {
       //   return '#66CC99';
       // }
+      return '#51cef1';
     },
 
     /**
@@ -170,9 +168,16 @@ export default {
      * @param {*} row table选中行信息
      */
     formatTestStatus(row) {
-
       let tsIndex = row.InitiatedTest_Status;
       return testStatusEnum[tsIndex];
+    },
+
+    /**
+     * 本函数用于确定某行是否可被选中样式
+     * @param {*} row table选中行信息
+     */
+     rowTestName({ row }) {
+      return  this.selectedRow.InitiatedTest_Index  == row.InitiatedTest_Index && this.selectedRow.StartTime  == row.StartTime ? 'current-row' : '';
     },
 
     /**
@@ -244,30 +249,36 @@ export default {
      * 本函数用于更新测试的进度值
      */
     updateCurrentGroundTestLists() {
+      //console.log("local is")
+      //console.log(this.$store.state.groundTestList.currentActiveGroundTests)
 
-        this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.filter(item => parseInt(item.FlightLeg) == 0).map(test => {
-          if(test.InitiatedTest_Status == '2' || test.InitiatedTest_Status == '9'){
-            return {
-              ...test,
-              progress: parseFloat(100)
-            };
-          }else if(test.InitiatedTest_Status == '0' || test.InitiatedTest_Status == '5'|| test.InitiatedTest_Status == '7'|| test.InitiatedTest_Status == '6'){
-            return {
-              ...test,
-              progress: parseFloat(0)
-            };
-          }else{
-            const currentTime = new Date().getTime();
-            const startTime = new Date(test.StartTime).getTime();
-            return {
-              ...test,
-              progress: parseInt(Math.min((currentTime - startTime)/(600*test.TestDurationTime ), 99))
-            };
-          }
-        });
+      this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.filter(item => parseInt(item.FlightLeg) == 0).map(test => {
 
-        //console.log("this.currentGroundTestLists",this.currentGroundTestLists)
-      },
+
+        if (test.InitiatedTest_Status == "2" || test.InitiatedTest_Status == "9") {
+          return {
+            ...test,
+            progress: parseFloat(100)
+          };
+        } else if (test.InitiatedTest_Status == "0" || test.InitiatedTest_Status == "5" || test.InitiatedTest_Status == "7" || test.InitiatedTest_Status == "6") {
+          return {
+            ...test,
+            progress: parseFloat(0)
+          };
+        } else {
+
+          const currentTime = new Date().getTime();
+          const startTime = new Date(test.StartTime).getTime();
+
+          return {
+            ...test,
+            progress: parseInt(Math.min((currentTime - startTime) / (600 * test.TestDurationTime), 99))
+          };
+        }
+      });
+
+      //console.log("this.currentGroundTestLists", this.currentGroundTestLists)
+    },
 
     printPage,
     handleTestOrder,
@@ -277,7 +288,7 @@ export default {
 
     setTimeout(() => {
       this.loading = false;
-    }, 500);
+    }, 1000);
 
     this.$store.state.groundTestList.currentGroundTestID = ""
     this.$store.state.groundTestList.currentGroundTest = {}

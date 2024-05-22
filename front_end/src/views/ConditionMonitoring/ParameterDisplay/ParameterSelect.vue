@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background-color: rgb(45, 45, 45);">
     <el-header style="height: 16vh;">
       <el-row class="w-full">
         <el-col :span="2">
@@ -12,21 +12,21 @@
               <input name="param-display-radio1"
                      type="radio"
                      :checked="displaySelected == 'list'" />
-              <label>Parameter List Display</label>
+              <label class="form-check-label">Parameter List Display</label>
             </div>
             <div class="radio"
                  @click="changeRadio('graphic')">
               <input name="param-display-radio1"
                      type="radio"
                      :checked="displaySelected == 'graphic'" />
-              <label>Parameter Graphics Display</label>
+              <label class="form-check-label">Parameter Graphics Display</label>
             </div>
             <div class="radio"
                  @click="changeRadio('raw')">
               <input name="param-display-radio1"
                      type="radio"
                      :checked="displaySelected == 'raw'" />
-              <label>Raw Data Display</label>
+              <label class="form-check-label">Raw Data Display</label>
             </div>
           </el-col>
           <el-col :span="16"></el-col>

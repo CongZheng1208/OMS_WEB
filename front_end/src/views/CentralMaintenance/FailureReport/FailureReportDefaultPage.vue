@@ -74,11 +74,11 @@
               margin-bottom: 1vh;
             "
                     :header-cell-style="{
-          background: 'rgb(52, 52, 52)',
-          color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
-        }"
+                      background: 'rgb(52, 52, 52)',
+                      color: '#FFFFFF',
+                      font: '14px',
+                      'text-align': 'center',
+                    }"
                     :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
@@ -120,6 +120,7 @@
                 @click="printPage">PRINT</button>
       </div>
       <div>
+        <ToggleButton />
         <button class="footer-btn"
                 @click="isFlightLegsSelected = true">FLIGHT LEGS</button>
         <button class="footer-btn"
@@ -128,14 +129,14 @@
     </el-footer>
   </div>
 </template>
-<script>
+<script lang="ts">
 import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE.vue";
 import ExistingFde from "./FailureReportRadios/ExistingFDE.vue";
 import ExistingFailure from "./FailureReportRadios/ExistingFailure.vue";
 import FailureHistory from "./FailureReportRadios/FailureHistory.vue";
 import Clock from '@/components/Clock/index.vue'
-
-import { printPage, changeRadio } from '@/utils/utils.ts'
+import ToggleButton from './modals/the-toggle-button.vue'
+import { printPage, changeRadio } from '@/utils/utils'
 
 export default {
   components: {
@@ -143,8 +144,8 @@ export default {
     ExistingFde,
     ExistingFailure,
     FailureHistory,
-    Clock
-
+    Clock,
+    ToggleButton,
   },
   name: "FailureRep",
   data() {
@@ -160,7 +161,7 @@ export default {
      * 本函数用于Inbound Leg Failures单选按钮在All和Summary
      * @param {*} bool All选中：true;Summary选中：false
      */
-    switchAll(bool) {
+    switchAll(bool: boolean) {
       this.legFailureAll = bool;
       this.$store.state.failureList.selectedFailureId = -1;
     },

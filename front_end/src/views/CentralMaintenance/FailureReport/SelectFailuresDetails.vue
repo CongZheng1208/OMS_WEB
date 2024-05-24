@@ -24,11 +24,11 @@
           "
                     :data="selectedData"
                     :header-cell-style="{
-          background: '#404040',
-          color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
-        }"
+                      background: '#404040',
+                      color: '#FFFFFF',
+                      font: '14px',
+                      'text-align': 'center',
+                    }"
                     :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'No Data Display'">
             <el-table-column prop="fimcodeInfo"
@@ -126,12 +126,12 @@
               margin-bottom: 1vh;
             "
                     :header-cell-style="{
-          background: 'rgb(52, 52, 52)',
-          color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
-        }
-          "
+                      background: 'rgb(52, 52, 52)',
+                      color: '#FFFFFF',
+                      font: '14px',
+                      'text-align': 'center',
+                    }
+                      "
                     :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"

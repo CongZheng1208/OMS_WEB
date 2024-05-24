@@ -4,7 +4,7 @@
     <router-view />
   </div>
 </template>
-<script>
+<script lang="ts">
 import Menus from '@/components/Menus/index.vue'
 export default {
   name: "CentralMaintenance",

@@ -63,56 +63,6 @@
                      @click="isParameterSelected = false">OK</el-button>
         </span>
       </el-dialog>
-      <el-dialog style="font-size: 15px; color: white;"
-                 :visible.sync="isFlightLegsSelected"
-                 width="70%">
-        <el-row style=" margin-left: 15px; margin-right: 15px;">
-          <el-table style="
-              width: 100%;
-              background-color: rgb(52, 52, 52);
-              margin-top: 1vh;
-              margin-bottom: 1vh;
-            "
-                    :header-cell-style="{
-                      background: 'rgb(52, 52, 52)',
-                      color: '#FFFFFF',
-                      font: '14px',
-                      'text-align': 'center',
-                    }"
-                    :cell-style="{ 'text-align': 'center' }"
-                    :empty-text="'NO DATA DISPLAY'">
-            <el-table-column :width="null"
-                             :min-width="10"></el-table-column>
-            <el-table-column prop=""
-                             label="Flight Leg"
-                             :width="null"
-                             :min-width="30"></el-table-column>
-            <el-table-column prop=""
-                             label="Flight Number Leg"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Start Time"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Origin"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Destination"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column :width="null"
-                             :min-width="10"></el-table-column>
-          </el-table>
-        </el-row>
-        <span slot="footer"
-              class="dialog-footer">
-          <el-button type="primary"
-                     @click="isFlightLegsSelected = false">Back</el-button>
-        </span>
-      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -120,13 +70,19 @@
                 @click="printPage">PRINT</button>
       </div>
       <div>
-        <ToggleButton />
-        <button class="footer-btn"
-                @click="isFlightLegsSelected = true">FLIGHT LEGS</button>
+        <button slot="button"
+                class="footer-btn"
+                @click="isVisiable = true">FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="goSelectPage()">SELECT</button>
       </div>
     </el-footer>
+    <ToggleDialog @close="onClose"
+                  v-if="isVisiable">
+      <ToggleContent @close="onClose"
+                     @ok="isVisiable = false"
+                     slot="content" />
+    </ToggleDialog>
   </div>
 </template>
 <script lang="ts">
@@ -135,7 +91,8 @@ import ExistingFde from "./FailureReportRadios/ExistingFDE.vue";
 import ExistingFailure from "./FailureReportRadios/ExistingFailure.vue";
 import FailureHistory from "./FailureReportRadios/FailureHistory.vue";
 import Clock from '@/components/Clock/index.vue'
-import ToggleButton from './modals/the-toggle-button.vue'
+import ToggleDialog from './modals/toggle-dialog.vue'
+import ToggleContent from './modals/toggle-content.vue'
 import { printPage, changeRadio } from '@/utils/utils'
 
 export default {
@@ -145,18 +102,24 @@ export default {
     ExistingFailure,
     FailureHistory,
     Clock,
-    ToggleButton,
+    ToggleDialog,
+    ToggleContent
   },
   name: "FailureRep",
   data() {
     return {
+      isVisiable: false,
       legFailureAll: true,
       isParameterSelected: false,
-      isFlightLegsSelected: false,
       displaySelected: 'legFDEsSelected',
     };
   },
   methods: {
+    onClose() {
+      console.log('[ this.isVisiable ] >', this.isVisiable)
+      this.isVisiable = false
+    },
+
     /**
      * 本函数用于Inbound Leg Failures单选按钮在All和Summary
      * @param {*} bool All选中：true;Summary选中：false

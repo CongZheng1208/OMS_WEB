@@ -12,7 +12,8 @@
     </el-header>
     <el-main>
       <el-row :gutter="2">
-        <el-col :span="6">
+        <el-col :span="6"
+                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="71vh"
                     style=" background-color: rgb(46, 45, 45)"
@@ -38,7 +39,8 @@
                              :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6"
+                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="71vh"
                     @row-click="handleEquipmentRowClick"
@@ -65,7 +67,8 @@
                              :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12"
+                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     class="test-table"
                     height="71vh"

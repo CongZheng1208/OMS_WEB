@@ -39,7 +39,8 @@
     </el-header>
     <el-main>
       <el-row :gutter="2">
-        <el-row v-if="displaySelected == 'summary'">
+        <el-row v-if="displaySelected == 'summary'"
+                style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
@@ -67,7 +68,8 @@
           <div class="table-inner-number"> Total Number: {{ }} </div>
         </el-row>
         <el-row v-else>
-          <el-col :span="8">
+          <el-col :span="8"
+                  style="border:  0.5px solid rgb(111, 111, 111);">
             <el-table highlight-current-row
                       height="70vh"
                       style=" background-color: rgb(46, 45, 45)"
@@ -95,7 +97,8 @@
                                :min-width="5"></el-table-column>
             </el-table>
           </el-col>
-          <el-col :span="16">
+          <el-col :span="16"
+                  style="border:  0.5px solid rgb(111, 111, 111);">
             <el-table highlight-current-row
                       height="70vh"
                       style=" background-color: rgb(46, 45, 45)"

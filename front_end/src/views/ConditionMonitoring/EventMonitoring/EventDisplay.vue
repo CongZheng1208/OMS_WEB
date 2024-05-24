@@ -12,7 +12,7 @@
     </el-header>
     <el-main>
       <el-row :gutter="2">
-        <el-row>
+        <el-row style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="70vh"
                     style=" background-color: rgb(46, 45, 45)"

@@ -9,7 +9,8 @@
     </el-header>
     <el-main>
       <el-row :gutter="2">
-        <el-col :span="12">
+        <el-col :span="12"
+                style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
@@ -35,7 +36,8 @@
                              :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="12"
+                style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="70vh"
                     style=" background-color: rgb(46, 45, 45)"

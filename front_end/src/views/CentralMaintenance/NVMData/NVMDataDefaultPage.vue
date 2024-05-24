@@ -30,7 +30,8 @@
     </el-header>
     <el-main>
       <el-row :gutter="2">
-        <el-col :span="14">
+        <el-col :span="14"
+                style=" border:  0.5px solid rgb(111, 111, 111);">
           <div v-if="displaySelected == 'NVMDataRetrieval'">
             <el-table highlight-current-row
                       height="70vh"

@@ -11,7 +11,7 @@
       </el-row>
     </el-header>
     <el-main>
-      <el-row>
+      <el-row style=" border:  0.5px solid rgb(111, 111, 111);">
         <el-table highlight-current-row
                   height="71vh"
                   @row-click="handleRowClick"

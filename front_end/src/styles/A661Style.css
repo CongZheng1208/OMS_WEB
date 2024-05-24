@@ -171,10 +171,10 @@
   width: 100%;
   background-color: rgb(46, 45, 45);
 
-  border-top: none;
-  border-bottom: none;
+  /* border: 0.2px solid rgb(111, 111, 111); */
 
-  border: 1px solid rgb(111, 111, 111);
+  /* border-top: none;
+  border-bottom: none; */
 }
 
 .el-table td {
@@ -198,11 +198,6 @@
 .el-table__body tr.disable-row > td {
   background-color: #3b3b3c !important;
   color: #908f8f;
-}
-
-.el-table__expand-icon {
-  color: #fff;
-  font-size: 18px;
 }
 
 .transparent-table {
@@ -538,7 +533,7 @@
   z-index: 100;
 
   background-color: rgb(46, 45, 45);
-  box-shadow: 0px 0px 10px 0px #17bef1;
+  box-shadow: 0px -10px 10px -10px #17bef1;
 }
 
 .footer-btn {

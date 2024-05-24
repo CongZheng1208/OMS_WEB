@@ -1,24 +1,26 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header height="12vh">
+    <el-header height="9vh">
       <el-row style="width: 100%;">
         <el-col :span="3">
           <div class="el-header-title"> Select Option </div>
         </el-col>
         <el-col :span="18">
-          <div class="radio"
-               @click="changeRadio('NVMDataRetrieval'); selectedRetrievalData = []; selectedResetData = []">
-            <input type="radio"
-                   name="retrieval-radio"
-                   :checked="displaySelected == 'NVMDataRetrieval'" />
-            <span>RETRIEVAL</span>
-          </div>
-          <div class="radio"
-               @click="changeRadio('NVMDataReset'); selectedRetrievalData = []; selectedResetData = []">
-            <input type="radio"
-                   name="reset-radio"
-                   :checked="displaySelected == 'NVMDataReset'" />
-            <span>RESET</span>
+          <div class="el-header-radios">
+            <div class="radio"
+                 @click="changeRadio('NVMDataRetrieval'); selectedRetrievalData = []; selectedResetData = []">
+              <input type="radio"
+                     name="retrieval-radio"
+                     :checked="displaySelected == 'NVMDataRetrieval'" />
+              <span>Retrieval</span>
+            </div>
+            <div class="radio"
+                 @click="changeRadio('NVMDataReset'); selectedRetrievalData = []; selectedResetData = []">
+              <input type="radio"
+                     name="reset-radio"
+                     :checked="displaySelected == 'NVMDataReset'" />
+              <span>Reset</span>
+            </div>
           </div>
         </el-col>
         <el-col :span="3">
@@ -37,7 +39,7 @@
                       :data="dataForRetrieval"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                      :empty-text="'No Data Display'"
+                      :empty-text="'NO DATA DISPLAY'"
                       v-loading="loading"
                       element-loading-text="Data Loading..."
                       element-loading-spinner="el-icon-loading"
@@ -83,7 +85,7 @@
                       :data="dataForReset"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                      :empty-text="'No Data Display'"
+                      :empty-text="'NO DATA DISPLAY'"
                       :row-class-name="rowResetName">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
@@ -157,8 +159,8 @@
   </div>
 </template>
 <script>
-import Clock from '@/components/Clock'
-import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils.js'
+import Clock from '@/components/Clock/index.vue'
+import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils.ts'
 import { getRetrievalStatus, getResetStatus } from '../../../services/centralMaintenance/nvmData';
 
 

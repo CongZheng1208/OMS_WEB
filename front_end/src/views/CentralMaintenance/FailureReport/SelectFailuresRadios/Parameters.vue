@@ -1,57 +1,48 @@
 <template>
-  <div>
-    <el-row >
-      <div style="float: left; margin: 15px;  font-weight: bold;">
-        Count 1:  2024/04/21 14:01:43  Power On
-      </div>
-    </el-row>
-    <el-row >
-      <table class="transparent-table">
-        <thead>
-          <tr>
-            <th v-for="(value, key) in dataArray[0]" :key="key">{{ key }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in dataArray" :key="index">
-            <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <div style="height:45vh">
+    <el-row>
+      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/-- --:--:-- Power On </div>
     </el-row>
     <el-row>
-      <div
-        style="
-          float: left;
-          margin-left: 15px;
-          margin-top: 15px;
-          margin-bottom: 15px;
-        "
-      >
-        Parameter Recorded at the time of Occurency
+      <div v-if="dataArray.length === 0"
+           class="content-alert"> NO DATA AVAILABLE </div>
+      <div v-else>
+        <table class="transparent-table">
+          <thead>
+            <tr>
+              <th v-for="(value, key) in dataArray[0]"
+                  :key="key">{{ key }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in dataArray"
+                :key="index">
+              <td v-for="(value, key) in item"
+                  :key="key">{{ value }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </el-row>
+    <div class="table-outer-note"> Parameter Recorded at the time of Occurency </div>
   </div>
-
-
 </template>
-
 <script>
 export default {
   name: "Parameters",
   data() {
     return {
       selectedData: [],
-      parameterTable: [],
-      dataArray: [
+      dataArrayHeader: [
         { "Parameter": "", "Value": '', "Units": "" }
+      ],
+      dataArray: [
       ]
     };
   },
   methods: {
     /**
-     * 本函数用于mounted中，获取state中所选行的selectedFailureId数据，并生parameterTable
-     * 将原始数据转化为前端table所需要的array：parameterTable[]
+     * 本函数用于mounted中，获取state中所选行的selectedFailureId数据，并生dataArray
      */
     getParameterData() {
 
@@ -65,21 +56,13 @@ export default {
 
       this.selectedData.push(objSelectedData);
 
-      this.dataArray =  this.selectedData[0].rp
-
-
-      // //处理数据，生成parameterTable需要的数据
-      // for (let item of this.selectedData) {
-      //   for (let i = 0; i < item.rp_name.length; i++) {
-      //     let objParameter = {
-      //       rp_name: item.rp_name[i],
-      //       rp_value: item.rp_value[i],
-      //       rp_unit: item.rp_unit[i],
-      //     };
-      //     this.parameterTable.push(objParameter);
-      //   }
+      // if (this.selectedData.length == 0) {
+      //   this.dataArray = []
+      // } else {
+      //   this.dataArray = this.selectedData[0].rp
       // }
-      // console.log("parameterTable:", this.parameterTable);
+
+      this.dataArray = []
     },
   },
   mounted() {
@@ -95,6 +78,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
+<style scoped></style>

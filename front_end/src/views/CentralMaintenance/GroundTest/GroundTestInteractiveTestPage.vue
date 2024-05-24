@@ -1,33 +1,34 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading"
        style="background-color: rgb(45, 45, 45);">
-    <el-header style="height: 12vh;">
-      <el-row style="width: 100%;">
-        <el-col :span="8">
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot"></span> ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
-          </div>
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot"></span> Equipment Name:
-            {{ $store.state.groundTestList.currentGroundTest.MemberSystemName }}
-          </div>
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot"></span> Expected Duration(mins):
-            {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
-          </div>
-        </el-col>
-        <el-col :span="13">
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot"></span> Test Name:
-            {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
-          </div>
-          <div class="el-header-subcontainer">
-            <span class="el-header-dot"></span> Test Type: {{ $store.state.groundTestList.currentGroundTest.TestType }}
-          </div>
-        </el-col>
-        <el-col :span="3">
-          <Clock />
-        </el-col>
+    <el-header style="height: 8vh;"
+               <el-row
+               style="width: 100%;">
+      <el-col :span="8">
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot"></span> ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot"></span> Equipment Name:
+          {{ $store.state.groundTestList.currentGroundTest.MemberSystemName }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot"></span> Expected Duration(mins):
+          {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
+        </div>
+      </el-col>
+      <el-col :span="13">
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot"></span> Test Name:
+          {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
+        </div>
+        <div class="el-header-subcontainer">
+          <span class="el-header-dot"></span> Test Type: {{ $store.state.groundTestList.currentGroundTest.TestType }}
+        </div>
+      </el-col>
+      <el-col :span="3">
+        <Clock />
+      </el-col>
       </el-row>
     </el-header>
     <el-main style="padding:2vh">
@@ -87,8 +88,8 @@
   </div>
 </template>
 <script>
-import { customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
-import Clock from '@/components/Clock'
+import { customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
 
 import { testTypeEnum } from '@/globals/enums.js'

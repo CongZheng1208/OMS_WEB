@@ -1,19 +1,10 @@
 <template>
   <div>
-    <el-header style="
-        text-align: left;
-        font-weight: bold;
-        color: white;
-        text-shadow: 2px 2px 2px #000;
-        padding-top: 3vh;
-        padding-left: 4vh;
-        font-size: 16px;
-        height: 9vh;
-      ">
+    <el-header style=" height: 9vh; ">
       <el-row style="width: 100%;">
         <el-col :span="21">
           <el-row>
-            <div style="float: left">Failure Details:</div>
+            <div class="el-header-title">Failure Details:</div>
           </el-row>
         </el-col>
         <el-col :span="3">
@@ -21,61 +12,64 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main style="flex: 1; padding: 0; color: white">
-      <!-- 选中信息的table -->
-      <el-row>
-        <el-table highlight-current-row
-                  style="
+    <el-main style="flex: 1; padding: 0; color: white; height: 70vh;">
+      <div style="position: sticky; top: 0; z-index: 100">
+        <!-- 选中信息的table -->
+        <el-row>
+          <el-table highlight-current-row
+                    style="
             width: 100%;
             background-color: rgb(46, 45, 45);
             margin-bottom: 1%;
           "
-                  :data="selectedData"
-                  :header-cell-style="{
-                    background: '#404040',
-                    color: '#FFFFFF',
-                    font: '14px',
-                    'text-align': 'center',
-                  }"
-                  :cell-style="{ 'text-align': 'center' }"
-                  :empty-text="'No Data Display'">
-          <el-table-column prop="fimcodeInfo"
-                           label="FIM Code"
-                           :width="null"
-                           :min-width="30"></el-table-column>
-          <el-table-column prop="failureNameInfo"
-                           label="Failure Name"
-                           :width="null"
-                           :min-width="85"></el-table-column>
-          <el-table-column prop="equipment_name"
-                           label="Equipment Name"
-                           :width="null"
-                           :min-width="55"></el-table-column>
-          <el-table-column label="Count"
-                           :width="null"
-                           :min-width="35">{{ 1 }}</el-table-column>
-          <el-table-column prop="maintenceTime"
-                           label="Maintenance Time"
-                           :width="null"
-                           :min-width="55"></el-table-column>
-          <el-table-column prop="flightLeg"
-                           label="Flight Leg"
-                           :width="null"
-                           :min-width="35"></el-table-column>
-          <el-table-column :width="null"
-                           :min-width="5"></el-table-column>
-        </el-table>
-      </el-row>
-      <!-- 底部信息部分：-->
-      <el-row style="margin-bottom: 1vh">
-        <div style="float: left; margin-left: 15px"> Failure Message: {{ selectedData[0].failureMessage }} </div>
-      </el-row>
-      <el-row
-              style="margin-bottom: 1vh;  width: 100%; border: 1px solid rgb(111, 111, 111); border-left: none; border-right: none; border-top: none;">
-        <div style="float: left; margin-left: 15px; margin-bottom: 15px;"> Maintenance Text:
-          {{ selectedData[0].maintenceText }} </div>
-      </el-row>
-      <el-row>
+                    :data="selectedData"
+                    :header-cell-style="{
+          background: '#404040',
+          color: '#FFFFFF',
+          font: '14px',
+          'text-align': 'center',
+        }"
+                    :cell-style="{ 'text-align': 'center' }"
+                    :empty-text="'No Data Display'">
+            <el-table-column prop="fimcodeInfo"
+                             label="FIM Code"
+                             :width="null"
+                             :min-width="30"></el-table-column>
+            <el-table-column prop="failureNameInfo"
+                             label="Failure Name"
+                             :width="null"
+                             :min-width="85"></el-table-column>
+            <el-table-column prop="equipment_name"
+                             label="Equipment Name"
+                             :width="null"
+                             :min-width="55"></el-table-column>
+            <el-table-column label="Count"
+                             :width="null"
+                             :min-width="35">{{ 1 }}</el-table-column>
+            <el-table-column prop="maintenceTime"
+                             label="Maintenance Time"
+                             :width="null"
+                             :min-width="55"></el-table-column>
+            <el-table-column prop="flightLeg"
+                             label="Flight Leg"
+                             :width="null"
+                             :min-width="35"></el-table-column>
+            <el-table-column :width="null"
+                             :min-width="5"></el-table-column>
+          </el-table>
+        </el-row>
+        <!-- 底部信息部分：-->
+        <el-row style="margin-bottom: 1vh">
+          <div style="float: left; margin-left: 15px">
+            <span> Failure Message: {{ currfailureMessage }} </span>
+          </div>
+        </el-row>
+        <el-row
+                style="margin-bottom: 1vh;  width: 100%; border: 1px solid rgb(111, 111, 111); border-left: none; border-right: none; border-top: none;">
+          <div style="float: left; margin-left: 15px; margin-bottom: 15px;">
+            <span> Maintenance Text: {{ currMaintenceText }} </span>
+          </div>
+        </el-row>
         <el-row style=" margin-left: 15px; margin-right: 15px;">
           <el-col :span="4">
             <div class="radio"
@@ -83,7 +77,7 @@
               <input name="select-details-radio"
                      type="radio"
                      :checked="displaySelected == 'rootCause'" />
-              <label>Root Cause</label>
+              <label class="form-check-label">Root Cause</label>
             </div>
           </el-col>
           <el-col :span="4">
@@ -92,7 +86,7 @@
               <input name="select-details-radio"
                      type="radio"
                      :checked="displaySelected == 'parameters'" />
-              <label>Parameters</label>
+              <label class="form-check-label">Parameters</label>
             </div>
           </el-col>
           <el-col :span="4">
@@ -101,7 +95,7 @@
               <input name="select-details-radio"
                      type="radio"
                      :checked="displaySelected == 'flightDeckEffects'" />
-              <label>Flight Deck Effects</label>
+              <label class="form-check-label">Flight Deck Effects</label>
             </div>
           </el-col>
           <el-col :span="12">
@@ -110,15 +104,68 @@
               <input name="select-details-radio"
                      type="radio"
                      :checked="displaySelected == 'notes'" />
-              <label>Notes</label>
+              <label class="form-check-label">Notes</label>
             </div>
           </el-col>
         </el-row>
+      </div>
+      <div style="height: 45vh; overflow-y: auto;">
         <RootCause v-show="displaySelected == 'rootCause'" />
         <FlightDeckEffects v-show="displaySelected == 'flightDeckEffects'" />
         <Parameters v-show="displaySelected == 'parameters'" />
         <Notes v-show="displaySelected == 'notes'" />
-      </el-row>
+      </div>
+      <el-dialog style="font-size: 15px; color: white;"
+                 :visible.sync="isFlightLegsSelected"
+                 width="70%">
+        <el-row style=" margin-left: 15px; margin-right: 15px;">
+          <el-table style="
+              width: 100%;
+              background-color: rgb(52, 52, 52);
+              margin-top: 1vh;
+              margin-bottom: 1vh;
+            "
+                    :header-cell-style="{
+          background: 'rgb(52, 52, 52)',
+          color: '#FFFFFF',
+          font: '14px',
+          'text-align': 'center',
+        }
+          "
+                    :cell-style="{ 'text-align': 'center' }"
+                    :empty-text="'NO DATA DISPLAY'">
+            <el-table-column :width="null"
+                             :min-width="10"></el-table-column>
+            <el-table-column prop=""
+                             label="Flight Leg"
+                             :width="null"
+                             :min-width="30"></el-table-column>
+            <el-table-column prop=""
+                             label="Flight Number Leg"
+                             :width="null"
+                             :min-width="55"></el-table-column>
+            <el-table-column prop=""
+                             label="Start Time"
+                             :width="null"
+                             :min-width="55"></el-table-column>
+            <el-table-column prop=""
+                             label="Origin"
+                             :width="null"
+                             :min-width="55"></el-table-column>
+            <el-table-column prop=""
+                             label="Destination"
+                             :width="null"
+                             :min-width="55"></el-table-column>
+            <el-table-column :width="null"
+                             :min-width="10"></el-table-column>
+          </el-table>
+        </el-row>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isFlightLegsSelected = false">Back</el-button>
+        </span>
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -127,7 +174,7 @@
       </div>
       <div>
         <button class="footer-btn"
-                @click="">FLIGHT LEGS</button>
+                @click="isFlightLegsSelected = true">FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="goPreviousPage()">PREVIOUS</button>
         <button class="footer-btn"
@@ -138,7 +185,7 @@
     </el-footer>
   </div>
 </template>
-<script lang="ts">
+<script>
 import RootCause from "./SelectFailuresRadios/RootCause.vue";
 import FlightDeckEffects from "./SelectFailuresRadios/FlightDeckEffects.vue";
 import Parameters from "./SelectFailuresRadios/Parameters.vue";
@@ -146,7 +193,7 @@ import Notes from "./SelectFailuresRadios/Notes.vue";
 import Clock from '@/components/Clock/index.vue'
 
 import { flightPhaseEnum } from '@/globals/enums.js'
-import { printPage, changeRadio } from '@/utils/utils'
+import { printPage, changeRadio } from '@/utils/utils.ts'
 
 export default {
   components: { RootCause, FlightDeckEffects, Parameters, Notes, Clock },
@@ -154,7 +201,10 @@ export default {
   data() {
     return {
       selectedData: [],
-      displaySelected: 'rootCause'
+      displaySelected: 'rootCause',
+      isFlightLegsSelected: false,
+      currMaintenceText: "NO TEXT",
+      currfailureMessage: "NO MESSAGE"
     };
   },
   methods: {
@@ -219,8 +269,8 @@ export default {
      */
     getSelectedData() {
 
-      console.log("这是目前能利用的数据")
-      console.log(this.$store.state.failureList.resFailureData)
+      // console.log("这是目前能利用的数据")
+      // console.log(this.$store.state.failureList.resFailureData)
 
       //深度拷贝，不改变state中selectedFailureId的原始数据
       const objSelectedData = JSON.parse(
@@ -230,8 +280,18 @@ export default {
 
       this.selectedData.push(objSelectedData);
 
-      console.log("这是目前正在展示的数据")
-      console.log(this.selectedData)
+      if (this.selectedData[0].hasOwnProperty('failureMessage')) {
+        this.currFailureMessage = this.selectedData[0].failureMessage
+      } else {
+        this.currFailureMessage = "NO MESSAGE"
+      }
+
+      if (this.selectedData[0].hasOwnProperty('maintenceText')) {
+        this.currMaintenceText = this.selectedData[0].maintenceText
+      } else {
+        this.currMaintenceText = "NO TEXT"
+      }
+
 
       //设置equipment_name为"FUEL"
       for (let item of this.selectedData) {

@@ -1,26 +1,30 @@
 <template>
-  <div>
+  <div style="height:45vh">
     <el-row>
-      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/21 14:01:43 Power On </div>
+      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/-- --:--:-- Power On </div>
     </el-row>
     <el-row>
-      <table class="transparent-table"
-             show-empty
-             empty-text="No data available">
-        <thead>
-          <tr>
-            <th v-for="(value, key) in dataArray[0]"
-                :key="key">{{ key }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in dataArray"
-              :key="index">
-            <td v-for="(value, key) in item"
-                :key="key">{{ value }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-if="selectedData.length === 0"
+           class="content-alert"> NO DATA AVAILABLE </div>
+      <div v-else>
+        <table class="transparent-table">
+          <thead>
+            <tr>
+              <th v-for="(value, key) in dataArrayHeader[0]"
+                  :key="key">{{ key }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in dataArray"
+                :key="index">
+              <td>{{ item.FDECode }}</td>
+              <td>{{ item.FDEText }}</td>
+              <td>{{ item.FDEStatus }}</td>
+              <td>{{ item.FDEClass }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </el-row>
   </div>
 </template>
@@ -33,9 +37,10 @@ export default {
     return {
       selectedData: [],
       FDEtable: [],
-      dataArray: [
+      dataArrayHeader: [
         { "FDE Code": "", "FDE Test": "", "FDE Status": '', "FDE Class": "" }
-      ]
+      ],
+      dataArray: []
     };
   },
   methods: {

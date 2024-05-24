@@ -3,14 +3,16 @@
        element-loading-text="Data Loading..."
        element-loading-spinner="el-icon-loading"
        element-loading-background="rgba(0, 0, 0, 0.5)">
-    <el-header height="12vh">
+    <el-header height="8vh">
       <el-row style="width: 100%;">
         <el-col :span="3">
           <div class="el-header-title"> Selection: </div>
         </el-col>
         <el-col :span="10">
-          <div class="el-header-subtitle"> ATA: {{ currentATA }} </div>
-          <div class="el-header-subtitle"> Equipment Name: {{ currentEquipmentName }} </div>
+          <div class="el-header-subtitle">
+            <div> ATA: {{ currentATA }} </div>
+            <div> Equipment Name: {{ currentEquipmentName }} </div>
+          </div>
         </el-col>
       </el-row>
     </el-header>
@@ -83,7 +85,7 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
 import { postConfigData } from '@/services/centralMaintenance/configuration/index.js';
 import qs from 'qs'
 

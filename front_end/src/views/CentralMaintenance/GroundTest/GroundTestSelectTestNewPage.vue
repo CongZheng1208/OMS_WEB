@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-header style="height: 10vh;">
+    <el-header style="height: 8vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
           <div class="el-header-title"> Test Selection </div>
@@ -14,13 +14,13 @@
       <el-row :gutter="2">
         <el-col :span="6">
           <el-table highlight-current-row
-                    height="70vh"
+                    height="71vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleATARowClick"
                     :data="ATAs"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber"
@@ -40,13 +40,13 @@
         </el-col>
         <el-col :span="6">
           <el-table highlight-current-row
-                    height="70vh"
+                    height="71vh"
                     @row-click="handleEquipmentRowClick"
                     style=" background-color: rgb(46, 45, 45)"
                     :data="Equipments"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'"
+                    :empty-text="'NO DATA DISPLAY'"
                     :row-class-name="rowEquipmentName">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
@@ -68,13 +68,13 @@
         <el-col :span="12">
           <el-table highlight-current-row
                     class="test-table"
-                    height="70vh"
+                    height="71vh"
                     style="background-color: rgb(46, 45, 45)"
                     @row-click="handleTestRowClick"
                     :data="filteredTests"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'"
+                    :empty-text="'NO DATA DISPLAY'"
                     :row-class-name="rowTestName">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
@@ -140,8 +140,8 @@
 <script>
 import { getAllAtaEquiTests } from '@/services/centralMaintenance/groundTest/index.js';
 import { ataNameEnum } from '@/globals/enums.js'
-import { updateCurrentTime, customSortMethodForProgressColumn } from '@/utils/utils.js'
-import Clock from '@/components/Clock'
+import { updateCurrentTime, customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import Clock from '@/components/Clock/index.vue'
 
 export default {
   data() {

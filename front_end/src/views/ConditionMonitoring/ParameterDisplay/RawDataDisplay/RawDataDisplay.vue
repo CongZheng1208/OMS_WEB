@@ -14,7 +14,7 @@
         <el-col :span="6">
           <div class="custom-card"
                shadow="hover"
-               style="height: 60vh">
+               style="height: 67vh">
             <div class="custom-header"> FILTER</div>
             <div class="custom-content">
               <div style="height: 38vh">
@@ -60,7 +60,11 @@
               </div>
             </div>
             <el-button @click="clearFilter()"
-                       class="custom-footer"> Clear </el-button>
+                       circle
+                       slot="reference"
+                       class="table-outer-button"
+                       icon="el-icon-delete-solid"
+                       style="  position: absolute;bottom: 2vh;"> </el-button>
           </div>
         </el-col>
         <el-col :span="18">
@@ -68,7 +72,7 @@
             <el-col :span="6">
               <div class="custom-card"
                    shadow="hover"
-                   style="height: 60vh">
+                   style="height: 67vh">
                 <div class="custom-header"> TIMESTAMP</div>
                 <div class="custom-content">
                   <div class="param-wrapper"
@@ -80,13 +84,17 @@
                   </div>
                 </div>
                 <el-button @click="clearTimestamp()"
-                           class="custom-footer"> Clear </el-button>
+                           circle
+                           slot="reference"
+                           class="table-outer-button"
+                           icon="el-icon-delete-solid"
+                           style="  position: absolute;bottom: 2vh;"> </el-button>
               </div>
             </el-col>
             <el-col :span="18">
               <div class="custom-card"
                    shadow="hover"
-                   style="height: 60vh">
+                   style="height: 67vh">
                 <div class="custom-header"> RAW DATA</div>
                 <div class="custom-content">
                   <div class="raw-data-display">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-header style="height: 14vh;">
+    <el-header style="height: 10vh;">
       <el-row style="width: 100%; margin-top: 1vh;">
         <el-col :span="7">
           <div class="el-header-subcontainer">
@@ -124,7 +124,7 @@
 
             :sort-method="customSortMethodForProgressColumn"
             :header-cell-style="{background:'#404040',color:'#FFFFFF', font:'14px'}"
-            :empty-text="'No Data Display'"
+            :empty-text="'NO DATA DISPLAY'"
             v-loading="loading"
             element-loading-text="Data Loading..."
             element-loading-spinner="el-icon-loading"
@@ -156,10 +156,10 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn } from '@/utils/utils.ts'
 import { testTypeEnum, testStatusEnum } from '@/globals/enums.js'
 
-import Clock from '@/components/Clock'
+import Clock from '@/components/Clock/index.vue'
 
 export default {
   data() {

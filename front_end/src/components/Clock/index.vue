@@ -1,8 +1,8 @@
 <template>
   <div class="col status-bar"
-       style="margin-top: 1vh;"> A/C Reg: {{ acReg }} <br> {{ currentDate }} {{ currentTime }} </div>
+       style="margin-top: 2vh; font-weight: bold;"> A/C Reg: {{ acReg }} <br> {{ currentDate }} {{ currentTime }} </div>
 </template>
-<script>
+<script lang="ts">
 export default {
   data() {
     return {

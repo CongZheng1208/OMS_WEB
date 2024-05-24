@@ -15,13 +15,13 @@
         <el-col :span="6">
           <div v-if="listSelected == 1">
             <el-table highlight-current-row
-                      height="62vh"
+                      height="67vh"
                       style=" background-color: rgb(46, 45, 45)"
                       @row-click="showParameters"
                       :data="sortCurrentArray"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                      :empty-text="'No Data Display'">
+                      :empty-text="'NO DATA DISPLAY'">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
               <el-table-column prop="ATA"
@@ -40,13 +40,13 @@
           </div>
           <div v-if="listSelected == 2">
             <el-table highlight-current-row
-                      height="62vh"
+                      height="67vh"
                       style=" background-color: rgb(46, 45, 45)"
                       @row-click="showListParameters"
                       :data="params"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                      :empty-text="'No Data Display'">
+                      :empty-text="'NO DATA DISPLAY'">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
               <el-table-column prop="name"
@@ -66,12 +66,12 @@
         </el-col>
         <el-col :span="9">
           <el-row>
-            <el-table height="62vh"
+            <el-table height="67vh"
                       style=" background-color: rgb(46, 45, 45)"
                       :data="currentNewPaArray.filter(data => !searchInput || data.para.toLowerCase().includes(searchInput.toLowerCase()))"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                      :empty-text="'No Data Display'">
+                      :empty-text="'NO DATA DISPLAY'">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
               <el-table-column prop="para"
@@ -104,12 +104,12 @@
           </el-row>
         </el-col>
         <el-col :span="9">
-          <el-table height="62vh"
+          <el-table height="67vh"
                     style=" background-color: rgb(46, 45, 45)"
                     :data="currentNewAddedArray"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="para"
@@ -168,7 +168,7 @@
 </template>
 <script>
 import { ataNameEnum } from '@/globals/enums.js'
-import { customSortMethodForProgressColumn } from '@/utils/utils.js'
+import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
 import { getParaSet, getParaList } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
 export default {

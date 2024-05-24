@@ -7,7 +7,7 @@
 	}
 
 	// 查询数据库获取数据
-	$sql = "SELECT * FROM timeCycle";
+    $sql = "select * from ConfigurationData";
 	$result = $con->query($sql);
 
 	// 创建一个数组来存储ATA、MemberSystem和Test的关系
@@ -15,24 +15,23 @@
 
 	// 遍历查询结果
     while($row = mysqli_fetch_assoc($result)) {
-        $ATA = $row["ATA"];
+        $ata = $row["ata"];
 
         $item = new stdClass();
-        $item->memberSystemId = $row['memberSystemId'];
-        $item->ATA = $row['ATA'];
-        $item->MemberSystemName = $row['MemberSystemName'];
-        $item->support = $row['support'];
-        $item->status = $row['status'];
-        $item->avail = $row['avail'];
-        $item->hours = $row['hours'];
-        $item->cycles = $row['cycles'];
+
+        $item->ata = $row["ata"];
+        $item->equipmentName = $row['equipmentName'];
+		$item->hardwareInformation = $row['hardwareInformation'];
+		$item->softwareInformation = $row['softwareInformation'];
+		$item->additionalInformation = $row['additionalInformation'];
+ 
     
         // 检查是否已有这个ATA的数组
-        if (!isset($data[$ATA])) {
-        $data[$ATA] = array();
+        if (!isset($data[$ata])) {
+        $data[$ata] = array();
         }
         // 将数据添加到数组中
-        array_push($data[$ATA], $item);
+        array_push($data[$ata], $item);
     }
     // 输出JSON数据
     echo json_encode($data);

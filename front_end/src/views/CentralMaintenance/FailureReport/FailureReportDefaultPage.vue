@@ -1,12 +1,12 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header style=" height: 13vh;">
+    <el-header style="height: 9vh;">
       <el-row style="width: 100%;">
         <el-col :span="3">
           <div class="el-header-title">Select Option:</div>
         </el-col>
         <el-col :span="4">
-          <div>
+          <div class="el-header-radios">
             <div class="radio"
                  @click="changeRadio('legFDEsSelected'); $store.state.failureList.selectedFailureId = -1">
               <input name="failure-rep-radio"
@@ -24,7 +24,7 @@
           </div>
         </el-col>
         <el-col :span="14">
-          <div>
+          <div class="el-header-radios">
             <div class="radio"
                  @click="changeRadio('existingFailureSelected'); $store.state.failureList.selectedFailureId = -1">
               <input name="failure-rep-radio"
@@ -47,7 +47,7 @@
       </el-row>
     </el-header>
     <el-main>
-      <div style="height: 65vh">
+      <div style="height: 70vh">
         <in-bound-leg-fde v-if="displaySelected == 'legFDEsSelected'" />
         <existing-fde v-if="displaySelected == 'existingFDEsSelected'" />
         <existing-failure v-if="displaySelected == 'existingFailureSelected'" />
@@ -56,14 +56,12 @@
       <el-dialog title="ERROR MESSAGE"
                  :visible.sync="isParameterSelected"
                  width="30%">
-
-          <p style="color:black">Please select a failure item!</p>
-          <span slot="footer"
-                class="dialog-footer">
-            <el-button type="primary"
-                       @click="isParameterSelected = false">OK</el-button>
-          </span>
-
+        <p style="color:black">Please select a failure item!</p>
+        <span slot="footer"
+              class="dialog-footer">
+          <el-button type="primary"
+                     @click="isParameterSelected = false">OK</el-button>
+        </span>
       </el-dialog>
       <el-dialog style="font-size: 15px; color: white;"
                  :visible.sync="isFlightLegsSelected"
@@ -82,7 +80,7 @@
           'text-align': 'center',
         }"
                     :cell-style="{ 'text-align': 'center' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="10"></el-table-column>
             <el-table-column prop=""
@@ -131,13 +129,13 @@
   </div>
 </template>
 <script>
-import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE";
-import ExistingFde from "./FailureReportRadios/ExistingFde";
-import ExistingFailure from "./FailureReportRadios/ExistingFailure";
-import FailureHistory from "./FailureReportRadios/FailureHistory";
-import Clock from '@/components/Clock'
+import InBoundLegFde from "./FailureReportRadios/InBoundLegFDE.vue";
+import ExistingFde from "./FailureReportRadios/ExistingFDE.vue";
+import ExistingFailure from "./FailureReportRadios/ExistingFailure.vue";
+import FailureHistory from "./FailureReportRadios/FailureHistory.vue";
+import Clock from '@/components/Clock/index.vue'
 
-import { printPage, changeRadio } from '@/utils/utils.js'
+import { printPage, changeRadio } from '@/utils/utils.ts'
 
 export default {
   components: {

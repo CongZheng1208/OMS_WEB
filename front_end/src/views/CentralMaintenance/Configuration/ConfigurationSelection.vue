@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header height="10vh">
+    <el-header height="8vh">
       <el-row style="width: 100%;">
         <el-col :span="10">
           <div class="el-header-title"> ATA and Equipment Selection </div>
@@ -17,7 +17,7 @@
                     :data="ATAs"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber"
@@ -43,7 +43,7 @@
                     @row-click="handleEquipmentRowClick"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="equipmentName"
@@ -80,7 +80,7 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
 import { getATAandEqui } from '@/services/centralMaintenance/configuration/index.js';
 import { ataNameEnum } from '@/globals/enums.js'
 

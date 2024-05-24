@@ -1,24 +1,26 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header height="12vh">
+    <el-header height="9vh">
       <el-row style="width: 100%;">
-        <el-col :span="6">
+        <el-col :span="3">
           <div class="el-header-title"> Select ATA System and Equipment </div>
         </el-col>
-        <el-col :span="15">
-          <div class="radio"
-               @click="changeRadio('NVMDataRetrieval'); clearSelectedOptions()">
-            <input type="radio"
-                   name="retrieval-radio"
-                   :checked="displaySelected == 'NVMDataRetrieval'" />
-            <span>RETRIEVAL</span>
-          </div>
-          <div class="radio"
-               @click="changeRadio('NVMDataReset'); clearSelectedOptions()">
-            <input type="radio"
-                   name="reset-radio"
-                   :checked="displaySelected == 'NVMDataReset'" />
-            <span>RESET(ALL LEGS)</span>
+        <el-col :span="18">
+          <div class="el-header-radios">
+            <div class="radio"
+                 @click="changeRadio('NVMDataRetrieval'); clearSelectedOptions()">
+              <input type="radio"
+                     name="retrieval-radio"
+                     :checked="displaySelected == 'NVMDataRetrieval'" />
+              <span>Retrieval</span>
+            </div>
+            <div class="radio"
+                 @click="changeRadio('NVMDataReset'); clearSelectedOptions()">
+              <input type="radio"
+                     name="reset-radio"
+                     :checked="displaySelected == 'NVMDataReset'" />
+              <span>Reset(All legs)</span>
+            </div>
           </div>
         </el-col>
         <el-col :span="3">
@@ -37,7 +39,7 @@
                     :data="ATAsRetrieval"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber"
@@ -62,7 +64,7 @@
                     :data="ATAsReset"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber"
@@ -89,7 +91,7 @@
                     :data="EquisRetrieval"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'"
+                    :empty-text="'NO DATA DISPLAY'"
                     :row-class-name="rowTestName">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
@@ -115,7 +117,7 @@
                     :data="EquisReset"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'"
+                    :empty-text="'NO DATA DISPLAY'"
                     :row-class-name="rowTestName">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
@@ -195,10 +197,10 @@
   </div>
 </template>
 <script>
-import Clock from '@/components/Clock'
+import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
 import { ataNameEnum } from '@/globals/enums.js'
-import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils.ts'
 import { getRetrievalATAandEqui, getResetATAandEqui } from '@/services/centralMaintenance/nvmData/index.js';
 
 

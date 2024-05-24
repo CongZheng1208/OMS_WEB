@@ -10,9 +10,9 @@
                 font: '14px',
                 'text-align': 'center',
               }"
-              height="65vh"
+              height="70vh"
               :cell-style="{ 'text-align': 'center' }"
-              :empty-text="'No Data Display'"
+              :empty-text="'NO DATA DISPLAY'"
               row-key="index"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               @current-change="tableRowClicked"
@@ -32,10 +32,9 @@
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
                        :width="null"
-                       :min-width="45">
+                       :min-width="70">
         <template slot="header"
-                  slot-scope="scope">
-          <el-input style="width: 15vh;"
+                  slot-scope="scope"> FIM Code <el-input style="width: 15vh; margin-left: 2vh;margin-right: 1vh;"
                     v-model="searchFimCodeInput"
                     size="mini"
                     placeholder="FIM Code"
@@ -48,8 +47,7 @@
                        :width="null"
                        :min-width="75">
         <template slot="header"
-                  slot-scope="scope">
-          <el-input style="width: 20vh"
+                  slot-scope="scope"> Failure Name <el-input style="width: 15vh; margin-left: 2vh;margin-right: 1vh;"
                     v-model="searchFailureNameInput"
                     size="mini"
                     placeholder="Failure Name"
@@ -61,7 +59,7 @@
                        label="Failure Status"
                        sortable
                        :width="null"
-                       :min-width="55"></el-table-column>
+                       :min-width="35"></el-table-column>
       <el-table-column prop="flightPhase"
                        label="Flight Phase"
                        sortable
@@ -73,7 +71,7 @@
                        label="Date/Time"
                        sortable
                        :width="null"
-                       :min-width="55"></el-table-column>
+                       :min-width="50"></el-table-column>
       <el-table-column prop="fde.FDEText"
                        label="FDE Text"
                        :width="null"
@@ -98,7 +96,8 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'ATA'" />
-            <label class="form-check-label" style="color:black">ATA</label>
+            <label class="form-check-label"
+                   style="color:black">ATA</label>
           </div>
         </el-col>
         <el-col :span="8">
@@ -107,7 +106,8 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'flightPhase'" />
-            <label class="form-check-label" style="color:black">Flight Phase</label>
+            <label class="form-check-label"
+                   style="color:black">Flight Phase</label>
           </div>
         </el-col>
         <el-col :span="8">
@@ -116,7 +116,8 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'flightLeg'" />
-            <label class="form-check-label" style="color:black">Flight Leg</label>
+            <label class="form-check-label"
+                   style="color:black">Flight Leg</label>
           </div>
         </el-col>
       </el-row>
@@ -136,7 +137,7 @@
                 'text-align': 'center',
               }"
                   :cell-style="{ 'text-align': 'center' }"
-                  :empty-text="'No Data Display'">
+                  :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
           <el-table-column prop="text"
@@ -165,7 +166,7 @@
                 'text-align': 'center',
               }"
                   :cell-style="{ 'text-align': 'center' }"
-                  :empty-text="'No Data Display'">
+                  :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
           <el-table-column prop="text"
@@ -194,7 +195,7 @@
                 'text-align': 'center',
               }"
                   :cell-style="{ 'text-align': 'center' }"
-                  :empty-text="'No Data Display'">
+                  :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
           <el-table-column prop="text"
@@ -225,7 +226,7 @@
   </el-row>
 </template>
 <script>
-import { customSortMethodForProgressColumn } from '@/utils/utils.js'
+import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
 export default {
   components: {},
   name: "ExistingFailures",

@@ -1,5 +1,5 @@
 <?php
-    //echo phpinfo();
+    require_once('connectConfig.php');
 	class ReturnJson{
 		public $parameter ="";
 		public $unit="";
@@ -7,9 +7,6 @@
 		public $data="";
 	}
 
-	// 在306的Centos系统里的mysql密码为123456
-	//$con=mysqli_connect("192.168.0.145", "root", "2185", "OMHMS");
-	$con = mysqli_connect("localhost", "root", "root", "OMHMS");
 	if (!$con){
 		die('Could not connect:' . mysqli_connect_error());
 	}

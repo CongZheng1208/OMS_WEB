@@ -3,17 +3,17 @@
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="existingFDEArray"
-              height="65vh"
+              height="70vh"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
-                background: '#404040',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
+    background: '#404040',
+    color: '#FFFFFF',
+    font: '14px',
+    'text-align': 'center',
+  }"
               :cell-style="{ 'text-align': 'center' }"
               row-key="FDECode"
-              :empty-text="'No Data Display'"
+              :empty-text="'NO DATA DISPLAY'"
               @current-change="tableRowClicked"
               :row-class-name="rowClassName"
               v-loading="loading"
@@ -27,11 +27,11 @@
                        label="FDE Code"
                        :width="null"
                        sortable
-                       :min-width="35"></el-table-column>
+                       :min-width="25"></el-table-column>
       <el-table-column prop="fde.FDEText"
                        label="FDE Test"
                        :width="null"
-                       :min-width="35"></el-table-column>
+                       :min-width="65"></el-table-column>
       <el-table-column prop="fde.FDECode"
                        label="FDE Status"
                        :width="null"
@@ -46,12 +46,12 @@
                        label="Flight Phase"
                        sortable
                        :width="null"
-                       :min-width="35"></el-table-column>
+                       :min-width="25"></el-table-column>
       <el-table-column prop="failureTime"
                        label="Date/Time"
                        sortable
                        :width="null"
-                       :min-width="40"></el-table-column>
+                       :min-width="30"></el-table-column>
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
                        :width="null"
@@ -76,7 +76,7 @@
                        label="Flight Leg"
                        sortable
                        :width="null"
-                       :min-width="35"></el-table-column>
+                       :min-width="25"></el-table-column>
     </el-table>
     <div class="table-outer-number"> Number of FDEs: {{ existingFDEArray.length }} </div>
   </el-row>

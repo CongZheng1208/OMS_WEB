@@ -1,32 +1,34 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header style="height: 16vh;">
-      <el-row class="w-full">
-        <el-col :span="2">
+    <el-header style="height: 12vh;">
+      <el-row style="width: 100%">
+        <el-col :span="3">
           <div class="el-header-title"> Select Option </div>
         </el-col>
-        <el-col :span="19">
+        <el-col :span="18">
           <el-col :span="8">
-            <div class="radio"
-                 @click="changeRadio('list')">
-              <input name="param-display-radio1"
-                     type="radio"
-                     :checked="displaySelected == 'list'" />
-              <label class="form-check-label">Parameter List Display</label>
-            </div>
-            <div class="radio"
-                 @click="changeRadio('graphic')">
-              <input name="param-display-radio1"
-                     type="radio"
-                     :checked="displaySelected == 'graphic'" />
-              <label class="form-check-label">Parameter Graphics Display</label>
-            </div>
-            <div class="radio"
-                 @click="changeRadio('raw')">
-              <input name="param-display-radio1"
-                     type="radio"
-                     :checked="displaySelected == 'raw'" />
-              <label class="form-check-label">Raw Data Display</label>
+            <div class="el-header-radios">
+              <div class="radio"
+                   @click="changeRadio('list')">
+                <input name="param-display-radio1"
+                       type="radio"
+                       :checked="displaySelected == 'list'" />
+                <label class="form-check-label">Parameter List Display</label>
+              </div>
+              <div class="radio"
+                   @click="changeRadio('graphic')">
+                <input name="param-display-radio1"
+                       type="radio"
+                       :checked="displaySelected == 'graphic'" />
+                <label class="form-check-label">Parameter Graphics Display</label>
+              </div>
+              <div class="radio"
+                   @click="changeRadio('raw')">
+                <input name="param-display-radio1"
+                       type="radio"
+                       :checked="displaySelected == 'raw'" />
+                <label class="form-check-label">Raw Data Display</label>
+              </div>
             </div>
           </el-col>
           <el-col :span="16"></el-col>

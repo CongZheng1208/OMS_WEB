@@ -1,22 +1,23 @@
 <?php
-    //echo phpinfo();
+    require_once('connectConfig.php');
 	class ReturnJson{
 		public $Event ="";
 		public $Time="";
-		public $ATA=0;
-		public $FlightLeg=0;
+		public $ATA="";
+		public $FlightLeg="";
 		public $FlightPhase="";
-	}
 
-	// 在306的Centos系统里的mysql密码为123456
-	//$con=mysqli_connect("192.168.0.145", "root", "2185", "OMHMS");
-	$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+		public $eventType =  "";
+		public	$relativeStop =  0;
+		public	$relativeStart = 0;
+		public $associatedParams = [];
+	}
 
 	if (!$con){
 		die('Could not connect:' . mysqli_connect_error());
 	}
 	// 查表failure_log
-	$query="select * from event_log_info";
+	$query="select * from EventLogData";
 	$result = mysqli_query($con, $query);
 	$res = array();
 	//查询结果的数量
@@ -24,11 +25,19 @@
 		// 获取查询结果的一行
 		while($row = mysqli_fetch_assoc($result)){
 			$item = new ReturnJson(); 
-			$item->Event = $row['Event'];
-			$item->Time = $row['Time']; 
-            $item->ATA = $row['ATA'];
-			$item->FlightLeg = $row['FlightLeg']; 
-            $item->FlightPhase = $row['FlightPhase'];
+
+			$resObj = json_decode($row['Log'], true);
+
+			$item->Event = $resObj['eventName'];
+			$item->Time =  $resObj['eventTime'];
+            $item->ATA =  $resObj['ata'];
+			$item->FlightLeg =  $resObj['flightLeg'];
+            $item->FlightPhase =  $resObj['flightPhase'];
+
+			$item->eventType =  $resObj['eventType'];
+			$item->relativeStop =  $resObj['relativeStop'];
+			$item->relativeStart =  $resObj['relativeStart'];
+			$item->associatedParams =  $resObj['associatedParams'];
 			array_push($res, $item);
 		}
 	}

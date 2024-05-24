@@ -10,9 +10,9 @@
                 font: '14px',
                 'text-align': 'center',
               }"
-              height="65vh"
+              height="70vh"
               :cell-style="{ 'text-align': 'center' }"
-              :empty-text="'No Data Display'"
+              :empty-text="'NO DATA DISPLAY'"
               row-key="index"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               @current-change="tableRowClicked"
@@ -66,7 +66,7 @@
   </el-row>
 </template>
 <script>
-import { customSortMethodForProgressColumn } from '@/utils/utils.js'
+import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
 import { flightPhaseEnum, failureStateEnum } from '@/globals/enums.js'
 export default {
   components: {},

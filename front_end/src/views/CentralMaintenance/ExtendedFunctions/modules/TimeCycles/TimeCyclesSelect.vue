@@ -10,7 +10,7 @@
                     :data="ATAs"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber"
@@ -35,7 +35,7 @@
                     :data="Equis"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'"
+                    :empty-text="'NO DATA DISPLAY'"
                     :row-class-name="rowTestName">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
@@ -93,7 +93,7 @@
 </template>
 <script>
 import qs from 'qs'
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
 import { getATAandEqui } from '@/services/centralMaintenance/extendedFunctions/index.js';
 
 export default {

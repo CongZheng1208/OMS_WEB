@@ -10,10 +10,11 @@
     </el-row>
     <el-row>
       <el-table height="65vh"
+                style="background-color: rgb(45, 45, 45);"
                 :data="filteredTimeCycleData"
                 :sort-method="customSortMethodForProgressColumn"
                 :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                :empty-text="'No Data Display'"
+                :empty-text="'NO DATA DISPLAY'"
                 v-loading="loading"
                 element-loading-text="Data Loading..."
                 element-loading-spinner="el-icon-loading"
@@ -35,8 +36,8 @@
                          :filters="memberSystemNameFilters"
                          :filter-method="filterHandler">
           <template slot="header"
-                    slot-scope="scope">
-            <el-input style="width: 30vh;"
+                    slot-scope="scope"> Equipment Name <el-input
+                      style="margin-left: 2vh; margin-right: 1vh; width: 25vh;"
                       v-model="searchEquipmentNameInput"
                       size="mini"
                       placeholder="Equipment Name"
@@ -57,8 +58,7 @@
                          :width="null"
                          :min-width="70">
           <template slot="header"
-                    slot-scope="scope">
-            <el-input style="width: 15vh;"
+                    slot-scope="scope"> Status <el-input style="width: 15vh; margin-left: 2vh; margin-right: 1vh;"
                       v-model="searchStatusInput"
                       size="mini"
                       placeholder="Status"
@@ -80,23 +80,20 @@
                          :width="null"
                          :min-width="30">
           <template slot-scope="scope">
-            <el-button circle
-                       slot="reference"
-                       class="table-outer-button"
-                       icon="el-icon-upload2"
-                       @click="sendOrder(scope.row)"></el-button>
+            <el-button class="table-outer-button"
+                       style="background-color: rgb(60, 60, 60);color:aliceblue;  font-weight: bold; border: 1px solid rgb(111, 111, 111); "
+                       @click="sendOrder(scope.row)">Retrieval</el-button>
           </template>
         </el-table-column>
         <el-table-column :width="null"
                          :min-width="5"></el-table-column>
       </el-table>
-      <div class="table-outer-note">
-        <el-button circle
+      <div class="table-outer-tc"> Notes: Data marked with "*" is obtained by calculating When the MS compute module
+        fails <el-button circle
                    slot="reference"
                    class="table-outer-button"
                    icon="el-icon-refresh"
-                   @click="flashData"></el-button> Notes: Data marked with "*" is obtained by calculating When the MS
-        compute module fails
+                   @click="flashData"></el-button>
       </div>
     </el-row>
     <el-footer>
@@ -113,7 +110,7 @@
 </template>
 <script>
 import qs from 'qs'
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
 import { getTimeCycle } from '@/services/centralMaintenance/extendedFunctions/index.js';
 
 export default {

@@ -1,36 +1,45 @@
 <template>
-  <div>
-    <el-row >
-      <div style="float: left; margin: 15px;  font-weight: bold;">
-        Count 1:  2024/04/21 14:01:43  Power On
-      </div>
+  <div style="height:45vh">
+    <el-row>
+      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/-- --:--:-- Power On </div>
     </el-row>
-    <el-row >
-      <table class="transparent-table" show-empty empty-text="No data available">
-        <thead>
-          <tr>
-            <th v-for="(value, key) in dataArray[0]" :key="key">{{ key }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in dataArray" :key="index">
-            <td v-for="(value, key) in item" :key="key">{{ value }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <el-row>
+      <div v-if="selectedData.length === 0"
+           class="content-alert"> NO DATA AVAILABLE </div>
+      <div v-else>
+        <table class="transparent-table"
+               show-empty
+               empty-text="NO DATA AVAILABLE">
+          <thead>
+            <tr>
+              <th v-for="(value, key) in dataArrayHeader[0]"
+                  :key="key">{{ key }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in dataArray"
+                :key="index">
+              <td>{{ item.fault_name }}</td>
+              <td>{{ item.fault_state }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </el-row>
   </div>
 </template>
-
 <script>
 export default {
   name: "RootCause",
   data() {
     return {
       selectedData: [],
+      dataArrayHeader: [
+        { "Fault Name": "", "Fault Status": '' }
+      ],
 
       dataArray: [
-        { "Fault Name": "", "Fault Status": '', "Equipment Name": "" }
+        { "Fault Name": "", "Fault Status": '' }
       ]
     };
   },
@@ -48,9 +57,9 @@ export default {
         JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.index === this.$store.state.failureList.selectedFailureId))
       );
       this.selectedData.push(objSelectedData);
-      console.log("this.selectedData in root:", this.selectedData);
+      //console.log("this.selectedData in root:", this.selectedData);
 
-      this.dataArray =  this.selectedData[0].fault
+      this.dataArray = this.selectedData[0].fault
     },
   },
 
@@ -67,6 +76,4 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
+<style scoped></style>

@@ -53,11 +53,11 @@ const ConditionMonitoringRoutes = {
             ),
         },
         {
-          path: "eventSelect",
-          name: "EventSelect",
+          path: "paramDisplay",
+          name: "ParamDisplay",
           component: () =>
             import(
-              "@/views/ConditionMonitoring/EventMonitoring/EventSelect.vue"
+              "@/views/ConditionMonitoring/EventMonitoring/ParamDisplay.vue"
             ),
         },
       ],

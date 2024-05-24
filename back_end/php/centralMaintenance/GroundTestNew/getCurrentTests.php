@@ -1,8 +1,6 @@
 <?php
 
-	//$con = mysqli_connect("localhost", "root", "root", "OMHMS");
-	$con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
-
+    require_once('connectConfig.php');
 
 	if (!$con) {
 		die("Connection failed: " . mysqli_connect_error());
@@ -15,13 +13,13 @@
 			   InitiatedTest_Status,StartTime,EndTime,MemberSystemName,
 			   FlightLeg,
 
-			   InhibitConditions_Trigger_Index,
-			   FailingFault_Trigger_Index,
-			   Screen_Trigger_Index
+			   InhibitConditions_Trigger_TEXT,
+			   FailingFault_Trigger_TEXT,
+			   Screen_Trigger_Index,
 			   Error_text
 
 			  FROM test_log 
-			  WHERE InitiatedTest_Status != '9'";
+			  WHERE InitiatedTest_Status != '0'";
 	
 	$result = mysqli_query($con, $query);
 
@@ -41,10 +39,10 @@
 			$item->EndTime = $row['EndTime'];
 			$item->MemberSystemName = $row['MemberSystemName'];
 			$item->FlightLeg = $row['FlightLeg'];
-			$item->FailingFault_Trigger_Index = $row['FailingFault_Trigger_Index'];
+			$item->FailingFault_Trigger_Index = $row['FailingFault_Trigger_TEXT'];
 			$item->Screen_Trigger_Index = $row['Screen_Trigger_Index'];
 			$item->Error_text = $row['Error_text'];
-			$item->InhibitConditions_Trigger_Index = $row['InhibitConditions_Trigger_Index'];
+			$item->InhibitConditions_Trigger_Index = $row['InhibitConditions_Trigger_TEXT'];
 
 
 		

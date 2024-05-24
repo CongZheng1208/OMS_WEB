@@ -5,15 +5,15 @@
               :data="postFlightReportArray"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
-                background: '#404040',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
-              height="65vh"
+    background: '#404040',
+    color: '#FFFFFF',
+    font: '14px',
+    'text-align': 'center',
+  }"
+              height="70vh"
               row-key="index"
               :cell-style="{ 'text-align': 'center' }"
-              :empty-text="'No Data Display'"
+              :empty-text="'NO DATA DISPLAY'"
               @current-change="tableRowClicked">
       <el-table-column :width="null"
                        :min-width="10"></el-table-column>

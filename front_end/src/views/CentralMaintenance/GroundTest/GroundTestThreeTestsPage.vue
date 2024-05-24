@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-header style="height: 12vh;">
+    <el-header style="height: 8vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
           <div class="el-header-title"> Pre-Conditions of Selected Tests </div>
@@ -50,8 +50,8 @@
   </div>
 </template>
 <script>
-import { printPage, handleTestOrder } from '@/utils/utils.js'
-import Clock from '@/components/Clock'
+import { printPage, handleTestOrder } from '@/utils/utils.ts'
+import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
 
 export default {

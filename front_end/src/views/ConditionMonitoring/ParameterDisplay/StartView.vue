@@ -1,29 +1,34 @@
 <template>
   <div>
-    <el-header style="height: 12vh">
+    <el-header style="height: 9vh;">
       <el-row style="width: 100%;">
         <el-col :span="3">
           <div class="el-header-title"> Test Selection </div>
         </el-col>
-        <el-col :span="4">
-          <div class="radio"
-               @click="changeRadio('list')">
-            <input name="param-display-radio"
-                   type="radio"
-                   :checked="displaySelected == 'list'" />
-            <label>List Display</label>
-          </div>
-          <div class="radio"
-               @click="changeRadio('figure')">
-            <input name="param-display-radio"
-                   type="radio"
-                   :checked="displaySelected == 'figure'" />
-            <label>Curve Display</label>
+        <el-col :span="14">
+          <div class="el-header-radios">
+            <div class="radio"
+                 @click="changeRadio('list')">
+              <input name="param-display-radio"
+                     type="radio"
+                     :checked="displaySelected == 'list'" />
+              <label>List Display</label>
+            </div>
+            <div class="radio"
+                 @click="changeRadio('figure')">
+              <input name="param-display-radio"
+                     type="radio"
+                     :checked="displaySelected == 'figure'" />
+              <label>Curve Display</label>
+            </div>
           </div>
         </el-col>
-        <el-col :span="13"> Display Type: {{ displayType }} <br> Parameter Set Received at: {{ currParamUpdateTime }}
+        <el-col :span="4"
+                class="el-header-radios"> Display Type: {{ displayType }} <br> Parameter Set Received at:
+          {{ currParamUpdateTime }} </el-col>
+        <el-col :span="3">
+          <Clock />
         </el-col>
-        <el-col :span="4"> A/C Reg: {{ acReg }} <br> {{ currentDate }} {{ currentTime }} </el-col>
       </el-row>
     </el-header>
     <el-main>
@@ -34,7 +39,7 @@
                   :data="selectedParams"
                   :sort-method="customSortMethodForProgressColumn"
                   :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                  :empty-text="'No Data Display'">
+                  :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="5"></el-table-column>
           <el-table-column prop="para"
@@ -65,7 +70,7 @@
                     :data="selectedParams"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                    :empty-text="'No Data Display'">
+                    :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="para"
@@ -170,6 +175,8 @@ import qs from 'qs'
 import * as echarts from 'echarts';
 import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils'
 import { postUnitInTime, postDataInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import Clock from '@/components/Clock/index.vue'
+
 
 
 export default {
@@ -228,6 +235,9 @@ export default {
 
       parameterSelected: {}
     };
+  },
+  components: {
+    Clock
   },
   methods: {
     /**

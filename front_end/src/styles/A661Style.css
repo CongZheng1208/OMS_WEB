@@ -7,17 +7,20 @@
   bottom: 0;
   left: 0;
   right: 0;
+
   background-color: rgb(45, 45, 45);
 
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
   color: #ffffff;
 }
 
 /**
  * 全局导航菜单栏相关样式
  */
+
 .el-menu-item {
   background-image: linear-gradient(rgb(24, 24, 24), rgb(66, 66, 66));
   border: 1px solid rgb(85, 85, 85);
@@ -25,18 +28,9 @@
 
 .el-menu-item-active {
   background-image: linear-gradient(#363636, rgb(97, 97, 97));
-  box-shadow: 2px 2px 10px 0px #17bef1;
-  border: none;
-}
-
-.el-menu--horizontal {
-  height: 6vh;
-  line-height: 6vh;
-}
-
-.el-menu--horizontal .el-menu-item {
-  height: 6vh;
-  line-height: 6vh;
+  box-shadow: inset 0px 0px 15px 5px #15718d;
+  border: 1px solid rgb(85, 85, 85);
+  /* border: none; */
 }
 
 /**
@@ -61,9 +55,7 @@
 
   color: white;
   text-align: left;
-
-  padding-top: 2vh;
-  padding-left: 4vh;
+  height: 5vh;
 
   z-index: 100;
 
@@ -73,21 +65,22 @@
   border-top: none;
 
   box-shadow: 0px 0px 10px 0px #17bef1;
-
-  /* font-weight: bold; */
   font-size: 16px;
 }
 
 .el-header-title {
   font-weight: bold;
   font-size: 18px;
-  /* text-shadow: 2px 2px 2px #000; */
-  margin-top: 1vh;
+  margin-top: 2vh;
 }
 
 .el-header-subtitle {
   font-size: 16px;
-  margin-top: 1vh;
+  margin-top: 2vh;
+}
+
+.el-header-radios {
+  margin-top: 2vh;
 }
 
 .el-header-subcontainer {
@@ -97,12 +90,6 @@
 
 .el-header-dot {
   display: inline-block;
-  /* width: 0.7vh;
-  height: 0.7vh;
-  margin-right: 1vh;
-  background-color: rgb(255, 255, 255);
-  border-radius: 50%;
-  align-self: center; */
 }
 
 .el-select .el-input__inner {
@@ -120,7 +107,6 @@
 }
 
 .radio {
-  @apply text-lg font-bold;
   display: flex;
   align-items: center;
   margin-bottom: 1vh;
@@ -184,8 +170,10 @@
 .el-table {
   width: 100%;
   background-color: rgb(46, 45, 45);
+
   border-top: none;
   border-bottom: none;
+
   border: 1px solid rgb(111, 111, 111);
 }
 
@@ -218,6 +206,7 @@
 }
 
 .transparent-table {
+  max-height: 20vh;
   border-collapse: collapse;
   color: white; /* 设置字体颜色为白色 */
   background-color: transparent; /* 设置背景透明 */
@@ -226,24 +215,18 @@
 
 .transparent-table th,
 .transparent-table td {
+  text-align: left;
   border: none;
   padding: 1vh;
 }
 
 .table-outer-button {
-  /* width: 4vh;
-  height: 4vh;
-  margin: 2vh; */
-
   font-size: 16px;
   font-weight: bold;
 
   margin-right: 2vh;
 
   color: white;
-
-  /*
-  border-radius: 3px; */
   border: 1px solid rgb(111, 111, 111);
 
   box-shadow: 10px 10px 10px 0px rgba(42, 42, 42, 0.5);
@@ -269,6 +252,13 @@
 }
 
 .table-outer-note {
+  position: absolute;
+  bottom: 10vh;
+  right: 12vh;
+  color: rgb(174, 174, 174);
+}
+
+.table-outer-tc {
   position: absolute;
   bottom: 5vh;
   right: 12vh;
@@ -300,12 +290,12 @@
 }
 
 .el-dialog__title {
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   font-weight: bold;
 }
 
 .el-dialog p {
-  color: rgb(213, 213, 213);
+  color: rgb(0, 0, 0);
 }
 
 .total-container {
@@ -327,6 +317,24 @@
 
   margin-top: 1vh;
 
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
+}
+
+.note-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 10vh;
+
+  border: 1px solid #ccc;
+  padding: 1vh;
+  margin: 2vh;
+
+  justify-content: space-between;
+
+  border: 1px solid rgb(111, 111, 111);
+  border-radius: 1vh;
+
+  margin-top: 1vh;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
 }
 
@@ -410,9 +418,13 @@
   position: absolute;
   bottom: 2vh;
   left: 5vh;
+
   padding: 1.5vh;
+
   background-color: #646464;
+
   color: white;
+
   border: 1px solid rgb(111, 111, 111);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* 添加灰色阴影 */
   transition: background-color 0.3s ease;
@@ -472,8 +484,10 @@
   font-weight: bold;
 
   padding: 1vh;
+
   border-radius: 3px;
   border: 1px solid rgb(111, 111, 111);
+
   box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
   background-color: rgb(65, 65, 65);
 
@@ -520,7 +534,9 @@
   position: fixed;
   bottom: 0;
   width: 100%;
+
   z-index: 100;
+
   background-color: rgb(46, 45, 45);
   box-shadow: 0px 0px 10px 0px #17bef1;
 }
@@ -534,6 +550,7 @@
   font-weight: bold;
 
   padding: 1vh;
+  margin-left: 1vh;
 
   border-radius: 3px;
   border: 1px solid rgb(111, 111, 111);

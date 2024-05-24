@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header style="height: 10vh;">
+    <el-header style="height: 8vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">
           <div class="el-header-title"> Test Status: {{ curTotalStatus }} </div>
@@ -13,13 +13,13 @@
     <el-main>
       <el-row>
         <el-table highlight-current-row
-                  height="70vh"
+                  height="71vh"
                   @row-click="handleRowClick"
                   style=" background-color: rgb(46, 45, 45)"
                   :data="currentGroundTestLists"
                   :sort-method="customSortMethodForProgressColumn"
                   :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                  :empty-text="'No Data Display'"
+                  :empty-text="'NO DATA DISPLAY'"
                   v-loading="loading"
                   element-loading-text="Data Loading..."
                   element-loading-spinner="el-icon-loading"
@@ -105,8 +105,8 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.js'
-import Clock from '@/components/Clock'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import Clock from '@/components/Clock/index.vue'
 import { testStatusEnum } from '@/globals/enums.js'
 import qs from 'qs'
 export default {
@@ -176,8 +176,8 @@ export default {
      * 本函数用于确定某行是否可被选中样式
      * @param {*} row table选中行信息
      */
-     rowTestName({ row }) {
-      return  this.selectedRow.InitiatedTest_Index  == row.InitiatedTest_Index && this.selectedRow.StartTime  == row.StartTime ? 'current-row' : '';
+    rowTestName({ row }) {
+      return this.selectedRow.InitiatedTest_Index == row.InitiatedTest_Index && this.selectedRow.StartTime == row.StartTime ? 'current-row' : '';
     },
 
     /**

@@ -34,7 +34,7 @@
                 style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table v-if="displaySelected == 'NVMDataRetrieval'"
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleATARowClickRetrieval"
                     :data="ATAsRetrieval"
@@ -59,7 +59,7 @@
           </el-table>
           <el-table v-else
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleATARowClickReset"
                     :data="ATAsReset"
@@ -87,7 +87,7 @@
                 style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table v-if="displaySelected == 'NVMDataRetrieval'"
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleEquipmentRetrievalRowClick"
                     :data="EquisRetrieval"
@@ -113,7 +113,7 @@
           </el-table>
           <el-table v-else
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleEquipmentResetRowClick"
                     :data="EquisReset"
@@ -362,7 +362,7 @@ export default {
         this.isResetAddedMsg = true
         this.selectedEquiReset = row
       }
-  },
+    },
 
     confirmResetAdd() {
 

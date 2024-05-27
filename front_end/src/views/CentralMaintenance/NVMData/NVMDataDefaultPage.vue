@@ -72,7 +72,8 @@
                                label="Elapsed Time"
                                sortable
                                :width="null"
-                               :min-width="20"></el-table-column>
+                               :min-width="20"
+                               :formatter="formatterElapsedTime"></el-table-column>
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
@@ -114,7 +115,8 @@
                                label="Elapsed Time"
                                sortable
                                :width="null"
-                               :min-width="20"></el-table-column>
+                               :min-width="20"
+                               :formatter="formatterElapsedTime"></el-table-column>
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
@@ -209,7 +211,26 @@ export default {
 
     handleClickReset(row) {
       this.selectedResetData = row
+    },
 
+
+    formatterElapsedTime(row) {
+      if (row.status === 'In Progress') {
+        const startTime = new Date(row.startTime);
+        const currentTime = new Date();
+        const elapsedTime = currentTime.getTime() - startTime.getTime();
+        let seconds = Math.floor(elapsedTime / 1000);
+        // 计算小时
+        let hours = Math.floor(seconds / 3600);
+        seconds = seconds % 3600;
+        // 计算分钟
+        let minutes = Math.floor(seconds / 60);
+        seconds = seconds % 60;
+        // 返回格式化后的时间
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      } else {
+        return '--';
+      }
     },
 
     /**

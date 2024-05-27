@@ -37,7 +37,7 @@
                          :filter-method="filterHandler">
           <template slot="header"
                     slot-scope="scope"> Equipment Name <el-input
-                      style="margin-left: 2vh; margin-right: 1vh; width: 25vh;"
+                      style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
                       v-model="searchEquipmentNameInput"
                       size="mini"
                       placeholder="Equipment Name"

@@ -64,11 +64,11 @@
               margin-bottom: 1vh;
             "
                     :header-cell-style="{
-          background: 'rgb(52, 52, 52)',
-          color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
-        }"
+                      background: 'rgb(52, 52, 52)',
+                      color: '#FFFFFF',
+                      font: '14px',
+                      'text-align': 'center',
+                    }"
                     :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'NO DATA DISPLAY'">
             <el-table-column :width="null"
@@ -128,9 +128,9 @@
     </el-footer>
   </div>
 </template>
-<script>
+<script lang="ts">
 import Clock from '@/components/Clock/index.vue'
-import { printPage, customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import { printPage, customSortMethodForProgressColumn } from '@/utils/utils'
 import { getEvent, getEventPara } from '@/services/conditionMonitoring/eventMonitoring/index.js';
 
 export default {
@@ -148,9 +148,6 @@ export default {
     Clock
   },
   methods: {
-    /**
-    * @param {{}} row
-    */
     handleEventRowClick(row) {
       this.selectEvent = row
     },

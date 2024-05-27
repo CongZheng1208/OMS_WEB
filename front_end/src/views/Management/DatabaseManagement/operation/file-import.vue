@@ -54,18 +54,22 @@
     <div class="w-1/2 border-t flex flex-col justify-between">
       <div class="p2 h-140 overflow-y-auto">
         <table>
-          <tr>
-            <th>File Name</th>
-            <th>Flight Leg</th>
-            <th>Time</th>
-            <th>Size</th>
-          </tr>
-          <tr v-for="item in 3">
-            <td>QAR Data</td>
-            <td>0</td>
-            <td>2022/01/01 12:00:00</td>
-            <td>440K</td>
-          </tr>
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>Flight Leg</th>
+              <th>Time</th>
+              <th>Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in 3">
+              <td>QAR Data</td>
+              <td>0</td>
+              <td>2022/01/01 12:00:00</td>
+              <td>440K</td>
+            </tr>
+          </tbody>
         </table>
       </div>
       <div class="
@@ -121,7 +125,6 @@ th {
 
 
 tr {
-
   border: 1px solid rgb(111, 111, 111);
 }
 

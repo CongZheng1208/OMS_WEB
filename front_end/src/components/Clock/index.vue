@@ -13,7 +13,7 @@ export default {
     currentTime(): string {
       return this.$store.state.groundTestList.currentTime;
     },
-    currentDate() {
+    currentDate(): string {
       return this.$store.state.groundTestList.currentDate;
     },
   },

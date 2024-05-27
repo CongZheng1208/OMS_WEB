@@ -81,7 +81,7 @@
     </el-footer>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
 import { getATAandEqui } from '@/services/centralMaintenance/configuration/index.js';
 import { ataNameEnum } from '@/globals/enums.js'

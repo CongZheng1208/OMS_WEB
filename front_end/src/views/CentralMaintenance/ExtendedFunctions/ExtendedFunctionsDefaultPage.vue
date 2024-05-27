@@ -62,8 +62,7 @@
     </el-footer>
   </div>
 </template>
-<script>
-
+<script lang="ts">
 import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils'
 import TimeCycles from './modules/TimeCycles/TimeCyclesDefaultPage.vue'
 import LegPhaseOperation from './modules/LegPhaseOperation.vue'

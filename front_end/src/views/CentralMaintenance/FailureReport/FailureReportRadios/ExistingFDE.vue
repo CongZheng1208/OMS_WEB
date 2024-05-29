@@ -102,6 +102,7 @@ import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
 import { IframeHTMLAttributes } from 'vue';
 import { ResData } from './store'
 
+
 export default {
   name: "ExistingFDE",
   data() {
@@ -177,6 +178,7 @@ export default {
      * @param {string} fimCode 选中行对应的FIM Code
      */
     findURL(fimCode: string) {
+      const that = this
       fimCode = '27-21033'
       this.isPdfPageSelected = true
       let tmp = qs.stringify({
@@ -194,13 +196,21 @@ export default {
       });
 
       // 在外部页面
-      window.addEventListener("message", function (event) {
+      window.addEventListener("message", function (event: MessageEvent<any>) {
         // 检查origin，确定消息发送方的安全性
         // if (event.origin !== "http://example.com") {
         //   return; // 来源不正确时忽略消息
         // }
 
         console.log("从iframe收到的消息：", event.data);
+        if (event.data.hasOwnProperty("targetPage")) {
+          if (event.data.targetPage === "selectTestNew") {
+            console.log('[ this ] >', this)
+            that.$router.push({ name: "SelectTestNew" });
+          }
+          console.log("[ event.data.targetPage ] >", event.data.targetPage)
+          // window.parent.postMessage(event.data, "*");
+        }
       }, false);
     },
 

@@ -17,11 +17,7 @@
         <!-- 选中信息的table -->
         <el-row>
           <el-table highlight-current-row
-                    style="
-            width: 100%;
-            background-color: rgb(46, 45, 45);
-            margin-bottom: 1%;
-          "
+                    class="bg-[rgb(46, 45, 45)] w-full mb-1/100"
                     :data="selectedData"
                     :header-cell-style="{
                       background: '#404040',

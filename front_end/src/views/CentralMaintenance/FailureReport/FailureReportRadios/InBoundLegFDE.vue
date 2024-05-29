@@ -201,8 +201,8 @@ export default {
       } else {
         this.postFlightReportArray = []
       }
-      console.log("postFlightReportOri is", postFlightReportOri)
-      console.log("pfr is:", this.postFlightReportArray)
+      // console.log("postFlightReportOri is", postFlightReportOri)
+      // console.log("pfr is:", this.postFlightReportArray)
     },
     customSortMethodForProgressColumn
   },

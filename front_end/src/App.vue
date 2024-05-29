@@ -17,12 +17,12 @@ export default {
         {
           name: "Central Maintenance",
           isActive: true,
-          routeName: "FailureList",
+          routeName: "CentralMaintenance",
         },
         {
           name: "Condition Monitoring",
           isActive: false,
-          routeName: "ParameterSelect",
+          routeName: "ConditionMonitoring",
         },
         {
           name: "Data Load",

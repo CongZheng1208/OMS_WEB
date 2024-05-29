@@ -140,10 +140,10 @@
     </el-footer>
   </div>
 </template>
-<script>
-import { getAllAtaEquiTests } from '@/services/centralMaintenance/groundTest/index.js';
-import { ataNameEnum } from '@/globals/enums.js'
-import { updateCurrentTime, customSortMethodForProgressColumn } from '@/utils/utils.ts'
+<script lang="ts">
+import { getAllAtaEquiTests } from '@/services/centralMaintenance/groundTest/index';
+import { ataNameEnum } from '@/globals/enums'
+import { updateCurrentTime, customSortMethodForProgressColumn } from '@/utils/utils'
 import Clock from '@/components/Clock/index.vue'
 
 export default {
@@ -195,7 +195,7 @@ export default {
      * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
      * @param {string} row - menus数据的name属性
      */
-    handleEquipmentRowClick(row) {
+    handleEquipmentRowClick(row: string) {
       if (row.availability !== "0") {
         this.$message('This equipment is currently unavailable');
         return false;
@@ -211,14 +211,13 @@ export default {
      * 本函数用于更新更新选中行的status属性到selectedRowStatus变量
      * @param {string} row - rawData数据的ataNumber属性
      */
-    handleTestRowClick(row) {
+    handleTestRowClick(row: string) {
       //console.log("this.$store.state.groundTestList.InterferingTestIndexs", this.$store.state.groundTestList.InterferingTestIndexs)
       this.isAddedMsg = true
       this.selectedTest = row
     },
 
     confirmAdd() {
-
       if (this.selectedTests.includes(this.selectedTest)) {
         this.$message({
           type: 'warning',

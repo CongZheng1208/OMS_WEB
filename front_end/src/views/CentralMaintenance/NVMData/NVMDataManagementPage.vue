@@ -30,10 +30,11 @@
     </el-header>
     <el-main>
       <el-row :gutter="2">
-        <el-col :span="11">
+        <el-col :span="11"
+                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table v-if="displaySelected == 'NVMDataRetrieval'"
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleATARowClickRetrieval"
                     :data="ATAsRetrieval"
@@ -58,7 +59,7 @@
           </el-table>
           <el-table v-else
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleATARowClickReset"
                     :data="ATAsReset"
@@ -82,10 +83,11 @@
                              :min-width="5"></el-table-column>
           </el-table>
         </el-col>
-        <el-col :span="13">
+        <el-col :span="13"
+                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table v-if="displaySelected == 'NVMDataRetrieval'"
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleEquipmentRetrievalRowClick"
                     :data="EquisRetrieval"
@@ -111,7 +113,7 @@
           </el-table>
           <el-table v-else
                     highlight-current-row
-                    height="68vh"
+                    height="70vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleEquipmentResetRowClick"
                     :data="EquisReset"
@@ -305,7 +307,7 @@ export default {
     },
 
     /**
-     * 本函数用于选中要进行的装备
+     * 本函数用于选中要进行的装备,并进行可选性状态判断
      * @param {Object} row
      */
     handleEquipmentRetrievalRowClick(row) {
@@ -314,21 +316,19 @@ export default {
           type: 'warning',
           message: 'This nvm is unavailable!'
         });
-      } else {
+      } else if (this.selectedMemberSystemIdsRetrieval.includes(row.memberSystemId)) {
+        this.$message('This equipment has been selected');
+      }
+      else {
         this.isRetrievalAddedMsg = true
         this.selectedEquiRetrieval = row
       }
     },
 
     confirmRetrievalAdd() {
-      if (this.selectedMemberSystemIdsRetrieval.includes(this.selectedEquiRetrieval.memberSystemId)) {
-        this.$message('This equipment has been selected');
-      } else if (this.selectedEquiRetrieval.avai !== "1") {
-        this.$message('This equipment is currently unavailable');
-      } else {
-        this.selectedMemberSystemIdsRetrieval.push(parseInt(this.selectedEquiRetrieval.memberSystemId));
-        this.$message({ message: 'Successfully selected', type: 'success' });
-      }
+      this.selectedMemberSystemIdsRetrieval.push(this.selectedEquiRetrieval.memberSystemId);
+      this.$message({ message: 'Successfully selected', type: 'success' });
+      //}
       this.isRetrievalAddedMsg = false
     },
 
@@ -356,6 +356,8 @@ export default {
           type: 'warning',
           message: 'This nvm is unavailable!'
         });
+      } else if (this.selectedMemberSystemIdsReset.includes(row.memberSystemId)) {
+        this.$message('This equipment has been selected');
       } else {
         this.isResetAddedMsg = true
         this.selectedEquiReset = row
@@ -363,14 +365,10 @@ export default {
     },
 
     confirmResetAdd() {
-      if (this.selectedMemberSystemIdsReset.includes(this.selectedEquiReset.memberSystemId)) {
-        this.$message('This equipment has been selected');
-      } else if (this.selectedEquiReset.avai !== "1") {
-        this.$message('This equipment is currently unavailable');
-      } else {
-        this.selectedMemberSystemIdsReset.push(parseInt(this.selectedEquiReset.memberSystemId));
-        this.$message({ message: 'Successfully selected', type: 'success' });
-      }
+
+      this.selectedMemberSystemIdsReset.push(this.selectedEquiReset.memberSystemId);
+      this.$message({ message: 'Successfully selected', type: 'success' });
+
       this.isResetAddedMsg = false
     },
 

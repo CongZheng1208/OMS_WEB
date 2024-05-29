@@ -12,7 +12,8 @@
         </el-select>
       </div>
       <el-row :gutter="2">
-        <el-col :span="6">
+        <el-col :span="6"
+                style="border:  0.5px solid rgb(111, 111, 111);">
           <div v-if="listSelected == 1">
             <el-table highlight-current-row
                       height="67vh"
@@ -64,7 +65,8 @@
             </el-table>
           </div>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="9"
+                style="border:  0.5px solid rgb(111, 111, 111);">
           <el-row>
             <el-table height="67vh"
                       style=" background-color: rgb(46, 45, 45)"
@@ -103,7 +105,8 @@
             <div class="table-inner-number"> Total Number: {{ parameterCountTotal }} </div>
           </el-row>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="9"
+                style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table height="67vh"
                     style=" background-color: rgb(46, 45, 45)"
                     :data="currentNewAddedArray"

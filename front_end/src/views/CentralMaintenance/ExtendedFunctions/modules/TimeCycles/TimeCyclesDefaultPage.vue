@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-row>
+    <el-row style="border:  0.5px solid rgb(111, 111, 111);">
       <el-col :span="21">
         <div class="el-subheader"> Time Cycle Status: {{ }} </div>
       </el-col>
@@ -8,7 +8,7 @@
         <div class="el-subheader"> Total Number: {{ }} </div>
       </el-col>
     </el-row>
-    <el-row>
+    <el-row style="border:  0.5px solid rgb(111, 111, 111);">
       <el-table height="65vh"
                 style="background-color: rgb(45, 45, 45);"
                 :data="filteredTimeCycleData"
@@ -37,7 +37,7 @@
                          :filter-method="filterHandler">
           <template slot="header"
                     slot-scope="scope"> Equipment Name <el-input
-                      style="margin-left: 2vh; margin-right: 1vh; width: 25vh;"
+                      style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
                       v-model="searchEquipmentNameInput"
                       size="mini"
                       placeholder="Equipment Name"
@@ -96,16 +96,6 @@
                    @click="flashData"></el-button>
       </div>
     </el-row>
-    <el-footer>
-      <div>
-        <button class="footer-btn"
-                @click="printPage">PRINT</button>
-      </div>
-      <div>
-        <button class="footer-btn"
-                @click="sendOrderAll">RETRIEVAL ALL</button>
-      </div>
-    </el-footer>
   </div>
 </template>
 <script>

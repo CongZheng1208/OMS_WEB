@@ -1,5 +1,6 @@
 <template>
-  <el-row v-if="!isPdfPageSelected">
+  <el-row v-if="!isPdfPageSelected"
+          style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="existingFDEArray"

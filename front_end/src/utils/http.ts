@@ -1,11 +1,10 @@
 // 封装axios请求
-
 import axios from "axios";
 
 // 请求基本设置
 const instance = axios.create({
-  // 本地调试
-  baseURL: "http://localhost:8888/oms/php/",
+  // 本地调试,通过代理服务器访问
+  baseURL: "/oms/php/",
 
   //
   //baseURL: "http://127.0.0.1/oms/php/",

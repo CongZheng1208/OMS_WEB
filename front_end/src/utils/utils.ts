@@ -1,21 +1,13 @@
 import { postTestOrder } from "@/services/centralMaintenance/groundTest/index.js";
-/**
- * 本函数用于打印页面
- */
+
 export function printPage() {
   window.print();
 }
 
-/**
- * 本函数用于根据排序对象确定排序逻辑
- * @param {number/string} a - 排序对象1
- * @param {number/string} b - 排序对象2
- * @returns {number/string} 排序逻辑
- */
 export function customSortMethodForProgressColumn(
   a: number | string,
   b: number | string
-) {
+): number | string {
   // 判断a和b的类型
   if (typeof a === "string" && typeof b === "string") {
     // 字符串类型，使用localeCompare进行字典序排序
@@ -26,28 +18,19 @@ export function customSortMethodForProgressColumn(
   }
 }
 
-/**
- * 本函数用于跳转参数展示的三种不同模块
- * @param {string} value 代表三种模块的不同字符值
- */
-export function changeRadio(value) {
+export function changeRadio(value: string) {
   this.displaySelected = value;
 }
 
-/**
- * 本函数用于更新实时时间
- */
+// 本函数用于更新实时时间
 export function updateCurrentTime() {
   const now = new Date();
   this.currentTime = now.toLocaleTimeString();
   this.currentDate = now.toLocaleDateString();
 }
 
-/**
- * 本函数用于向成员系统发送post请求
- * @param {Object} tmp 代表qs.stringify处理后的Object格式的命令
- */
-export function handleTestOrder(tmp) {
+//本函数用于向成员系统发送post请求
+export function handleTestOrder(tmp: Object) {
   console.log("send msg is:", tmp);
 
   postTestOrder(tmp)

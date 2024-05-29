@@ -91,7 +91,7 @@
 </template>
 <script lang="ts">
 import { customSortMethodForProgressColumn } from '@/utils/utils'
-import { fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum } from '@/globals/enums.js'
+import { fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum } from '@/globals/enums'
 import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
 import { mapState } from 'vuex';
 import querystring from 'querystring';

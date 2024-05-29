@@ -6,11 +6,11 @@
               height="70vh"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
-    background: '#404040',
-    color: '#FFFFFF',
-    font: '14px',
-    'text-align': 'center',
-  }"
+                background: '#404040',
+                color: '#FFFFFF',
+                font: '14px',
+                'text-align': 'center',
+              }"
               :cell-style="{ 'text-align': 'center' }"
               row-key="FDECode"
               :empty-text="'NO DATA DISPLAY'"
@@ -94,13 +94,12 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { customSortMethodForProgressColumn } from '@/utils/utils'
 import qs from 'qs'
 import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
-import querystring from 'querystring';
-
-import { mapState } from 'vuex';
+import { IframeHTMLAttributes } from 'vue';
+import { ResData } from './store'
 
 export default {
   name: "ExistingFDE",
@@ -115,7 +114,6 @@ export default {
     };
   },
   computed: {
-
     // ...mapState('websocketVuex', ['infoOMD']),
   },
   created() {
@@ -130,7 +128,6 @@ export default {
     clearInterval(this.interval);
   },
   methods: {
-
     /**
      * 更新store的选中行数据
      * @param {*} item 选中行数据
@@ -178,26 +175,36 @@ export default {
      * 本函数用于根据选取行的FIMCode获取对应的手册链接
      * @param {string} fimCode 选中行对应的FIM Code
      */
-    findURL(fimCode) {
+    findURL(fimCode: string) {
+      fimCode = '27-21033'
       this.isPdfPageSelected = true
       let tmp = qs.stringify({
         fimCode: fimCode
       })
-      postFimCodeForURL(tmp).then(response => {
-
-        const queryString = querystring.stringify(response);
-        const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
-        console.log(url);
-
-        document.getElementById('iframe').src = url;
-
+      postFimCodeForURL(tmp).then((response: unknown) => {
+        const resData = response as ResData
+        const res = new ResData(resData)
+        console.log('[ response.data ] >', res)
+        const url = decodeURIComponent(`http://192.168.0.162:81/manual/detail?groupNameCode=${resData.groupNameCode}&language=${resData.language}&model=${resData.model}&path=${resData.path}&issueNumber=${resData.issueNumber}&publicationId=${resData.publicationId}`);
+        const IFrameEle = document.getElementById('iframe')! as unknown as IframeHTMLAttributes;
+        IFrameEle.src = url;
       }).catch(error => {
         console.error('Error in Postting pdf url:', error);
       });
+
+      // 在外部页面
+      window.addEventListener("message", function (event) {
+        // 检查origin，确定消息发送方的安全性
+        // if (event.origin !== "http://example.com") {
+        //   return; // 来源不正确时忽略消息
+        // }
+
+        console.log("从iframe收到的消息：", event.data);
+      }, false);
     },
 
 
-    queryStringToJson(queryString) {
+    queryStringToJson(queryString: string) {
       // 将字符串按 & 分割成数组
       const paramsArray = queryString.split('&');
 
@@ -265,19 +272,15 @@ export default {
             rp: []
           };
         });
-        console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
-        console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
-
+        // console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
+        // console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
 
         this.existingFDEArray = unexistingResFailureDataOri.concat(existingResFailureDataOri);
-
-
-
       } else {
         this.existingFDEArray = []
       }
 
-      console.log("existingFDEArray is", this.existingFDEArray);
+      // console.log("existingFDEArray is", this.existingFDEArray);
     },
 
     customSortMethodForProgressColumn
@@ -285,7 +288,6 @@ export default {
   mounted() {
     // 在 OMS 项目中监听 message 事件
     window.addEventListener('message', (event) => {
-
       if (event.origin === 'http://localhost:8081') {  // 修改为正确的 OMD 项目的地址
         console.log('Received message from OMD:', event.data);
         this.$router.push({ name: "SelectTestNew", params: { selectedEquipment: this.queryStringToJson(event.data) } });

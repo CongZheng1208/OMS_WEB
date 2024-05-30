@@ -43,13 +43,14 @@
                 style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="70vh"
+                    :data="dataForDisplay"
                     style=" background-color: rgb(46, 45, 45)"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                     :empty-text="'NO ASSOCIATED PARAMETERS'">
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
-            <el-table-column prop="Event"
+            <el-table-column prop="param"
                              label="Parameter"
                              sortable
                              :width="null"
@@ -72,13 +73,15 @@
                   style="border:  0.5px solid rgb(111, 111, 111);">
             <el-table highlight-current-row
                       height="70vh"
+                      :data="dataForDisplay"
+                      @row-click="handleParamRowClick"
                       style=" background-color: rgb(46, 45, 45)"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                       :empty-text="'NO ASSOCIATED PARAMETERS'">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
-              <el-table-column prop="MemberSystemName"
+              <el-table-column prop="param"
                                label="Parameter"
                                sortable
                                :width="null"
@@ -101,22 +104,23 @@
                   style="border:  0.5px solid rgb(111, 111, 111);">
             <el-table highlight-current-row
                       height="70vh"
+                      :data="combinedRecords"
                       style=" background-color: rgb(46, 45, 45)"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                       :empty-text="'NO PARAMETER DATA FOR EVENT'">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
-              <el-table-column prop="Time"
+              <el-table-column prop="RecordTime"
                                label="Date/Time"
                                sortable
                                :width="null"
                                :min-width="50"></el-table-column>
-              <el-table-column prop="ATA"
+              <el-table-column prop="RecordValues[0]"
                                label="Temp_degree_6"
                                :width="null"
                                :min-width="30"></el-table-column>
-              <el-table-column prop="FlightLeg"
+              <el-table-column prop="RecordValues[1]"
                                label="Temp_degree_3"
                                :width="null"
                                :min-width="50"></el-table-column>
@@ -126,56 +130,9 @@
           </el-col>
         </el-row>
       </el-row>
-      <el-dialog style="font-size: 15px; color: white;"
-                 :visible.sync="isFlightLegsSelected"
-                 width="70%">
-        <el-row style=" margin-left: 15px; margin-right: 15px;">
-          <el-table style="
-              width: 100%;
-              background-color: rgb(52, 52, 52);
-              margin-top: 1vh;
-              margin-bottom: 1vh;
-            "
-                    :header-cell-style="{
-          background: 'rgb(52, 52, 52)',
-          color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
-        }"
-                    :cell-style="{ 'text-align': 'center' }"
-                    :empty-text="'NO DATA DISPLAY'">
-            <el-table-column :width="null"
-                             :min-width="10"></el-table-column>
-            <el-table-column prop=""
-                             label="Flight Leg"
-                             :width="null"
-                             :min-width="30"></el-table-column>
-            <el-table-column prop=""
-                             label="Flight Number Leg"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Start Time"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Origin"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Destination"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column :width="null"
-                             :min-width="10"></el-table-column>
-          </el-table>
-        </el-row>
-        <span slot="footer"
-              class="dialog-footer">
-          <el-button type="primary"
-                     @click="isFlightLegsSelected = false">Back</el-button>
-        </span>
-      </el-dialog>
+      <FlightLegs @close=" isFlightLegsSelected = false"
+                  v-if="isFlightLegsSelected">
+      </FlightLegs>
     </el-main>
     <el-footer>
       <div>
@@ -203,8 +160,11 @@
 </template>
 <script>
 import Clock from '@/components/Clock/index.vue'
+import FlightLegs from '@/components/FlightLegs/index.vue'
 import { printPage, changeRadio, customSortMethodForProgressColumn } from '@/utils/utils.ts'
-import { getEvent, getEventPara } from '@/services/conditionMonitoring/eventMonitoring/index.js';
+import { postEventPara } from '@/services/conditionMonitoring/eventMonitoring/index.js';
+import qs from 'qs'
+
 
 export default {
   name: "eventSelect",
@@ -214,13 +174,80 @@ export default {
       isFlightLegsSelected: false,
 
       searchParameterInput: "",
-      currentEvent: {}
+      currentEvent: {},
+      dataForDisplay: [],
+      combinedRecords: [],
+
+      selectedParams: []
     };
   },
   components: {
-    Clock
+    Clock,
+    FlightLegs
   },
   methods: {
+    /**
+     * @param {any} row
+     */
+    handleParamRowClick(row) {
+      const index = this.selectedParams.findIndex(param => param === row);
+      if (index !== -1) {
+        this.selectedParams.splice(index, 1); // 如果该行已经存在于 selectedParams 中，则删除它
+
+
+        console.log(this.selectedParams);
+      } else {
+        if (this.selectedParams.length === 2) {
+          this.$message({
+            message: 'Display up to two parameters'
+          });
+
+        } else {
+          this.selectedParams.push(row);
+
+          console.log(this.selectedParams);
+
+
+          this.combinedRecords = []
+          // 找出selectedParams中采样率最高的参数
+          let maxRate = 0;
+          for (const param of this.selectedParams) {
+            maxRate = Math.max(maxRate, parseInt(param.rate, 10));
+          }
+
+          // 生成时间轴
+          let timeAxis = [];
+          let timeIndex = 1;
+          for (const param of this.selectedParams) {
+            const rate = parseInt(param.rate, 10);
+            const numRecords = param.records.length;
+            const timeIncrement = 1 / rate;
+            let currentTime = param.records[0].RecordTime;
+            for (let i = 0; i < numRecords; i++) {
+              for (let j = 1; j <= rate; j++) {
+                timeAxis.push({ RecordTime: currentTime, RecordIndex: timeIndex });
+                timeIndex++;
+                currentTime = new Date(currentTime.getTime() + (timeIncrement * 1000));
+              }
+            }
+          }
+
+
+          for (const param of this.selectedParams) {
+            for (let i = 0; i < timeAxis.length; i++) {
+              const recordIndex = Math.floor((timeAxis[i].RecordIndex - 1) * (param.records.length / (maxRate * timeAxis.length))); // 根据采样率计算索引
+              let recordValue = '--';
+              if (recordIndex >= 0 && recordIndex < param.records.length) {
+                recordValue = param.records[recordIndex].RecordValues;
+              }
+              timeAxis[i][param.param] = recordValue;
+            }
+          }
+          console.log(timeAxis);
+        }
+      }
+    },
+
     goEventPage() {
       this.$router.push({ name: "EventDisplay" });
     },
@@ -237,8 +264,36 @@ export default {
     customSortMethodForProgressColumn,
   },
   mounted() {
-    this.currentEvent = this.$route.params.selectEvent
-    console.log(this.currentEvent)
+
+    this.currentEvent = this.$route.params.selectEvent;
+    // @ts-ignore
+    let originalTime = new Date(this.currentEvent.Time);
+
+    // 计算起始时间和结束时间
+    let startTime = new Date(originalTime);
+    startTime.setSeconds(startTime.getSeconds() + this.currentEvent.relativeStart);
+    let endTime = new Date(originalTime);
+    endTime.setSeconds(endTime.getSeconds() + this.currentEvent.relativeStop);
+
+    // 获取本地时间字符串表示
+    let formattedStartTime = startTime.toLocaleString();
+    let formattedEndTime = endTime.toLocaleString();
+
+    let tmp = qs.stringify({
+      Params: this.currentEvent.associatedParams,
+      StartTime: formattedStartTime,
+      EndTime: formattedEndTime
+    });
+
+    // console.log(tmp);
+
+    postEventPara(tmp).then(response => {
+
+      this.dataForDisplay = response
+      // console.log(response)
+    }).catch(error => {
+      console.error('Error in Postting event params:', error);
+    });
 
 
   }

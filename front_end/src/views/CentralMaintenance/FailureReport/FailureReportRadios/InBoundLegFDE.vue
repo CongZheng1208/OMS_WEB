@@ -6,11 +6,11 @@
               :data="postFlightReportArray"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
-                background: '#404040',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
+    background: '#404040',
+    color: '#FFFFFF',
+    font: '14px',
+    'text-align': 'center',
+  }"
               height="70vh"
               row-key="index"
               :cell-style="{ 'text-align': 'center' }"
@@ -201,8 +201,8 @@ export default {
       } else {
         this.postFlightReportArray = []
       }
-      console.log("postFlightReportOri is", postFlightReportOri)
-      console.log("pfr is:", this.postFlightReportArray)
+      // console.log("postFlightReportOri is", postFlightReportOri)
+      // console.log("pfr is:", this.postFlightReportArray)
     },
     customSortMethodForProgressColumn
   },

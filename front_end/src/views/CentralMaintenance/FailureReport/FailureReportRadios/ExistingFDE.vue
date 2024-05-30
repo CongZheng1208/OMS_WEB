@@ -139,10 +139,10 @@ export default {
     tableRowClicked(item) {
       if (item.failureNameInfo !== "--") {
         this.$store.state.failureList.selectedFailureId = item.index;
-        console.log(
-          "selectedFailureId",
-          this.$store.state.failureList.selectedFailureId
-        );
+        // console.log(
+        //   "selectedFailureId",
+        //   this.$store.state.failureList.selectedFailureId
+        // );
       }
     },
 
@@ -187,8 +187,10 @@ export default {
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = querystring.stringify(response);
-        const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
-        console.log(url);
+        const url = decodeURIComponent(`http://localhost:8080/MainPage?${queryString}`);
+
+        // console.log(url);
+        // console.log(queryString);
 
         document.getElementById('iframe').src = url;
 
@@ -266,8 +268,8 @@ export default {
             rp: []
           };
         });
-        console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
-        console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
+        // console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
+        // console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
 
 
         this.existingFDEArray = unexistingResFailureDataOri.concat(existingResFailureDataOri);
@@ -278,7 +280,7 @@ export default {
         this.existingFDEArray = []
       }
 
-      console.log("existingFDEArray is", this.existingFDEArray);
+      //console.log("existingFDEArray is", this.existingFDEArray);
     },
 
     customSortMethodForProgressColumn
@@ -288,7 +290,7 @@ export default {
     window.addEventListener('message', (event) => {
 
       if (event.origin === 'http://localhost:8081') {  // 修改为正确的 OMD 项目的地址
-        console.log('Received message from OMD:', event.data);
+        //console.log('Received message from OMD:', event.data);
         this.$router.push({ name: "SelectTestNew", params: { selectedEquipment: this.queryStringToJson(event.data) } });
       }
     });

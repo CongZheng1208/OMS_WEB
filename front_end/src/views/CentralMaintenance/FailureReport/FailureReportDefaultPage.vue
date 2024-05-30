@@ -63,6 +63,9 @@
                      @click="isParameterSelected = false">OK</el-button>
         </span>
       </el-dialog>
+      <FlightLegs @close=" isFlightLegsSelected = false"
+                  v-if="isFlightLegsSelected">
+      </FlightLegs>
     </el-main>
     <el-footer>
       <div>
@@ -72,17 +75,11 @@
       <div>
         <button slot="button"
                 class="footer-btn"
-                @click="isVisiable = true">FLIGHT LEGS</button>
+                @click="isFlightLegsSelected = true">FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="goSelectPage()">SELECT</button>
       </div>
     </el-footer>
-    <ToggleDialog @close="onClose"
-                  v-if="isVisiable">
-      <ToggleContent @close="onClose"
-                     @ok="isVisiable = false"
-                     slot="content" />
-    </ToggleDialog>
   </div>
 </template>
 <script lang="ts">
@@ -91,8 +88,7 @@ import ExistingFde from "./FailureReportRadios/ExistingFDE.vue";
 import ExistingFailure from "./FailureReportRadios/ExistingFailure.vue";
 import FailureHistory from "./FailureReportRadios/FailureHistory.vue";
 import Clock from '@/components/Clock/index.vue'
-import ToggleDialog from './modals/toggle-dialog.vue'
-import ToggleContent from './modals/toggle-content.vue'
+import FlightLegs from '@/components/FlightLegs/index.vue'
 import { printPage, changeRadio } from '@/utils/utils'
 
 export default {
@@ -102,23 +98,18 @@ export default {
     ExistingFailure,
     FailureHistory,
     Clock,
-    ToggleDialog,
-    ToggleContent
+    FlightLegs
   },
   name: "FailureRep",
   data() {
     return {
-      isVisiable: false,
+      isFlightLegsSelected: false,
       legFailureAll: true,
       isParameterSelected: false,
       displaySelected: 'legFDEsSelected',
     };
   },
   methods: {
-    onClose() {
-      console.log('[ this.isVisiable ] >', this.isVisiable)
-      this.isVisiable = false
-    },
 
     /**
      * 本函数用于Inbound Leg Failures单选按钮在All和Summary

@@ -389,7 +389,7 @@ export default {
   mounted() {
 
     this.getfailureArray();
-    console.log("existingFailureArray:", this.existingFailureArray);
+    // console.log("existingFailureArray:", this.existingFailureArray);
   },
 };
 </script>

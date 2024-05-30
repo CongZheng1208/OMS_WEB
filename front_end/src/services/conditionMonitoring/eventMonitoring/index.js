@@ -16,9 +16,10 @@ export const getEvent = () => {
   });
 };
 
-export const getEventPara = () => {
+export const postEventPara = (index) => {
   return http({
     url: API.GET_EVENT_PARA,
-    method: "GET",
+    method: "POST",
+    data: index,
   });
 };

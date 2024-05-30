@@ -24,11 +24,11 @@
           "
                     :data="selectedData"
                     :header-cell-style="{
-                      background: '#404040',
-                      color: '#FFFFFF',
-                      font: '14px',
-                      'text-align': 'center',
-                    }"
+          background: '#404040',
+          color: '#FFFFFF',
+          font: '14px',
+          'text-align': 'center',
+        }"
                     :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'No Data Display'">
             <el-table-column prop="fimcodeInfo"
@@ -115,57 +115,9 @@
         <Parameters v-show="displaySelected == 'parameters'" />
         <Notes v-show="displaySelected == 'notes'" />
       </div>
-      <el-dialog style="font-size: 15px; color: white;"
-                 :visible.sync="isFlightLegsSelected"
-                 width="70%">
-        <el-row style=" margin-left: 15px; margin-right: 15px;">
-          <el-table style="
-              width: 100%;
-              background-color: rgb(52, 52, 52);
-              margin-top: 1vh;
-              margin-bottom: 1vh;
-            "
-                    :header-cell-style="{
-                      background: 'rgb(52, 52, 52)',
-                      color: '#FFFFFF',
-                      font: '14px',
-                      'text-align': 'center',
-                    }
-                      "
-                    :cell-style="{ 'text-align': 'center' }"
-                    :empty-text="'NO DATA DISPLAY'">
-            <el-table-column :width="null"
-                             :min-width="10"></el-table-column>
-            <el-table-column prop=""
-                             label="Flight Leg"
-                             :width="null"
-                             :min-width="30"></el-table-column>
-            <el-table-column prop=""
-                             label="Flight Number Leg"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Start Time"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Origin"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column prop=""
-                             label="Destination"
-                             :width="null"
-                             :min-width="55"></el-table-column>
-            <el-table-column :width="null"
-                             :min-width="10"></el-table-column>
-          </el-table>
-        </el-row>
-        <span slot="footer"
-              class="dialog-footer">
-          <el-button type="primary"
-                     @click="isFlightLegsSelected = false">Back</el-button>
-        </span>
-      </el-dialog>
+      <FlightLegs @close=" isFlightLegsSelected = false"
+                  v-if="isFlightLegsSelected">
+      </FlightLegs>
     </el-main>
     <el-footer>
       <div>
@@ -190,13 +142,14 @@ import RootCause from "./SelectFailuresRadios/RootCause.vue";
 import FlightDeckEffects from "./SelectFailuresRadios/FlightDeckEffects.vue";
 import Parameters from "./SelectFailuresRadios/Parameters.vue";
 import Notes from "./SelectFailuresRadios/Notes.vue";
+import FlightLegs from '@/components/FlightLegs/index.vue'
 import Clock from '@/components/Clock/index.vue'
 
 import { flightPhaseEnum } from '@/globals/enums.js'
 import { printPage, changeRadio } from '@/utils/utils.ts'
 
 export default {
-  components: { RootCause, FlightDeckEffects, Parameters, Notes, Clock },
+  components: { RootCause, FlightDeckEffects, Parameters, Notes, Clock, FlightLegs },
   name: "SelectFailuresDetails",
   data() {
     return {

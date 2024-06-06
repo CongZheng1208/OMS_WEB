@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style=" background-color:rgb(45, 45, 45);">
     <el-header style="height: 9vh;">
       <el-row style="width: 100%;">
         <el-col :span="21">

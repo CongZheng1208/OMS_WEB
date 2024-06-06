@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style=" background-color:rgb(45, 45, 45);">
     <el-header style="height: 9vh;">
       <el-row style="width: 100%;">
         <el-col :span="6">
@@ -42,7 +42,7 @@
         <el-row v-if="displaySelected == 'summary'"
                 style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
-                    height="70vh"
+                    height="65vh"
                     :data="dataForDisplay"
                     style=" background-color: rgb(46, 45, 45)"
                     :sort-method="customSortMethodForProgressColumn"
@@ -66,13 +66,15 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
-          <div class="table-inner-number"> Total Number: {{ }} </div>
+          <div class="
+                table-lower-bar">
+            <span class="table-lower-bar-right-text"> Total Number: {{ }}</span>
+          </div>
         </el-row>
         <el-row v-else>
           <el-col :span="8"
                   style="border:  0.5px solid rgb(111, 111, 111);">
-            <el-table highlight-current-row
-                      height="70vh"
+            <el-table height="70vh"
                       :data="dataForDisplay"
                       @row-click="handleParamRowClick"
                       style=" background-color: rgb(46, 45, 45)"
@@ -102,8 +104,7 @@
           </el-col>
           <el-col :span="16"
                   style="border:  0.5px solid rgb(111, 111, 111);">
-            <el-table highlight-current-row
-                      height="70vh"
+            <el-table height="70vh"
                       :data="combinedRecords"
                       style=" background-color: rgb(46, 45, 45)"
                       :sort-method="customSortMethodForProgressColumn"
@@ -116,14 +117,16 @@
                                sortable
                                :width="null"
                                :min-width="50"></el-table-column>
-              <el-table-column prop="RecordValues[0]"
-                               label="Temp_degree_6"
+              <el-table-column prop="RecordValuesLeft"
+                               label="Param 1"
+                               sortable
                                :width="null"
                                :min-width="30"></el-table-column>
-              <el-table-column prop="RecordValues[1]"
-                               label="Temp_degree_3"
+              <el-table-column prop="RecordValuesRight"
+                               label="Param 2"
+                               sortable
                                :width="null"
-                               :min-width="50"></el-table-column>
+                               :min-width="30"></el-table-column>
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
@@ -161,7 +164,7 @@
 <script>
 import Clock from '@/components/Clock/index.vue'
 import FlightLegs from '@/components/FlightLegs/index.vue'
-import { printPage, changeRadio, customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import { printPage, changeRadio, customSortMethodForProgressColumn, updateCurrentTime } from '@/utils/utils.ts'
 import { postEventPara } from '@/services/conditionMonitoring/eventMonitoring/index.js';
 import qs from 'qs'
 
@@ -176,6 +179,8 @@ export default {
       searchParameterInput: "",
       currentEvent: {},
       dataForDisplay: [],
+
+      timeStampArray: [],
       combinedRecords: [],
 
       selectedParams: []
@@ -193,7 +198,7 @@ export default {
       const index = this.selectedParams.findIndex(param => param === row);
       if (index !== -1) {
         this.selectedParams.splice(index, 1); // 如果该行已经存在于 selectedParams 中，则删除它
-
+        this.updateCurrentRecords()
 
         console.log(this.selectedParams);
       } else {
@@ -201,51 +206,114 @@ export default {
           this.$message({
             message: 'Display up to two parameters'
           });
-
         } else {
           this.selectedParams.push(row);
-
-          console.log(this.selectedParams);
-
-
-          this.combinedRecords = []
-          // 找出selectedParams中采样率最高的参数
-          let maxRate = 0;
-          for (const param of this.selectedParams) {
-            maxRate = Math.max(maxRate, parseInt(param.rate, 10));
-          }
-
-          // 生成时间轴
-          let timeAxis = [];
-          let timeIndex = 1;
-          for (const param of this.selectedParams) {
-            const rate = parseInt(param.rate, 10);
-            const numRecords = param.records.length;
-            const timeIncrement = 1 / rate;
-            let currentTime = param.records[0].RecordTime;
-            for (let i = 0; i < numRecords; i++) {
-              for (let j = 1; j <= rate; j++) {
-                timeAxis.push({ RecordTime: currentTime, RecordIndex: timeIndex });
-                timeIndex++;
-                currentTime = new Date(currentTime.getTime() + (timeIncrement * 1000));
-              }
-            }
-          }
-
-
-          for (const param of this.selectedParams) {
-            for (let i = 0; i < timeAxis.length; i++) {
-              const recordIndex = Math.floor((timeAxis[i].RecordIndex - 1) * (param.records.length / (maxRate * timeAxis.length))); // 根据采样率计算索引
-              let recordValue = '--';
-              if (recordIndex >= 0 && recordIndex < param.records.length) {
-                recordValue = param.records[recordIndex].RecordValues;
-              }
-              timeAxis[i][param.param] = recordValue;
-            }
-          }
-          console.log(timeAxis);
+          this.updateCurrentRecords()
         }
       }
+    },
+
+    updateCurrentRecords() {
+
+      this.combinedRecords = [];
+      this.timeStampArray = [];
+      // 找出selectedParams中采样率最高的参数
+      let maxRate = 0;
+      for (const param of this.selectedParams) {
+        maxRate = Math.max(maxRate, parseInt(param.rate, 10));
+      }
+      console.log("maxRate is:", maxRate)
+
+      // 获取采样率最高的参数的记录
+      for (const param of this.selectedParams) {
+        if (parseInt(param.rate, 10) === maxRate) {
+          const records = param.records;
+          for (const record of records) {
+            const timestamp = new Date(record.RecordTime);
+            for (let i = 0; i < maxRate; i++) {
+              this.timeStampArray.push(this.getFormattedRecordTime(timestamp, i, maxRate))
+            }
+          }
+          break; // 找到最高采样率的参数后结束循环
+        }
+      }
+
+      this.combinedRecords = [];
+      console.log("this.selectedParams is:", this.selectedParams)
+
+      // 若只有一个数据需要展示
+      if (this.selectedParams.length === 1) {
+        // 当只有一个参数需要展示时
+        const rate = parseInt(this.selectedParams[0].rate, 10);
+        let recordName = this.selectedParams[0].param;
+
+        for (let i = 0; i < this.timeStampArray.length; i++) {
+
+          console.log("x", Math.floor(i / maxRate))
+          const timestamp = this.timeStampArray[i];
+          const record = this.selectedParams[0].records[Math.floor(i / maxRate)];
+          const recordIndex = Math.min(Math.floor(i * (rate / maxRate)), record.RecordValues.length - 1);
+          this.combinedRecords.push({
+            RecordTime: timestamp,
+            RecordNameLeft: recordName,
+            RecordNameRight: "",
+            RecordValuesLeft: record.RecordValues[recordIndex],
+            RecordValuesRight: "",
+          });
+        }
+
+        // for( )
+
+      } else if (this.selectedParams.length === 2) {
+        // 当有两个参数需要展示时
+        const rate1 = parseInt(this.selectedParams[0].rate, 10);
+        const rate2 = parseInt(this.selectedParams[1].rate, 10);
+        const records1 = this.selectedParams[0].records;
+        const records2 = this.selectedParams[1].records;
+
+        for (let i = 0; i < this.timeStampArray.length; i++) {
+          const timestamp = this.timeStampArray[i];
+          const recordIndex1 = Math.min(Math.floor(i * (rate1 / maxRate)), records1[0].RecordValues.length - 1);
+          const recordIndex2 = Math.min(Math.floor(i * (rate2 / maxRate)), records2[0].RecordValues.length - 1);
+
+          if (rate1 >= rate2) {
+            // 如果参数1的采样率更高或相等
+            this.combinedRecords.push({
+              RecordTime: timestamp,
+              RecordNameLeft: this.selectedParams[0].param,
+              RecordNameRight: this.selectedParams[1].param,
+              RecordValuesLeft: records1[0].RecordValues[recordIndex1],
+              RecordValuesRight: (i % (rate1 / rate2) === 0) ? records2[0].RecordValues[recordIndex2] : "--",
+            });
+            for (let j = 1; j < records2.length; j++) {
+              const index2 = Math.min(Math.floor(i * (rate2 / maxRate)), records2[j].RecordValues.length - 1);
+              this.combinedRecords[this.combinedRecords.length - 1]["RecordValuesRight_" + j] = (i % (rate1 / rate2) === 0) ? records2[j].RecordValues[index2] : "--";
+            }
+          } else {
+            // 如果参数2的采样率更高
+            this.combinedRecords.push({
+              RecordTime: timestamp,
+              RecordNameLeft: this.selectedParams[0].param,
+              RecordNameRight: this.selectedParams[1].param,
+              RecordValuesLeft: (i % (rate2 / rate1) === 0) ? records1[0].RecordValues[recordIndex1] : "--",
+              RecordValuesRight: records2[0].RecordValues[recordIndex2],
+            });
+            for (let j = 1; j < records1.length; j++) {
+              const index1 = Math.min(Math.floor(i * (rate1 / maxRate)), records1[j].RecordValues.length - 1);
+              this.combinedRecords[this.combinedRecords.length - 1]["RecordValuesLeft_" + j] = (i % (rate2 / rate1) === 0) ? records1[j].RecordValues[index1] : "--";
+            }
+          }
+        }
+      }
+
+      console.log("time stamp is:", this.timeStampArray);
+      console.log("combinedRecords is", this.combinedRecords);
+
+    },
+    // 辅助函数，用于格式化时间戳
+    getFormattedRecordTime(timestamp, index, maxRate) {
+      const newTimestamp = new Date(timestamp.getTime() + (index * (1000 / maxRate)));
+      return newTimestamp.toLocaleString() + ' ' + index;
     },
 
     goEventPage() {
@@ -290,7 +358,7 @@ export default {
     postEventPara(tmp).then(response => {
 
       this.dataForDisplay = response
-      // console.log(response)
+      console.log(response)
     }).catch(error => {
       console.error('Error in Postting event params:', error);
     });

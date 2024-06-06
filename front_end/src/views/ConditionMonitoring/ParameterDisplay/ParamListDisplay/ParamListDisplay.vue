@@ -68,7 +68,7 @@
         <el-col :span="9"
                 style="border:  0.5px solid rgb(111, 111, 111);">
           <el-row>
-            <el-table height="67vh"
+            <el-table height="62vh"
                       style=" background-color: rgb(46, 45, 45)"
                       :data="currentNewPaArray.filter(data => !searchInput || data.para.toLowerCase().includes(searchInput.toLowerCase()))"
                       :sort-method="customSortMethodForProgressColumn"
@@ -102,12 +102,14 @@
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
-            <div class="table-inner-number"> Total Number: {{ parameterCountTotal }} </div>
+            <div class="table-lower-bar">
+              <span class="table-lower-bar-right-text"> Total Number: {{ parameterCountTotal }} </span>
+            </div>
           </el-row>
         </el-col>
         <el-col :span="9"
                 style="border:  0.5px solid rgb(111, 111, 111);">
-          <el-table height="67vh"
+          <el-table height="62vh"
                     style=" background-color: rgb(46, 45, 45)"
                     :data="currentNewAddedArray"
                     :sort-method="customSortMethodForProgressColumn"
@@ -133,14 +135,23 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
-          <div class="table-inner-number">
+          <div class="table-lower-bar">
+            <el-button v-if="listSelected == 2"
+                       :style="{
+          backgroundColor: 'rgb(70, 72, 73)',
+          color: 'white'
+        }"
+                       @click="addParametersToShow">ADD</el-button>
+            <span class="table-lower-bar-right-text"> Total Number: {{ this.addedParams.length }} </span>
+          </div>
+          <!-- <div class="table-inner-number">
             <el-button v-if="listSelected == 2"
                        :style="{
           backgroundColor: 'rgb(70, 72, 73)',
           color: 'white'
         }"
                        @click="addParametersToShow">ADD</el-button> Total Number: {{ this.addedParams.length }}
-          </div>
+          </div> -->
         </el-col>
       </el-row>
       <el-dialog title="Error Message"

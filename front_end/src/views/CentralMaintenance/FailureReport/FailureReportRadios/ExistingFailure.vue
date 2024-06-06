@@ -1,5 +1,5 @@
 <template>
-  <el-row style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+  <el-row style="height: 65vh; border:  0.5px solid rgb(111, 111, 111);">
     <el-table highlight-current-row
               style="width: 100%;background-color: rgb(46, 45, 45)"
               :data="existingFailureArray"
@@ -10,7 +10,7 @@
                 font: '14px',
                 'text-align': 'center',
               }"
-              height="70vh"
+              height="65vh"
               :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
               row-key="index"
@@ -62,7 +62,10 @@
       <el-table-column :width="null"
                        :min-width="5"></el-table-column>
     </el-table>
-    <div class="table-outer-number">Number of Failures: {{ existingFailureArray.length }}</div>
+    <div class="
+                table-lower-bar">
+      <span class="table-lower-bar-right-text">Number of Failures: {{ existingFailureArray.length }}</span>
+    </div>
   </el-row>
 </template>
 <script>

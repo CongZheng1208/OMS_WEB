@@ -29,12 +29,15 @@
                  class="div-content-item"
                  v-for="(item, index) in currentHardwareInformation"
                  :key="item.Part">
-              <p :style="{ backgroundColor: item.PartNumberColor }">Part Number: {{ item['Part Number'] }}</p>
-              <p :style="{ backgroundColor: item.PartDescriptionColor }">Part Description:
+              <p :style="{ backgroundColor: item['PN_changed'] == 1 ? '#666666' : 'transparent' }">Part Number:
+                {{ item['Part Number'] }}</p>
+              <p :style="{ backgroundColor: item['PD_changed'] == 1 ? '#666666' : 'transparent' }">Part Description:
                 {{ item['Part Description'] }}</p>
-              <p :style="{ backgroundColor: item.SerialNumberColor }">Serial Number: {{ item['Serial Number'] }}</p>
-              <p :style="{ backgroundColor: item.ModificationStatusColor }">Modification Status:
+              <p :style="{ backgroundColor: item['SN_changed'] == 1 ? '#666666' : 'transparent' }">Serial Number:
+                {{ item['Serial Number'] }}</p>
+              <p :style="{ backgroundColor: item['LIN_changed'] == 1 ? '#666666' : 'transparent' }">Modification Status:
                 {{ item['Modification Status'] }}</p>
+              <p> LIN: {{ item['LIN'] }}</p>
             </div>
           </div>
           <div
@@ -42,12 +45,14 @@
             <div class="div-title"> Additional Information </div>
             <div v-if="currentAdditionalInformation.length === 0"
                  class="content-alert"> No Alive Data </div>
-            <div v-else> {{ currentAdditionalInformation }} </div>
+            <div v-else
+                 class="div-content-item"
+                 v-for="(item, index) in currentAdditionalInformation"> {{ item }} </div>
           </div>
         </el-col>
         <el-col :span="12">
           <div
-               style=" overflow: auto; height: 61vh; max-height: 61vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-top: 0.5vh;">
+               style=" overflow: scroll; height: 61vh; max-height: 61vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-top: 0.5vh;">
             <div class="div-title"
                  style=" position: sticky;top: 0;"> Software Information </div>
             <div v-if="currentSoftwareInformation.length === 0"
@@ -56,15 +61,20 @@
                  class="div-content-item"
                  v-for="entry in currentSoftwareInformation"
                  :key="entry.LocationID">
-              <p>Location ID: {{ entry['Location ID'] }}</p>
-              <p>Location Description: {{ entry['Location Description'] }}</p>
+              <p :style="{ backgroundColor: entry['LIN_changed'] == 1 ? '#666666' : 'transparent' }">Location ID:
+                {{ entry['Location ID'] }}</p>
+              <p :style="{ backgroundColor: entry['LD_changed'] == 1 ? '#666666' : 'transparent' }">Location
+                Description: {{ entry['Location Description'] }}</p>
               <ul>
                 <div v-for="softwarePart in entry['Software Part Data']"
                      :key="softwarePart.Part">
-                  <p style="padding-top: 1vh; font-weight: bold;"> Software Part Data Item: {{ softwarePart['LIN'] }}
-                  </p>
-                  <p> Part Number: {{ softwarePart['Part Number'] }}</p>
-                  <p> Part Description: {{ softwarePart['Part Description'] }}</p>
+                  <p style="padding-top: 1vh; font-weight: bold;"> Software Part Data Item: </p>
+                  <p :style="{ backgroundColor: softwarePart['PN_changed'] == 1 ? '#666666' : 'transparent' }"> Part
+                    Number: {{ softwarePart['Part Number'] }}</p>
+                  <p :style="{ backgroundColor: softwarePart['PD_changed'] == 1 ? '#666666' : 'transparent' }"> Part
+                    Description: {{ softwarePart['Part Description'] }}</p>
+                  <p :style="{ backgroundColor: softwarePart['LIN_changed'] == 1 ? '#666666' : 'transparent' }"> LIN:
+                    {{ softwarePart['LIN'] }}</p>
                 </div>
               </ul>
             </div>
@@ -99,14 +109,11 @@ export default {
       currentSoftwareInformation: {},
       currentAdditionalInformation: "",
 
-      configurationTimer: "",
-
       fullscreenLoading: false,
       loading: true,
     };
   },
   mounted() {
-
     let tmp = qs.stringify({
       ATA: this.$route.params.selectedEqui.ATA,
       equipmentName: this.$route.params.selectedEqui.equipmentName
@@ -115,43 +122,32 @@ export default {
     this.currentATA = this.$route.params.selectedEqui.ata
     this.currentEquipmentName = this.$route.params.selectedEqui.equipmentName
 
+    postConfigData(tmp).then(response => {
+      if (response.hardwareInformation.trim().length === 0) {
+        this.currentHardwareInformation = []
+      } else {
+        this.currentHardwareInformation = JSON.parse(response.hardwareInformation)
+      }
 
-    this.configurationTimer = setInterval(() => {
-      postConfigData(tmp).then(response => {
-        console.log(response)
-        // console.log(response.hardwareInformation.trim().length === 0)
-        // console.log(response.softwareInformation.trim().length === 0)
-        // console.log(response.additionalInformation.trim().length === 0)
+      if (response.softwareInformation.trim().length === 0) {
+        this.currentSoftwareInformation = []
+      } else {
+        this.currentSoftwareInformation = JSON.parse(response.softwareInformation)
+      }
 
-        if (response.hardwareInformation.trim().length === 0) {
-          this.currentHardwareInformation = []
-        } else {
-          this.currentHardwareInformation = JSON.parse(response.hardwareInformation)
-        }
+      if (response.additionalInformation.trim().length === 0 || response.additionalInformation === "[]") {
+        this.currentAdditionalInformation = ""
+      } else {
+        this.currentAdditionalInformation = JSON.parse(response.additionalInformation)
+      }
+    }).catch(error => {
+      console.error('Error in Postting pdf url:', error);
+    });
 
-
-        if (response.softwareInformation.trim().length === 0) {
-          this.currentSoftwareInformation = []
-        } else {
-          this.currentSoftwareInformation = JSON.parse(response.softwareInformation)
-        }
-
-        if (response.additionalInformation.trim().length === 0) {
-          this.currentAdditionalInformation = ""
-        } else {
-          this.currentAdditionalInformation = response.additionalInformation
-        }
-      }).catch(error => {
-        console.error('Error in Postting pdf url:', error);
-      });
-    }, 1000);
 
     setTimeout(() => {
       this.loading = false;
     }, 1000);
-  },
-  beforeDestroy() {
-    clearInterval(this.configurationTimer);
   },
   methods: {
     /**

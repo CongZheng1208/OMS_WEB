@@ -1,10 +1,10 @@
 <template>
   <el-row v-if="!isPdfPageSelected"
-          style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+          style="height: 65vh; border:  0.5px solid rgb(111, 111, 111);">
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="existingFDEArray"
-              height="70vh"
+              height="65vh"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
     background: '#404040',
@@ -47,9 +47,18 @@
                        label="Flight Phase"
                        sortable
                        :width="null"
-                       :min-width="25"></el-table-column>
+                       :min-width="30"></el-table-column>
       <el-table-column prop="failureTime"
                        label="Date/Time"
+                       sortable
+                       :width="null"
+                       :min-width="30"></el-table-column>
+      <el-table-column prop="failureNameInfo"
+                       label="Failure Name"
+                       :width="null"
+                       :min-width="45"></el-table-column>
+      <el-table-column prop="flightLeg"
+                       label="Flight Leg"
                        sortable
                        :width="null"
                        :min-width="30"></el-table-column>
@@ -68,18 +77,11 @@
           </span>
         </template>
 </el-table-column>
-<el-table-column prop="
-                failureNameInfo"
-                label="Failure Name"
-                :width="null"
-                :min-width="45"></el-table-column>
-      <el-table-column prop="flightLeg"
-                       label="Flight Leg"
-                       sortable
-                       :width="null"
-                       :min-width="25"></el-table-column>
-    </el-table>
-    <div class="table-outer-number"> Number of FDEs: {{ existingFDEArray.length }} </div>
+</el-table>
+<div class="
+                table-lower-bar">
+            <span class="table-lower-bar-right-text"> Number of FDEs: {{ existingFDEArray.length }} </span>
+            </div>
   </el-row>
   <div v-else>
     <div class="html_page">
@@ -139,13 +141,8 @@ export default {
     tableRowClicked(item) {
       if (item.failureNameInfo !== "--") {
         this.$store.state.failureList.selectedFailureId = item.index;
-        // console.log(
-        //   "selectedFailureId",
-        //   this.$store.state.failureList.selectedFailureId
-        // );
       }
     },
-
 
     /**
      * 本函数用于确定某行是否可被选中样式
@@ -188,9 +185,6 @@ export default {
 
         const queryString = querystring.stringify(response);
         const url = decodeURIComponent(`http://localhost:8080/MainPage?${queryString}`);
-
-        // console.log(url);
-        // console.log(queryString);
 
         document.getElementById('iframe').src = url;
 

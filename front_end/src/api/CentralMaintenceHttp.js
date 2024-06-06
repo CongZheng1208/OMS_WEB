@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const CentralMaintenceHttp = axios.create({
-  //baseURL: 'http://localhost:8888/oms/php/'
+  //baseURL: "http://localhost:8888/oms/php/",
   baseURL: "http://127.0.0.1/oms/php/",
 });
 

@@ -28,7 +28,6 @@
                              :min-width="15"></el-table-column>
             <el-table-column prop="equipmentName"
                              label="System Name"
-                             sortable
                              :width="null"
                              :min-width="35"
                              :formatter="formatATAName"></el-table-column>

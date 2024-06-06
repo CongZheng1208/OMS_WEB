@@ -13,7 +13,7 @@
     <el-main>
       <el-row :gutter="2">
         <el-col :span="6"
-                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+                style="height: 71vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="71vh"
                     style=" background-color: rgb(46, 45, 45)"
@@ -40,7 +40,7 @@
           </el-table>
         </el-col>
         <el-col :span="6"
-                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+                style="height: 71vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="71vh"
                     @row-click="handleEquipmentRowClick"
@@ -68,10 +68,10 @@
           </el-table>
         </el-col>
         <el-col :span="12"
-                style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+                style="height: 71vh; border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     class="test-table"
-                    height="71vh"
+                    height="66vh"
                     style="background-color: rgb(46, 45, 45)"
                     @row-click="handleTestRowClick"
                     :data="filteredTests"
@@ -104,7 +104,10 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
-          <div class="table-outer-number"> Number of Tests: {{ filteredTests.length }} </div>
+          <div class="
+                table-lower-bar">
+            <span class="table-lower-bar-right-text"> Number of Tests: {{ filteredTests.length }}</span>
+          </div>
         </el-col>
       </el-row>
       <el-dialog title="ERROR MESSAGE"

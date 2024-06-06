@@ -1,6 +1,6 @@
 <template>
   <el-row v-if="!isPdfPageSelected"
-          style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+          style="height: 65vh; border:  0.5px solid rgb(111, 111, 111);">
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="postFlightReportArray"
@@ -11,7 +11,7 @@
     font: '14px',
     'text-align': 'center',
   }"
-              height="70vh"
+              height="65vh"
               row-key="index"
               :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
@@ -31,19 +31,30 @@
                        label="FDE Status"
                        sortable
                        :width="null"
-                       :min-width="30"
-                       :formatter="fdeStatusData"></el-table-column>
+                       :min-width="30"></el-table-column>
       <el-table-column prop="fde.FDEClass"
                        label="FDE Class"
                        sortable
                        :width="null"
-                       :min-width="30"
-                       :formatter="fdeClassData"></el-table-column>
+                       :min-width="30"></el-table-column>
       <el-table-column prop="fde.FDETime"
                        label="Date/Time"
                        sortable
                        :width="null"
                        :min-width="40"></el-table-column>
+      <el-table-column prop="failureNameInfo"
+                       label="Failure Name"
+                       :width="null"
+                       :min-width="45"></el-table-column>
+      <el-table-column prop="failureState"
+                       label="State"
+                       :width="null"
+                       :min-width="35"></el-table-column>
+      <el-table-column prop="flightPhase"
+                       label="Flight Phase"
+                       sortable
+                       :width="null"
+                       :min-width="35"></el-table-column>
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
                        :width="null"
@@ -59,22 +70,12 @@
           </span>
         </template>
 </el-table-column>
-<el-table-column prop="
-                failureNameInfo"
-                label="Failure Name"
-                :width="null"
-                :min-width="45"></el-table-column>
-      <el-table-column prop="failureState"
-                       label="State"
-                       :width="null"
-                       :min-width="35"></el-table-column>
-      <el-table-column prop="flightPhase"
-                       label="Flight Phase"
-                       sortable
-                       :width="null"
-                       :min-width="35"></el-table-column>
-    </el-table>
-    <div class="table-outer-number"> Number of Flight Reports: {{ postFlightReportArray.length }} </div>
+</el-table>
+<div class="
+                table-lower-bar">
+            <span class="table-lower-bar-right-text"> Number of Flight Reports:
+              {{ postFlightReportArray.length }}</span>
+            </div>
   </el-row>
   <div v-else>
     <div class="html_page">
@@ -196,8 +197,10 @@ export default {
       //深度拷贝，不改变state中resFailureData的原始数据
 
       const postFlightReportOri = this.$store.state.failureList.resFailureData;
+
+      console.log("pfr is:", postFlightReportOri)
       if (postFlightReportOri.length !== undefined) {
-        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === 0);
+        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === "0" && item.fde.hasOwnProperty('FDEClass'));
       } else {
         this.postFlightReportArray = []
       }

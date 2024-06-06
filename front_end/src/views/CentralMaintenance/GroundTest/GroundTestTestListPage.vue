@@ -13,12 +13,12 @@
     <el-main>
       <el-row style=" border:  0.5px solid rgb(111, 111, 111);">
         <el-table highlight-current-row
-                  height="71vh"
+                  height="66vh"
                   @row-click="handleRowClick"
                   style=" background-color: rgb(46, 45, 45)"
                   :data="currentGroundTestLists"
                   :sort-method="customSortMethodForProgressColumn"
-                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '18px' }"
                   :empty-text="'NO DATA DISPLAY'"
                   v-loading="loading"
                   element-loading-text="Data Loading..."
@@ -72,7 +72,10 @@
           <el-table-column :width="null"
                            :min-width="5"></el-table-column>
         </el-table>
-        <div class="table-outer-number"> Number of Tests: {{ currentGroundTestLists.length }} </div>
+        <div class="
+                table-lower-bar">
+          <span class="table-lower-bar-right-text">Number of Tests: {{ currentGroundTestLists.length }}</span>
+        </div>
       </el-row>
     </el-main>
     <el-footer>

@@ -1,11 +1,12 @@
 <template>
-  <div class="container-fluid">
-    <Menus :menus="menus" />
+  <div class="container-fluid ">
+    <Menus :menus="menus"
+           class='text-xl' />
     <router-view />
   </div>
 </template>
 <script lang="ts">
-import Menus from '@/components/Menus/index.vue'
+import Menus from '@/components/SubMenus/index.vue'
 export default {
   name: "CentralMaintenance",
   components: { Menus },

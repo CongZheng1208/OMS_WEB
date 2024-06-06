@@ -34,7 +34,7 @@
                 style=" border:  0.5px solid rgb(111, 111, 111);">
           <div v-if="displaySelected == 'NVMDataRetrieval'">
             <el-table highlight-current-row
-                      height="70vh"
+                      height="65vh"
                       style=" background-color: rgb(46, 45, 45)"
                       @row-click="handleClickRetrieval"
                       :data="dataForRetrieval"
@@ -77,11 +77,14 @@
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
-            <div class="table-outer-number"> Total Number: {{ dataForRetrieval.length }} </div>
+            <div class="
+                table-lower-bar">
+              <span class="table-lower-bar-right-text">Total Number: {{ dataForRetrieval.length }}</span>
+            </div>
           </div>
           <div v-else>
             <el-table highlight-current-row
-                      height="70vh"
+                      height="65vh"
                       style=" background-color: rgb(46, 45, 45)"
                       @row-click="handleClickReset"
                       :data="dataForReset"
@@ -120,7 +123,11 @@
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
-            <div class="table-outer-number"> Total Number: {{ dataForReset.length }} </div>
+            <div class="
+                table-lower-bar">
+              <span class="table-lower-bar-right-text">Total Number: {{ dataForReset.length }}</span>
+            </div>
+            <!-- <div class="table-outer-number"> Total Number: {{ dataForReset.length }} </div> -->
           </div>
         </el-col>
         <el-col :span="10"

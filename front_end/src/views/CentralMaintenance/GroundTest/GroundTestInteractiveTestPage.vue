@@ -83,6 +83,7 @@
         <button class="footer-btn"
                 @click="continueTest()"
                 :disabled="selectedOption == -1"> CONTINUE </button>
+        <button class="footer-btn">ABORT</button>
       </div>
     </el-footer>
   </div>

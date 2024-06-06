@@ -7,8 +7,9 @@ const instance = axios.create({
   // 本地调试
   baseURL: "http://localhost:8888/oms/php/",
 
-  //
+  // GIPC部署
   //baseURL: "http://127.0.0.1/oms/php/",
+
   // FIDAB部署
   // baseURL: 'http://10.11.53.158:8080/fidab/app/development/OGBT/simulator/php/',
   timeout: 5000,

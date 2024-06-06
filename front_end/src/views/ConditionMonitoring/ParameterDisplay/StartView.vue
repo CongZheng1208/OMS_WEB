@@ -34,7 +34,7 @@
     <el-main>
       <el-row v-if="displaySelected == 'list'">
         <el-table highlight-current-row
-                  height="65vh"
+                  height="70vh"
                   style=" background-color: rgb(46, 45, 45)"
                   :data="selectedParams"
                   :sort-method="customSortMethodForProgressColumn"
@@ -64,7 +64,7 @@
       <el-row v-else>
         <el-col :span="8">
           <el-table highlight-current-row
-                    height="65vh"
+                    height="70vh"
                     @row-click="addParamToShow"
                     style=" background-color: rgb(46, 45, 45)"
                     :data="selectedParams"
@@ -85,7 +85,7 @@
         <el-col :span="16">
           <div class="custom-card"
                shadow="hover"
-               style="height: 65vh">
+               style="height: 75vh">
             <!-- <div class="custom-header">DETAILS</div> -->
             <div class="custom-content">
               <div v-if="showedParams.length == 1"

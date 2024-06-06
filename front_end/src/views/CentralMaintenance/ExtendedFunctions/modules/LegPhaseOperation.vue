@@ -1,165 +1,143 @@
 <template>
   <div>
     <el-row>
-      <div class="el-subheader">
-        FLIGHT LEG/PHASE OPERATION
-      </div>
+      <div class="el-subheader"> FLIGHT LEG/PHASE OPERATION </div>
     </el-row>
-
-    <el-row >
-      <div>
-        <el-col :span="12">
-          <div class="segment-left-border">
-            <h3 style="margin-top: 5vh; text-align: center;">
-              FLIGHT LEG OPERATION
-            </h3>
-            <div class="middle-box">
-              <div v-if="!isLegAble">
-                <span  class="middle-box-text">
-                  Flight Leg Transition is Disabled.
-                  If a real flight leg would begin, click LEG ENABLE to manually enable flight leg transition.
-                </span>
-              </div>
-              <div v-if="isLegAble">
-                <span  class="middle-box-text">
-                  Flight Leg Transition is Enabled.
-                  If the next engine start, it would be a new flight leg.
-                  If you want to manually disable flight leg transition, click LEG DISABLE.
-                </span>
-              </div>
-            </div>
-            <div class="middle-button-bar">
-              <div style="float: left">
-                <button class="main-btn" @click="startLeg()" :disabled="isLegAble">
-                  LEG ENABLE
-                </button>
-              </div>
-              <div style="float: right">
-                <button class="main-btn" @click="stopLeg()" :disabled="!isLegAble">
-                  LEG DISABLE
-                </button>
-              </div>
-            </div>
+    <el-row>
+      <el-col :span="12"
+              style="border:1px solid rgb(85, 85, 85); padding: 5vh">
+        <h3 style="text-align: center;"> FLIGHT LEG OPERATION </h3>
+        <div class="middle-box">
+          <div v-if="!isLegAble">
+            <span class="middle-box-text"> Flight Leg Transition is Disabled. If a real flight leg would begin, click
+              LEG ENABLE to manually enable flight leg transition. </span>
           </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="segment-right-border">
-            <h3 style="margin-top: 5vh; text-align: center;">
-              FLIGHT PHASE OPERATION
-            </h3>
-            <div class="middle-box">
-              <div v-if="!isPhaseAble">
-                <span  class="middle-box-text">
-                  Flight PHASE Transition is Disabled.
-                  If you want to manually disable flight leg transition, click PHASE ENABLE.
-                </span>
-              </div>
-              <div v-if="isPhaseAble">
-                <span  class="middle-box-text">
-                  Flight Phase Transition is Enabled.
-                  If you want to manually inhibit flight phase transition, click PHASE DISABLE.
-                </span>
-              </div>
-            </div>
-            <div class="middle-button-bar">
-              <div style="float: left">
-                <button class="main-btn" @click="startPhase()" :disabled="isPhaseAble">
-                  PHASE ENABLE
-                </button>
-              </div>
-              <div style="float: right">
-                <button class="main-btn" @click="stopPhase()" :disabled="!isPhaseAble">
-                  PHASE DISABLE
-                </button>
-              </div>
-            </div>
+          <div v-if="isLegAble">
+            <span class="middle-box-text"> Flight Leg Transition is Enabled. If the next engine start, it would be a new
+              flight leg. If you want to manually disable flight leg transition, click LEG DISABLE. </span>
           </div>
-        </el-col>
-      </div>
+        </div>
+        <div class="middle-button-bar">
+          <div style="float: left">
+            <button class="main-btn"
+                    @click="startLeg()"
+                    :disabled="isLegAble"> LEG ENABLE </button>
+          </div>
+          <div style="float: right">
+            <button class="main-btn"
+                    @click="stopLeg()"
+                    :disabled="!isLegAble"> LEG DISABLE </button>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="12"
+              style="border:1px solid rgb(85, 85, 85); padding: 5vh">
+        <h3 style="text-align: center;"> FLIGHT PHASE OPERATION </h3>
+        <div class="middle-box">
+          <div v-if="!isPhaseAble">
+            <span class="middle-box-text"> Flight PHASE Transition is Disabled. If you want to manually disable flight
+              leg transition, click PHASE ENABLE. </span>
+          </div>
+          <div v-if="isPhaseAble">
+            <span class="middle-box-text"> Flight Phase Transition is Enabled. If you want to manually inhibit flight
+              phase transition, click PHASE DISABLE. </span>
+          </div>
+        </div>
+        <div class="middle-button-bar">
+          <div style="float: left">
+            <button class="main-btn"
+                    @click="startPhase()"
+                    :disabled="isPhaseAble"> PHASE ENABLE </button>
+          </div>
+          <div style="float: right">
+            <button class="main-btn"
+                    @click="stopPhase()"
+                    :disabled="!isPhaseAble"> PHASE DISABLE </button>
+          </div>
+        </div>
+      </el-col>
     </el-row>
-
-    <el-footer>
-      <div>
-
-      </div>
-      <div>
-
-      </div>
-    </el-footer>
   </div>
 </template>
-
 <script>
-  export default {
-    name: "LegPhaseOperation",
-    data() {
-      return {
-        isLegAble: false,
-        isPhaseAble: false
-      };
+import { printPage, handleTestOrder } from '@/utils/utils.ts'
+import qs from 'qs'
+export default {
+  name: "LegPhaseOperation",
+  data() {
+    return {
+      isLegAble: false,
+      isPhaseAble: false
+    };
+  },
+  mounted() {
+    this.refreshInterval = setInterval(this.paramListInit, 1000); // Executes paramListInit function every 1000 milliseconds (1 second)
+  },
+  methods: {
+
+    stopLeg() {
+      this.isLegAble = false
+
+      let tmp = qs.stringify({
+        OrderType: "LEGDISABLE",
+        currentPage: "flightLegAndPhase",
+      });
+      this.handleTestOrder(tmp)
     },
-    mounted() {
-      this.refreshInterval = setInterval(this.paramListInit, 1000); // Executes paramListInit function every 1000 milliseconds (1 second)
+    startLeg() {
+      this.isLegAble = true
+
+      let tmp = qs.stringify({
+        OrderType: "LEGENABLE",
+        currentPage: "flightLegAndPhase",
+      });
+      this.handleTestOrder(tmp)
     },
-    methods: {
-      printPage() {
-        // 调用window.print()来触发打印
-        window.print();
-      },
-      stopLeg(){
-        this.isLegAble = false
-      },
-      startLeg(){
-        this.isLegAble = true
-      },
-      stopPhase(){
-        this.isPhaseAble = false
-      },
-      startPhase(){
-        this.isPhaseAble = true
-      },
+    stopPhase() {
+      this.isPhaseAble = false
+
+      let tmp = qs.stringify({
+        OrderType: "PHASEDISABLE",
+        currentPage: "flightLegAndPhase",
+      });
+      this.handleTestOrder(tmp)
     },
-    beforeDestroy() {
+    startPhase() {
+      this.isPhaseAble = true
+
+      let tmp = qs.stringify({
+        OrderType: "PHASEENABLE",
+        currentPage: "flightLegAndPhase",
+      });
+      this.handleTestOrder(tmp)
     },
-  }
+    printPage,
+    handleTestOrder
+  },
+  beforeDestroy() {
+  },
+}
 </script>
-
 <style scoped>
-  .segment-left-border {
-    border: 1.5px solid lightgray;
-    /* border-top: none; */
-    border-bottom: none;
-    border-left: none;
-  }
+.middle-box {
+  padding: 2vh;
+  border: 1.5px solid lightgray;
+  margin-left: 2vh;
+  margin-right: 2vh;
+  height: 37vh
+}
 
-  .segment-right-border {
-    border: 1.5px solid lightgray;
-    /* border-top: none; */
-    border-bottom: none;
-    border-right: none;
-    border-left: none;
-  }
+.middle-box-text {
+  margin-top: 5vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+  white-space: pre-line;
+}
 
-  .middle-box{
-    padding: 3vh;
-    border: 1.5px solid lightgray;
-    margin-top: 3vh;
-    margin-left: 5vh;
-    margin-right: 5vh;
-    height: 30vh
-  }
-
-  .middle-box-text{
-    margin-top: 5vh;
-    margin-left: 5vh;
-    margin-right: 5vh;
-    white-space: pre-line;
-  }
-
-  .middle-button-bar {
-    margin-top: 5vh;
-    margin-left: 5vh;
-    margin-right: 5vh;
-  }
-
+.middle-button-bar {
+  margin-top: 3vh;
+  margin-left: 3vh;
+  margin-right: 3vh;
+  margin-bottom: 6vh;
+}
 </style>

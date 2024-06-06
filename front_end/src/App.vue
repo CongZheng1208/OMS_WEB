@@ -6,7 +6,6 @@
 </template>
 <script lang="ts">
 import Menus from '@/components/Menus/index.vue'
-import { getConnect } from '@/services/centralMaintenance/groundTest/index.js';
 
 export default {
   name: "App",

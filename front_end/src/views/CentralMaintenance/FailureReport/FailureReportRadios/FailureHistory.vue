@@ -1,5 +1,5 @@
 <template>
-  <el-row style="height: 70vh; border:  0.5px solid rgb(111, 111, 111);">
+  <el-row style="height: 65vh; border:  0.5px solid rgb(111, 111, 111);">
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="filteredFailure"
@@ -10,7 +10,7 @@
                 font: '14px',
                 'text-align': 'center',
               }"
-              height="70vh"
+              height="65vh"
               :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
               row-key="index"
@@ -216,12 +216,14 @@
                    @click="isFlightLegsSelected = false">Back</el-button>
       </span>
     </el-dialog>
-    <div class="table-outer-number">
-      <el-button circle
-                 slot="reference"
-                 class="table-outer-button"
-                 icon="el-icon-s-data"
-                 @click="isFlightLegsSelected = true"></el-button> Number of Failures: {{ failureCountTotal }}
+    <div class="
+                table-lower-bar">
+      <span class="table-lower-bar-right-text">
+        <el-button circle
+                   slot="reference"
+                   class="table-outer-button"
+                   icon="el-icon-s-data"
+                   @click="isFlightLegsSelected = true"></el-button> Number of Failures: {{ failureCountTotal }}</span>
     </div>
   </el-row>
 </template>

@@ -1,14 +1,6 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
     <el-row style="border:  0.5px solid rgb(111, 111, 111);">
-      <el-col :span="21">
-        <div class="el-subheader"> Time Cycle Status: {{ }} </div>
-      </el-col>
-      <el-col :span="3">
-        <div class="el-subheader"> Total Number: {{ }} </div>
-      </el-col>
-    </el-row>
-    <el-row style="border:  0.5px solid rgb(111, 111, 111);">
       <el-table height="65vh"
                 style="background-color: rgb(45, 45, 45);"
                 :data="filteredTimeCycleData"
@@ -57,14 +49,15 @@
                          sortable
                          :width="null"
                          :min-width="70">
-          <template slot="header"
+          <!-- <template slot="header"
                     slot-scope="scope"> Status <el-input style="width: 15vh; margin-left: 2vh; margin-right: 1vh;"
                       v-model="searchStatusInput"
                       size="mini"
                       placeholder="Status"
                       clearable />
             <i class="el-icon-search"></i>
-          </template></el-table-column>
+          </template> -->
+        </el-table-column>
         <el-table-column prop="hours"
                          label="Hours"
                          :width="null"
@@ -88,12 +81,16 @@
         <el-table-column :width="null"
                          :min-width="5"></el-table-column>
       </el-table>
+      <div class="
+                table-lower-bar">
+        <span class="table-lower-bar-right-text"> <el-button circle
+                     slot="reference"
+                     class="table-outer-button"
+                     icon="el-icon-refresh"
+                     @click="flashData"></el-button> Total Number: {{ }} Time Cycle Status: {{ }}</span>
+      </div>
       <div class="table-outer-tc"> Notes: Data marked with "*" is obtained by calculating When the MS compute module
-        fails <el-button circle
-                   slot="reference"
-                   class="table-outer-button"
-                   icon="el-icon-refresh"
-                   @click="flashData"></el-button>
+        fails </el-button>
       </div>
     </el-row>
   </div>

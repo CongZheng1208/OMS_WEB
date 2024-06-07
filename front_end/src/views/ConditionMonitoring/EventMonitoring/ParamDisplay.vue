@@ -119,12 +119,10 @@
                                :min-width="50"></el-table-column>
               <el-table-column prop="RecordValuesLeft"
                                label="Param 1"
-                               sortable
                                :width="null"
                                :min-width="30"></el-table-column>
               <el-table-column prop="RecordValuesRight"
                                label="Param 2"
-                               sortable
                                :width="null"
                                :min-width="30"></el-table-column>
               <el-table-column :width="null"

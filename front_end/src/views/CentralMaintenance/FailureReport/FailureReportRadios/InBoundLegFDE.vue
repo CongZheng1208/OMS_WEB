@@ -13,31 +13,36 @@
   }"
               height="65vh"
               row-key="index"
+              :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
-              @current-change="tableRowClicked">
+              @current-change="tableRowClicked"
+              v-loading="loading"
+              element-loading-text="Data Loading..."
+              element-loading-spinner="el-icon-loading"
+              element-loading-background="rgba(0, 0, 0, 0.5)">
       <el-table-column :width="null"
                        :min-width="10"></el-table-column>
-      <el-table-column prop="fde.FDECode"
+      <el-table-column prop="FDECode"
                        label="FDE Code"
                        :width="null"
                        :min-width="35"></el-table-column>
-      <el-table-column prop="fde.FDEText"
+      <el-table-column prop="FDEText"
                        label="FDE Test"
                        sortable
                        :width="null"
                        :min-width="35"></el-table-column>
-      <el-table-column prop="fde.FDEStatus"
+      <el-table-column prop="FDEStatus"
                        label="FDE Status"
                        sortable
                        :width="null"
                        :min-width="30"></el-table-column>
-      <el-table-column prop="fde.FDEClass"
+      <el-table-column prop="FDEClass"
                        label="FDE Class"
                        sortable
                        :width="null"
                        :min-width="30"></el-table-column>
-      <el-table-column prop="fde.FDETime"
+      <el-table-column prop="FDETime"
                        label="Date/Time"
                        sortable
                        :width="null"
@@ -130,7 +135,7 @@ export default {
     }, 1000);
     setTimeout(() => {
       this.loading = false;
-    }, 500);
+    }, 1000);
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -150,7 +155,7 @@ export default {
 
         const queryString = querystring.stringify(response);
         const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
-        console.log(url);
+        // console.log(url);
 
         document.getElementById('iframe').src = url;
 
@@ -197,15 +202,87 @@ export default {
       //深度拷贝，不改变state中resFailureData的原始数据
 
       const postFlightReportOri = this.$store.state.failureList.resFailureData;
+      const resFDEDataOri = this.$store.state.failureList.resFDEData;
 
-      console.log("pfr is:", postFlightReportOri)
+      postFlightReportOri.forEach(item => {
+        // 检查对象是否包含fde属性
+        if (item.fde && item.fde.FDEClass) {
+          // 将fde属性的FDEClass值保存为新属性“FDEClass”
+          item.FDEClass = item.fde.FDEClass;
+          item.FDECode = item.fde.FDECode;
+          item.FDEText = item.fde.FDEText;
+          item.FDETime = item.fde.FDETime;
+
+          // 查找resFDEDataOri中属性FDECode等于item.fde.FDECode的对象
+          let matchingFDE = resFDEDataOri.find(fdeItem => fdeItem.FDECode === item.fde.FDECode);
+          if (matchingFDE) {
+            // 设置FDEStatus属性为相应的值
+            item.FDEStatus = matchingFDE.FDEStatus;
+          } else {
+            // 如果找不到匹配的对象，将FDEStatus属性设为空字符串
+            item.FDEStatus = "";
+          }
+        } else {
+          item.FDEClass = "";
+          item.FDECode = "";
+          item.FDEStatus = "";
+          item.FDEText = "";
+          item.FDETime = "";
+        }
+      });
+
       if (postFlightReportOri.length !== undefined) {
         this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === "0" && item.fde.hasOwnProperty('FDEClass'));
       } else {
         this.postFlightReportArray = []
       }
-      // console.log("postFlightReportOri is", postFlightReportOri)
-      // console.log("pfr is:", this.postFlightReportArray)
+
+      console.log("未合并之前数据", this.postFlightReportArray)
+
+
+      this.postFlightReportArray.forEach(item => {
+        item.children = [];  // 清空children数据
+      })
+
+
+      // 创建一个新数组来存放结果
+      this.postFlightReportArray = this.postFlightReportArray.reduce((acc, curr) => {
+        // 检查当前对象是否与已有对象相匹配
+        let match = acc.find(item => item.fde.FDECode === curr.fde.FDECode);
+        // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+        if (match) {
+          if (!match.children) {
+            match.children = [];
+          }
+          match.children.push({
+            FDEClass: "",
+            FDECode: "",
+            FDEStatus: "",
+            FDEText: "",
+            FDETime: "",
+            ata: "",
+            failureNameInfo: curr.failureNameInfo,
+            failureState: curr.failureState,
+            failureTime: "",
+            fault: "",
+            fde: "",
+            fimcodeInfo: curr.fimcodeInfo,
+            flightLeg: "",
+            flightPhase: curr.flightPhase,
+            id: curr.id,
+            index: curr.index,
+            maintenceText: curr.maintenceText,
+            maintenceTime: curr.maintenceTime
+          });
+        } else {
+          // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+
+      this.postFlightReportArray = mergedArray
+
     },
     customSortMethodForProgressColumn
   },

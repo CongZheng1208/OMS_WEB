@@ -14,7 +14,7 @@
       <el-row :gutter="2">
         <el-row style="border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
-                    height="70vh"
+                    height="65vh"
                     style=" background-color: rgb(46, 45, 45)"
                     @row-click="handleEventRowClick"
                     :data="allEvent"
@@ -51,6 +51,10 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
+          <div class="
+                table-lower-bar">
+            <span class="table-lower-bar-right-text"> Number of Events: {{ allEvent.length }}</span>
+          </div>
         </el-row>
       </el-row>
       <FlightLegs @close=" isFlightLegsSelected = false"

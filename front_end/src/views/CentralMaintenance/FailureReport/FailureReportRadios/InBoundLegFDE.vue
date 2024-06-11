@@ -237,14 +237,9 @@ export default {
         this.postFlightReportArray = []
       }
 
-      console.log("未合并之前数据", this.postFlightReportArray)
-
-
       this.postFlightReportArray.forEach(item => {
         item.children = [];  // 清空children数据
       })
-
-
       // 创建一个新数组来存放结果
       this.postFlightReportArray = this.postFlightReportArray.reduce((acc, curr) => {
         // 检查当前对象是否与已有对象相匹配
@@ -280,8 +275,6 @@ export default {
         }
         return acc;
       }, []);
-
-      this.postFlightReportArray = mergedArray
 
     },
     customSortMethodForProgressColumn

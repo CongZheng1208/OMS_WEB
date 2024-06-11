@@ -29,11 +29,7 @@ export default {
         .then((response) => {
           const failureReportOri = response;
 
-          // console.log("before:")
-          // console.log(failureReportOri)
-
           let resExistingFailureData = [];
-
           let idx = 1;
 
           failureReportOri.forEach((failure) => {
@@ -51,10 +47,6 @@ export default {
               idx = idx + 1;
             }
           });
-
-          // console.log("resExistingFailureData is:")
-          // console.log(resExistingFailureData)
-
           state.resFailureData = resExistingFailureData;
         })
         .catch((error) => {
@@ -69,7 +61,7 @@ export default {
         .then((response) => {
           state.resFDEData = response;
 
-          console.log("resFDEData is:", response);
+          // console.log("resFDEData is:", response);
         })
         .catch((error) => {
           console.error("Error in getting fde list:", error);

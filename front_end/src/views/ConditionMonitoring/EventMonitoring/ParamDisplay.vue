@@ -118,11 +118,11 @@
                                :width="null"
                                :min-width="50"></el-table-column>
               <el-table-column prop="RecordValuesLeft"
-                               label="Param 1"
+                               :label="param1Label"
                                :width="null"
                                :min-width="30"></el-table-column>
               <el-table-column prop="RecordValuesRight"
-                               label="Param 2"
+                               :label="param2Label"
                                :width="null"
                                :min-width="30"></el-table-column>
               <el-table-column :width="null"
@@ -181,6 +181,9 @@ export default {
       timeStampArray: [],
       combinedRecords: [],
 
+      param1Label: '',
+      param2Label: '',
+
       selectedParams: []
     };
   },
@@ -194,11 +197,13 @@ export default {
      */
     handleParamRowClick(row) {
       const index = this.selectedParams.findIndex(param => param === row);
-      if (index !== -1) {
+      if (row.records.length == 0) {
+        this.$message({
+          message: 'The parameter is missing data and cannot be added'
+        });
+      } else if (index !== -1) {
         this.selectedParams.splice(index, 1); // 如果该行已经存在于 selectedParams 中，则删除它
         this.updateCurrentRecords()
-
-        console.log(this.selectedParams);
       } else {
         if (this.selectedParams.length === 2) {
           this.$message({
@@ -215,12 +220,14 @@ export default {
 
       this.combinedRecords = [];
       this.timeStampArray = [];
+      this.param1Label = ""
+      this.param2Label = ""
+
       // 找出selectedParams中采样率最高的参数
       let maxRate = 0;
       for (const param of this.selectedParams) {
         maxRate = Math.max(maxRate, parseInt(param.rate, 10));
       }
-      console.log("maxRate is:", maxRate)
 
       // 获取采样率最高的参数的记录
       for (const param of this.selectedParams) {
@@ -235,9 +242,7 @@ export default {
           break; // 找到最高采样率的参数后结束循环
         }
       }
-
       this.combinedRecords = [];
-      console.log("this.selectedParams is:", this.selectedParams)
 
       // 若只有一个数据需要展示
       if (this.selectedParams.length === 1) {
@@ -245,9 +250,8 @@ export default {
         const rate = parseInt(this.selectedParams[0].rate, 10);
         let recordName = this.selectedParams[0].param;
 
-        for (let i = 0; i < this.timeStampArray.length; i++) {
 
-          console.log("x", Math.floor(i / maxRate))
+        for (let i = 0; i < this.timeStampArray.length; i++) {
           const timestamp = this.timeStampArray[i];
           const record = this.selectedParams[0].records[Math.floor(i / maxRate)];
           const recordIndex = Math.min(Math.floor(i * (rate / maxRate)), record.RecordValues.length - 1);
@@ -260,7 +264,8 @@ export default {
           });
         }
 
-        // for( )
+        this.param1Label = recordName
+
 
       } else if (this.selectedParams.length === 2) {
         // 当有两个参数需要展示时
@@ -302,11 +307,9 @@ export default {
             }
           }
         }
+        this.param1Label = this.selectedParams[0].param
+        this.param2Label = this.selectedParams[1].param
       }
-
-      console.log("time stamp is:", this.timeStampArray);
-      console.log("combinedRecords is", this.combinedRecords);
-
     },
     // 辅助函数，用于格式化时间戳
     getFormattedRecordTime(timestamp, index, maxRate) {
@@ -351,10 +354,7 @@ export default {
       EndTime: formattedEndTime
     });
 
-    // console.log(tmp);
-
     postEventPara(tmp).then(response => {
-
       this.dataForDisplay = response
       console.log(response)
     }).catch(error => {

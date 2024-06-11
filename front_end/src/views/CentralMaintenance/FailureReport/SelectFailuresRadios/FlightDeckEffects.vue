@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import { fdeStatusEnum, fdeClassEnum } from '@/globals/enums.js'
+import { fdeStatusEnum, fdeClassEnum } from '@/globals/enums'
 
 export default {
   name: "FlightDeckEffects",

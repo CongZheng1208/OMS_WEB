@@ -88,11 +88,11 @@
   </div>
 </template>
 <script>
-import { customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import { customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
 import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
 
-import { testTypeEnum } from '@/globals/enums.js'
+import { testTypeEnum } from '@/globals/enums'
 
 export default {
 

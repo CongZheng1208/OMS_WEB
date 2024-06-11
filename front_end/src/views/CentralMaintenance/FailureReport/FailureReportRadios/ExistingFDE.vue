@@ -64,7 +64,7 @@
                 @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
                 @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'white';""
           >
-            {{ scope.row.fimcodeInfo }}
+            {{ scope.row.fde.FDECode === '34-00420' ? '27-21033' : scope.row.fimcodeInfo }}
           </span>
         </template>
 </el-table-column>
@@ -108,7 +108,6 @@ export default {
   data() {
     return {
       existingFDEArray: [],
-
       FDECodeStatusDict: {},
       isPdfPageSelected: false,
       interval: null,
@@ -188,7 +187,7 @@ export default {
         const resData = response as ResData
         const res = new ResData(resData)
         console.log('[ response.data ] >', res)
-        const url = decodeURIComponent(`http://192.168.0.162:81/manual/detail?groupNameCode=${resData.groupNameCode}&language=${resData.language}&model=${resData.model}&path=${resData.path}&issueNumber=${resData.issueNumber}&publicationId=${resData.publicationId}`);
+        const url = decodeURIComponent(`http://localhost:81/manual/detail?groupNameCode=${resData.groupNameCode}&language=${resData.language}&model=${resData.model}&path=${resData.path}&issueNumber=${resData.issueNumber}&publicationId=${resData.publicationId}`);
         const IFrameEle = document.getElementById('iframe')! as unknown as IframeHTMLAttributes;
         IFrameEle.src = url;
       }).catch(error => {

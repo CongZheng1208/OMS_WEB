@@ -163,7 +163,7 @@
 </template>
 <script>
 import Clock from '@/components/Clock/index.vue'
-import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils.ts'
+import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils'
 import { getRetrievalStatus, getResetStatus } from '../../../services/centralMaintenance/nvmData';
 
 

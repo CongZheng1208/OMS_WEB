@@ -100,7 +100,7 @@
 </template>
 <script>
 import qs from 'qs'
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
 import { getTimeCycle } from '@/services/centralMaintenance/extendedFunctions/index.js';
 
 export default {

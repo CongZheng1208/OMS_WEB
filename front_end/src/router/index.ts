@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import CentralMaintenanceRoutes from "./modules/CentralMaintenance/index";
 import ConditionMonitoringRoutes from "./modules/ConditionMonitoring/index";
 import ManagementRoutes from "./modules/Management/index";
+import DataLoadRoutes from './modules/DataLoad/index'
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,7 @@ const routes = [
   CentralMaintenanceRoutes,
   ConditionMonitoringRoutes,
   ManagementRoutes,
+  DataLoadRoutes
 ];
 
 const router = new VueRouter({

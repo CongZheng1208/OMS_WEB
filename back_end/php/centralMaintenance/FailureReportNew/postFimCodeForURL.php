@@ -1,7 +1,7 @@
 <?php
 
 require_once ('connectConfig.php');
-//$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+//$con = mysqli_connect("localhost", "root", "Comac.000", "OMHMS");
 //$connection = mysqli_connect("localhost", "root", "root", "OMHMS");
 
 if (!$con) {

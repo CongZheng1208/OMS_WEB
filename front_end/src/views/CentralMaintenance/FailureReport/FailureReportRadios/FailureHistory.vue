@@ -131,11 +131,11 @@
             margin-bottom: 1vh;
           "
                   :header-cell-style="{
-                background: 'rgb(52, 52, 52)',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
+                    background: 'rgb(52, 52, 52)',
+                    color: '#FFFFFF',
+                    font: '14px',
+                    'text-align': 'center',
+                  }"
                   :cell-style="{ 'text-align': 'center' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
@@ -160,11 +160,11 @@
           "
                   :data="phaseFilters"
                   :header-cell-style="{
-                background: 'rgb(52, 52, 52)',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
+                    background: 'rgb(52, 52, 52)',
+                    color: '#FFFFFF',
+                    font: '14px',
+                    'text-align': 'center',
+                  }"
                   :cell-style="{ 'text-align': 'center' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
@@ -189,11 +189,11 @@
             margin-bottom: 1vh;
           "
                   :header-cell-style="{
-                background: 'rgb(52, 52, 52)',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
+                    background: 'rgb(52, 52, 52)',
+                    color: '#FFFFFF',
+                    font: '14px',
+                    'text-align': 'center',
+                  }"
                   :cell-style="{ 'text-align': 'center' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
@@ -226,7 +226,7 @@
   </el-row>
 </template>
 <script>
-import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import { customSortMethodForProgressColumn } from '@/utils/utils'
 export default {
   components: {},
   name: "ExistingFailures",

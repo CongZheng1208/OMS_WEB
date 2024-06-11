@@ -3,7 +3,7 @@
     <router-view></router-view>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { handleTestOrder } from '@/utils/utils'
 import qs from 'qs'
 export default {
@@ -25,7 +25,9 @@ export default {
     });
 
     this.handleTestOrder(tmp)
-  }
-
+  },
+  mounted() {
+    this.$router.push({ name: "TestList" })
+  },
 }
 </script>

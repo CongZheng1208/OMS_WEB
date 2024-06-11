@@ -17,22 +17,22 @@ export default {
         {
           name: "Failure Report",
           isActive: true,
-          routeName: "FailureList",
+          routeName: "FailureReport",
         },
         {
           name: "Ground Test",
           isActive: false,
-          routeName: "TestList",
+          routeName: "GroundTest",
         },
         {
           name: "Configuration",
           isActive: false,
-          routeName: "ConfigurationSelection",
+          routeName: "Configuration",
         },
         {
           name: "NVM Data",
           isActive: false,
-          routeName: "NVMDataDefault",
+          routeName: "NVMData",
         },
         {
           name: "Extended Functions",
@@ -96,6 +96,7 @@ export default {
     //调用getfailureReportPhp函数，初始化、更新failure数据
     this.getfailureReportPhp();
     this.getGroundTestPhp();
+    this.$router.push({ name: "FailureReport" })
   },
 };
 </script>

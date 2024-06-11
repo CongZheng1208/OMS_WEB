@@ -147,9 +147,9 @@
           <!-- <div class="table-inner-number">
             <el-button v-if="listSelected == 2"
                        :style="{
-          backgroundColor: 'rgb(70, 72, 73)',
-          color: 'white'
-        }"
+                        backgroundColor: 'rgb(70, 72, 73)',
+                        color: 'white'
+                      }"
                        @click="addParametersToShow">ADD</el-button> Total Number: {{ this.addedParams.length }}
           </div> -->
         </el-col>
@@ -181,8 +181,8 @@
   </div>
 </template>
 <script>
-import { ataNameEnum } from '@/globals/enums.js'
-import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import { ataNameEnum } from '@/globals/enums'
+import { customSortMethodForProgressColumn } from '@/utils/utils'
 import { getParaSet, getParaList } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
 export default {

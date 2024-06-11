@@ -68,13 +68,17 @@
     </div>
   </el-row>
 </template>
-<script>
-import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
-import { flightPhaseEnum, failureStateEnum } from '@/globals/enums.js'
+<script lang="ts">
+import { customSortMethodForProgressColumn } from '@/utils/utils'
+import { flightPhaseEnum, failureStateEnum } from '@/globals/enums'
 export default {
   components: {},
   name: "ExistingFailures",
-  data() {
+  data(): {
+    existingFailureArray: Array<unknown>,
+    interval: NodeJS.Timeout | null,
+    loading: boolean
+  } {
     return {
       existingFailureArray: [],
       interval: null,
@@ -90,7 +94,7 @@ export default {
     }, 500);
   },
   beforeDestroy() {
-    clearInterval(this.interval);
+    clearInterval(this.interval!);
   },
 
   methods: {
@@ -99,8 +103,7 @@ export default {
      * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
      * @param {*} row table选中行信息
      */
-    FlightPhaseData(row) {
-
+    FlightPhaseData(row: { flightPhase: any; }) {
       let fpIndex = row.flightPhase;
       return flightPhaseEnum[fpIndex];
     },

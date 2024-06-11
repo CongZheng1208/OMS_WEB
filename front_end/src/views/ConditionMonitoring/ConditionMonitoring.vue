@@ -15,7 +15,7 @@ export default {
         {
           name: "Parameter Display",
           isActive: true,
-          routeName: "ParameterSelect",
+          routeName: "ParameterDisplay",
         },
         {
           name: "Parameter Recording",
@@ -29,7 +29,11 @@ export default {
         },
       ],
     };
-  }
+  },
+  mounted() {
+    this.$router.push({ name: "ParameterSelect" });
+  },
+  methods: {},
 };
 </script>
 <style scoped></style>

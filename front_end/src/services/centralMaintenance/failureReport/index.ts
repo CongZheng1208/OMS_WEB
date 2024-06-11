@@ -28,7 +28,7 @@ export const getFDEList = () => {
   });
 };
 
-export const postFimCodeForURL = (index) => {
+export const postFimCodeForURL = (index: string) => {
   return http({
     url: API.POST_FIMCODE_FOR_URL,
     method: "POST",

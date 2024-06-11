@@ -10,10 +10,10 @@ export default defineConfig({
     host: true,
     proxy: {
       // 代理 "/api" 前缀的请求到 "http://localhost:4000"
-      "/api": {
-        target: "http://172.18.25.149:3000",
+      "/oms": {
+        target: "http://192.168.0.162:8888",
         changeOrigin: true, // 是否改变源
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/oms/, ""),
       },
       // 可以添加更多的代理规则
     },

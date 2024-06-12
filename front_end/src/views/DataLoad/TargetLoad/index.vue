@@ -28,7 +28,7 @@ export default {
 
   },
   mounted() {
-    this.$router.push({ name: "ATAandEquipmentSelection" })
+    this.$router.replace({ name: "ATAandEquipmentSelection" })
   },
   methods: {
   }

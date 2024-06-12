@@ -19,9 +19,9 @@ export default {
           routeName: "TargetLoad",
         },
         {
-          name: "partNumberSelection",
+          name: "equipmentConfig",
           isActive: false,
-          routeName: "PartNumberSelection",
+          routeName: "EquipmentConfig",
         },
       ],
     };
@@ -35,7 +35,7 @@ export default {
   },
 
   mounted() {
-    this.$router.push({ name: "TargetLoad" })
+    this.$router.replace({ name: "TargetLoad" })
   },
 };
 </script>

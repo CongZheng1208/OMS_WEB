@@ -57,8 +57,8 @@
         <button class="footer-btn">PRINT</button>
       </div>
       <div class="flex gap3">
-        <button class="footer-btn">EDIT</button>
-        <button class="footer-btn">DOWNLOAD</button>
+        <button @click="gotoDataUpload()"
+                class="footer-btn">SELECT</button>
       </div>
     </el-footer>
   </div>
@@ -88,9 +88,13 @@ export default {
 
   },
   methods: {
-
+    gotoDataUpload() {
+      this.$router.push({
+        name: "DataUpload"
+      })
+    }
   }
-};
+}
 </script>
 <style lang='scss' scoped>
 table {

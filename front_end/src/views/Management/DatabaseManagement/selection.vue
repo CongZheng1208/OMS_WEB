@@ -34,7 +34,6 @@
   </div>
 </template>
 <script lang="ts">
-import { changeRadio } from '@/utils/utils'
 import Clock from '@/components/Clock/index.vue'
 
 export default {
@@ -48,13 +47,17 @@ export default {
     }
   },
   methods: {
-    changeRadio,
     goto(name: string) {
       this.$router.push({ name: name })
     }
   },
   created() {
   },
+  watch: {
+    $route: function (newVal, oldVal) {
+      this.displaySelected = newVal.name!
+    }
+  }
 }
 </script>
 <style scoped></style>

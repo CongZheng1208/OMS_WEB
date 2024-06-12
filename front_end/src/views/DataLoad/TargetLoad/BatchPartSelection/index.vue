@@ -5,6 +5,42 @@
         <table>
           <thead>
             <tr>
+              <th>Batch Part Number</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in 10"
+                class="h14 "
+                :class="item === 1 ? 'folder-color' : ''">
+              <td>User {{ item }}</td>
+              <td>XXXXXXXXXXXXX</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="w-1/3">
+        <table>
+          <thead>
+            <tr>
+              <th>ATA</th>
+              <th>Equipment Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in 10"
+                class="h14 "
+                :class="item === 1 ? 'folder-color' : ''">
+              <td>32</td>
+              <td>IDU_CENTER</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex-1">
+        <table>
+          <thead>
+            <tr>
               <th>Part Number</th>
               <th>Description</th>
             </tr>
@@ -14,30 +50,7 @@
                 class="h14 "
                 :class="item === 1 ? 'folder-color' : ''">
               <td>User {{ item }}</td>
-              <td>xxxxxxxxxxxxx</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="flex-1">
-        <table>
-          <thead>
-            <tr>
-              <th>ATA</th>
-              <th>Equipment Name</th>
-              <th class="w-30  "
-                  style="padding:0px 10px 0px 10px;">
-                <button class="footer-btn "> Select All</button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in 10"
-                class="h14 "
-                :class="item === 1 ? 'folder-color' : ''">
-              <td>User {{ item }}</td>
               <td>Description</td>
-              <td></td>
             </tr>
           </tbody>
         </table>
@@ -48,8 +61,7 @@
         <button class="footer-btn">PRINT</button>
       </div>
       <div class="flex gap3">
-        <button @click="gotoDataUpload()"
-                class="footer-btn">SELECT</button>
+        <button @click="gotoDataUpload()" class="footer-btn">SELECT</button>
       </div>
     </el-footer>
   </div>
@@ -57,7 +69,7 @@
 <script lang="ts">
 
 export default {
-  name: 'PartNumberSelection',
+  name: 'BatchPartSelection',
   components: {
   },
   mixins: [],
@@ -110,9 +122,8 @@ tr:first-child {
 
 
 .footer-btn {
-  @apply flex items-center justify-center text-white;
-  width: 16vh;
-  height: 4vh;
+  width: 20vh;
+  height: 5.5vh;
   font-size: 16px;
   font-weight: bold;
   padding: 1vh;

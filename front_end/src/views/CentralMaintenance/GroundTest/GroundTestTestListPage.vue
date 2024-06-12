@@ -108,7 +108,7 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
 import Clock from '@/components/Clock/index.vue'
 import { testStatusEnum } from '@/globals/enums'
 import qs from 'qs'

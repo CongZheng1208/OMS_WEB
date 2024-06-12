@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { printPage, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, handleTestOrder } from '@/utils/utils'
 import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
 

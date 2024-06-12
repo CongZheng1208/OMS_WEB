@@ -141,8 +141,8 @@ import Notes from "./SelectFailuresRadios/Notes.vue";
 import FlightLegs from '@/components/FlightLegs/index.vue'
 import Clock from '@/components/Clock/index.vue'
 
-import { flightPhaseEnum } from '@/globals/enums.js'
-import { printPage, changeRadio } from '@/utils/utils.ts'
+import { flightPhaseEnum } from '@/globals/enums'
+import { printPage, changeRadio } from '@/utils/utils'
 
 export default {
   components: { RootCause, FlightDeckEffects, Parameters, Notes, Clock, FlightLegs },

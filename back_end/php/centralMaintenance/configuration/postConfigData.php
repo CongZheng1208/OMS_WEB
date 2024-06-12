@@ -11,7 +11,7 @@ class ReturnJson
 }
 
 // 在306的Centos系统里的mysql密码为123456
-$con = mysqli_connect("localhost", "root", "root", "OMHMS");
+$con = mysqli_connect("localhost", "root", "Comac.000", "OMHMS");
 //$con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
 
 $ATA = $_POST['ATA'];

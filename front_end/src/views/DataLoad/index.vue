@@ -11,20 +11,32 @@ export default {
   components: { Menus },
   data() {
     return {
+      FailureReportTimer: "",
       menus: [
         {
-          name: "Parameter Display",
+          name: "targetLoad",
           isActive: true,
-          routeName: "ParameterSelect",
+          routeName: "TargetLoad",
         },
         {
-          name: "Parameter Recording",
+          name: "equipmentConfig",
           isActive: false,
-          routeName: "ParameterRecording",
+          routeName: "EquipmentConfig",
         },
       ],
     };
-  }
+  },
+  methods: {
+
+  },
+
+  watch: {
+
+  },
+
+  mounted() {
+    this.$router.replace({ name: "TargetLoad" })
+  },
 };
 </script>
 <style scoped></style>

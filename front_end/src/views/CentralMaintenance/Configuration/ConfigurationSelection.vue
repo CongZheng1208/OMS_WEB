@@ -81,7 +81,7 @@
   </div>
 </template>
 <script lang="ts">
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
 import { getATAandEqui } from '@/services/centralMaintenance/configuration/index.js';
 import { ataNameEnum } from '@/globals/enums'
 

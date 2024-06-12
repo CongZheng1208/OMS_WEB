@@ -37,7 +37,7 @@ export default {
   },
 
   mounted() {
-    this.$router.push({ name: 'DatabaseManagement' })
+    this.$router.replace({ name: 'DatabaseManagement' })
   },
 };
 </script>

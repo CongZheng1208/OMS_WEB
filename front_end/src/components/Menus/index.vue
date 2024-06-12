@@ -36,12 +36,10 @@ export default {
   watch: {
     // 监听路由变化，改变菜单被点击项目的样式
     $route(to, from) {
-      console.log('[ this.menus ] >', this.menus)
       const pathList = to.matched.map((item, idx) => {
         const pathName = item.name;
         return pathName
       })
-      console.log('[ pathList ] >', pathList)
       this.menus.forEach((menu) => {
         if (pathList.includes(menu.routeName)) {
           menu.isActive = true;

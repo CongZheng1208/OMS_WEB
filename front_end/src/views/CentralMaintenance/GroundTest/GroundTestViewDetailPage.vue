@@ -156,8 +156,8 @@
   </div>
 </template>
 <script>
-import { printPage, customSortMethodForProgressColumn } from '@/utils/utils.ts'
-import { testTypeEnum, testStatusEnum } from '@/globals/enums.js'
+import { printPage, customSortMethodForProgressColumn } from '@/utils/utils'
+import { testTypeEnum, testStatusEnum } from '@/globals/enums'
 
 import Clock from '@/components/Clock/index.vue'
 

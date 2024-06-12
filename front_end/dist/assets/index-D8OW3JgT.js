@@ -1,0 +1,1 @@
+import{h as e}from"./index-BqV8YcGQ.js";const n="centralMaintenance/extendedFunctions/getTimeCycle.php",t="centralMaintenance/extendedFunctions/getATAandEqui.php",a=()=>e({url:n,method:"GET"}),c=()=>e({url:t,method:"GET"});export{c as a,a as g};

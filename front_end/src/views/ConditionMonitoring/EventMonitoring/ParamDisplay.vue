@@ -75,7 +75,7 @@
           <el-col :span="8"
                   style="border:  0.5px solid rgb(111, 111, 111);">
             <el-table height="70vh"
-                      :data="dataForDisplay"
+                      :data="filteredData"
                       @row-click="handleParamRowClick"
                       style=" background-color: rgb(46, 45, 45)"
                       :sort-method="customSortMethodForProgressColumn"
@@ -250,7 +250,6 @@ export default {
         const rate = parseInt(this.selectedParams[0].rate, 10);
         let recordName = this.selectedParams[0].param;
 
-
         for (let i = 0; i < this.timeStampArray.length; i++) {
           const timestamp = this.timeStampArray[i];
           const record = this.selectedParams[0].records[Math.floor(i / maxRate)];
@@ -263,10 +262,7 @@ export default {
             RecordValuesRight: "",
           });
         }
-
         this.param1Label = recordName
-
-
       } else if (this.selectedParams.length === 2) {
         // 当有两个参数需要展示时
         const rate1 = parseInt(this.selectedParams[0].rate, 10);
@@ -311,10 +307,12 @@ export default {
         this.param2Label = this.selectedParams[1].param
       }
     },
+
     // 辅助函数，用于格式化时间戳
     getFormattedRecordTime(timestamp, index, maxRate) {
       const newTimestamp = new Date(timestamp.getTime() + (index * (1000 / maxRate)));
-      return newTimestamp.toLocaleString() + ' ' + index;
+      // return newTimestamp.toLocaleString() + ' ' + index;
+      return newTimestamp.toLocaleString();
     },
 
     goEventPage() {
@@ -331,6 +329,13 @@ export default {
     printPage,
     changeRadio,
     customSortMethodForProgressColumn,
+  },
+  computed: {
+    filteredData() {
+      return this.dataForDisplay.filter((item) => {
+        return item.param.toLowerCase().includes(this.searchParameterInput.toLowerCase());
+      });
+    },
   },
   mounted() {
 

@@ -5,7 +5,7 @@
         <el-col :span="3">
           <div class="el-header-title"> Test Selection </div>
         </el-col>
-        <el-col :span="14">
+        <el-col :span="12">
           <div class="el-header-radios">
             <div class="radio"
                  @click="changeRadio('list')">
@@ -23,7 +23,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="4"
+        <el-col :span="6"
                 class="el-header-radios"> Display Type: {{ displayType }} <br> Parameter Set Received at:
           {{ currParamUpdateTime }} </el-col>
         <el-col :span="3">
@@ -32,7 +32,8 @@
       </el-row>
     </el-header>
     <el-main>
-      <el-row v-if="displaySelected == 'list'">
+      <el-row v-if="displaySelected == 'list'"
+              style=" border:  0.5px solid rgb(111, 111, 111);">
         <el-table highlight-current-row
                   height="70vh"
                   style=" background-color: rgb(46, 45, 45)"
@@ -62,7 +63,8 @@
         </el-table>
       </el-row>
       <el-row v-else>
-        <el-col :span="8">
+        <el-col :span="8"
+                style=" border:  0.5px solid rgb(111, 111, 111);">
           <el-table highlight-current-row
                     height="70vh"
                     @row-click="addParamToShow"
@@ -85,7 +87,7 @@
         <el-col :span="16">
           <div class="custom-card"
                shadow="hover"
-               style="height: 75vh">
+               style="height: 70vh">
             <!-- <div class="custom-header">DETAILS</div> -->
             <div class="custom-content">
               <div v-if="showedParams.length == 1"
@@ -174,7 +176,7 @@ import qs from 'qs'
 
 import * as echarts from 'echarts';
 import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils'
-import { postUnitInTime, postDataInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { postDataInTime, postDataInTimeNew } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 import Clock from '@/components/Clock/index.vue'
 
 
@@ -187,22 +189,7 @@ export default {
       isRefreshing: false,
       isListRefreshing: false,
       displayType: "LIVE",
-      acReg: "C-WXWB",
-      currentTime: '',
-      currentDate: '',
-      lastParamUpdateTime: "2023/11/01 08:34:11",
-      currParamUpdateTime: "2023/11/01 07:26:13",
-      currViewParamPage: 1,
-      maxLineNum: 26,
-      indexArray: [],
-      params: [],
-      paramsLast: [],
-      hisViewGroup: false,
-      curViewGroup: true,
-      currHisViewParamPage: -1,
-      totalHisViewParamPage: -30,
-      lastParams: [],
-      lastIndex: 0,
+      currParamUpdateTime: "2024/06/22 13:26:13",
 
       displaySelected: 'figure',
 
@@ -212,21 +199,12 @@ export default {
       showedParamsIndex: [],
       stopParamsIndex: [],
 
-      aletMsg: '', // 弹出框中的提示语
-      displayStsates: 'none',
-
-      keyword: '',
-
       dateXaxis: [],
       dataYaxis: [],
 
       myCharts: [],
       myChartStyle: { float: "center", width: "95%" },
-      settings: {
-        suppressScrollY: false,
-        suppressScrollX: false,
-        wheelPropagation: false,
-      },
+
       refreshInterval: null, // 保存刷新的间隔ID
       refreshListInterval: null,
 
@@ -246,28 +224,23 @@ export default {
      */
     parameterInit(data) {
       this.selectedParams = data;
-
       this.selectedParamsIndex = []
 
       for (var i = 0; i < this.selectedParams.length; i++) {
         this.selectedParamsIndex.push(this.selectedParams[i].id)
       }
-
       try {
         let tmp = qs.stringify({
           index: this.selectedParamsIndex
         });
 
-        postUnitInTime(tmp).then(response => {
-          for (var i = 0; i < response.length; i++) {
-            this.selectedParams[i].unit = response[i]['unit']
-          }
-        }).catch(error => {
-          console.error('Error in fetching parameter list:', error);
-        });
+        postDataInTimeNew(tmp).then(response => {
+          console.log("A!!!", response)
 
-        postDataInTime(tmp).then(response => {
+
           for (var i = 0; i < response.length; i++) {
+
+            // console.log（）
             if (response[i].length > 0) {
               this.selectedParams[i].curData = response[i][0]['data']
             } else {
@@ -275,6 +248,7 @@ export default {
             }
           }
           console.log("success")
+
         }).catch(error => {
           console.error('Error in fetching parameter list:', error);
         });
@@ -296,7 +270,7 @@ export default {
         index: [this.parameterSelected.id]
       })
 
-      postDataInTime(tmp).then(response => {
+      postDataInTimeNew(tmp).then(response => {
         // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
         if (response[0].length == 0) {
           this.$message.error('This table lacks data and cannot be initialized.')
@@ -375,6 +349,8 @@ export default {
 
       this.parameterSelected = parameter
       // 如果该参数已经被添加至展示列表
+
+      console.log("parameter", parameter)
       if (this.showedParams.includes(parameter)) {
         // this.isParameterDeletedMsg = true;
 
@@ -403,7 +379,7 @@ export default {
             index: [parameter.id]
           })
 
-          postDataInTime(tmp).then(response => {
+          postDataInTimeNew(tmp).then(response => {
             // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
             if (response[0].length == 0) {
               this.$message.error('This table lacks data and cannot be initialized.')
@@ -438,7 +414,6 @@ export default {
           }).catch(error => {
             console.error('Error in fetching parameter list:', error);
           });
-
         }
       }
     },
@@ -454,7 +429,7 @@ export default {
             index: this.selectedParamsIndex
           });
 
-          postDataInTime(tmp).then(response => {
+          postDataInTimeNew(tmp).then(response => {
             for (var i = 0; i < response.length; i++) {
               if (response[i].length > 0) {
                 this.selectedParams[i].curData = response[i][0]['data']
@@ -483,10 +458,9 @@ export default {
             index: this.showedParamsIndex
           });
 
-          postDataInTime(tmp).then(response => {
+          postDataInTimeNew(tmp).then(response => {
 
             for (var i = 0; i < response.length; i++) {
-
               if (response[i].length > 0) {
                 for (var j = 0; j < response[i].length; j++) {
                   // 如果数据连续三秒不变，则设为0
@@ -693,15 +667,12 @@ export default {
     this.parameterInit(this.$route.params.selectedParameter)
   },
   created() {
-    this.updateCurrentTime()
-    setInterval(this.updateCurrentTime, 1000)
-
-    this.currParamUpdateTime = localStorage.getItem('currParamUpdateTimeKey');
+    // this.currParamUpdateTime = localStorage.getItem('currParamUpdateTimeKey');
   },
   beforeUnmount() {
-    window.addEventListener("beforeunload", () => {
-      localStorage.setItem('currParamUpdateTimeKey', this.currParamUpdateTime);
-    });
+    // window.addEventListener("beforeunload", () => {
+    //   localStorage.setItem('currParamUpdateTimeKey', this.currParamUpdateTime);
+    // });
   },
   beforeDestroy() {
     for (var i = 0; i < this.myCharts.length; i++) {
@@ -709,21 +680,5 @@ export default {
     }
     this.stopRefresh()
   },
-
-  computed: {
-    totalViewParamPage() {
-      if (Math.ceil(this.params.length / this.maxLineNum) >= 1)
-        return Math.ceil(this.params.length / this.maxLineNum)
-      else
-        return 1
-    },
-    currentViewParamArray() {
-      if (this.curViewGroup == true) {
-        return this.params.slice((this.currViewParamPage - 1) * this.maxLineNum, this.currViewParamPage * this.maxLineNum);
-      } else {
-        return this.paramsLast.slice((this.currViewParamPage - 1) * this.maxLineNum, this.currViewParamPage * this.maxLineNum);
-      }
-    },
-  }
 };
 </script>

@@ -308,6 +308,12 @@
   align-self: center;
 }
 
+.table-lower-bar-left-note {
+  color: rgb(174, 174, 174);
+  margin-right: 2vh;
+  align-self: center;
+}
+
 .row-disabled {
   background-color: #f0f0f0; /* 灰白色 */
 }

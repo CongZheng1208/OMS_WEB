@@ -16,32 +16,29 @@
                 style="border:  0.5px solid rgb(111, 111, 111);">
           <div v-if="listSelected == 1">
             <el-table highlight-current-row
-                      height="67vh"
+                      height="62vh"
                       style=" background-color: rgb(46, 45, 45)"
                       @row-click="showParameters"
-                      :data="sortCurrentArray"
+                      :data="ataData"
                       :sort-method="customSortMethodForProgressColumn"
                       :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                       :empty-text="'NO DATA DISPLAY'">
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
-              <el-table-column prop="ATA"
-                               label="ATA"
-                               sortable
-                               :width="null"
-                               :min-width="20"></el-table-column>
-              <el-table-column prop="name"
-                               label="System Name"
+              <el-table-column prop="ata"
+                               label="ATA System Name"
                                sortable
                                :width="null"
                                :min-width="50"></el-table-column>
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
+            <div class="table-lower-bar">
+            </div>
           </div>
           <div v-if="listSelected == 2">
             <el-table highlight-current-row
-                      height="67vh"
+                      height="62vh"
                       style=" background-color: rgb(46, 45, 45)"
                       @row-click="showListParameters"
                       :data="params"
@@ -63,6 +60,8 @@
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
+            <div class="table-lower-bar">
+            </div>
           </div>
         </el-col>
         <el-col :span="9"
@@ -80,16 +79,18 @@
                                label="Parameter Selection"
                                sortable
                                :width="null"
-                               :min-width="120"></el-table-column>
+                               :min-width="150">
+                <template slot="header"
+                          slot-scope="scope">Parameter Selection <el-input
+                            style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
+                            v-model="searchInput"
+                            placeholder="Enter key word here"
+                            size="mini"
+                            clearable />
+                  <i class="el-icon-search"></i>
+                </template></el-table-column>
               <el-table-column align="right"
                                :min-width="30">
-                <template slot="header"
-                          slot-scope="scope">
-                  <el-input v-model="searchInput"
-                            size="mini"
-                            placeholder="Enter key word here"
-                            clearable />
-                </template>
                 <template slot-scope="scope">
                   <span @click="addParam(scope.row)"
                         v-if="!scope.row.isChecked"
@@ -136,22 +137,13 @@
                              :min-width="5"></el-table-column>
           </el-table>
           <div class="table-lower-bar">
-            <el-button v-if="listSelected == 2"
-                       :style="{
-          backgroundColor: 'rgb(70, 72, 73)',
-          color: 'white'
-        }"
-                       @click="addParametersToShow">ADD</el-button>
-            <span class="table-lower-bar-right-text"> Total Number: {{ this.addedParams.length }} </span>
+            <span class="table-lower-bar-right-text"> <el-button circle
+                         v-if="listSelected == 2"
+                         slot="reference"
+                         class="table-outer-button"
+                         icon="el-icon-circle-plus-outline"
+                         @click="addParametersToShow"></el-button> Total Number: {{ this.addedParams.length }} </span>
           </div>
-          <!-- <div class="table-inner-number">
-            <el-button v-if="listSelected == 2"
-                       :style="{
-          backgroundColor: 'rgb(70, 72, 73)',
-          color: 'white'
-        }"
-                       @click="addParametersToShow">ADD</el-button> Total Number: {{ this.addedParams.length }}
-          </div> -->
         </el-col>
       </el-row>
       <el-dialog title="Error Message"
@@ -183,7 +175,7 @@
 <script>
 import { ataNameEnum } from '@/globals/enums.js'
 import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
-import { getParaSet, getParaList } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { getParaList, getParaSetNew } from '@/services/conditionMonitoring/parameterDisplay/index.js';
 
 export default {
   name: "ParamListDisplay",
@@ -201,6 +193,8 @@ export default {
       isParameterSelected: false,
       selectedATA: "",
       ataSys: [],
+
+      ataData: [],
       testData: [
         {
           id: 0,
@@ -311,7 +305,6 @@ export default {
 
 
     showListParameters(param) {
-
       this.selectedList = param.id
 
       this.checkedParams = []
@@ -335,12 +328,15 @@ export default {
 
 
     showParameters(ata) {
-      this.selectedATA = ata.ATA
+      console.log(ata)
+
+      this.selectedATA = ata.ata
       var tmp = []
-      for (var i = 0; i < ata.paras.length; i++) {
+      for (var i = 0; i < ata.params.length; i++) {
         tmp.push({
-          para: ata.paras[i],
-          id: ata.index[i],
+          para: ata.params[i].key,
+          id: ata.params[i].id,
+          unit: ata.params[i].unit,
           isChecked: false,
           isStart: false,
         })
@@ -355,17 +351,15 @@ export default {
      * 本函数用于调用service中封装的api，实现一次对参数集合数据的获取
      */
     flashData() {
-      getParaSet().then(response => {
-        response.forEach(ele => {
-          // var boolArray = new Array(ele.RPName.length).fill(false)
-          this.ataSys.push({
-            ATA: ele.ATA,
-            name: ataNameEnum[ele.ATA],
-            paras: ele.RPName,
-            index: ele.RP_index,
-            isChecked: ele.isChecked
-          })
-        })
+      getParaSetNew().then(response => {
+        // this.ataData = response
+        Object.keys(response).forEach(key => {
+          const value = response[key];  // 获取当前key对应的value
+          this.ataData.push({
+            ata: key,
+            params: value  // 将value存入params中
+          });
+        });
       }).catch(error => {
         console.error('Error in fetching parameter list:', error);
       });
@@ -426,25 +420,6 @@ export default {
     this.flashListData()
   },
   computed: {
-    sortCurrentArray() {
-      var vm = this;
-      var type = vm.sortType;
-      return vm.ataSys.sort(function (a, b) {
-        if (vm.isReverse) {
-          if (typeof a[type] == "string") {
-            return a[type].localeCompare(b[type]);
-          } else {
-            return b[type] - a[type];
-          }
-        } else {
-          if (typeof a[type] == "string") {
-            return b[type].localeCompare(a[type]);
-          } else {
-            return a[type] - b[type];
-          }
-        }
-      });
-    },
     currentNewPaArray() {
       this.parameterCountTotal = this.ataParas.filter((item) => {
         return item.para.toLowerCase().includes(this.searchInput.toLowerCase());

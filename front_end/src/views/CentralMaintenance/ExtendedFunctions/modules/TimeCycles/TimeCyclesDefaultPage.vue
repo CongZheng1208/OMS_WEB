@@ -49,14 +49,6 @@
                          sortable
                          :width="null"
                          :min-width="70">
-          <!-- <template slot="header"
-                    slot-scope="scope"> Status <el-input style="width: 15vh; margin-left: 2vh; margin-right: 1vh;"
-                      v-model="searchStatusInput"
-                      size="mini"
-                      placeholder="Status"
-                      clearable />
-            <i class="el-icon-search"></i>
-          </template> -->
         </el-table-column>
         <el-table-column prop="hours"
                          label="Hours"
@@ -83,14 +75,14 @@
       </el-table>
       <div class="
                 table-lower-bar">
-        <span class="table-lower-bar-right-text"> <el-button circle
+        <span class="table-lower-bar-left-note"> Notes: Data marked with "*" is obtained by calculating When the MS
+          compute module fails</span> <span class="table-lower-bar-right-text"> <el-button circle
                      slot="reference"
                      class="table-outer-button"
                      icon="el-icon-refresh"
                      @click="flashData"></el-button> Total Number: {{ }} Time Cycle Status: {{ }}</span>
       </div>
-      <div class="table-outer-tc"> Notes: Data marked with "*" is obtained by calculating When the MS compute module
-        fails </el-button>
+      <div class="table-outer-tc">
       </div>
     </el-row>
   </div>

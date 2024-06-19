@@ -40,16 +40,37 @@ class ATA {
   }
 }
 
+class Part {
+  id: string;
+  description: string;
+
+  constructor(id: string, description: string, equipments: any[]) {
+    this.id = id;
+    this.description = description;
+  }
+}
+
 class PageData {
   ATAlist: ATA[] = [];
+  partlist: Part[] = [];
 
   async getATAlist() {
     const res = (await http({
       url: "/ata_selection",
       method: "GET",
     })) as MyResponse<ATA[]>;
-    console.log("[ res ] >", res);
     this.ATAlist = res.result;
+  }
+
+  async getPartByEquipment(equipment_id: number) {
+    const res = (await http({
+      url: "/part_selection",
+      method: "GET",
+      params: {
+        equipment_id: equipment_id,
+      },
+    })) as MyResponse<Part[]>;
+    this.partlist = res.result;
   }
 }
 

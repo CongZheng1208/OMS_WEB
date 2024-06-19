@@ -67,6 +67,7 @@
 </template>
 <script lang="ts">
 import Selection from './select-bar.vue';
+import { PageData } from './store';
 
 export default {
   name: 'LoadStatus',
@@ -79,7 +80,7 @@ export default {
   },
   data() {
     return {
-
+      pageData: new PageData()
     }
   },
   computed: {
@@ -89,6 +90,7 @@ export default {
 
   },
   mounted() {
+    this.pageData.getATAlist()
   },
   methods: {
     goback() {

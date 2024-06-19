@@ -27,7 +27,7 @@
           <tbody>
             <tr v-for="item, idx in pageData.ATAlist[selectedATAIdx].equipments"
                 class="h14 "
-                :class="idx === 2 ? 'seleted' : ''">
+                :class="idx === selectedEquipmentsIdx ? 'seleted' : ''">
               <td @click="equipmentsClick(idx)">User {{ item.name }}</td>
             </tr>
           </tbody>
@@ -42,11 +42,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10"
-                class="h14 "
-                :class="item === 1 ? 'folder-color' : ''">
-              <td>User {{ item }}</td>
-              <td>Description</td>
+            <tr @click="partClick(idx)"
+                v-for="item, idx in pageData.partlist"
+                :class="selectedPartIdx.indexOf(idx) !== -1 ? 'seleted' : ''">
+              <td>{{ item.id }}</td>
+              <td>{{ item.description }}</td>
             </tr>
           </tbody>
         </table>
@@ -64,7 +64,6 @@
   </div>
 </template>
 <script lang="ts">
-import { http } from '@/utils/http'
 import { PageData } from './store';
 
 export default {
@@ -78,8 +77,9 @@ export default {
   data() {
     return {
       pageData: new PageData(),
-      selectedATAIdx: 2,
-      selectedEquipmentsIdx: 2
+      selectedATAIdx: 0,
+      selectedEquipmentsIdx: 0,
+      selectedPartIdx: [] as Array<number>
     }
   },
   computed: {
@@ -93,8 +93,26 @@ export default {
   },
   methods: {
     gotoDataUpload() {
+      if (this.selectedATAIdx === -1) {
+        this.$message.error('Please select ATA')
+        return
+      }
+      if (this.selectedEquipmentsIdx === -1) {
+        this.$message.error('Please select Equipment')
+        return
+      }
+      if (this.selectedPartIdx.length === 0) {
+        this.$message.error('Please select Part')
+        return
+      }
       this.$router.push({
-        name: "DataUpload"
+        name: "DataUpload",
+        params: {
+          ATA: JSON.stringify(this.pageData.ATAlist[this.selectedATAIdx]),
+          equipment: JSON.stringify(this.pageData.ATAlist[this.selectedATAIdx].equipments[this.selectedEquipmentsIdx]),
+          partlist: JSON.stringify(this.selectedPartIdx.map(idx => this.pageData.partlist[idx])),
+          type: "equipment_partlist"
+        }
       })
     },
     ATAlistClick(idx: number) {
@@ -103,7 +121,16 @@ export default {
     },
     equipmentsClick(idx: number) {
       this.selectedEquipmentsIdx = idx
-    }
+      this.pageData.getPartByEquipment(this.pageData.ATAlist[this.selectedATAIdx].equipments[idx].id)
+    },
+    partClick(idx: number) {
+      const the_idx = this.selectedPartIdx.indexOf(idx)
+      if (the_idx === -1) {
+        this.selectedPartIdx.push(idx)
+      } else {
+        this.selectedPartIdx.splice(the_idx, 1)
+      }
+    },
   }
 }
 </script>

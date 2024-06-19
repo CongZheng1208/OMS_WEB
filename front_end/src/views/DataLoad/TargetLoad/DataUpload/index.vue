@@ -3,8 +3,8 @@
     <Selection />
     <div class="border mx6">
       <div class="px-6 py-4 fontbold text-lg ">
-        <span>ATA:31</span>
-        <span class="pl12">Equipment:IDU_CENTER</span>
+        <span>ATA:<span class="text-red">{{ ATA.name }}</span></span>
+        <span class="pl12">Equipment:<span class="text-red">{{ equipment.name }}</span></span>
         <div class="">
           <!-- <Load Condition Text> -->
           <div>
@@ -19,9 +19,8 @@
             <span class="w-200 inline-block">Serial Number:940405327</span>
             <span>&lt;Load Condition text&gt;</span>
           </div>
-          <div>Software Part Number2: XXXXXX</div>
-          <div>Software Part Number1: XXXXXX</div>
-          <div>Software Part Number1: XXXXX</div>
+          <div v-for="item, idx in partlist">Software Part Number{{ idx + 1 }}: <span
+                  class="text-red">{{ item.id }}</span></div>
         </div>
       </div>
     </div>
@@ -32,13 +31,14 @@
       <div class="flex gap3">
         <button @click="goback()"
                 class="footer-btn">BACK</button>
-        <button @click="goto('LoadStatus')"
+        <button @click="beginLoad()"
                 class="footer-btn">START LOAD </button>
       </div>
     </el-footer>
   </div>
 </template>
 <script lang="ts">
+import { http } from '@/utils/http';
 import Selection from './select-bar.vue';
 
 export default {
@@ -52,7 +52,10 @@ export default {
   },
   data() {
     return {
-
+      ATA: JSON.parse(this.$route.params.ATA),
+      equipment: JSON.parse(this.$route.params.equipment),
+      partlist: JSON.parse(this.$route.params.partlist),
+      type: this.$route.params.type
     }
   },
   computed: {
@@ -62,7 +65,9 @@ export default {
 
   },
   mounted() {
-
+    if (this.type === 'equipment_partlist') {
+    } else {
+    }
   },
   methods: {
     goback() {
@@ -70,6 +75,25 @@ export default {
     },
     goto(name: string) {
       this.$router.push({ name: name })
+    },
+    async beginLoad() {
+      if (this.type === 'equipment_partlist') {
+        const res = await http({
+          url: '/load-ATA-equipment',
+          method: 'post',
+          data: JSON.stringify({
+            equipment_id: this.equipment.id,
+            partlist_id: this.partlist.map(item => item.id)
+          })
+        })
+        if (res.code === 200) {
+          this.$message({
+            message: 'Loading Start',
+            type: 'success'
+          })
+          this.goto('LoadStatus')
+        }
+      }
     }
   }
 };

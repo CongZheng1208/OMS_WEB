@@ -9,10 +9,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10"
+            <tr v-for="item, idx in pageData.ATAlist"
                 class="h14 "
-                :class="item === 1 ? 'folder-color' : ''">
-              <td>User {{ item }}</td>
+                :class="idx == selectedATAIdx ? 'seleted' : ''">
+              <td @click="ATAlistClick(idx)">{{ item.name }}</td>
             </tr>
           </tbody>
         </table>
@@ -25,10 +25,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10"
+            <tr v-for="item, idx in pageData.ATAlist[selectedATAIdx].equipments"
                 class="h14 "
-                :class="item === 1 ? 'folder-color' : ''">
-              <td>User {{ item }}</td>
+                :class="idx === 2 ? 'seleted' : ''">
+              <td @click="equipmentsClick(idx)">User {{ item.name }}</td>
             </tr>
           </tbody>
         </table>
@@ -64,6 +64,8 @@
   </div>
 </template>
 <script lang="ts">
+import { http } from '@/utils/http'
+import { PageData } from './store';
 
 export default {
   name: '',
@@ -75,7 +77,9 @@ export default {
   },
   data() {
     return {
-
+      pageData: new PageData(),
+      selectedATAIdx: 2,
+      selectedEquipmentsIdx: 2
     }
   },
   computed: {
@@ -85,13 +89,20 @@ export default {
 
   },
   mounted() {
-
+    this.pageData.getATAlist()
   },
   methods: {
     gotoDataUpload() {
       this.$router.push({
         name: "DataUpload"
       })
+    },
+    ATAlistClick(idx: number) {
+      this.selectedEquipmentsIdx = 0
+      this.selectedATAIdx = idx
+    },
+    equipmentsClick(idx: number) {
+      this.selectedEquipmentsIdx = idx
     }
   }
 }
@@ -107,15 +118,18 @@ th {
   @apply p3 text-center;
 }
 
+td {
+  @apply hover:cursor-pointer;
+}
+
 
 tr {
   border: 1px solid rgb(111, 111, 111);
 }
 
-tr:first-child {
-  @apply bg-[#404040] border-b-white border;
+.seleted {
+  @apply bg-[#404040] border-b-white border
 }
-
 
 
 .footer-btn {

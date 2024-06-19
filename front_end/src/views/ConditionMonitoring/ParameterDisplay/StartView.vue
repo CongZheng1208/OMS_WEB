@@ -449,11 +449,9 @@ export default {
     fetchListData() {
       return new Promise(async (resolve, reject) => {
         try {
-
           let tmp = qs.stringify({
             index: this.selectedParamsIndex
           });
-
           postDataInTime(tmp).then(response => {
             for (var i = 0; i < response.length; i++) {
               if (response[i].length > 0) {

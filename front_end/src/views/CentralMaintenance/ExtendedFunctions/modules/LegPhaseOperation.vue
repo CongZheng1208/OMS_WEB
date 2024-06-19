@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { printPage, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, handleTestOrder } from '@/utils/utils'
 import qs from 'qs'
 export default {
   name: "LegPhaseOperation",

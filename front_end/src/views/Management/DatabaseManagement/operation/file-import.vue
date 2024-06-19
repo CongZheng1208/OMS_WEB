@@ -113,37 +113,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-table {
-  @apply w-full text-lg fontbold text-start border;
-  border-collapse: collapse;
-}
-
-td,
-th {
-  @apply p3 text-center;
-}
-
-
-tr {
-  border: 1px solid rgb(111, 111, 111);
-}
-
-tr:first-child {
-  @apply bg-[#404040] border-b-white border;
-}
-
-.footer-btn {
-  width: 20vh;
-  height: 5.5vh;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 1vh;
-  border-radius: 3px;
-  border: 1px solid rgb(111, 111, 111);
-
-  box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
-  background-color: rgb(65, 65, 65);
-
-  transition: box-shadow 0.3s ease background-color 0.3s ease;
-}
+@import url(./my-style.scss);
 </style>

@@ -27,15 +27,15 @@ const router = new VueRouter({
 
 let isFirstNavigation = true; // 添加一个标志位，用于判断是否为初始导航
 
-router.beforeEach((to, from, next) => {
-  // 判断是否为刷新页面的操作
-  if (isFirstNavigation && from.name === null) {
-    isFirstNavigation = false; // 设置为false，表示已经进行了初始导航
-    next("/centralMaintenance/failureReport/failureList"); // 重定向至指定页面
-  } else {
-    isFirstNavigation = false; // 设置为false，以防止重定向后再次进入这个逻辑
-    next(); // 继续路由跳转
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   // 判断是否为刷新页面的操作
+//   if (isFirstNavigation && from.name === null) {
+//     isFirstNavigation = false; // 设置为false，表示已经进行了初始导航
+//     next("/centralMaintenance/failureReport/failureList"); // 重定向至指定页面
+//   } else {
+//     isFirstNavigation = false; // 设置为false，以防止重定向后再次进入这个逻辑
+//     next(); // 继续路由跳转
+//   }
+// });
 
 export default router;

@@ -9,13 +9,12 @@ const API = {
   POST_LIST_SAVE: "/conditionMonitoring/paramerDisplay/saveSelection.php",
 
   // StartView
-  POST_DATA_IN_TIME: "/conditionMonitoring/paramerDisplay/getDataInTime.php",
   POST_DATA_IN_TIME_NEW:
     "/conditionMonitoring/paramerDisplay/getDataInTimeNew.php",
 
   // graphicDisplay
   POST_GRAPHIC_IN_TIME:
-    "php/conditionMonitoring/paramerLinesDisplay/paramerShowDynamic.php",
+    "/conditionMonitoring/paramerDisplay/paramerGraphNew.php",
 
   // rawDataDisplay
   GET_RAW_IN_TIME: "/conditionMonitoring/paramerDisplay/getRawInTime.php",
@@ -47,14 +46,6 @@ export const saveList = (data) => {
 export const postDataInTimeNew = (data) => {
   return http({
     url: API.POST_DATA_IN_TIME_NEW,
-    method: "POST",
-    data: data,
-  });
-};
-
-export const postDataInTime = (data) => {
-  return http({
-    url: API.POST_DATA_IN_TIME,
     method: "POST",
     data: data,
   });

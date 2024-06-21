@@ -2,6 +2,10 @@
  * 全局样式
  */
 #app {
+  width: 1300px;
+  height: 900px;
+  margin: 0 auto;
+
   position: absolute;
   top: 0;
   bottom: 0;
@@ -83,7 +87,6 @@
   text-align: left;
 
   color: white;
-  text-align: left;
   height: 5vh;
 
   z-index: 100;
@@ -204,9 +207,11 @@
 .el-table td {
   padding: 2vh 2vh;
   height: 20px;
+  text-align: left;
   font-size: 15px;
   font-weight: 400;
   color: #ffffff;
+  border-color: rgb(106, 106, 106) !important;
   line-height: 30px;
   background-color: rgb(46, 45, 45);
 }
@@ -222,6 +227,11 @@
 .el-table__body tr.disable-row > td {
   background-color: #3b3b3c !important;
   color: #908f8f;
+}
+
+.el-table .el-table__row,
+.el-table .el-table__column {
+  text-align: left; /* 设置文本左对齐 */
 }
 
 .transparent-table {
@@ -563,7 +573,7 @@
   align-items: center;
   justify-content: space-between;
 
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   width: 100%;
 

@@ -72,7 +72,7 @@ export default {
         if (newValue[0].isActive == true) {
           this.FailureReportTimer = setInterval(
             this.getfailureReportPhp,
-            100000
+            1000000
           )
         } else {
           clearInterval(this.FailureReportTimer)
@@ -81,7 +81,7 @@ export default {
         if (newValue[1].isActive == true) {
           this.currentGroundTestTimer = setInterval(
             this.getGroundTestPhp,
-            1000
+            1000000
           )
         } else {
           clearInterval(this.currentGroundTestTimer)

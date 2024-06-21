@@ -82,6 +82,8 @@
         </el-col>
       </el-row>
     </el-main>
+    <span class="table-lower-bar-left-note"> Notes: Data marked with "*" is obtained by calculating When the MS compute
+      module fails</span>
     <el-footer>
       <div>
         <button class="footer-btn"

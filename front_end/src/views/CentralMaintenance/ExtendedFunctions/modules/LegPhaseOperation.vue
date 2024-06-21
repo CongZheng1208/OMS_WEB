@@ -91,7 +91,12 @@ export default {
         OrderType: "LEGENABLE",
         currentPage: "flightLegAndPhase",
       });
+
+      // setInterval(() => {
+      //   this.handleTestOrder(tmp)
+      // }, 1000);
       this.handleTestOrder(tmp)
+
     },
     stopPhase() {
       this.isPhaseAble = false

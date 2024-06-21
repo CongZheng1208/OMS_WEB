@@ -3,8 +3,7 @@
     <el-main>
       <div class="segment-top">
         <div class="select-item">
-          <el-select v-model="currentScreen"
-                     class="button-bar-btn">
+          <el-select v-model="currentScreen">
             <el-option v-for="x in testData1"
                        :value="x.value"
                        :key="x.name"
@@ -13,8 +12,7 @@
         </div>
         <div class="select-item"
              v-if="currentScreen == 'full'">
-          <el-select v-model="leftAtaSelected"
-                     class="button-bar-btn">
+          <el-select v-model="leftAtaSelected">
             <el-option v-for="x in testData"
                        :value="x.value"
                        :key="x.name"
@@ -23,8 +21,7 @@
         </div>
         <div class="select-item"
              v-if="currentScreen == 'half'">
-          <el-select v-model="leftAtaSelected"
-                     class="button-bar-btn">
+          <el-select v-model="leftAtaSelected">
             <el-option v-for="x in testDataHalf"
                        :value="x.value"
                        :key="x.name"
@@ -33,8 +30,7 @@
         </div>
         <div class="select-item"
              v-if="currentScreen == 'half'">
-          <el-select v-model="rightAtaSelected"
-                     class="button-bar-btn">
+          <el-select v-model="rightAtaSelected">
             <el-option v-for="x in testDataHalf"
                        :value="x.value"
                        :key="x.name"
@@ -44,20 +40,20 @@
       </div>
       <div v-if="currentScreen == 'full'">
         <el-row>
-          <ATA29 v-if="leftAtaSelected == '29'"></ATA29>
-          <ATA32_LG v-if="leftAtaSelected == '321'"></ATA32_LG>
-          <ATA32_BRAKE v-if="leftAtaSelected == '322'"></ATA32_BRAKE>
+          <ATA29 v-if="leftAtaSelected == 29"></ATA29>
+          <ATA32_LG v-if="leftAtaSelected == 321"></ATA32_LG>
+          <ATA32_BRAKE v-if="leftAtaSelected == 322"></ATA32_BRAKE>
         </el-row>
       </div>
       <div v-if="currentScreen == 'half'">
         <el-row>
           <el-col :span="12">
-            <ATA29 v-if="leftAtaSelected == '29'"></ATA29>
-            <ATA32_LG v-if="leftAtaSelected == '321'"></ATA32_LG>
+            <ATA29 v-if="leftAtaSelected == 29"></ATA29>
+            <ATA32_LG v-if="leftAtaSelected == 321"></ATA32_LG>
           </el-col>
           <el-col :span="12">
-            <ATA29 v-if="rightAtaSelected == '29'"></ATA29>
-            <ATA32_LG v-if="rightAtaSelected == '321'"></ATA32_LG>
+            <ATA29 v-if="rightAtaSelected == 29"></ATA29>
+            <ATA32_LG v-if="rightAtaSelected == 321"></ATA32_LG>
           </el-col>
         </el-row>
       </div>
@@ -81,8 +77,8 @@ export default {
   data() {
     return {
       currentScreen: 'full',
-      leftAtaSelected: "322",
-      rightAtaSelected: "8",
+      leftAtaSelected: 322,
+      rightAtaSelected: 8,
       testData: [
         {
           id: 1,
@@ -145,8 +141,8 @@ export default {
 }
 
 .select-item {
-  width: 15%;
-  padding-right: 3vh;
+  width: 20vh;
+  margin-left: 3vh;
 }
 
 th,

@@ -32,7 +32,7 @@ export default {
           name: "Management",
           isActive: false,
           routeName: "Management",
-        },
+        }
       ],
     };
   },

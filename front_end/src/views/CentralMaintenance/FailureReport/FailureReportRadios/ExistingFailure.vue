@@ -7,11 +7,9 @@
               :header-cell-style="{
                 background: '#404040',
                 color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
+                font: '14px'
               }"
               height="65vh"
-              :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
               row-key="index"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"

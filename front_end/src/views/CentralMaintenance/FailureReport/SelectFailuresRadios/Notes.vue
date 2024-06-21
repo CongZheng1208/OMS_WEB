@@ -13,7 +13,7 @@
                    clearable
                    slot="reference"
                    class="table-outer-button"
-                   icon="el-icon-upload2"
+                   icon="el-icon-circle-plus-outline"
                    @click="isAddNotesSelected = true"></el-button>
       </div>
     </div>

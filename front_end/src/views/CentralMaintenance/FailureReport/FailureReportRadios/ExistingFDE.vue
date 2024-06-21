@@ -9,10 +9,8 @@
               :header-cell-style="{
     background: '#404040',
     color: '#FFFFFF',
-    font: '14px',
-    'text-align': 'center',
+    font: '14px'
   }"
-              :cell-style="{ 'text-align': 'center' }"
               row-key="FDECode"
               :empty-text="'NO DATA DISPLAY'"
               @current-change="tableRowClicked"

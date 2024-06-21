@@ -1,6 +1,7 @@
 <template>
   <div class="col status-bar"
-       style="margin-top: 2vh; font-weight: bold;"> A/C Reg: {{ acReg }} <br> {{ currentDate }} {{ currentTime }} </div>
+       style="margin-top: 2vh; font-weight: bold;"> A/C Reg: {{ acReg }} <br>
+  </div>
 </template>
 <script lang="ts">
 export default {

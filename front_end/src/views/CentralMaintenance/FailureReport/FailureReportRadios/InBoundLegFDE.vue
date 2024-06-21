@@ -4,17 +4,16 @@
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="postFlightReportArray"
+              :default-expand-all="true"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
     background: '#404040',
     color: '#FFFFFF',
     font: '14px',
-    'text-align': 'center',
   }"
               height="65vh"
               row-key="index"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-              :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
               @current-change="tableRowClicked"
               v-loading="loading"

@@ -7,13 +7,12 @@
               :header-cell-style="{
                 background: '#404040',
                 color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
+                font: '14px'
               }"
               height="65vh"
-              :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
               row-key="index"
+              :default-expand-all="true"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               @current-change="tableRowClicked"
               v-loading="loading"
@@ -32,9 +31,9 @@
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
                        :width="null"
-                       :min-width="70">
+                       :min-width="50">
         <template slot="header"
-                  slot-scope="scope"> FIM Code <el-input style="width: 15vh; margin-left: 2vh;margin-right: 1vh;"
+                  slot-scope="scope"> FIM Code <el-input style="width: 8vh; margin-left: 2vh;margin-right: 1vh;"
                     v-model="searchFimCodeInput"
                     size="mini"
                     placeholder="FIM Code"
@@ -45,9 +44,9 @@
       <el-table-column prop="failureNameInfo"
                        label="Failure Name"
                        :width="null"
-                       :min-width="75">
+                       :min-width="95">
         <template slot="header"
-                  slot-scope="scope"> Failure Name <el-input style="width: 15vh; margin-left: 2vh;margin-right: 1vh;"
+                  slot-scope="scope"> Failure Name <el-input style="width: 13vh; margin-left: 2vh;margin-right: 1vh;"
                     v-model="searchFailureNameInput"
                     size="mini"
                     placeholder="Failure Name"
@@ -133,10 +132,8 @@
                   :header-cell-style="{
                 background: 'rgb(52, 52, 52)',
                 color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
+                font: '14px'
               }"
-                  :cell-style="{ 'text-align': 'center' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -163,9 +160,7 @@
                 background: 'rgb(52, 52, 52)',
                 color: '#FFFFFF',
                 font: '14px',
-                'text-align': 'center',
               }"
-                  :cell-style="{ 'text-align': 'center' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -192,9 +187,7 @@
                 background: 'rgb(52, 52, 52)',
                 color: '#FFFFFF',
                 font: '14px',
-                'text-align': 'center',
               }"
-                  :cell-style="{ 'text-align': 'center' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>

@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div class="bg-[#333333]">
     <Selection />
-    <div class="border mx6">
+    <div
+         v-for="item, idx in pageData.rows"
+         class="border mx6 mb3">
       <div class="px-6 py-4 fontbold text-lg ">
-        <span>ATA:<span class="text-red">{{ ATA.name }}</span></span>
-        <span class="pl12">Equipment:<span class="text-red">{{ equipment.name }}</span></span>
+        <span>ATA:<span class="text-red">{{ item.ATA.name }}</span></span>
+        <span class="pl12">Equipment:<span class="text-red">{{ item.Equipment.name }}</span></span>
         <div class="">
-          <!-- <Load Condition Text> -->
           <div>
             <span class="w-200 inline-block">Configuration Report to Update</span>
             <span>&lt;Load Condition Text&gt;</span>
@@ -19,8 +20,7 @@
             <span class="w-200 inline-block">Serial Number:940405327</span>
             <span>&lt;Load Condition text&gt;</span>
           </div>
-          <div v-for="item, idx in partlist">Software Part Number{{ idx + 1 }}: <span
-                  class="text-red">{{ item.id }}</span></div>
+          <div>Software Part Number{{ item.Part.id }}: <span class="text-red">{{ item.Part.id }}</span></div>
         </div>
       </div>
     </div>
@@ -40,6 +40,8 @@
 <script lang="ts">
 import { http } from '@/utils/http';
 import Selection from './select-bar.vue';
+import { MyResponse } from '@/utils/store/response';
+import {PageData,RowClass} from './store'
 
 export default {
   name: 'DataUpload',
@@ -52,10 +54,8 @@ export default {
   },
   data() {
     return {
-      ATA: JSON.parse(this.$route.params.ATA),
-      equipment: JSON.parse(this.$route.params.equipment),
-      partlist: JSON.parse(this.$route.params.partlist),
-      type: this.$route.params.type
+      dataloadList:JSON.parse(this.$route.query.dataload_list as string),
+      pageData:new PageData()
     }
   },
   computed: {
@@ -64,12 +64,22 @@ export default {
   watch: {
 
   },
-  mounted() {
-    if (this.type === 'equipment_partlist') {
-    } else {
-    }
+  async mounted() {
+     await this.get_data_list()
   },
   methods: {
+    async get_data_list(){
+      const res=(await http({
+        url: '/get-dataload-list-info',
+        method: 'post',
+        data: JSON.stringify(
+       this.dataloadList
+        )
+      })) as MyResponse<RowClass[]>
+      if(res.code===200){
+        this.pageData.rows=res.result
+      }
+    },
     goback() {
       this.$router.back()
     },
@@ -77,22 +87,19 @@ export default {
       this.$router.push({ name: name })
     },
     async beginLoad() {
-      if (this.type === 'equipment_partlist') {
-        const res = await http({
-          url: '/load-ATA-equipment',
-          method: 'post',
-          data: JSON.stringify({
-            equipment_id: this.equipment.id,
-            partlist_id: this.partlist.map(item => item.id)
-          })
+      const res = (await http({
+        url: '/load-equipment-part',
+        method: 'post',
+        data: JSON.stringify(
+         this.dataloadList,
+        )
+      })) as MyResponse<undefined>
+      if (res.code === 200) {
+        this.$message({
+          message: 'Loading Start',
+          type: 'success'
         })
-        if (res.code === 200) {
-          this.$message({
-            message: 'Loading Start',
-            type: 'success'
-          })
-          this.goto('LoadStatus')
-        }
+        this.goto('LoadStatus')
       }
     }
   }

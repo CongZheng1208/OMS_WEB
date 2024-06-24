@@ -11,23 +11,24 @@
           <tbody>
             <tr v-for="item, idx in pageData.ATAlist"
                 class="h14 "
-                :class="idx == selectedATAIdx ? 'seleted' : ''">
+                :class="idx == selectedATAIdx ? 'selected' : ''">
               <td @click="ATAlistClick(idx)">{{ item.name }}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="w-1/3">
-        <table>
+        <table >
           <thead>
             <tr>
               <th>Equipment Selection</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="item, idx in pageData.ATAlist[selectedATAIdx].equipments"
+          <tbody v-if="selectedATAIdx !== -1">
+            <tr
+            v-for="item, idx in pageData.ATAlist[selectedATAIdx].equipments"
                 class="h14 "
-                :class="idx === selectedEquipmentsIdx ? 'seleted' : ''">
+                :class="idx === selectedEquipmentsIdx ? 'selected' : ''">
               <td @click="equipmentsClick(idx)">User {{ item.name }}</td>
             </tr>
           </tbody>
@@ -44,7 +45,7 @@
           <tbody>
             <tr @click="partClick(idx)"
                 v-for="item, idx in pageData.partlist"
-                :class="selectedPartIdx.indexOf(idx) !== -1 ? 'seleted' : ''">
+                :class="selectedPartIdx.indexOf(idx) !== -1 ? 'selected' : ''">
               <td>{{ item.id }}</td>
               <td>{{ item.description }}</td>
             </tr>
@@ -77,8 +78,8 @@ export default {
   data() {
     return {
       pageData: new PageData(),
-      selectedATAIdx: 0,
-      selectedEquipmentsIdx: 0,
+      selectedATAIdx: -1,
+      selectedEquipmentsIdx: -1,
       selectedPartIdx: [] as Array<number>
     }
   },
@@ -107,21 +108,34 @@ export default {
       }
       this.$router.push({
         name: "DataUpload",
-        params: {
-          ATA: JSON.stringify(this.pageData.ATAlist[this.selectedATAIdx]),
-          equipment: JSON.stringify(this.pageData.ATAlist[this.selectedATAIdx].equipments[this.selectedEquipmentsIdx]),
-          partlist: JSON.stringify(this.selectedPartIdx.map(idx => this.pageData.partlist[idx])),
-          type: "equipment_partlist"
+        query: {
+          dataload_list:JSON.stringify(this.getDataloadList()),
         }
       })
     },
     ATAlistClick(idx: number) {
       this.selectedEquipmentsIdx = 0
+      this.pageData.partlist=[]
       this.selectedATAIdx = idx
     },
     equipmentsClick(idx: number) {
       this.selectedEquipmentsIdx = idx
       this.pageData.getPartByEquipment(this.pageData.ATAlist[this.selectedATAIdx].equipments[idx].id)
+    },
+    getDataloadList() {
+      const partlist_idx=this.selectedPartIdx.map(item => this.pageData.partlist[item])
+      const equipment_idx=this.pageData.ATAlist[this.selectedATAIdx].equipments[this.selectedEquipmentsIdx].id
+      const dataload_list:Array<{
+        equipment_id: number,
+        part_id: string,
+      }>=[]
+      partlist_idx.forEach(item=>{
+        dataload_list.push({
+          equipment_id:equipment_idx,
+          part_id:item.id ,
+        })
+      })
+      return dataload_list
     },
     partClick(idx: number) {
       const the_idx = this.selectedPartIdx.indexOf(idx)
@@ -149,12 +163,16 @@ td {
   @apply hover:cursor-pointer;
 }
 
-
+thead{
+  tr{
+    @apply bg-[#404040];
+  }
+}
 tr {
   border: 1px solid rgb(111, 111, 111);
 }
 
-.seleted {
+.selected {
   @apply bg-[#404040] border-b-white border
 }
 

@@ -2,8 +2,8 @@
  * 全局样式
  */
 #app {
-  width: 1300px;
-  height: 900px;
+  width: 1800px;
+  /* height: 900px; */
   margin: 0 auto;
 
   position: absolute;
@@ -322,6 +322,13 @@
   color: rgb(174, 174, 174);
   margin-right: 2vh;
   align-self: center;
+}
+
+.config-note {
+  right: 8vh;
+  position: absolute;
+  bottom: 2vh;
+  color: rgb(174, 174, 174);
 }
 
 .row-disabled {

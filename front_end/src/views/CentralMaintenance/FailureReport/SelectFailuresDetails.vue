@@ -107,7 +107,7 @@
           </el-col>
         </el-row>
       </div>
-      <div style="height: 45vh; overflow-y: auto;">
+      <div style="height: 50vh; overflow-y: auto;">
         <RootCause v-show="displaySelected == 'rootCause'" />
         <FlightDeckEffects v-show="displaySelected == 'flightDeckEffects'" />
         <Parameters v-show="displaySelected == 'parameters'" />

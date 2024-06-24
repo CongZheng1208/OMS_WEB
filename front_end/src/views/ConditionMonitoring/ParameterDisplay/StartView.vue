@@ -70,7 +70,7 @@
                     height="70vh"
                     @row-click="addParamToShow"
                     style=" background-color: rgb(46, 45, 45)"
-                    :data="selectedParamsPara"
+                    :data="selectedParams"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                     :empty-text="'NO DATA DISPLAY'">
@@ -177,7 +177,6 @@ export default {
       displaySelected: 'figure',
 
       selectedParams: [],
-      selectedParamsPara: [],
       selectedParamsIndex: [],
 
       showedParams: [],
@@ -207,7 +206,6 @@ export default {
      */
     parameterInit(data) {
       this.selectedParams = data;
-      this.selectedParamsPara = data;
       this.selectedParamsIndex = []
 
       for (var i = 0; i < this.selectedParams.length; i++) {
@@ -215,27 +213,6 @@ export default {
       }
 
       this.startListRefresh()
-      // try {
-
-      //   let tmp = qs.stringify({
-      //     index: this.selectedParamsIndex,
-      //     timeIndex: this.getCurrentDateTime()
-      //   });
-      //   postDataInTimeNew(tmp).then(response => {
-      //     for (var i = 0; i < response.length; i++) {
-      //       if (response[i].length > 0) {
-      //         this.selectedParams[i].curData = response[i][response[i].length - 1]['data'];
-      //       } else {
-      //         this.selectedParams[i].curData = 0
-      //       }
-      //     }
-      //     this.startListRefresh()
-      //   }).catch(error => {
-      //     console.error('Error in fetching parameter list:', error);
-      //   });
-      //   resolve();
-      // } catch (error) {
-      // }
     },
 
     /**
@@ -622,7 +599,6 @@ export default {
         return; // 如果正在进行数据刷新，则直接返回，不进行任何下一步操作
       }
       this.isListRefreshing = true;
-
 
       this.refreshListInterval = setInterval(() => {
         this.fetchListData();

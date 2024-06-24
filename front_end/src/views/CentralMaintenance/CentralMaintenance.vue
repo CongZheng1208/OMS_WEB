@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid ">
-    <Menus :menus="menus"
-           class='text-xl' />
+    <Menus :menus="menus" />
     <router-view />
   </div>
 </template>

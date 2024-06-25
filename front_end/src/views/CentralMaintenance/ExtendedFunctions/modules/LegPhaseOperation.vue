@@ -60,7 +60,7 @@
   </div>
 </template>
 <script>
-import { printPage, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, handleTestOrder } from '@/utils/utils'
 import qs from 'qs'
 export default {
   name: "LegPhaseOperation",
@@ -91,7 +91,12 @@ export default {
         OrderType: "LEGENABLE",
         currentPage: "flightLegAndPhase",
       });
+
+      // setInterval(() => {
+      //   this.handleTestOrder(tmp)
+      // }, 1000);
       this.handleTestOrder(tmp)
+
     },
     stopPhase() {
       this.isPhaseAble = false

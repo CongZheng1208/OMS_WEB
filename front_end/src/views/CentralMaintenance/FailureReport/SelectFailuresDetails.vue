@@ -22,10 +22,8 @@
                     :header-cell-style="{
           background: '#404040',
           color: '#FFFFFF',
-          font: '14px',
-          'text-align': 'center',
+          font: '14px'
         }"
-                    :cell-style="{ 'text-align': 'center' }"
                     :empty-text="'No Data Display'">
             <el-table-column prop="fimcodeInfo"
                              label="FIM Code"
@@ -105,7 +103,7 @@
           </el-col>
         </el-row>
       </div>
-      <div style="height: 45vh; overflow-y: auto;">
+      <div style="height: 50vh; overflow-y: auto;">
         <RootCause v-show="displaySelected == 'rootCause'" />
         <FlightDeckEffects v-show="displaySelected == 'flightDeckEffects'" />
         <Parameters v-show="displaySelected == 'parameters'" />

@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg-[#333333]">
     <Selection />
     <div class="px-6">
-      <table class="wfull ">
+      <table class="wfull bg-[#333333] ">
         <thead>
           <tr>
             <th>Equipment Name <input type="text" />
@@ -20,16 +20,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in 10"
+          <tr v-for="item, idx in pageData.part_data_log_output"
               class="h14 "
-              :class="item === 1 ? 'folder-color' : ''">
-            <td>IDU_{{ item }}</td>
-            <td>CMC11-1061</td>
-            <td>2023/03/10 17:05:20</td>
+              :class="idx === 1 ? 'active' : ''">
+            <td>{{ item.equipment.name }}</td>
+            <td>{{ item.part.id }}</td>
+            <td>{{ formatDateString(item.start_time) }}</td>
             <td>00:32:34</td>
-            <td>Queued</td>
+            <td>{{ item.load_status }}</td>
             <td>
-              <div v-if="item !== 2 && item !== 3"
+              <div v-if="item.load_status === 'Loaded'"
                    class="flex items-center">
                 <div class="w-30 h-5 bg-white border border-white flex">
                   <!-- Progress Bar Fill -->
@@ -38,12 +38,12 @@
                 </div>
                 <span class="pl3">50%</span>
               </div>
-              <div v-if="item === 2"
+              <div v-if="item.load_status === 'Completed'"
                    class="flex items-center">
                 <button @click="goto('ConfirmPage')"
                         class="confirm-btn">Confirm</button>
               </div>
-              <div v-if="item === 3">
+              <div v-if="item.load_status === 'Failed'">
                 <button @click="goto('FailDetailPage')"
                         class="confirm-btn">View Detail</button>
               </div>
@@ -67,6 +67,7 @@
 </template>
 <script lang="ts">
 import Selection from './select-bar.vue';
+import { PageData, formatDateString } from './store';
 
 export default {
   name: 'LoadStatus',
@@ -79,7 +80,7 @@ export default {
   },
   data() {
     return {
-
+      pageData: new PageData()
     }
   },
   computed: {
@@ -89,6 +90,7 @@ export default {
 
   },
   mounted() {
+    this.pageData.get_log_list()
   },
   methods: {
     goback() {
@@ -97,7 +99,8 @@ export default {
     gotoDataUpload() { },
     goto(name: string) {
       this.$router.push({ name: name })
-    }
+    },
+    formatDateString
   }
 };
 </script>
@@ -116,9 +119,10 @@ th {
 tr {
   border: 1px solid rgb(111, 111, 111);
 }
-
-tr:first-child {
-  @apply bg-[#404040] border-b-white border;
+thead{
+  tr{
+    @apply bg-[#404040];
+  }
 }
 
 th {

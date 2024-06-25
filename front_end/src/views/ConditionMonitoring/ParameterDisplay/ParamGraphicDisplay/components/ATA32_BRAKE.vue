@@ -171,6 +171,8 @@
 <script>
 import qs from 'qs'
 import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { LANDING_GEAR_BRAKES_Enum } from '@/globals/enums.js'
+
 export default {
   name: "ATA32",
   data() {
@@ -234,26 +236,44 @@ export default {
     };
   },
   mounted() {
-    //this.refreshInterval = setInterval(this.paramListInit, 1000);
+    this.refreshInterval = setInterval(this.paramListInit, 1000);
   },
   methods: {
     paramListInit() {
       let tmp = qs.stringify({
-        selectedParams: this.selectedParamsIdx
+        index: LANDING_GEAR_BRAKES_Enum,
+        timeIndex: this.getCurrentDateTime()
       })
+
       postGraphicInTime(tmp).then(response => {
 
-        this.flattenData0 = response.slice(2);
-        this.flattenData1 = response.slice(2, 6);
-        this.flattenData2 = response.slice(6, 10);
-        this.flattenData3 = response.slice(10, 12);
-        this.flattenData4 = response.slice(12, 18);
-        this.flattenData5 = response.slice(18, response.length);
+        if (response.length !== 0) {
+          this.flattenData0 = response.slice(2);
+          this.flattenData1 = response.slice(2, 6);
+          this.flattenData2 = response.slice(6, 10);
+          this.flattenData3 = response.slice(10, 12);
+          this.flattenData4 = response.slice(12, 18);
+          this.flattenData5 = response.slice(18, response.length);
+        }
+
+
 
       }).catch(error => {
         console.error('Error in fetching parameter display data:', error);
       });
-    }
+    },
+    getCurrentDateTime() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = (now.getMonth() + 1).toString().padStart(2, '0');
+      var day = now.getDate().toString().padStart(2, '0');
+      var hours = now.getHours().toString().padStart(2, '0');
+      var minutes = now.getMinutes().toString().padStart(2, '0');
+      var seconds = now.getSeconds().toString().padStart(2, '0');
+
+      var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+      return formattedDateTime;
+    },
   },
   beforeDestroy() {
     clearInterval(this.refreshInterval)
@@ -391,6 +411,7 @@ th:first-child {
 }
 
 .table-name {
+  text-align: left;
   font-weight: bold;
 }
 

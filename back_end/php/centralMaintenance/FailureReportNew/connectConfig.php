@@ -2,9 +2,11 @@
 global $con;
 set_time_limit(0); // 0 表示没有时间限制
 
+    // 本地调试
+    $con = mysqli_connect("localhost", "root", "root", "OMHMS");
 
-// 本地调试
-//$con = mysqli_connect("localhost", "root", "Comac.000", "OMHMS");
+    // 服务器的数据库地址
+    //$con = mysqli_connect("localhost", "root", "root", "OMHMS");
 
 // 服务器的数据库地址
 $con = mysqli_connect("localhost", "root", "Comac.000", "OMHMS");

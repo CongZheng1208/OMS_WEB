@@ -15,10 +15,8 @@
                 :header-cell-style="{
               background: '#ffffff',
               color: '#010101',
-              font: '14px',
-              'text-align': 'center',
+              font: '14px'
             }"
-                :cell-style="{ 'text-align': 'center' }"
                 :empty-text="'NO DATA DISPLAY'">
         <el-table-column :width="null"
                          :min-width="10"></el-table-column>

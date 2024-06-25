@@ -22,7 +22,7 @@
           <div
                style=" overflow: auto; height: 32vh; max-height: 32vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
             <div class="div-title"
-                 style=" position: sticky;top: 0;"> Hardware Information </div>
+                 style=" position: sticky;top: 0;"> Hardware Information<span v-if="isStared">*</span> </div>
             <div v-if="currentHardwareInformation.length === 0"
                  class="content-alert"> No Alive Data </div>
             <div v-else
@@ -78,6 +78,8 @@
                 </div>
               </ul>
             </div>
+            <span v-if="isStared"
+                  class="config-note"> *: The information displayed is not up-to-date since the latest power-up.</span>
           </div>
         </el-col>
       </el-row>
@@ -109,6 +111,7 @@ export default {
       currentSoftwareInformation: {},
       currentAdditionalInformation: "",
 
+      isStared: true,
       fullscreenLoading: false,
       loading: true,
     };

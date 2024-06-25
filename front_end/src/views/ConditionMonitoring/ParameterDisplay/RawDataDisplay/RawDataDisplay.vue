@@ -297,7 +297,7 @@ export default {
 }
 
 .search-input {
-  background-color: black;
+  background-color: rgb(51, 50, 50);
   color: white;
   margin-left: 2vh;
   height: 5vh;
@@ -323,12 +323,12 @@ input {
 }
 
 .param-wrapper {
-  margin: 2vh;
+  margin-top: 2vh;
   transition: background-color 0.3s;
 }
 
 .param-wrapper:hover {
-  border: 1px solid #006EAA;
+  background-color: rgb(105, 107, 109);
 }
 
 .selected {
@@ -342,8 +342,8 @@ input {
 }
 
 .hex-chunk {
-  padding: 5px;
-  margin-top: 1vh;
+  /* padding: 5px; */
+  /* margin-top: 1vh; */
   width: 5vh;
   transition: background-color 0.3s;
 }

@@ -7,13 +7,12 @@
               :header-cell-style="{
                 background: '#404040',
                 color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
+                font: '14px'
               }"
               height="65vh"
-              :cell-style="{ 'text-align': 'center' }"
               :empty-text="'NO DATA DISPLAY'"
               row-key="index"
+              :default-expand-all="true"
               :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               @current-change="tableRowClicked"
               v-loading="loading"
@@ -32,9 +31,9 @@
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
                        :width="null"
-                       :min-width="70">
+                       :min-width="50">
         <template slot="header"
-                  slot-scope="scope"> FIM Code <el-input style="width: 15vh; margin-left: 2vh;margin-right: 1vh;"
+                  slot-scope="scope"> FIM Code <el-input style="width: 8vh; margin-left: 2vh;margin-right: 1vh;"
                     v-model="searchFimCodeInput"
                     size="mini"
                     placeholder="FIM Code"
@@ -45,9 +44,9 @@
       <el-table-column prop="failureNameInfo"
                        label="Failure Name"
                        :width="null"
-                       :min-width="75">
+                       :min-width="95">
         <template slot="header"
-                  slot-scope="scope"> Failure Name <el-input style="width: 15vh; margin-left: 2vh;margin-right: 1vh;"
+                  slot-scope="scope"> Failure Name <el-input style="width: 13vh; margin-left: 2vh;margin-right: 1vh;"
                     v-model="searchFailureNameInput"
                     size="mini"
                     placeholder="Failure Name"
@@ -125,18 +124,17 @@
         <el-table v-if="dialogSelected == 'ATA'"
                   :data="ataFilters"
                   style="
-            width: 100%;
-            background-color: rgb(52, 52, 52);
-            margin-top: 1vh;
-            margin-bottom: 1vh;
-          "
+              width: 100%;
+              background-color:  #ffffff;
+              margin-top: 1vh;
+              margin-bottom: 1vh;
+              border:  0.5px solid rgb(111, 111, 111);
+            "
                   :header-cell-style="{
-                    background: 'rgb(52, 52, 52)',
-                    color: '#FFFFFF',
-                    font: '14px',
-                    'text-align': 'center',
-                  }"
-                  :cell-style="{ 'text-align': 'center' }"
+                background: '#ffffff',
+                color: '#010101',
+                font: '14px'
+              }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -152,20 +150,19 @@
                            :min-width="10"></el-table-column>
         </el-table>
         <el-table v-if="dialogSelected == 'flightPhase'"
-                  style="
-            width: 100%;
-            background-color: rgb(52, 52, 52);
-            margin-top: 1vh;
-            margin-bottom: 1vh;
-          "
                   :data="phaseFilters"
+                  style="
+              width: 100%;
+              background-color:  #ffffff;
+              margin-top: 1vh;
+              margin-bottom: 1vh;
+              border:  0.5px solid rgb(111, 111, 111);
+            "
                   :header-cell-style="{
-                    background: 'rgb(52, 52, 52)',
-                    color: '#FFFFFF',
-                    font: '14px',
-                    'text-align': 'center',
-                  }"
-                  :cell-style="{ 'text-align': 'center' }"
+                background: '#ffffff',
+                color: '#010101',
+                font: '14px'
+              }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -183,18 +180,17 @@
         <el-table v-if="dialogSelected == 'flightLeg'"
                   :data="legFilters"
                   style="
-            width: 100%;
-            background-color: rgb(52, 52, 52);
-            margin-top: 1vh;
-            margin-bottom: 1vh;
-          "
+              width: 100%;
+              background-color:  #ffffff;
+              margin-top: 1vh;
+              margin-bottom: 1vh;
+              border:  0.5px solid rgb(111, 111, 111);
+            "
                   :header-cell-style="{
-                    background: 'rgb(52, 52, 52)',
-                    color: '#FFFFFF',
-                    font: '14px',
-                    'text-align': 'center',
-                  }"
-                  :cell-style="{ 'text-align': 'center' }"
+                background: '#ffffff',
+                color: '#010101',
+                font: '14px'
+              }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -300,7 +296,7 @@ export default {
           JSON.stringify(this.$store.state.failureList.resFailureData)
         );
 
-
+        console.log("existingFailureOri: ", existingFailureOri)
 
         // 创建一个新数组来存放结果
         let mergedArray = existingFailureOri.reduce((acc, curr) => {
@@ -338,7 +334,7 @@ export default {
         this.existingFailureArray = mergedArray
 
         // 输出合并后的数组
-        //console.log(mergedArray);
+        console.log("mergedArray", mergedArray);
 
 
 

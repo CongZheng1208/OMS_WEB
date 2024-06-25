@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div class="px-6 flex ">
       <div class="w-1/3 ">
         <table>
@@ -10,11 +10,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10"
-                class="h14 "
-                :class="item === 1 ? 'folder-color' : ''">
-              <td>User {{ item }}</td>
-              <td>xxxxxxxxxxxxx</td>
+            <tr @click="PartClick(idx)"
+                v-for="item, idx in pageData.part_list"
+                :key="item.id"
+                :class="idx === seletedPartIdx ? 'selected' : ''"
+                class="h14 hover:cursor-pointer">
+              <td> {{ item.id }}</td>
+              <td>{{ item.description }}</td>
             </tr>
           </tbody>
         </table>
@@ -32,11 +34,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in 10"
-                class="h14 "
-                :class="item === 1 ? 'folder-color' : ''">
-              <td>User {{ item }}</td>
-              <td>Description</td>
+            <tr @click="EquipmentClick(idx)"
+                v-for="item, idx in pageData.equipment_list"
+                class="h14 hover:cursor-pointer"
+                :class="selectedEquipmentIdx.indexOf(idx) !== -1 ? 'selected' : ''">
+              <td>{{ item.ATA_id }}</td>
+              <td> {{ item.name }}</td>
               <td></td>
             </tr>
           </tbody>
@@ -55,6 +58,8 @@
   </div>
 </template>
 <script lang="ts">
+import { PageData } from './store';
+
 
 export default {
   name: 'PartNumberSelection',
@@ -66,7 +71,9 @@ export default {
   },
   data() {
     return {
-
+      pageData: new PageData(),
+      seletedPartIdx: 0,
+      selectedEquipmentIdx: [] as Array<number>
     }
   },
   computed: {
@@ -76,14 +83,52 @@ export default {
 
   },
   mounted() {
-
+    this.pageData.get_all_part()
   },
   methods: {
-    gotoDataUpload() {
-      this.$router.push({
-        name: "DataUpload"
+    PartClick(idx: number) {
+      this.seletedPartIdx = idx
+      this.pageData.get_equipments_by_part_id(this.pageData.part_list[idx].id)
+    },
+    EquipmentClick(idx: number) {
+      const the_idx = this.selectedEquipmentIdx.indexOf(idx)
+      if (the_idx === -1) {
+        this.selectedEquipmentIdx.push(idx)
+      } else {
+        this.selectedEquipmentIdx.splice(the_idx, 1)
+      }
+    },
+    getDataloadList() {
+      const equipment_idx=this.selectedEquipmentIdx.map(item => this.pageData.equipment_list[item])
+      const part_idx=this.seletedPartIdx
+      const dataload_list:Array<{
+        equipment_id: number,
+        part_id: string,
+      }>=[]
+      equipment_idx.forEach(item=>{
+        dataload_list.push({
+          equipment_id:item.id,
+          part_id:this.pageData.part_list[part_idx].id,
+        })
       })
-    }
+      return dataload_list
+    },
+    gotoDataUpload() {
+      if (this.selectedEquipmentIdx.length === 0) {
+        this.$message.error('Please select Equipment')
+        return
+      }
+      if (this.seletedPartIdx === -1) {
+        this.$message.error('Please select Part')
+        return
+      }
+      this.$router.push({
+        name: "DataUpload",
+        query: {
+          dataload_list:JSON.stringify(this.getDataloadList()),
+        }
+      })
+    },
   }
 };
 </script>
@@ -98,16 +143,21 @@ th {
   @apply p3 text-center;
 }
 
+thead{
+  tr{
+    @apply bg-[#404040];
+  }
+}
 
 tr {
   border: 1px solid rgb(111, 111, 111);
 }
 
-tr:first-child {
-  @apply bg-[#404040] border-b-white border;
+
+
+.selected {
+  @apply bg-[#404040] border-b-white border
 }
-
-
 
 .footer-btn {
   @apply flex items-center justify-center text-white;

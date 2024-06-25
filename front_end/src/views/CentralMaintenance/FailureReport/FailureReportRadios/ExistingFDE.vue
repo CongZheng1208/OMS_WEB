@@ -7,12 +7,10 @@
               height="65vh"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
-                background: '#404040',
-                color: '#FFFFFF',
-                font: '14px',
-                'text-align': 'center',
-              }"
-              :cell-style="{ 'text-align': 'center' }"
+    background: '#404040',
+    color: '#FFFFFF',
+    font: '14px'
+  }"
               row-key="FDECode"
               :empty-text="'NO DATA DISPLAY'"
               @current-change="tableRowClicked"

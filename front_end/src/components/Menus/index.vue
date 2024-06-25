@@ -1,6 +1,6 @@
 <template>
   <div class='flex text-white bg-[rgb(66, 66, 66)] font-bold justify-between'>
-    <div class='text-white text-2xl text-center w-1/2 h-13 flex flex-col justify-center hover:cursor-pointer border-b border-r border-color'
+    <div class='text-white text-xl text-center w-1/2 h-13 flex flex-col justify-center hover:cursor-pointer border-b border-r border-color'
          v-for="(menu, index) in menus"
          :class="menu.isActive ? 'el-menu-item-active' : 'el-menu-item'"
          @click="changeView(index)"> {{ menu.name.toUpperCase() }} </div>
@@ -17,7 +17,6 @@ export default {
      */
     async changeView(viewKey: number) {
       // 更新页面路由
-
       if (!this.$route.path.toLowerCase().includes(this.menus[viewKey].routeName.toLowerCase())) {
         await this.$router.push({ name: this.menus[viewKey].routeName });
       } else {

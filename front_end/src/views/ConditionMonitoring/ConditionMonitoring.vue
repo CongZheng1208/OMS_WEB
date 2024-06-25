@@ -17,11 +17,11 @@ export default {
           isActive: true,
           routeName: "ParameterDisplay",
         },
-        {
-          name: "Parameter Recording",
-          isActive: false,
-          routeName: "ParameterRecording",
-        },
+        // {
+        //   name: "Parameter Recording",
+        //   isActive: false,
+        //   routeName: "ParameterRecording",
+        // },
         {
           name: "Event Monitoring",
           isActive: false,

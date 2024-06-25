@@ -1,7 +1,8 @@
 <?php
 	// $con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
-    $con = mysqli_connect("localhost", "root", "Comac.000", "OMHMS");
-    //$con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
+    $con = mysqli_connect("localhost", "root", "root", "OMHMS");
+    //$con=mysqli_connect("192.168.1.145", "root", "2185", "OMHMS");
+   // $con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
 	if (!$con) {
 		die("Connection failed: " . mysqli_connect_error());
 	}
@@ -24,7 +25,6 @@
 		$item->hardwareInformation = $row['hardwareInformation'];
 		$item->softwareInformation = $row['softwareInformation'];
 		$item->additionalInformation = $row['additionalInformation'];
- 
     
         // 检查是否已有这个ATA的数组
         if (!isset($data[$ata])) {

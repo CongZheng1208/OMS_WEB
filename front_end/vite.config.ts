@@ -13,7 +13,7 @@ export default defineConfig({
       "/oms": {
         target: "http://localhost:8888",
         changeOrigin: true, // 是否改变源
-        rewrite: (path) => path.replace(/^\/oms/, ""),
+        // rewrite: (path) => path.replace(/^\/oms/, ""),
       },
       // 可以添加更多的代理规则
     },

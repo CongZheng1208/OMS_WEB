@@ -4,19 +4,19 @@ import VueRouter from "vue-router";
 import CentralMaintenanceRoutes from "./modules/CentralMaintenance/index";
 import ConditionMonitoringRoutes from "./modules/ConditionMonitoring/index";
 import ManagementRoutes from "./modules/Management/index";
-import DataLoadRoutes from './modules/DataLoad/index'
+import DataLoadRoutes from "./modules/DataLoad/index";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/centralMaintenance/failureReport/failureList",
+    redirect: "/centralMaintenance",
   },
   CentralMaintenanceRoutes,
   ConditionMonitoringRoutes,
   ManagementRoutes,
-  DataLoadRoutes
+  DataLoadRoutes,
 ];
 
 const router = new VueRouter({

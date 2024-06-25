@@ -3,7 +3,7 @@
     <router-view></router-view>
   </div>
 </template>
-<script>
+<script lang="ts">
 export default {
   name: 'FailureReport',
   data() {
@@ -15,6 +15,7 @@ export default {
   mounted() {
     this.$router.push({
       name: 'FailureList',
+      replace: true
     })
   },
 }

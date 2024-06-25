@@ -201,8 +201,8 @@
 <script>
 import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
-import { ataNameEnum } from '@/globals/enums.js'
-import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils.ts'
+import { ataNameEnum } from '@/globals/enums'
+import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils'
 import { getRetrievalATAandEqui, getResetATAandEqui } from '@/services/centralMaintenance/nvmData/index.js';
 
 

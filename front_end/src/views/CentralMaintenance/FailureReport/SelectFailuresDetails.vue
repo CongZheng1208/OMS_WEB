@@ -17,11 +17,7 @@
         <!-- 选中信息的table -->
         <el-row>
           <el-table highlight-current-row
-                    style="
-            width: 100%;
-            background-color: rgb(46, 45, 45);
-            margin-bottom: 1%;
-          "
+                    class="bg-[rgb(46, 45, 45)] w-full mb-1/100"
                     :data="selectedData"
                     :header-cell-style="{
           background: '#404040',
@@ -143,8 +139,8 @@ import Notes from "./SelectFailuresRadios/Notes.vue";
 import FlightLegs from '@/components/FlightLegs/index.vue'
 import Clock from '@/components/Clock/index.vue'
 
-import { flightPhaseEnum } from '@/globals/enums.js'
-import { printPage, changeRadio } from '@/utils/utils.ts'
+import { flightPhaseEnum } from '@/globals/enums'
+import { printPage, changeRadio } from '@/utils/utils'
 
 export default {
   components: { RootCause, FlightDeckEffects, Parameters, Notes, Clock, FlightLegs },

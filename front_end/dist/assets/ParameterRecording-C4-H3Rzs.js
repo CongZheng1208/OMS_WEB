@@ -1,0 +1,1 @@
+import{n as t}from"./index-BqV8YcGQ.js";const n={};var r=t({},(function(){var t=this,n=t.$createElement;return(t._self._c||n)("div",{staticClass:"container-fluid"},[t._v(" param graph ")])}),[],!1,e,"619560c2");function e(t){for(let r in n)this[r]=n[r]}const a=function(){return r.exports}();export{a as default};

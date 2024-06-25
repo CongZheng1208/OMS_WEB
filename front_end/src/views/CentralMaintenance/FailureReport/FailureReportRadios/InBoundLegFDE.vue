@@ -97,7 +97,7 @@
 </template>
 <script lang="ts">
 import { customSortMethodForProgressColumn } from '@/utils/utils'
-import { fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum } from '@/globals/enums.js'
+import { fdeStatusEnum, fdeClassEnum, failureStateEnum, flightPhaseEnum } from '@/globals/enums'
 import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
 import { mapState } from 'vuex';
 import querystring from 'querystring';
@@ -235,46 +235,8 @@ export default {
       } else {
         this.postFlightReportArray = []
       }
-
-      this.postFlightReportArray.forEach(item => {
-        item.children = [];  // 清空children数据
-      })
-      // 创建一个新数组来存放结果
-      this.postFlightReportArray = this.postFlightReportArray.reduce((acc, curr) => {
-        // 检查当前对象是否与已有对象相匹配
-        let match = acc.find(item => item.fde.FDECode === curr.fde.FDECode);
-        // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
-        if (match) {
-          if (!match.children) {
-            match.children = [];
-          }
-          match.children.push({
-            FDEClass: "",
-            FDECode: "",
-            FDEStatus: "",
-            FDEText: "",
-            FDETime: "",
-            ata: "",
-            failureNameInfo: curr.failureNameInfo,
-            failureState: curr.failureState,
-            failureTime: "",
-            fault: "",
-            fde: "",
-            fimcodeInfo: curr.fimcodeInfo,
-            flightLeg: "",
-            flightPhase: curr.flightPhase,
-            id: curr.id,
-            index: curr.index,
-            maintenceText: curr.maintenceText,
-            maintenceTime: curr.maintenceTime
-          });
-        } else {
-          // 如果没有匹配的对象，将当前对象直接添加到结果数组中
-          acc.push(curr);
-        }
-        return acc;
-      }, []);
-
+      // console.log("postFlightReportOri is", postFlightReportOri)
+      // console.log("pfr is:", this.postFlightReportArray)
     },
     customSortMethodForProgressColumn
   },

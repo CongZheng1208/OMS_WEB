@@ -4,6 +4,9 @@ import axios from "axios";
 const CentralMaintenceHttp = axios.create({
   //baseURL: "http://localhost:8888/oms/php/",
   baseURL: "http://127.0.0.1/oms/php/",
+  //baseURL: 'http://localhost:8888/oms/php/'
+  baseURL: "/oms/php/",
+  timeout: 10000,
 });
 
 // 请求拦截器

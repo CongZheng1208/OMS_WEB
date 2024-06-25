@@ -93,7 +93,7 @@
 </template>
 <script>
 import qs from 'qs'
-import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils.ts'
+import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
 import { getATAandEqui } from '@/services/centralMaintenance/extendedFunctions/index.js';
 
 export default {

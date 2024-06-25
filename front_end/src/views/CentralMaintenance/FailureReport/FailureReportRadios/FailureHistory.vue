@@ -224,7 +224,7 @@
   </el-row>
 </template>
 <script>
-import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import { customSortMethodForProgressColumn } from '@/utils/utils'
 export default {
   components: {},
   name: "ExistingFailures",

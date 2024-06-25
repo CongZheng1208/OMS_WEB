@@ -3,7 +3,7 @@
 import {
   getCurrentTests,
   getAllAtaEquiTests,
-} from "@/services/centralMaintenance/groundTest/index.js";
+} from "@/services/centralMaintenance/groundTest/index";
 import qs from "qs";
 
 export default {

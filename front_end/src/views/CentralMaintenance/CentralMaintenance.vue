@@ -5,7 +5,7 @@
   </div>
 </template>
 <script lang="ts">
-import Menus from '@/components/SubMenus/index.vue'
+import Menus from '@/components/Menus/index.vue'
 export default {
   name: "CentralMaintenance",
   components: { Menus },

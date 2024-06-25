@@ -17,7 +17,6 @@ export default {
      */
     async changeView(viewKey: number) {
       // 更新页面路由
-
       if (!this.$route.path.toLowerCase().includes(this.menus[viewKey].routeName.toLowerCase())) {
         await this.$router.push({ name: this.menus[viewKey].routeName });
       } else {

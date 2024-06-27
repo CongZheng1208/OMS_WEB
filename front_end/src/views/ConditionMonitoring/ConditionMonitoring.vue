@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
-    <Menus :menus="menus" />
+    <Menus :menus="menus"
+           class='text-l' />
     <router-view />
   </div>
 </template>
@@ -15,7 +16,7 @@ export default {
         {
           name: "Parameter Display",
           isActive: true,
-          routeName: "ParameterDisplay",
+          routeName: "ParameterSelect",
         },
         // {
         //   name: "Parameter Recording",

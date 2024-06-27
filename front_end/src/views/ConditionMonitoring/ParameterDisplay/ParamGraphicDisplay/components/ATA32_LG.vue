@@ -53,7 +53,7 @@
 <script>
 import qs from 'qs'
 import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
-import { LANDING_GEAR_Enum } from '@/globals/enums.js'
+import { LANDING_GEAR_Enum } from '@/globals/enums'
 
 export default {
   name: "ATA32",

@@ -1,11 +1,12 @@
 <template>
   <div class="container-fluid ">
-    <Menus :menus="menus" />
+    <Menus :menus="menus"
+           class=”text-l“ />
     <router-view />
   </div>
 </template>
 <script lang="ts">
-import Menus from '@/components/Menus/index.vue'
+import Menus from '@/components/SubMenus/index.vue'
 export default {
   name: "CentralMaintenance",
   components: { Menus },
@@ -16,22 +17,22 @@ export default {
         {
           name: "Failure Report",
           isActive: true,
-          routeName: "FailureReport",
+          routeName: "FailureList",
         },
         {
           name: "Ground Test",
           isActive: false,
-          routeName: "GroundTest",
+          routeName: "TestList",
         },
         {
           name: "Configuration",
           isActive: false,
-          routeName: "Configuration",
+          routeName: "ConfigurationSelection",
         },
         {
           name: "NVM Data",
           isActive: false,
-          routeName: "NVMData",
+          routeName: "NVMDataDefault",
         },
         {
           name: "Extended Functions",
@@ -95,7 +96,7 @@ export default {
     //调用getfailureReportPhp函数，初始化、更新failure数据
     this.getfailureReportPhp();
     this.getGroundTestPhp();
-    this.$router.push({ name: "FailureList", replace: true })
+    this.$router.push({ name: "FailureList" })
   },
 };
 </script>

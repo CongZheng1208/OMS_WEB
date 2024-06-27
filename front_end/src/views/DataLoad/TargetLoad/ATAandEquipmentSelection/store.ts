@@ -1,6 +1,5 @@
 import { http } from "@/utils/http";
 import { MyResponse } from "@/utils/store/response";
-import { log } from "console";
 import { Ref, ref } from "vue";
 
 class Equipment {

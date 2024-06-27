@@ -302,8 +302,6 @@ export default {
           JSON.stringify(this.$store.state.failureList.resFailureData)
         );
 
-        console.log("existingFailureOri: ", existingFailureOri)
-
         // 创建一个新数组来存放结果
         let mergedArray = existingFailureOri.reduce((acc, curr) => {
           // 检查当前对象是否与已有对象相匹配

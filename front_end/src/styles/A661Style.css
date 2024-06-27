@@ -203,34 +203,46 @@
   background-color: rgb(46, 45, 45);
 }
 
+/* 设置普通行的背景颜色为深灰色 */
+.el-table__body tr > td {
+  background-color: rgb(46, 45, 45) !important; /* 深灰色 */
+  color: #ffffff;
+}
+
 .el-table td {
   padding: 2vh 2vh;
   height: 20px;
   text-align: left;
   font-size: 15px;
   font-weight: 400;
-  color: #ffffff;
   border-color: rgb(106, 106, 106) !important;
   line-height: 30px;
-  background-color: rgb(46, 45, 45);
 }
 
+/* 鼠标悬停时的背景色 */
 .el-table--enable-row-hover .el-table__body tr:hover > td {
   background-color: #3b3b3c !important;
 }
 
+/* 当前选中行的背景色 */
 .el-table__body tr.current-row > td {
   background-color: #383838e7 !important;
 }
 
+/* 禁用行的样式 */
 .el-table__body tr.disable-row > td {
   background-color: #3b3b3c !important;
   color: #908f8f;
 }
 
+/* 高亮行的样式 */
+.el-table__body tr.highlighted-row > td {
+  background-color: #4a4a4a !important;
+}
+
 .el-table .el-table__row,
 .el-table .el-table__column {
-  text-align: left; /* 设置文本左对齐 */
+  text-align: left;
 }
 
 .transparent-table {
@@ -276,6 +288,10 @@
 .el-table—dialog .el-table—dialog__row,
 .el-table—dialog .el-table—dialog__column {
   text-align: left; /* 设置文本左对齐 */
+}
+
+.highlighted-row {
+  background-color: #f0f9eb !important; /* 你可以选择任何你喜欢的高亮颜色 */
 }
 
 .table-outer-button {

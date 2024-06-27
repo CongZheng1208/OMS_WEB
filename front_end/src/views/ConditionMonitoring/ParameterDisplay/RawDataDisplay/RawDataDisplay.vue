@@ -88,7 +88,7 @@
                            slot="reference"
                            class="table-outer-button"
                            icon="el-icon-delete-solid"
-                           style="  position: absolute;bottom: 2vh;"> </el-button>
+                           style="position: absolute; left:3vh; bottom: 2vh;"> </el-button>
               </div>
             </el-col>
             <el-col :span="18">

@@ -2,7 +2,7 @@
  * 全局样式
  */
 #app {
-  width: 1800px;
+  /* width: 1800px; */
   /* height: 900px; */
   margin: 0 auto;
 
@@ -248,6 +248,36 @@
   padding: 1vh;
 }
 
+.el-table—dialog {
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.el-table—dialog td {
+  padding: 2vh 2vh;
+  height: 20px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 400;
+  color: #000000;
+  border-color: rgb(106, 106, 106) !important;
+  line-height: 30px;
+  background-color: rgb(255, 255, 255);
+}
+
+.el-table—dialog--enable-row-hover .el-table—dialog__body tr:hover > td {
+  background-color: #a0a0a0 !important;
+}
+
+.el-table—dialog__body tr.current-row > td {
+  background-color: #a1a1a1e7 !important;
+}
+
+.el-table—dialog .el-table—dialog__row,
+.el-table—dialog .el-table—dialog__column {
+  text-align: left; /* 设置文本左对齐 */
+}
+
 .table-outer-button {
   font-size: 16px;
   font-weight: bold;
@@ -332,10 +362,6 @@
 
 .row-disabled {
   background-color: #f0f0f0; /* 灰白色 */
-}
-
-.el-dialog {
-  background-color: rgb(58, 58, 58);
 }
 
 .el-dialog__title {
@@ -428,6 +454,7 @@
   color: white;
   font-size: 18px;
   font-weight: bold;
+  text-align: center;
 
   border: 1px solid rgb(111, 111, 111);
   border-radius: 1vh;
@@ -591,8 +618,8 @@
 }
 
 .footer-btn {
-  width: 20vh;
-  height: 5.5vh;
+  width: 22vh;
+  height: 5vh;
 
   color: white;
   font-size: 20px;
@@ -600,6 +627,7 @@
 
   padding: 1vh;
   margin-left: 1vh;
+  margin-top: 2vh;
 
   border-radius: 3px;
   border: 1px solid rgb(111, 111, 111);

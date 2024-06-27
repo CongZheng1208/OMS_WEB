@@ -221,7 +221,7 @@
 </template>
 <script>
 // @ts-ignore
-import { ataNameEnum } from '@/globals/enums.js'
+import { ataNameEnum } from '@/globals/enums'
 // @ts-ignore
 import qs from 'qs'
 import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
@@ -278,11 +278,13 @@ export default {
     },
 
     /**
-     * 本函数用于设置EquiAvailablilty的显示格式
-     * @param {*} row table选中行信息
-     */
+         * 本函数用于设置EquiAvailablilty的显示格式
+         * @param {*} row table选中行信息
+         */
     formatATASystemName(row) {
-      return row.ata ? row.ata : "ATA Unknown";
+      if (row.ata && row.ata.length > 3) {
+        return row.ata.substring(3);
+      }
     },
 
     /**
@@ -407,14 +409,16 @@ export default {
      */
     flashData() {
       getParaSetNew().then(response => {
-        // this.ataData = response
         Object.keys(response).forEach(key => {
-          const value = response[key];  // 获取当前key对应的value
-          // @ts-ignore
-          this.ataData.push({
-            ata: key,
-            params: value  // 将value存入params中
-          });
+          if (key) {
+            const value = response[key];  // 获取当前key对应的value
+            // @ts-ignore
+            this.ataData.push({
+              ata: key,
+              params: value  // 将value存入params中
+            });
+          }
+
         });
       }).catch(error => {
         console.error('Error in fetching parameter list:', error);

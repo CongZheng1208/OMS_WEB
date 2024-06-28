@@ -33,9 +33,10 @@ export default {
   watch: {
 
   },
-
   mounted() {
-    this.$router.replace({ name: "TargetLoad" })
+  },
+  beforeDestroy() {
+    clearTimeout(this.FailureReportTimer)
   },
 };
 </script>

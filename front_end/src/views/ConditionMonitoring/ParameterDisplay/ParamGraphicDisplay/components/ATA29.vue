@@ -33,8 +33,8 @@
 </template>
 <script>
 import qs from 'qs'
-import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
-import { HYDRAULIC_Enum } from '@/globals/enums.js'
+import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index';
+import { HYDRAULIC_Enum } from '@/globals/enums'
 
 export default {
   name: "ATA29",

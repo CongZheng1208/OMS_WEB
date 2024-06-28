@@ -130,7 +130,7 @@
 </template>
 <script>
 import { printPage } from '@/utils/utils'
-import { getRawInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { getRawInTime } from '@/services/conditionMonitoring/parameterDisplay/index';
 
 export default {
   name: "ParamSelect",

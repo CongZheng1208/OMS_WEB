@@ -1,8 +1,7 @@
 <template>
   <div class="bg-[#333333]">
     <Selection />
-    <div
-         v-for="item, idx in pageData.rows"
+    <div v-for="item, idx in pageData.rows"
          class="border mx6 mb3">
       <div class="px-6 py-4 fontbold text-lg ">
         <span>ATA:<span class="text-red">{{ item.ATA.name }}</span></span>
@@ -41,10 +40,9 @@
 import { http } from '@/utils/http';
 import Selection from './select-bar.vue';
 import { MyResponse } from '@/utils/store/response';
-import {PageData,RowClass} from './store'
+import { PageData, RowClass } from './store'
 
 export default {
-  name: 'DataUpload',
   components: {
     Selection
   },
@@ -54,8 +52,8 @@ export default {
   },
   data() {
     return {
-      dataloadList:JSON.parse(this.$route.query.dataload_list as string),
-      pageData:new PageData()
+      dataloadList: JSON.parse(this.$route.query.dataload_list as string),
+      pageData: new PageData()
     }
   },
   computed: {
@@ -65,19 +63,19 @@ export default {
 
   },
   async mounted() {
-     await this.get_data_list()
+    await this.get_data_list()
   },
   methods: {
-    async get_data_list(){
-      const res=(await http({
+    async get_data_list() {
+      const res = (await http({
         url: '/get-dataload-list-info',
         method: 'post',
         data: JSON.stringify(
-       this.dataloadList
+          this.dataloadList
         )
       })) as MyResponse<RowClass[]>
-      if(res.code===200){
-        this.pageData.rows=res.result
+      if (res.code === 200) {
+        this.pageData.rows = res.result
       }
     },
     goback() {
@@ -87,12 +85,16 @@ export default {
       this.$router.push({ name: name })
     },
     async beginLoad() {
+      console.log('[ this.$router ] >', this.$router)
       const res = (await http({
         url: '/load-equipment-part',
         method: 'post',
         data: JSON.stringify(
-         this.dataloadList,
-        )
+          this.dataloadList,
+        ),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })) as MyResponse<undefined>
       if (res.code === 200) {
         this.$message({

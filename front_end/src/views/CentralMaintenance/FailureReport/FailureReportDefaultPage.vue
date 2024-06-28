@@ -75,7 +75,7 @@
       <div>
         <button slot="button"
                 class="footer-btn"
-                @click="isFlightLegsSelected = true">FLIGHT LEGS</button>
+                @click="isFlightLegsSelected = true">SHOW FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="goSelectPage()">SELECT</button>
       </div>

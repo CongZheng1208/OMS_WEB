@@ -71,6 +71,7 @@
                     @row-click="addParamToShow"
                     style=" background-color: rgb(46, 45, 45)"
                     :data="selectedParams"
+                    :row-class-name="tableRowClassName"
                     :sort-method="customSortMethodForProgressColumn"
                     :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                     :empty-text="'NO DATA DISPLAY'">
@@ -200,6 +201,16 @@ export default {
     Clock
   },
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+
+      console.log("this.showedParamsIndex", this.showedParamsIndex)
+      console.log(row.id)
+      console.log(this.showedParamsIndex.includes(row.id))
+      if (this.showedParamsIndex.includes(row.id)) {
+        return 'highlighted-row';
+      }
+      return '';
+    },
     /**
      * 本函数用于更新初始化表格中的数据
      */
@@ -628,3 +639,9 @@ export default {
   },
 };
 </script>
+<style>
+.highlighted-row {
+  background-color: #779566 !important;
+  /* 你可以选择任何你喜欢的高亮颜色 */
+}
+</style>

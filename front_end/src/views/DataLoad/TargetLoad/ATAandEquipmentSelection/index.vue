@@ -4,7 +4,7 @@
             style="border:  0.5px solid rgb(111, 111, 111);">
       <el-table highlight-current-row
                 style="width: 100%;background-color: rgb(46, 45, 45)"
-                :data="pageData.ATAlist"
+                :data="ATAlist"
                 :sort-method="customSortMethodForProgressColumn"
                 :header-cell-style="{
                   background: '#404040',
@@ -58,8 +58,7 @@
     </el-col>
     <el-col :span="6"
             style="border:  0.5px solid rgb(111, 111, 111);">
-      <el-table highlight-current-row
-                style="width: 100%;background-color: rgb(46, 45, 45)"
+      <el-table style="width: 100%;background-color: rgb(46, 45, 45)"
                 :data="pageData.partlist"
                 :sort-method="customSortMethodForProgressColumn"
                 :header-cell-style="{
@@ -69,9 +68,10 @@
                 }"
                 height="65vh"
                 :empty-text="'NO DATA DISPLAY'"
+                :row-class-name="tableRowClassName"
                 row-key="index"
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-                @current-change="PartClick">
+                @row-click="PartClick">
         <el-table-column prop="id"
                          label="Part ID"
                          :width="null"
@@ -108,10 +108,10 @@
       <div>
         <button class="footer-btn">PRINT</button>
       </div>
-      <!-- <div class="flex gap3">
+      <div class="flex gap3">
         <button @click="gotoDataUpload()"
                 class="footer-btn">SELECT</button>
-      </div> -->
+      </div>
     </footer>
   </div>
 </template>
@@ -120,6 +120,7 @@ import { http } from '@/utils/http';
 import { PageData, Equipment, Part } from './store';
 import { customSortMethodForProgressColumn } from '@/utils/utils'
 import { MyResponse } from '@/utils/store/response';
+import { ATAlist } from '../store'
 
 export default {
   name: '',
@@ -131,10 +132,11 @@ export default {
   },
   data() {
     return {
+      ATAlist,
       pageData: new PageData(),
-      selectedATAIdx: -1,
-      selectedEquipmentsIdx: -1,
-      selectedPartIdx: [] as Array<string>
+      selectedATAId: undefined,
+      selectedEquipmentsId: '',
+      selectedPartIdx: [] as Array<string>,
     }
   },
   computed: {
@@ -146,28 +148,29 @@ export default {
   async mounted() {
   },
   methods: {
-    //   gotoDataUpload() {
-    //     if (this.selectedATAIdx === -1) {
-    //       this.$message.error('Please select ATA')
-    //       return
-    //     }
-    //     if (this.selectedEquipmentsIdx === -1) {
-    //       this.$message.error('Please select Equipment')
-    //       return
-    //     }
-    //     if (this.selectedPartIdx.length === 0) {
-    //       this.$message.error('Please select Part')
-    //       return
-    //     }
-    //     this.$router.push({
-    //       name: "DataUpload",
-    //       query: {
-    //         dataload_list: JSON.stringify(this.getDataloadList()),
-    //       }
-    //     })
-    //   },
+    gotoDataUpload() {
+      console.log('[this.selectedATAId  ] >', this.selectedATAId)
+      if (this.selectedATAId === undefined) {
+        this.$message.error('Please select ATA')
+        return
+      }
+      if (this.selectedATAId === '') {
+        this.$message.error('Please select Equipment')
+        return
+      }
+      if (this.selectedPartIdx.length === 0) {
+        this.$message.error('Please select Part')
+        return
+      }
+      this.$router.push({
+        name: "DataUpload",
+        query: {
+          dataload_list: JSON.stringify(this.getDataloadList()),
+        }
+      })
+    },
     async ATAlistClick(ata: { key: string, value: string }) {
-      console.log('[ idx ] >', ata)
+      this.selectedATAId = ata.key
       const res = (await http({
         url: `/equipment-list?ATA_id=${ata.key}`,
         method: "GET",
@@ -175,6 +178,7 @@ export default {
       this.pageData.equipmentlist = res.result
     },
     async EquipmentClick(equipment: Equipment) {
+      this.selectedEquipmentsId = equipment.id
       const res = (await http({
         url: `/part-list?equipment_id=${equipment.id}`,
         method: "GET",
@@ -182,38 +186,29 @@ export default {
       this.pageData.partlist = res.result
     },
     async PartClick(part: Part) {
-      this.selectedPartIdx = [part.id,]
+      if (this.selectedPartIdx.includes(part.id)) {
+        this.selectedPartIdx = this.selectedPartIdx.filter(item => item !== part.id)
+      } else {
+        this.selectedPartIdx.push(part.id)
+      }
     },
-    //   partlistClick(part: Part) {
-    //     this.selectedPartIdx = []
-    //     this.selectedPartIdx.push(this.pageData.partlist.indexOf(part))
-    //   equipmentsClick(idx: number) {
-    //     this.selectedEquipmentsIdx = idx
-    //     this.pageData.getPartByEquipment(this.pageData.ATAlist[this.selectedATAIdx].equipments[idx].id)
-    //   },
-    //   getDataloadList() {
-    //     const partlist_idx = this.selectedPartIdx.map(item => this.pageData.partlist[item])
-    //     const equipment_idx = this.pageData.ATAlist[this.selectedATAIdx].equipments[this.selectedEquipmentsIdx].id
-    //     const dataload_list: Array<{
-    //       equipment_id: number,
-    //       part_id: string,
-    //     }> = []
-    //     partlist_idx.forEach(item => {
-    //       dataload_list.push({
-    //         equipment_id: equipment_idx,
-    //         part_id: item.id,
-    //       })
-    //     })
-    //     return dataload_list
-    //   },
-    //   partClick(idx: number) {
-    //     const the_idx = this.selectedPartIdx.indexOf(idx)
-    //     if (the_idx === -1) {
-    //       this.selectedPartIdx.push(idx)
-    //     } else {
-    //       this.selectedPartIdx.splice(the_idx, 1)
-    //     }
-    //   },
+    tableRowClassName({ row, rowIndex }: { row: Part, rowIndex: number }) {
+      if (this.selectedPartIdx.includes(row.id)) {
+        return 'highlighted-row';
+      }
+      return '';
+    },
+    getDataloadList() {
+      const dataload_list: Array<{
+        equipment_id: string,
+        part_id: string[],
+      }> = []
+      dataload_list.push({
+        equipment_id: this.selectedEquipmentsId,
+        part_id: this.selectedPartIdx,
+      })
+      return dataload_list
+    },
     customSortMethodForProgressColumn,
   }
 }

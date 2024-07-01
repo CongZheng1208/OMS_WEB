@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue, { watch } from "vue";
 import VueRouter from "vue-router";
 // 导入路由
 import CentralMaintenanceRoutes from "./modules/CentralMaintenance/index";
@@ -11,7 +11,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/centralMaintenance",
+    redirect: "/failureList",
   },
   CentralMaintenanceRoutes,
   ConditionMonitoringRoutes,
@@ -37,5 +37,7 @@ let isFirstNavigation = true; // 添加一个标志位，用于判断是否为�
 //     next(); // 继续路由跳转
 //   }
 // });
+
+watch;
 
 export default router;

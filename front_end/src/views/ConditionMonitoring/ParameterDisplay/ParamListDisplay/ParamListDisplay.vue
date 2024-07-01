@@ -17,7 +17,7 @@
           <div v-if="listSelected == 1">
             <el-table highlight-current-row
                       height="62vh"
-                      style=" background-color: rgb(46, 45, 45)"
+                      style="background-color: rgb(46, 45, 45)"
                       @row-click="showParameters"
                       :data="ataData"
                       :sort-method="customSortMethodForProgressColumn"
@@ -94,14 +94,14 @@
                                :min-width="30">
                 <template slot-scope="scope">
                   <span @click="// @ts-ignore
-          addParam(scope.row)"
+                    addParam(scope.row)"
                         v-if="!scope.row.isChecked"
                         :style="{ padding: '1vh', height: '4vh', width: '4vh', backgroundColor: 'rgb(70, 72, 73)', color: 'white' }"
                         style="transition: background-color 0.3s;"
                         @mouseenter="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
+                          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
                         @mouseleave="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> + </span>
+                          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> + </span>
                 </template>
               </el-table-column>
               <el-table-column :width="null"
@@ -131,13 +131,13 @@
                              :min-width="20">
               <template slot-scope="scope">
                 <span @click="// @ts-ignore
-          removeParam(scope.row)"
+                  removeParam(scope.row)"
                       :style="{ padding: '1vh', height: '4vh', width: '4vh', backgroundColor: 'rgb(70, 72, 73)', color: 'white' }"
                       style="transition: background-color 0.3s;"
                       @mouseenter="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
+                        $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
                       @mouseleave="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> - </span>
+                        $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> - </span>
               </template>
             </el-table-column>
             <el-table-column :width="null"
@@ -221,11 +221,11 @@
 </template>
 <script>
 // @ts-ignore
-import { ataNameEnum } from '@/globals/enums.js'
+import { ataNameEnum } from '@/globals/enums'
 // @ts-ignore
 import qs from 'qs'
-import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
-import { getParaList, getParaSetNew, saveList } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { customSortMethodForProgressColumn } from '@/utils/utils'
+import { getParaList, getParaSetNew, saveList } from '@/services/conditionMonitoring/parameterDisplay/index';
 
 export default {
   name: "ParamListDisplay",
@@ -278,11 +278,13 @@ export default {
     },
 
     /**
-     * 本函数用于设置EquiAvailablilty的显示格式
-     * @param {*} row table选中行信息
-     */
+         * 本函数用于设置EquiAvailablilty的显示格式
+         * @param {*} row table选中行信息
+         */
     formatATASystemName(row) {
-      return row.ata ? row.ata : "ATA Unknown";
+      if (row.ata && row.ata.length > 3) {
+        return row.ata.substring(3);
+      }
     },
 
     /**
@@ -407,14 +409,16 @@ export default {
      */
     flashData() {
       getParaSetNew().then(response => {
-        // this.ataData = response
         Object.keys(response).forEach(key => {
-          const value = response[key];  // 获取当前key对应的value
-          // @ts-ignore
-          this.ataData.push({
-            ata: key,
-            params: value  // 将value存入params中
-          });
+          if (key) {
+            const value = response[key];  // 获取当前key对应的value
+            // @ts-ignore
+            this.ataData.push({
+              ata: key,
+              params: value  // 将value存入params中
+            });
+          }
+
         });
       }).catch(error => {
         console.error('Error in fetching parameter list:', error);

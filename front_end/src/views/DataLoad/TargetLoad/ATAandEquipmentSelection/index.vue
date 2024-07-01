@@ -1,44 +1,90 @@
 <template>
-  <div>
-    <div class="flex ">
-      <div class="w-1/4 ">
-        <table>
-          <thead>
-            <tr>
-              <th>ATA Selection <svg width="10"
-                     height="5"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <polygon points="0,0 10,0 5,10"
-                           style="fill:white;stroke:black;stroke-width:1" />
-                </svg>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item, idx in pageData.ATAlist"
-                class="h14 "
-                :class="idx == selectedATAIdx ? 'selected' : ''">
-              <td @click="ATAlistClick(idx)">{{ item.name }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="w-1/3">
-        <table>
-          <thead>
-            <tr>
-              <th>Equipment Selection</th>
-            </tr>
-          </thead>
-          <tbody v-if="selectedATAIdx !== -1">
-            <tr v-for="item, idx in pageData.ATAlist[selectedATAIdx].equipments"
-                class="h14 "
-                :class="idx === selectedEquipmentsIdx ? 'selected' : ''">
-              <td @click="equipmentsClick(idx)">User {{ item.name }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="bg-[rgb(45, 45, 45)] p-20px">
+    <el-col :span="6"
+            style="border:  0.5px solid rgb(111, 111, 111);">
+      <el-table highlight-current-row
+                style="width: 100%;background-color: rgb(46, 45, 45)"
+                :data="ATAlist"
+                :sort-method="customSortMethodForProgressColumn"
+                :header-cell-style="{
+                  background: '#404040',
+                  color: '#FFFFFF',
+                  font: '14px'
+                }"
+                height="65vh"
+                :empty-text="'NO DATA DISPLAY'"
+                row-key="index"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                @current-change="ATAlistClick">
+        <el-table-column prop="key"
+                         label="ATA Selection Key"
+                         :width="null"
+                         :min-width="5"
+                         sortable> </el-table-column>
+        <el-table-column prop="value"
+                         label="ATA Selection"
+                         :width="null"
+                         :min-width="5"
+                         sortable> </el-table-column>
+      </el-table>
+    </el-col>
+    <el-col :span="6"
+            style="border:0.5px solid rgb(111, 111, 111);">
+      <el-table highlight-current-row
+                style="width: 100%;background-color: rgb(46, 45, 45)"
+                :data="pageData.equipmentlist"
+                :sort-method="customSortMethodForProgressColumn"
+                :header-cell-style="{
+                  background: '#404040',
+                  color: '#FFFFFF',
+                  font: '14px'
+                }"
+                height="65vh"
+                :empty-text="'NO DATA DISPLAY'"
+                row-key="index"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                @current-change="EquipmentClick">
+        <el-table-column prop="id"
+                         label="Equipment ID"
+                         :width="null"
+                         :min-width="5"
+                         sortable> </el-table-column>
+        <el-table-column prop="name"
+                         label="Equipment Name"
+                         :width="null"
+                         :min-width="5"
+                         sortable> </el-table-column>
+      </el-table>
+    </el-col>
+    <el-col :span="6"
+            style="border:  0.5px solid rgb(111, 111, 111);">
+      <el-table style="width: 100%;background-color: rgb(46, 45, 45)"
+                :data="pageData.partlist"
+                :sort-method="customSortMethodForProgressColumn"
+                :header-cell-style="{
+                  background: '#404040',
+                  color: '#FFFFFF',
+                  font: '14px'
+                }"
+                height="65vh"
+                :empty-text="'NO DATA DISPLAY'"
+                :row-class-name="tableRowClassName"
+                row-key="index"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                @row-click="PartClick">
+        <el-table-column prop="id"
+                         label="Part ID"
+                         :width="null"
+                         :min-width="5"
+                         sortable> </el-table-column>
+        <el-table-column prop="description"
+                         label="Part Description"
+                         :width="null"
+                         :min-width="5"
+                         sortable> </el-table-column>
+      </el-table>
+    </el-col>
+    <!--
       <div class="flex-1">
         <table>
           <thead>
@@ -56,9 +102,9 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-    <el-footer>
+      </div> -->
+    <footer
+            class="fixed bottom-0 left-0 right-0 px-4 py1 flex justify-between items-center border-t  border-t-[#6F6F6F]">
       <div>
         <button class="footer-btn">PRINT</button>
       </div>
@@ -66,11 +112,15 @@
         <button @click="gotoDataUpload()"
                 class="footer-btn">SELECT</button>
       </div>
-    </el-footer>
+    </footer>
   </div>
 </template>
 <script lang="ts">
-import { PageData } from './store';
+import { http } from '@/utils/http';
+import { PageData, Equipment, Part } from './store';
+import { customSortMethodForProgressColumn } from '@/utils/utils'
+import { MyResponse } from '@/utils/store/response';
+import { ATAlist } from '../store'
 
 export default {
   name: '',
@@ -82,10 +132,11 @@ export default {
   },
   data() {
     return {
+      ATAlist,
       pageData: new PageData(),
-      selectedATAIdx: -1,
-      selectedEquipmentsIdx: -1,
-      selectedPartIdx: [] as Array<number>
+      selectedATAId: undefined,
+      selectedEquipmentsId: '',
+      selectedPartIdx: [] as Array<string>,
     }
   },
   computed: {
@@ -94,16 +145,16 @@ export default {
   watch: {
 
   },
-  mounted() {
-    this.pageData.getATAlist()
+  async mounted() {
   },
   methods: {
     gotoDataUpload() {
-      if (this.selectedATAIdx === -1) {
+      console.log('[this.selectedATAId  ] >', this.selectedATAId)
+      if (this.selectedATAId === undefined) {
         this.$message.error('Please select ATA')
         return
       }
-      if (this.selectedEquipmentsIdx === -1) {
+      if (this.selectedATAId === '') {
         this.$message.error('Please select Equipment')
         return
       }
@@ -118,80 +169,54 @@ export default {
         }
       })
     },
-    ATAlistClick(idx: number) {
-      this.selectedEquipmentsIdx = 0
-      this.pageData.partlist = []
-      this.selectedATAIdx = idx
+    async ATAlistClick(ata: { key: string, value: string }) {
+      this.selectedATAId = ata.key
+      const res = (await http({
+        url: `/equipment-list?ATA_id=${ata.key}`,
+        method: "GET",
+      })) as MyResponse<Equipment[]>
+      this.pageData.equipmentlist = res.result
     },
-    equipmentsClick(idx: number) {
-      this.selectedEquipmentsIdx = idx
-      this.pageData.getPartByEquipment(this.pageData.ATAlist[this.selectedATAIdx].equipments[idx].id)
+    async EquipmentClick(equipment: Equipment) {
+      this.selectedEquipmentsId = equipment.id
+      const res = (await http({
+        url: `/part-list?equipment_id=${equipment.id}`,
+        method: "GET",
+      })) as MyResponse<Part[]>
+      this.pageData.partlist = res.result
+    },
+    async PartClick(part: Part) {
+      if (this.selectedPartIdx.includes(part.id)) {
+        this.selectedPartIdx = this.selectedPartIdx.filter(item => item !== part.id)
+      } else {
+        this.selectedPartIdx.push(part.id)
+      }
+    },
+    tableRowClassName({ row, rowIndex }: { row: Part, rowIndex: number }) {
+      if (this.selectedPartIdx.includes(row.id)) {
+        return 'highlighted-row';
+      }
+      return '';
     },
     getDataloadList() {
-      const partlist_idx = this.selectedPartIdx.map(item => this.pageData.partlist[item])
-      const equipment_idx = this.pageData.ATAlist[this.selectedATAIdx].equipments[this.selectedEquipmentsIdx].id
       const dataload_list: Array<{
-        equipment_id: number,
-        part_id: string,
+        equipment_id: string,
+        part_id: string[],
       }> = []
-      partlist_idx.forEach(item => {
-        dataload_list.push({
-          equipment_id: equipment_idx,
-          part_id: item.id,
-        })
+      dataload_list.push({
+        equipment_id: this.selectedEquipmentsId,
+        part_id: this.selectedPartIdx,
       })
       return dataload_list
     },
-    partClick(idx: number) {
-      const the_idx = this.selectedPartIdx.indexOf(idx)
-      if (the_idx === -1) {
-        this.selectedPartIdx.push(idx)
-      } else {
-        this.selectedPartIdx.splice(the_idx, 1)
-      }
-    },
+    customSortMethodForProgressColumn,
   }
 }
 </script>
 <style lang='scss' scoped>
-table {
-  @apply w-full text-lg fontbold text-start border;
-  border-collapse: collapse;
-}
-
-thead {
-  @apply text-14px;
-
-  th {
-    @apply border-b-white border-b;
-  }
-}
-
-
-
-td,
-th {
-  @apply p3 text-center;
-}
-
-td {
-  @apply hover:cursor-pointer;
-}
-
-thead {
-  tr {
-    @apply bg-[#404040];
-  }
-}
-
-tr {
-  border: 1px solid rgb(111, 111, 111);
-}
-
 .selected {
   @apply bg-[#404040] border-b-white border
 }
-
 
 .footer-btn {
   width: 20vh;

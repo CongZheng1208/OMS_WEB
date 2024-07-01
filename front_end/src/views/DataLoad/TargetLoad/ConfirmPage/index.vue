@@ -30,6 +30,7 @@
 import Selection from './select-bar.vue';
 
 export default {
+  name: 'DataUpload',
   components: {
     Selection
   },

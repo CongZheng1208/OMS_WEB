@@ -2,12 +2,10 @@ const DataLoadRoutes = {
   path: "/dataLoad",
   name: "DataLoad",
   component: () => import("@/views/DataLoad/index.vue"),
-  redirect: "/dataload/targetLoad",
   children: [
     {
       path: "targetLoad",
       name: "TargetLoad",
-      redirect: "/dataload/targetLoad/ATAandEquipmentSelection",
       component: () => import("@/views/DataLoad/TargetLoad/index.vue"),
       children: [
         {

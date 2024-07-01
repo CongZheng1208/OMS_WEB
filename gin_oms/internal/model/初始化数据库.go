@@ -16,12 +16,13 @@ var db *gorm.DB
 var err error
 
 func init() {
-	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	dns := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=True&loc=Local&charset=%s",
 		utils.DbUser,
 		utils.DbPassWord,
 		utils.DbHost,
 		utils.DbPort,
 		utils.DbName,
+		utils.DbCharset,
 	)
 	mysqlConfig := mysql.Config{
 		DSN:                       dns,
@@ -51,7 +52,7 @@ func init() {
 	}
 
 	// 迁移数据表，在没有数据表结构变更时候，建议注释不执行
-	_ = db.AutoMigrate(&ATA{}, Equipment{}, Part{}, RelEquipmentPart{}, PartLoadLog{})
+	_ = db.AutoMigrate(Equipment{}, Part{}, RelEquipmentPart{}, PartLoadLog{})
 
 	sqlDB, _ := db.DB()
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
@@ -62,5 +63,8 @@ func init() {
 
 	// SetConnMaxLifetiment 设置连接的最大可复用时间。
 	sqlDB.SetConnMaxLifetime(30 * time.Second)
+}
 
+func GetDb() *gorm.DB {
+	return db
 }

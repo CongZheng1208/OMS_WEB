@@ -1,43 +1,33 @@
-class Equipment {
+interface ATA {
+  id: string;
+  name: string;
+  equipments: any;
+}
+
+interface Equipment {
   id: number;
   ATA_id: string;
   name: string;
   condition_text: string;
   protocol_type: number;
-
-  constructor(
-    id: number,
-    ATA_id: string,
-    name: string,
-    condition_text: string,
-    protocol_type: number
-  ) {
-    this.id = id;
-    this.ATA_id = ATA_id;
-    this.name = name;
-    this.condition_text = condition_text;
-    this.protocol_type = protocol_type;
-  }
+  part_list: any;
 }
 
-class Part {
+interface Part {
   id: string;
   description: string;
-
-  constructor(id: string, description: string) {
-    this.id = id;
-    this.description = description;
-  }
+  equipments: any;
 }
 
-class EquipmentWithParts {
-  equipment: Equipment;
-  part_list: Part[];
-
-  constructor(equipment: Equipment, part_list: Part[]) {
-    this.equipment = equipment;
-    this.part_list = part_list;
-  }
+interface RowClass {
+  ATA: ATA;
+  Equipment: Equipment;
+  Part: Part;
 }
 
-export { EquipmentWithParts };
+class PageData {
+  rows: RowClass[] = [];
+}
+
+export { PageData };
+export type { RowClass };

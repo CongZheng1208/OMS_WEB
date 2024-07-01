@@ -22,7 +22,7 @@
           <div
                style=" overflow: auto; height: 32vh; max-height: 32vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
             <div class="div-title"
-                 style=" position: sticky;top: 0;"> Hardware Information</div>
+                 style=" position: sticky;top: 0;"> Hardware Information<span v-if="isStared">*</span> </div>
             <div v-if="currentHardwareInformation.length === 0"
                  class="content-alert"> No Alive Data </div>
             <div v-else
@@ -30,15 +30,14 @@
                  v-for="(item, index) in currentHardwareInformation"
                  :key="item.Part">
               <p :style="{ backgroundColor: item['PN_changed'] == 1 ? '#666666' : 'transparent' }">Part Number:
-                {{ item['Part Number'] }}<span v-if="isStared == 1"> *</span> </p>
+                {{ item['Part Number'] }}</p>
               <p :style="{ backgroundColor: item['PD_changed'] == 1 ? '#666666' : 'transparent' }">Part Description:
                 {{ item['Part Description'] }}</p>
               <p :style="{ backgroundColor: item['SN_changed'] == 1 ? '#666666' : 'transparent' }">Serial Number:
                 {{ item['Serial Number'] }}</p>
-              <p :style="{ backgroundColor: item['MS_changed'] == 1 ? '#666666' : 'transparent' }">Modification Status:
+              <p :style="{ backgroundColor: item['LIN_changed'] == 1 ? '#666666' : 'transparent' }">Modification Status:
                 {{ item['Modification Status'] }}</p>
-              <p :style="{ backgroundColor: item['LIN_changed'] == 1 ? '#666666' : 'transparent' }"> LIN:
-                {{ item['LIN'] }}</p>
+              <p> LIN: {{ item['LIN'] }}</p>
             </div>
           </div>
           <div
@@ -71,7 +70,7 @@
                      :key="softwarePart.Part">
                   <p style="padding-top: 1vh; font-weight: bold;"> Software Part Data Item: </p>
                   <p :style="{ backgroundColor: softwarePart['PN_changed'] == 1 ? '#666666' : 'transparent' }"> Part
-                    Number: {{ softwarePart['Part Number'] }}<span v-if="isStared == 1"> *</span> </p>
+                    Number: {{ softwarePart['Part Number'] }}</p>
                   <p :style="{ backgroundColor: softwarePart['PD_changed'] == 1 ? '#666666' : 'transparent' }"> Part
                     Description: {{ softwarePart['Part Description'] }}</p>
                   <p :style="{ backgroundColor: softwarePart['LIN_changed'] == 1 ? '#666666' : 'transparent' }"> LIN:
@@ -79,7 +78,7 @@
                 </div>
               </ul>
             </div>
-            <span v-if="isStared == 1"
+            <span v-if="isStared"
                   class="config-note"> *: The information displayed is not up-to-date since the latest power-up.</span>
           </div>
         </el-col>
@@ -112,9 +111,7 @@ export default {
       currentSoftwareInformation: {},
       currentAdditionalInformation: "",
 
-      refreshInterval: null,
-
-      isStared: 0,
+      isStared: true,
       fullscreenLoading: false,
       loading: true,
     };
@@ -128,43 +125,27 @@ export default {
     this.currentATA = this.$route.params.selectedEqui.ata
     this.currentEquipmentName = this.$route.params.selectedEqui.equipmentName
 
+    postConfigData(tmp).then(response => {
+      if (response.hardwareInformation.trim().length === 0) {
+        this.currentHardwareInformation = []
+      } else {
+        this.currentHardwareInformation = JSON.parse(response.hardwareInformation)
+      }
 
-    this.refreshInterval = setInterval(() => {
+      if (response.softwareInformation.trim().length === 0) {
+        this.currentSoftwareInformation = []
+      } else {
+        this.currentSoftwareInformation = JSON.parse(response.softwareInformation)
+      }
 
-
-      postConfigData(tmp).then(response => {
-        if (response.hardwareInformation.trim().length === 0) {
-          this.currentHardwareInformation = []
-        } else {
-          this.currentHardwareInformation = JSON.parse(response.hardwareInformation)
-        }
-
-        if (response.softwareInformation.trim().length === 0) {
-          this.currentSoftwareInformation = []
-        } else {
-          this.currentSoftwareInformation = JSON.parse(response.softwareInformation)
-        }
-
-        if (response.additionalInformation.trim().length === 0 || response.additionalInformation === "[]") {
-          this.currentAdditionalInformation = ""
-        } else {
-          this.currentAdditionalInformation = JSON.parse(response.additionalInformation)
-        }
-        this.isStared = response.isStarShowed
-        console.log("isStared", this.isStared)
-
-      }).catch(error => {
-        console.error('Error in Postting pdf url:', error);
-      });
-
-
-
-
-    }, 1000)
-
-
-
-
+      if (response.additionalInformation.trim().length === 0 || response.additionalInformation === "[]") {
+        this.currentAdditionalInformation = ""
+      } else {
+        this.currentAdditionalInformation = JSON.parse(response.additionalInformation)
+      }
+    }).catch(error => {
+      console.error('Error in Postting pdf url:', error);
+    });
 
 
     setTimeout(() => {
@@ -172,18 +153,15 @@ export default {
     }, 1000);
   },
   methods: {
-    /* *
-      * 本函数用于跳转页面
-      */
+    /**
+     * 本函数用于跳转页面
+     */
     goSelectionPage() {
       this.$router.push({ name: "ConfigurationSelection" });
     },
     printPage,
     handleTestOrder,
     customSortMethodForProgressColumn
-  },
-  beforeDestroy() {
-    clearInterval(this.refreshInterval)
   },
 }
 

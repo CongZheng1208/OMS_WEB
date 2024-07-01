@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="showMenu"
-         class="w-full flex border-b mb1 border-b-[#6F6F6F]">
+         class="w-full flex border-b mb1">
       <div class="fontbold w-40 pl6 pt3 text-lg"> Section Option </div>
       <div class="flex-1">
         <div class="flex gap4">
@@ -10,14 +10,14 @@
                  class="radio ">
               <input name="param-display-radio"
                      type="radio"
-                     :checked="selectedOption == 'ATAandEquipmentSelection'" />
+                     :checked="displaySelected == 'ATAandEquipmentSelection'" />
               <label class="cursor-pointer">ATA and Equipment Selection</label>
             </div>
             <div @click="changeRadio('PartNumberSelection')"
                  class="radio">
               <input name="param-display-radio"
                      type="radio"
-                     :checked="selectedOption == 'PartNumberSelection'" />
+                     :checked="displaySelected == 'PartNumberSelection'" />
               <label class="cursor-pointer">Part Number Selection</label>
             </div>
           </div>
@@ -26,7 +26,7 @@
                  class="radio">
               <input name="param-display-radio"
                      type="radio"
-                     :checked="selectedOption == 'BatchPartSelection'" />
+                     :checked="displaySelected == 'BatchPartSelection'" />
               <label class="cursor-pointer">Batch Part Selection</label>
             </div>
           </div>
@@ -70,24 +70,22 @@ export default {
   },
   methods: {
     changeRadio(router_name: string) {
-      if (this.$route.name != router_name)
-        this.$router.push({ name: router_name })
+      this.$router.push({ name: router_name })
     },
   },
   computed: {
     // ...mapState(['userInfo']),
     showMenu() {
-      return ['ATAandEquipmentSelection', 'PartNumberSelection', 'BatchPartSelection'].includes(this.selectedOption!)
-    },
-    selectedOption() {
-      return this.$route.name
+      return ['ATAandEquipmentSelection', 'PartNumberSelection', 'BatchPartSelection'].includes(this.displaySelected)
     }
   },
   mounted() {
     // this.$router.push({ name: 'ATAandEquipmentSelection' })
   },
   watch: {
-
+    $route: function (newVal, oldVal) {
+      this.displaySelected = newVal.name!
+    }
   }
 }
 </script>

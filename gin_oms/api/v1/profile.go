@@ -1,10 +1,11 @@
 package v1
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/wejectchen/ginblog/model"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/wejectchen/ginblog/internal/model"
 )
 
 func GetProfile(c *gin.Context) {

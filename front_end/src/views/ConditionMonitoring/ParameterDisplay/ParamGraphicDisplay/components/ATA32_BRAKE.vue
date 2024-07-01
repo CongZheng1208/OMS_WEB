@@ -12,12 +12,12 @@
       <div class="capsule-container">
         <div class="capsule">
           <div class="line" />
-          <span class="data">{{ NoseGearTirePress[0] }}</span>
+          <span class="data">{{ flattenData3[0] }}</span>
           <div class="line" />
         </div>
         <div class="capsule">
           <div class="line" />
-          <span class="data">{{ NoseGearTirePress[1] }}</span>
+          <span class="data">{{ flattenData3[1] }}</span>
           <div class="line" />
         </div>
       </div>
@@ -36,54 +36,54 @@
       <div class="capsule-container">
         <div class="capsule-1">
           <div class="line" />
-          <span class="data">{{ MainGearLeft[0] }}</span>
+          <span class="data">{{ flattenData4[0] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearLeft[1] }}</span>
+          <span class="data">{{ flattenData4[1] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearLeft[2] }}</span>
+          <span class="data">{{ flattenData4[2] }}</span>
           <div class="line" />
         </div>
         <div class="capsule-left">
           <div class="line" />
-          <span class="data">{{ MainGearLeft[3] }}</span>
+          <span class="data">{{ flattenData4[3] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearLeft[4] }}</span>
+          <span class="data">{{ flattenData4[4] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearLeft[5] }}</span>
+          <span class="data">{{ flattenData4[5] }}</span>
           <div class="line" />
         </div>
         <div class="capsule-right">
           <div class="line" />
-          <span class="data">{{ MainGearRight[0] }}</span>
+          <span class="data">{{ flattenData5[0] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearRight[1] }}</span>
+          <span class="data">{{ flattenData5[1] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearRight[2] }}</span>
+          <span class="data">{{ flattenData5[2] }}</span>
           <div class="line" />
         </div>
         <div class="capsule-1">
           <div class="line" />
-          <span class="data">{{ MainGearRight[3] }}</span>
+          <span class="data">{{ flattenData5[3] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearRight[4] }}</span>
+          <span class="data">{{ flattenData5[4] }}</span>
           <div class="line" />
           <div class="empty-data" />
           <div class="line" />
-          <span class="data">{{ MainGearRight[5] }}</span>
+          <span class="data">{{ flattenData5[5] }}</span>
           <div class="line" />
         </div>
       </div>
@@ -99,13 +99,13 @@
               <td class="table-name">{{ flattenNameData0[0] }}</td> <!-- 属性名行 -->
               <td class="table-item">
                 <div class="item-word">
-                  <span> {{ LandingGearBrakes[0] }} </span>
+                  <span> {{ flattenData0[0] }} </span>
                 </div>
               </td>
               <td class="table-name">{{ flattenNameData0[1] }}</td>
               <td class="table-item">
                 <div class="item-word">
-                  <span> {{ LandingGearBrakes[1] }} </span>
+                  <span> {{ flattenData0[1] }} </span>
                   <!-- <span class="item-unit">
                     {{ "PSI" }}
                   </span> -->
@@ -131,7 +131,7 @@
           <tbody>
             <tr>
               <td class="table-item"
-                  v-for="(cell, cellIndex) in BrakePressCmd"
+                  v-for="(cell, cellIndex) in flattenData1"
                   :key="cellIndex">
                 <div class="item-word">
                   <span> {{ cell }} </span>
@@ -155,7 +155,7 @@
           <tbody>
             <tr>
               <td class="table-item"
-                  v-for="(cell, cellIndex) in BrakePedalPosition"
+                  v-for="(cell, cellIndex) in flattenData2"
                   :key="cellIndex">
                 <div class="item-word">
                   <span> {{ cell }} </span>
@@ -193,41 +193,41 @@ export default {
       flattenNameData1: [
         'DOOR CLOSED', 'DOOR OPEN', 'UPLOCKED', 'DNLOCKED', 'WOW'
       ],
-      // LandingGearBrakes: [
+      // flattenData0: [
       //   'TRUE', 'FALSE',
       // ],
-      // BrakePressCmd: [
+      // flattenData1: [
       //   'TRUE', 'TRUE', 'FALSE', 'FALSE'
       // ],
-      // BrakePedalPosition: [
+      // flattenData2: [
       //   'TRUE', 'TRUE', 'FALSE', 'FALSE'
       // ],
-      // NoseGearTirePress: [
+      // flattenData3: [
       //   'TRUE', 'FALSE',
       // ],
-      // MainGearLeft: [
+      // flattenData4: [
       //   'TRUE', 'TRUE', 'FALSE', 'FALSE', 'FALSE', 'FALSE'
       // ],
-      // MainGearRight: [
+      // flattenData5: [
       //   'TRUE', 'TRUE', 'FALSE', 'FALSE', 'FALSE', 'FALSE'
       // ],
 
-      LandingGearBrakes: [
+      flattenData0: [
         'TRUE', '2800',
       ],
-      BrakePressCmd: [
+      flattenData1: [
         'TRUE', 'TRUE', 'FALSE', 'TRUE'
       ],
-      BrakePedalPosition: [
+      flattenData2: [
         '10.00', '10.01', '7.00', '6.99'
       ],
-      NoseGearTirePress: [
+      flattenData3: [
         '1000', '1000',
       ],
-      MainGearLeft: [
+      flattenData4: [
         '200', '1000', '160', '200', '1000', '160'
       ],
-      MainGearRight: [
+      flattenData5: [
         '200', '1000', '160', '200', '1000', '160'
       ],
 
@@ -248,12 +248,12 @@ export default {
       postGraphicInTime(tmp).then(response => {
 
         if (response.length !== 0) {
-          this.LandingGearBrakes = response.slice(2);
-          this.BrakePressCmd = response.slice(2, 6);
-          this.BrakePedalPosition = response.slice(6, 10);
-          this.NoseGearTirePress = response.slice(10, 12);
-          this.MainGearLeft = response.slice(12, 18);
-          this.MainGearRight = response.slice(18, response.length);
+          this.flattenData0 = response.slice(2);
+          this.flattenData1 = response.slice(2, 6);
+          this.flattenData2 = response.slice(6, 10);
+          this.flattenData3 = response.slice(10, 12);
+          this.flattenData4 = response.slice(12, 18);
+          this.flattenData5 = response.slice(18, response.length);
         }
 
 

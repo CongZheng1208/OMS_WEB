@@ -50,10 +50,10 @@
     </div>
   </el-row>
 </template>
-<script lang="ts">
+<script>
 import qs from 'qs'
-import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index';
-import { LANDING_GEAR_Enum } from '@/globals/enums'
+import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index.js';
+import { LANDING_GEAR_Enum } from '@/globals/enums.js'
 
 export default {
   name: "ATA32",

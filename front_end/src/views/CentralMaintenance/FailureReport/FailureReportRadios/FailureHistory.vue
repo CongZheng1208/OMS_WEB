@@ -125,15 +125,13 @@
                   :data="ataFilters"
                   style="
               width: 100%;
-              height: 30vh;
               background-color:  #ffffff;
               margin-top: 1vh;
               margin-bottom: 1vh;
               border:  0.5px solid rgb(111, 111, 111);
             "
-                  class="el-table—dialog"
                   :header-cell-style="{
-                background: 'rgb(200, 200, 200)',
+                background: '#ffffff',
                 color: '#010101',
                 font: '14px'
               }"
@@ -155,15 +153,13 @@
                   :data="phaseFilters"
                   style="
               width: 100%;
-              height: 30vh;
               background-color:  #ffffff;
               margin-top: 1vh;
               margin-bottom: 1vh;
               border:  0.5px solid rgb(111, 111, 111);
             "
-                  class="el-table—dialog"
                   :header-cell-style="{
-                background: 'rgb(200, 200, 200)',
+                background: '#ffffff',
                 color: '#010101',
                 font: '14px'
               }"
@@ -185,15 +181,13 @@
                   :data="legFilters"
                   style="
               width: 100%;
-              height: 30vh;
               background-color:  #ffffff;
               margin-top: 1vh;
               margin-bottom: 1vh;
               border:  0.5px solid rgb(111, 111, 111);
             "
-                  class="el-table—dialog"
                   :header-cell-style="{
-                background: 'rgb(200, 200, 200)',
+                background: '#ffffff',
                 color: '#010101',
                 font: '14px'
               }"
@@ -301,6 +295,8 @@ export default {
         const existingFailureOri = JSON.parse(
           JSON.stringify(this.$store.state.failureList.resFailureData)
         );
+
+        console.log("existingFailureOri: ", existingFailureOri)
 
         // 创建一个新数组来存放结果
         let mergedArray = existingFailureOri.reduce((acc, curr) => {

@@ -113,5 +113,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import url(./my-style.scss);
+// @import url(./my-style.scss);
 </style>

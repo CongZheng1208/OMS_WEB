@@ -16,26 +16,22 @@ export default {
         {
           name: "Central Maintenance",
           isActive: true,
-          realName: "CentralMaintenance",
-          routeName: "FailureList",
+          routeName: "CentralMaintenance",
         },
         {
           name: "Condition Monitoring",
           isActive: false,
-          realName: "ConditionMonitoring",
-          routeName: "ParameterSelect",
+          routeName: "ConditionMonitoring",
         },
         {
           name: "Data Load",
           isActive: false,
-          realName: "dataLoad",
-          routeName: "TargetLoad",
+          routeName: "DataLoad",
         },
         {
           name: "Management",
           isActive: false,
-          realName: "management",
-          routeName: "DatabaseManagement",
+          routeName: "Management",
         }
       ],
     };

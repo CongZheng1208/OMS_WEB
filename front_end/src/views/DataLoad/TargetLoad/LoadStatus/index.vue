@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[#333333]">
-    <Selection />
+    <Selection  />
     <div class="px-6">
       <table class="wfull bg-[#333333] ">
         <thead>

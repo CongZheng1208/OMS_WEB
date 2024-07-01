@@ -1,11 +1,9 @@
 <template>
   <div>
-    <el-main>
-      <Selection />
-      <div >
-        <router-view></router-view>
-      </div>
-    </el-main>
+    <Selection />
+    <div class="p-20px">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -29,11 +27,12 @@ export default {
 
   },
   watch: {
-  },
-  methods: {
-  },
-  mounted() {
 
   },
+  mounted() {
+    this.$router.replace({ name: "ATAandEquipmentSelection" })
+  },
+  methods: {
+  }
 };
 </script>

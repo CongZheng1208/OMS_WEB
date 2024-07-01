@@ -1,0 +1,1 @@
+import{n as t}from"./index-BqV8YcGQ.js";const n={};var e=t({},(function(){var t=this,n=t.$createElement,e=t._self._c||n;return e("div",[t._v(" It is Other Functions. "),e("el-footer",[e("div"),e("div")])],1)}),[],!1,r,null);function r(t){for(let e in n)this[e]=n[e]}const i=function(){return e.exports}();export{i as default};

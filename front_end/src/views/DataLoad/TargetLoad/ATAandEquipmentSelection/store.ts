@@ -2,32 +2,7 @@ import { http } from "@/utils/http";
 import { MyResponse } from "@/utils/store/response";
 import { Ref, ref } from "vue";
 import { ataNameEnum } from "@/globals/enums";
-
-class Equipment {
-  id: number;
-  ATA_id: string;
-  name: string;
-  condition_text: string;
-  protocol_type: number;
-
-  constructor(data: Equipment) {
-    this.id = data.id;
-    this.ATA_id = data.ATA_id;
-    this.name = data.name;
-    this.condition_text = data.condition_text;
-    this.protocol_type = data.protocol_type;
-  }
-}
-
-class Part {
-  id: string;
-  description: string;
-
-  constructor(id: string, description: string, equipments: any[]) {
-    this.id = id;
-    this.description = description;
-  }
-}
+import { Equipment, Part } from "../store";
 
 class PageData {
   equipmentlist: Equipment[] = [];

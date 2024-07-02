@@ -3,12 +3,10 @@ import { MyResponse } from "@/utils/store/response";
 class Part {
   id: string;
   description: string;
-  equipments: any;
 
   constructor(id: string, description: string, equipments: any) {
     this.id = id;
     this.description = description;
-    this.equipments = equipments;
   }
 }
 
@@ -18,22 +16,19 @@ class Equipment {
   name: string;
   condition_text: string;
   protocol_type: number;
-  part_list: any;
 
   constructor(
     id: number,
     ATA_id: string,
     name: string,
     condition_text: string,
-    protocol_type: number,
-    part_list: any
+    protocol_type: number
   ) {
     this.id = id;
     this.ATA_id = ATA_id;
     this.name = name;
     this.condition_text = condition_text;
     this.protocol_type = protocol_type;
-    this.part_list = part_list;
   }
 }
 
@@ -77,6 +72,20 @@ class PageData {
     // console.log(res);
     return res;
   }
+
+  async search_part(content: string) {
+    const res = (await http({
+      url: "/search_part",
+      method: "GET",
+      params: {
+        content: content,
+      },
+    })) as MyResponse<Part[]>;
+
+    if (res.code === 200) {
+      this.part_list = res.result;
+    }
+  }
 }
 
-export { PageData };
+export { PageData, Part };

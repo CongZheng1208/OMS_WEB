@@ -4,24 +4,19 @@
     <div v-for="item, idx in dataloadRes"
          class="border mx6 mb3">
       <div class="px-6 py-4 fontbold text-lg ">
-        <span>ATA:<span
-                class="text-red">{{ ATAlist.find(v => v.key === item.equipment.ATA_id.substring(0, 2)).value }}</span></span>
-        <span class="pl12">Equipment:<span class="text-red">{{ item.equipment.name }}</span></span>
+        <span>ATA:<span>{{ ATAlist.find(v => v.key === item.equipment.ATA_id.substring(0, 2)).value }}</span></span>
+        <span class="pl12">Equipment:<span>{{ item.equipment.name }}</span></span>
         <div class="">
           <div>
-            <span class="w-200 inline-block">Configuration Report to Update</span>
-            <span>&lt;Load Condition Text&gt;</span>
-          </div>
-          <div>
-            <span class="w-200 inline-block">Hardware Part Number: XXXXXX</span>
-            <span>&lt;The Aircraft shall........................&gt;</span>
-          </div>
-          <div>
             <span class="w-200 inline-block">Serial Number:940405327</span>
-            <span>&lt;Load Condition text&gt;</span>
+            <span>Load Condition:</span>
           </div>
-          <div v-for="item2 in item.part_list">Software Part Number{{ item2.id }}: <span
-                  class="text-red">{{ item2.description }}</span></div>
+          <div>
+            <span class="w-200 inline-block">Configuration Report to Update</span>
+            <span>{{ item.equipment.condition_text }}</span>
+          </div>
+          <div v-for="item2 in item.part_list">Software Part Number: <span class="text-red">{{ item2.id }}</span></span>
+          </div>
         </div>
       </div>
     </div>
@@ -102,7 +97,7 @@ export default {
       //     message: 'Loading Start',
       //     type: 'success'
       //   })
-      //   this.goto('LoadStatus')
+      this.goto('LoadStatus')
       // }
     }
   }

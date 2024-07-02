@@ -1,6 +1,6 @@
 <template>
   <div class="bg-[rgb(45, 45, 45)] p-20px">
-    <el-col :span="6"
+    <el-col :span="8"
             style="border:  0.5px solid rgb(111, 111, 111);">
       <el-table highlight-current-row
                 style="width: 100%;background-color: rgb(46, 45, 45)"
@@ -17,18 +17,20 @@
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                 @current-change="ATAlistClick">
         <el-table-column prop="key"
-                         label="ATA Selection Key"
+                         label="ATA Selectio"
                          :width="null"
                          :min-width="5"
-                         sortable> </el-table-column>
-        <el-table-column prop="value"
-                         label="ATA Selection"
-                         :width="null"
-                         :min-width="5"
-                         sortable> </el-table-column>
+                         sortable>
+          <template slot-scope="scope">
+            <div class="flex gap-3">
+              <div>{{ scope.row.key }}</div>
+              <div>{{ scope.row.value }}</div>
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
     </el-col>
-    <el-col :span="6"
+    <el-col :span="8"
             style="border:0.5px solid rgb(111, 111, 111);">
       <el-table highlight-current-row
                 style="width: 100%;background-color: rgb(46, 45, 45)"
@@ -44,19 +46,13 @@
                 row-key="index"
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                 @current-change="EquipmentClick">
-        <el-table-column prop="id"
-                         label="Equipment ID"
-                         :width="null"
-                         :min-width="5"
-                         sortable> </el-table-column>
         <el-table-column prop="name"
-                         label="Equipment Name"
+                         label="Equipment Selection"
                          :width="null"
-                         :min-width="5"
-                         sortable> </el-table-column>
+                         :min-width="5"> </el-table-column>
       </el-table>
     </el-col>
-    <el-col :span="6"
+    <el-col :span="8"
             style="border:  0.5px solid rgb(111, 111, 111);">
       <el-table style="width: 100%;background-color: rgb(46, 45, 45)"
                 :data="pageData.partlist"
@@ -73,15 +69,15 @@
                 :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
                 @row-click="PartClick">
         <el-table-column prop="id"
-                         label="Part ID"
+                         label="Part Number"
                          :width="null"
                          :min-width="5"
-                         sortable> </el-table-column>
+                         > </el-table-column>
         <el-table-column prop="description"
-                         label="Part Description"
+                         label="Description"
                          :width="null"
-                         :min-width="5"
-                         sortable> </el-table-column>
+                         :min-width="5">
+        </el-table-column>
       </el-table>
     </el-col>
     <!--

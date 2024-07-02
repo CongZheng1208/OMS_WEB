@@ -22,4 +22,30 @@ const ATAlist = [
   { key: "52", value: "Doors" },
 ];
 
-export { ATAlist };
+class Equipment {
+  id: number;
+  ATA_id: string;
+  name: string;
+  condition_text: string;
+  protocol_type: number;
+
+  constructor(data: Equipment) {
+    this.id = data.id;
+    this.ATA_id = data.ATA_id;
+    this.name = data.name;
+    this.condition_text = data.condition_text;
+    this.protocol_type = data.protocol_type;
+  }
+}
+
+class Part {
+  id: string;
+  description: string;
+
+  constructor(id: string, description: string) {
+    this.id = id;
+    this.description = description;
+  }
+}
+
+export { ATAlist, Equipment, Part };

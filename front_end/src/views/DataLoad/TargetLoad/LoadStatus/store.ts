@@ -1,6 +1,5 @@
 import { http } from "@/utils/http";
 import { MyResponse } from "@/utils/store/response";
-import { Ref, ref } from "vue";
 
 interface PartLoadLogOutput {
   id: number;
@@ -48,6 +47,30 @@ class PageData {
       method: "GET",
     })) as MyResponse<PartLoadLogOutput[]>;
 
+    if (res.code === 200) {
+      this.part_data_log_output = res.result;
+    }
+  }
+  async search_equipment(content: string) {
+    const res = (await http({
+      url: "/search-log-by-equipment",
+      method: "GET",
+      params: {
+        equipment_name: content,
+      },
+    })) as MyResponse<PartLoadLogOutput[]>;
+    if (res.code === 200) {
+      this.part_data_log_output = res.result;
+    }
+  }
+  async search_part(content: string) {
+    const res = (await http({
+      url: "/search-log-by-part",
+      method: "GET",
+      params: {
+        part_name: content,
+      },
+    })) as MyResponse<PartLoadLogOutput[]>;
     if (res.code === 200) {
       this.part_data_log_output = res.result;
     }

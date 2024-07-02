@@ -2,67 +2,88 @@
   <div class="bg-[#333333]">
     <Selection />
     <div class="px-6">
-      <table class="wfull bg-[#333333] ">
-        <thead>
-          <tr>
-            <th>Equipment Name <input type="text" />
-            </th>
-            <th>PNN <input type="text" />
-            </th>
-            <th>Start Time <input type="text" />
-            </th>
-            <th>Elapsed Time <input type="text" />
-            </th>
-            <th>Load Status <input type="text" />
-            </th>
-            <th>Load Progress <input type="text" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item, idx in pageData.part_data_log_output"
-              class="h14 "
-              :class="idx === 1 ? 'active' : ''">
-            <td>{{ item.equipment.name }}</td>
-            <td>{{ item.part.id }}</td>
-            <td>{{ formatDateString(item.start_time) }}</td>
-            <td>00:32:34</td>
-            <td>{{ item.load_status }}</td>
-            <td>
-              <div v-if="item.load_status === 'Loaded'"
-                   class="flex items-center">
-                <div class="w-30 h-5 bg-white border border-white flex">
-                  <!-- Progress Bar Fill -->
-                  <div class="bg-blue-500 text-xs leading-none py-1 text-center text-white"
-                       style="width: 50%;"> </div>
-                </div>
-                <span class="pl3">50%</span>
-              </div>
-              <div v-if="item.load_status === 'Completed'"
-                   class="flex items-center">
-                <button @click="goto('ConfirmPage')"
-                        class="confirm-btn">Confirm</button>
-              </div>
-              <div v-if="item.load_status === 'Failed'">
-                <button @click="goto('FailDetailPage')"
-                        class="confirm-btn">View Detail</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <el-table style="width: 100%;background-color: rgb(46, 45, 45)"
+                :data="pageData.part_data_log_output"
+                :header-cell-style="{
+                  background: '#404040',
+                  color: '#FFFFFF',
+                  font: '14px'
+                }"
+                height="65vh"
+                :empty-text="'NO DATA DISPLAY'"
+                row-key="index"
+                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+        <el-table-column prop="equipment.name"
+                         :width="null"
+                         :min-width="5">
+          <template slot="header"
+                    slot-scope="scope">
+            <div class="flex justify-between items-center">Equipment Name </div>
+            <el-input style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
+                      placeholder="Enter key word here"
+                      v-model="searchEquipmentContent"
+                      size="mini"
+                      clearable />
+            <button @click="searchEquipment">
+              <i class="el-icon-search"></i>
+            </button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="part.id"
+                         :width="null"
+                         :min-width="5">
+          <template slot="header"
+                    slot-scope="scope">
+            <div class="flex justify-between items-center">PNN </div>
+            <el-input style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
+                      placeholder="Enter key word here"
+                      v-model="searchPNNContent"
+                      size="mini"
+                      clearable />
+            <button @click="searchPart">
+              <i class="el-icon-search"></i>
+            </button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="start_time"
+                         label="Start Time "
+                         sortable
+                         :width="null"
+                         :min-width="5">
+          <template slot-scope="scope">
+            <div class="flex gap-3"> {{ scope.row.start_time.substring(0, 19) }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="elapsed_time"
+                         label="Elapsed Time "
+                         sortable
+                         :width="null"
+                         :min-width="5">
+        </el-table-column>
+        <el-table-column prop="load_status"
+                         label="Load Status"
+                         sortable
+                         :width="null"
+                         :min-width="5">
+        </el-table-column>
+        <el-table-column prop="load_progress"
+                         label="Load Progress"
+                         sortable
+                         :width="null"
+                         :min-width="5">
+        </el-table-column>
+      </el-table>
     </div>
-    <el-footer>
+    <footer
+            class="fixed bottom-0 left-0 right-0 px-4 py1 flex justify-between items-center border-t  border-t-[#6F6F6F]">
       <div>
         <button class="footer-btn">PRINT</button>
       </div>
       <div class="flex gap3">
         <button @click="goback()"
                 class="footer-btn">BACK</button>
-        <button @click="gotoDataUpload()"
-                class="footer-btn">START LOAD </button>
       </div>
-    </el-footer>
+    </footer>
   </div>
 </template>
 <script lang="ts">
@@ -80,7 +101,10 @@ export default {
   },
   data() {
     return {
-      pageData: new PageData()
+      searchEquipmentContent: '',
+      searchPNNContent: '',
+      pageData: new PageData(),
+      timer: null
     }
   },
   computed: {
@@ -92,15 +116,23 @@ export default {
   mounted() {
     this.pageData.get_log_list()
   },
+  beforeDestroy() {
+    // clearInterval(this.timer)
+  },
   methods: {
     goback() {
       this.$router.back()
     },
-    gotoDataUpload() { },
     goto(name: string) {
       this.$router.push({ name: name })
     },
-    formatDateString
+    formatDateString,
+    searchEquipment() {
+      this.pageData.search_equipment(this.searchEquipmentContent)
+    },
+    searchPart() {
+      this.pageData.search_part(this.searchPNNContent)
+    }
   }
 };
 </script>
@@ -119,8 +151,9 @@ th {
 tr {
   border: 1px solid rgb(111, 111, 111);
 }
-thead{
-  tr{
+
+thead {
+  tr {
     @apply bg-[#404040];
   }
 }

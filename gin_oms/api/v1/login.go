@@ -1,12 +1,13 @@
 package v1
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
-	"github.com/wejectchen/ginblog/middleware"
-	"github.com/wejectchen/ginblog/model"
 	"net/http"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
+	"github.com/wejectchen/ginblog/internal/model"
+	"github.com/wejectchen/ginblog/middleware"
 )
 
 // Login 后台登陆

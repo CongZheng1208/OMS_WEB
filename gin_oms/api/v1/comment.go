@@ -1,11 +1,12 @@
 package v1
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/wejectchen/ginblog/model"
-	"github.com/wejectchen/ginblog/utils/errmsg"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
+	"github.com/wejectchen/ginblog/internal/model"
+	"github.com/wejectchen/ginblog/utils/errmsg"
 )
 
 // AddComment 新增评论

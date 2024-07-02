@@ -157,9 +157,8 @@
     </el-footer>
   </div>
 </template>
-<script>
+<script lang="ts">
 import qs from 'qs'
-
 import * as echarts from 'echarts';
 import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/utils/utils'
 import { postDataInTimeNew } from '@/services/conditionMonitoring/parameterDisplay/index';

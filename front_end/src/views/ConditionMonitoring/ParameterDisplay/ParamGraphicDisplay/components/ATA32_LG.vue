@@ -50,7 +50,7 @@
     </div>
   </el-row>
 </template>
-<script>
+<script lang="ts">
 import qs from 'qs'
 import { postGraphicInTime } from '@/services/conditionMonitoring/parameterDisplay/index';
 import { LANDING_GEAR_Enum } from '@/globals/enums'

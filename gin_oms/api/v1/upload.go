@@ -1,10 +1,11 @@
 package v1
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/wejectchen/ginblog/model"
 	"io"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/wejectchen/ginblog/internal/model"
 )
 
 // UpLoad 上传图片接口

@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log"
+
 	"github.com/wejectchen/ginblog/routes"
 	"github.com/wejectchen/ginblog/utils"
 	"golang.org/x/sync/errgroup"
-	"log"
 )
 
 func main() {
@@ -20,5 +21,4 @@ func main() {
 	if err := g.Wait(); err != nil {
 		log.Print(err)
 	}
-
 }

@@ -17,7 +17,7 @@
           <div v-if="listSelected == 1">
             <el-table highlight-current-row
                       height="62vh"
-                      style=" background-color: rgb(46, 45, 45)"
+                      style="background-color: rgb(46, 45, 45)"
                       @row-click="showParameters"
                       :data="ataData"
                       :sort-method="customSortMethodForProgressColumn"
@@ -94,14 +94,14 @@
                                :min-width="30">
                 <template slot-scope="scope">
                   <span @click="// @ts-ignore
-          addParam(scope.row)"
+                    addParam(scope.row)"
                         v-if="!scope.row.isChecked"
                         :style="{ padding: '1vh', height: '4vh', width: '4vh', backgroundColor: 'rgb(70, 72, 73)', color: 'white' }"
                         style="transition: background-color 0.3s;"
                         @mouseenter="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
+                          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
                         @mouseleave="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> + </span>
+                          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> + </span>
                 </template>
               </el-table-column>
               <el-table-column :width="null"
@@ -131,13 +131,13 @@
                              :min-width="20">
               <template slot-scope="scope">
                 <span @click="// @ts-ignore
-          removeParam(scope.row)"
+                  removeParam(scope.row)"
                       :style="{ padding: '1vh', height: '4vh', width: '4vh', backgroundColor: 'rgb(70, 72, 73)', color: 'white' }"
                       style="transition: background-color 0.3s;"
                       @mouseenter="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
+                        $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
                       @mouseleave="// @ts-ignore
-          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> - </span>
+                        $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> - </span>
               </template>
             </el-table-column>
             <el-table-column :width="null"
@@ -233,7 +233,7 @@
 import { ataNameEnum } from '@/globals/enums'
 // @ts-ignore
 import qs from 'qs'
-import { customSortMethodForProgressColumn } from '@/utils/utils.ts'
+import { customSortMethodForProgressColumn } from '@/utils/utils'
 import { getParaList, getParaSetNew, saveList } from '@/services/conditionMonitoring/parameterDisplay/index';
 
 export default {

@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+
 	"gopkg.in/ini.v1"
 )
 
@@ -15,6 +16,7 @@ var (
 	DbUser     string
 	DbPassWord string
 	DbName     string
+	DbCharset  string
 
 	TencentAccessKey string
 	TencentSecretKey string
@@ -48,6 +50,7 @@ func LoadData(file *ini.File) {
 	DbUser = file.Section("database").Key("DbUser").MustString("ginblog")
 	DbPassWord = file.Section("database").Key("DbPassWord").String()
 	DbName = file.Section("database").Key("DbName").MustString("ginblog")
+	DbCharset = file.Section("database").Key("DbCharset").MustString("latin1")
 }
 
 func LoadTencentyun(file *ini.File) {

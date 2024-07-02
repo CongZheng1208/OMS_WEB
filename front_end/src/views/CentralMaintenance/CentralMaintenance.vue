@@ -101,7 +101,6 @@ export default {
     //调用getfailureReportPhp函数，初始化、更新failure数据
     this.getfailureReportPhp();
     this.getGroundTestPhp();
-    this.$router.push({ name: "FailureList" })
   },
 };
 </script>

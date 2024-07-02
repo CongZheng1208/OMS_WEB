@@ -260,40 +260,6 @@
   padding: 1vh;
 }
 
-.el-table—dialog {
-  width: 100%;
-  background-color: rgb(255, 255, 255);
-}
-
-.el-table—dialog td {
-  padding: 2vh 2vh;
-  height: 20px;
-  text-align: left;
-  font-size: 15px;
-  font-weight: 400;
-  color: #000000;
-  border-color: rgb(106, 106, 106) !important;
-  line-height: 30px;
-  background-color: rgb(255, 255, 255);
-}
-
-.el-table—dialog--enable-row-hover .el-table—dialog__body tr:hover > td {
-  background-color: #a0a0a0 !important;
-}
-
-.el-table—dialog__body tr.current-row > td {
-  background-color: #a1a1a1e7 !important;
-}
-
-.el-table—dialog .el-table—dialog__row,
-.el-table—dialog .el-table—dialog__column {
-  text-align: left; /* 设置文本左对齐 */
-}
-
-.highlighted-row {
-  background-color: #f0f9eb !important; /* 你可以选择任何你喜欢的高亮颜色 */
-}
-
 .table-outer-button {
   font-size: 16px;
   font-weight: bold;
@@ -380,17 +346,28 @@
   background-color: #f0f0f0; /* 灰白色 */
 }
 
+.el-dialog {
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 5vh;
+  padding-right: 5vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background-color: #333333 !important;
+}
+
 .el-dialog__title {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255) !important;
   font-weight: bold;
 }
 
 .el-dialog p {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 .total-container {
-  height: 62vh;
+  height: 70vh;
 }
 
 .sub-container {

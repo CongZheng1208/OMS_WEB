@@ -106,24 +106,28 @@
           </div>
         </el-col>
       </el-row>
-      <!-- <el-dialog :visible.sync="isParameterAddedMsg"
-                 title="Confirm">
+      <el-dialog center
+                 :visible.sync="isParameterAddedMsg"
+                 title="CONFIRM">
         <p>Are you sure you want to ADD the parameter "{{ parameterSelected.para }}"?</p>
         <span slot="footer"
               class="dialog-footer">
-          <el-button @click="confirmAdd">Confirm</el-button>
+          <el-button type="primary"
+                     @click="confirmAdd">Confirm</el-button>
           <el-button @click="cancelAdd">Cancel</el-button>
         </span>
       </el-dialog>
-      <el-dialog :visible.sync="isParameterDeletedMsg"
-                 title="Confirm">
+      <el-dialog center
+                 :visible.sync="isParameterDeletedMsg"
+                 title="CONFIRM">
         <p>Are you sure you want to DELETE the parameter "{{ parameterSelected.para }}"?</p>
         <span slot="footer"
               class="dialog-footer">
-          <el-button @click="confirmDelete">Confirm</el-button>
+          <el-button type="primary"
+                     @click="confirmDelete">Confirm</el-button>
           <el-button @click="cancelDelete">Cancel</el-button>
         </span>
-      </el-dialog> -->
+      </el-dialog>
     </el-main>
     <el-footer>
       <div>
@@ -160,9 +164,6 @@ import { printPage, customSortMethodForProgressColumn, changeRadio } from '@/uti
 import { postDataInTimeNew } from '@/services/conditionMonitoring/parameterDisplay/index';
 import Clock from '@/components/Clock/index.vue'
 
-
-
-
 export default {
   name: "StartView",
   emits: ["backTo"],
@@ -191,10 +192,10 @@ export default {
       refreshInterval: null, // 保存刷新的间隔ID
       refreshListInterval: null,
 
-      // isParameterAddedMsg: false,
-      // isParameterDeletedMsg: false,
+      isParameterAddedMsg: false,
+      isParameterDeletedMsg: false,
 
-      parameterSelected: {}
+      parameterSelected: ""
     };
   },
   components: {
@@ -202,10 +203,6 @@ export default {
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
-
-      console.log("this.showedParamsIndex", this.showedParamsIndex)
-      console.log(row.id)
-      console.log(this.showedParamsIndex.includes(row.id))
       if (this.showedParamsIndex.includes(row.id)) {
         return 'highlighted-row';
       }
@@ -233,166 +230,83 @@ export default {
       return row.unit ? row.unit : "None";
     },
 
-
-    // confirmAdd() {
-    //   // 在这里处理确认操作
-    //   this.isParameterAddedMsg = false;
-
-    //   console.log("this.loading", this.loading)
-
-    //   this.$message({ message: 'The parameter has been successfully added.', type: 'success' });
-    //   let tmp = qs.stringify({
-    //     index: [this.parameterSelected.id],
-    //     timeIndex: this.getCurrentDateTime()
-    //   });
-
-    //   postDataInTimeNew(tmp).then(response => {
-    //     // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
-    //     if (response[0].length == 0) {
-    //       this.$message.error('This table lacks data and cannot be initialized.')
-    //     } else {
-    //       var isIdInArray = this.showedParams.some(function (element) {
-    //         return element.id === this.parameterSelected.id;
-    //       });
-
-    //       // 如果选中的参数不在展示列表中
-    //       if (!isIdInArray) {
-    //         //如果当前展示列表的总数不超过5个
-    //         if (this.showedParams.length < 5) {
-    //           // 为了对齐时间轴，如果有新增的展示参数，则清空旧的参数的所有数据，时间戳都对齐新参数加入的时间
-    //           for (var i = 0; i < this.dataYaxis.length; i++) {
-    //             this.dataYaxis[i] = [];
-    //             this.dateXaxis[i] = [];
-    //           }
-
-    //           this.showedParams.push(this.parameterSelected)
-    //           this.showedParamsIndex.push(this.parameterSelected.id)
-    //           this.dataYaxis.push([])
-    //           this.dateXaxis.push([])
-
-    //           this.startRefresh()
-    //         } else {
-    //           this.$message.error('Allow up to 5 tables to be displayed simultaneously.')
-    //         }
-    //       } else {
-    //         this.$message('This parameter is already in the display list.')
-    //       }
-    //     }
-    //   }).catch(error => {
-    //     console.error('Error in fetching parameter list:', error);
-    //   });
-    //   // 继续处理确认逻辑
-    // },
-
-    // cancelAdd() {
-    //   this.isParameterAddedMsg = false;
-    //   this.$message('The parameter addition operation has been canceled.');
-    //   // 在这里处理取消操作
-    // },
-
-    // confirmDelete() {
-    //   // 关闭提示框
-    //   this.isParameterDeletedMsg = false;
-
-    //   this.$message({ message: 'The parameter has been successfully deleted.', type: 'success' });
-
-    //   const index = this.showedParams.findIndex((p) => p.para === this.parameterSelected.para);
-
-    //   if (this.dataYaxis.length == 1 && index > -1) {
-    //     this.showedParams = []
-    //     this.showedParamsIndex = []
-    //     this.dataYaxis = []
-    //     this.dateXaxis = []
-    //   } else {
-    //     this.showedParams.splice(index, 1);
-    //     this.showedParamsIndex.splice(index, 1);
-    //     this.dataYaxis.splice(index, 1);
-    //     this.dateXaxis.splice(index, 1);
-    //   }
-    // },
-
-    // cancelDelete() {
-    //   this.isParameterDeletedMsg = false;
-    //   this.$message('The parameter deletion operation has been canceled.');
-    //   // 在这里处理取消操作
-    // },
-
     /**
      * 本函数用于实现将待选参数加入到展示图表中去
      * @param {Object} parameter
      */
     addParamToShow(parameter) {
 
+      // console.log("parameter", parameter)
+      // console.log("this.showedParams", this.showedParams)
+
       this.parameterSelected = parameter
       // 如果该参数已经被添加至展示列表
 
-      if (this.showedParams.includes(parameter)) {
-        // this.isParameterDeletedMsg = true;
 
-        if (confirm(`Are you sure you want to  DELETE  the parameter " ${parameter.para} "? `)) {
-
-          const index = this.showedParams.findIndex((p) => p.para === parameter.para);
-
-          if (this.dataYaxis.length == 1 && index > -1) {
-            this.showedParams = []
-            this.showedParamsIndex = []
-            this.dataYaxis = []
-            this.dateXaxis = []
-          } else {
-            this.showedParams.splice(index, 1);
-            this.showedParamsIndex.splice(index, 1);
-            this.dataYaxis.splice(index, 1);
-            this.dateXaxis.splice(index, 1);
-          }
-        }
-        // 如果该参数尚未被添加
+      if (this.showedParamsIndex.includes(this.parameterSelected.id)) {
+        console.log("already")
+        this.isParameterDeletedMsg = true;
       } else {
-        // this.isParameterAddedMsg = true;
-
-        if (confirm(`Are you sure you want to  ADD  the parameter " ${parameter.para} "? `)) {
-          // let tmp = qs.stringify({
-          //   index: [parameter.id],
-          //   timeIndex: this.getCurrentDateTime()
-          // })
-
-          // postDataInTimeNew(tmp).then(response => {
-          // 在加入之前，先探查一下该参数是否无法查询到数据，如果无法正常搜到数据，则直接不予展示
-          // if (response[0].length == 0) {
-          //   this.$message.error('This table lacks data and cannot be initialized.')
-          // } else {
-          var isIdInArray = this.showedParams.some(function (element) {
-            return element.id === parameter.id;
-          });
-
-          // 如果选中的参数已经在展示列表中
-          if (!isIdInArray) {
-            //如果当前展示列表的总数不超过5个
-            if (this.showedParams.length < 5) {
-              // 为了对齐时间轴，如果有新增的展示参数，则清空旧的参数的所有数据，时间戳都对齐新参数加入的时间
-              for (var i = 0; i < this.dataYaxis.length; i++) {
-                this.dataYaxis[i] = [];
-                this.dateXaxis[i] = [];
-              }
-
-              this.showedParams.push(parameter)
-              this.showedParamsIndex.push(parameter.id)
-              this.dataYaxis.push([])
-              this.dateXaxis.push([])
-
-              this.startRefresh()
-            } else {
-              this.$message('Allow up to 5 tables to be displayed simultaneously.')
-            }
-          } else {
-            this.$message('This parameter is already in the display list.')
-          }
-          // }
-          // }).catch(error => {
-          //   console.error('Error in fetching parameter list:', error);
-          // });
-        }
+        console.log("not")
+        this.isParameterAddedMsg = true;
       }
     },
+
+    confirmAdd() {
+      // var isIdInArray = this.showedParams.some(function (element) {
+      //   return element.id === this.parameterSelected.id;
+      // });
+
+      // 如果选中的参数已经在展示列表中
+      // if (!isIdInArray) {
+
+      if (this.showedParams.length < 5) {
+        // 为了对齐时间轴，如果有新增的展示参数，则清空旧的参数的所有数据，时间戳都对齐新参数加入的时间
+        for (var i = 0; i < this.dataYaxis.length; i++) {
+          this.dataYaxis[i] = [];
+          this.dateXaxis[i] = [];
+        }
+
+        console.log("this.parameterSelected", this.parameterSelected)
+
+        this.showedParams.push(this.parameterSelected)
+        this.showedParamsIndex.push(this.parameterSelected.id)
+        this.dataYaxis.push([])
+        this.dateXaxis.push([])
+
+        this.startRefresh()
+      } else {
+        this.$message('Allow up to 5 tables to be displayed simultaneously.')
+      }
+      this.isParameterAddedMsg = false;
+    },
+
+    cancelAdd() {
+      this.isParameterAddedMsg = false;
+    },
+
+    confirmDelete() {
+
+      const index = this.showedParams.findIndex((p) => p.para === this.parameterSelected.para);
+
+      if (this.dataYaxis.length == 1 && index > -1) {
+        this.showedParams = []
+        this.showedParamsIndex = []
+        this.dataYaxis = []
+        this.dateXaxis = []
+      } else {
+        this.showedParams.splice(index, 1);
+        this.showedParamsIndex.splice(index, 1);
+        this.dataYaxis.splice(index, 1);
+        this.dateXaxis.splice(index, 1);
+      }
+      this.isParameterDeletedMsg = false;
+    },
+
+    cancelDelete() {
+      this.isParameterDeletedMsg = false;
+    },
+
 
     fetchListData() {
       let tmp = qs.stringify({
@@ -430,12 +344,7 @@ export default {
             for (var i = 0; i < response.length; i++) {
               if (response[i].length > 0) {
                 for (var j = 0; j < response[i].length; j++) {
-                  // 如果数据连续三秒不变，则设为0
-                  // if(response.data[i][j]['data'] == response.data[i][j-1]['data']){
-                  //   this.dataYaxis[i].push(0);
-                  // }else{
                   this.dataYaxis[i].push(response[i][j]['data']);
-                  // }
                   this.dateXaxis[i].push(new Date(response[i][j]['time']).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
                 }
 
@@ -639,9 +548,3 @@ export default {
   },
 };
 </script>
-<style>
-.highlighted-row {
-  background-color: #779566 !important;
-  /* 你可以选择任何你喜欢的高亮颜色 */
-}
-</style>

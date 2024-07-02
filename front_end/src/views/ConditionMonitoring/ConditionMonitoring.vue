@@ -16,6 +16,7 @@ export default {
         {
           name: "Parameter Display",
           isActive: true,
+          realName: "ParameterDisplay",
           routeName: "ParameterSelect",
         },
         // {
@@ -26,6 +27,7 @@ export default {
         {
           name: "Event Monitoring",
           isActive: false,
+          realName: "EventMonitoring",
           routeName: "EventDisplay",
         },
       ],

@@ -56,7 +56,8 @@
                    icon="el-icon-circle-plus-outline"
                    @click="isMemberSystemIDAddedAllMsg = true"></el-button> Total Number: {{ Equis.length }}
       </div>
-      <el-dialog :visible.sync="isMemberSystemIDAddedMsg"
+      <el-dialog center
+                 :visible.sync="isMemberSystemIDAddedMsg"
                  title="CONFIRM">
         <p>Are you sure you want to ADD the parameter "{{ selectedEqui.MemberSystemName }}"?</p>
         <span slot="footer"
@@ -66,7 +67,8 @@
           <el-button @click="cancelAdd">Cancel</el-button>
         </span>
       </el-dialog>
-      <el-dialog :visible.sync="isMemberSystemIDAddedAllMsg"
+      <el-dialog center
+                 :visible.sync="isMemberSystemIDAddedAllMsg"
                  title="CONFIRM">
         <p>Are you sure you want to ADD ALL of "{{ Equis.map(item => item.MemberSystemName).join(', ') }}"?</p>
         <span slot="footer"
@@ -94,7 +96,7 @@
 <script>
 import qs from 'qs'
 import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
-import { getATAandEqui } from '@/services/centralMaintenance/extendedFunctions/index.js';
+import { getATAandEqui } from '@/services/centralMaintenance/extendedFunctions/index';
 
 export default {
   name: "DefaultResetPage",

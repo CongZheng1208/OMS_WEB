@@ -53,10 +53,11 @@
         <existing-failure v-if="displaySelected == 'existingFailureSelected'" />
         <failure-history v-if="displaySelected == 'failuresHistorySelected'" />
       </div>
-      <el-dialog title="ERROR MESSAGE"
+      <el-dialog center
+                 title="ERROR MESSAGE"
                  :visible.sync="isParameterSelected"
                  width="30%">
-        <p style="color:black">Please select a failure item!</p>
+        <p>Please select a failure item!</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"

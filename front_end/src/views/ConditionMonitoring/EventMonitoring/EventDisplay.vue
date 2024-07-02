@@ -60,10 +60,11 @@
       <FlightLegs @close=" isFlightLegsSelected = false"
                   v-if="isFlightLegsSelected">
       </FlightLegs>
-      <el-dialog title="ERROR MESSAGE"
+      <el-dialog center
+                 title="ERROR MESSAGE"
                  :visible.sync="isEventSelected"
                  width="30%">
-        <p style="color:black">Please select a event item!</p>
+        <p>Please select a event item!</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
@@ -89,7 +90,7 @@
 import Clock from '@/components/Clock/index.vue'
 import FlightLegs from '@/components/FlightLegs/index.vue'
 import { printPage, customSortMethodForProgressColumn } from '@/utils/utils'
-import { getEvent } from '@/services/conditionMonitoring/eventMonitoring/index.js';
+import { getEvent } from '@/services/conditionMonitoring/eventMonitoring/index';
 
 export default {
   name: "eventSelect",

@@ -85,7 +85,8 @@
       <el-table-column :width="null"
                        :min-width="5"></el-table-column>
     </el-table>
-    <el-dialog style="font-size: 15px; color: white;"
+    <el-dialog center
+               style="font-size: 15px;"
                :visible.sync="isFlightLegsSelected"
                width="50%">
       <el-row style=" margin-left: 15px; margin-right: 15px;">
@@ -95,8 +96,7 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'ATA'" />
-            <label class="form-check-label"
-                   style="color:black">ATA</label>
+            <label class="form-check-label">ATA</label>
           </div>
         </el-col>
         <el-col :span="8">
@@ -105,8 +105,7 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'flightPhase'" />
-            <label class="form-check-label"
-                   style="color:black">Flight Phase</label>
+            <label class="form-check-label">Flight Phase</label>
           </div>
         </el-col>
         <el-col :span="8">
@@ -115,8 +114,7 @@
             <input name="select-flightLegs-radio"
                    type="radio"
                    :checked="dialogSelected == 'flightLeg'" />
-            <label class="form-check-label"
-                   style="color:black">Flight Leg</label>
+            <label class="form-check-label">Flight Leg</label>
           </div>
         </el-col>
       </el-row>
@@ -126,17 +124,13 @@
                   style="
               width: 100%;
               height: 30vh;
-              background-color:  #ffffff;
+              background-color: rgb(46, 45, 45);
               margin-top: 1vh;
               margin-bottom: 1vh;
               border:  0.5px solid rgb(111, 111, 111);
             "
                   class="el-table—dialog"
-                  :header-cell-style="{
-                background: 'rgb(200, 200, 200)',
-                color: '#010101',
-                font: '14px'
-              }"
+                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -156,17 +150,12 @@
                   style="
               width: 100%;
               height: 30vh;
-              background-color:  #ffffff;
               margin-top: 1vh;
               margin-bottom: 1vh;
+              background-color: rgb(46, 45, 45);
               border:  0.5px solid rgb(111, 111, 111);
             "
-                  class="el-table—dialog"
-                  :header-cell-style="{
-                background: 'rgb(200, 200, 200)',
-                color: '#010101',
-                font: '14px'
-              }"
+                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
@@ -186,17 +175,13 @@
                   style="
               width: 100%;
               height: 30vh;
-              background-color:  #ffffff;
+              background-color: rgb(46, 45, 45);
               margin-top: 1vh;
               margin-bottom: 1vh;
               border:  0.5px solid rgb(111, 111, 111);
             "
                   class="el-table—dialog"
-                  :header-cell-style="{
-                background: 'rgb(200, 200, 200)',
-                color: '#010101',
-                font: '14px'
-              }"
+                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                   :empty-text="'NO DATA DISPLAY'">
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>

@@ -57,10 +57,11 @@
           </el-table>
         </el-col>
       </el-row>
-      <el-dialog title="ERROR MESSAGE"
+      <el-dialog center
+                 title="ERROR MESSAGE"
                  :visible.sync="isEquiSelected"
                  width="30%">
-        <p style="color:black">Please select a configuration item!</p>
+        <p>Please select a configuration item!</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
@@ -82,7 +83,7 @@
 </template>
 <script lang="ts">
 import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
-import { getATAandEqui } from '@/services/centralMaintenance/configuration/index.js';
+import { getATAandEqui } from '@/services/centralMaintenance/configuration/index';
 import { ataNameEnum } from '@/globals/enums'
 
 export default {

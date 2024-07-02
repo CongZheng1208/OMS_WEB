@@ -139,7 +139,8 @@
           </el-table>
         </el-col>
       </el-row>
-      <el-dialog :visible.sync="isRetrievalAddedMsg"
+      <el-dialog center
+                 :visible.sync="isRetrievalAddedMsg"
                  title="CONFIRM">
         <p>Are you sure you want to ADD the parameter "{{ selectedEquiRetrieval.memberSystemName }}"?</p>
         <span slot="footer"
@@ -149,7 +150,8 @@
           <el-button @click="cancelRetrievalAdd">Cancel</el-button>
         </span>
       </el-dialog>
-      <el-dialog :visible.sync="isResetAddedMsg"
+      <el-dialog center
+                 :visible.sync="isResetAddedMsg"
                  title="CONFIRM">
         <p>Are you sure you want to ADD the parameter "{{ selectedEquiReset.memberSystemName }}"?</p>
         <span slot="footer"
@@ -159,20 +161,22 @@
           <el-button @click="cancelResetAdd">Cancel</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="ERROR MESSAGE"
+      <el-dialog center
+                 title="ERROR MESSAGE"
                  :visible.sync="isRetrievalSelected"
                  width="30%">
-        <p style="color:black">Please select a retrieval item!</p>
+        <p>Please select a retrieval item!</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
                      @click="isRetrievalSelected = false">OK</el-button>
         </span>
       </el-dialog>
-      <el-dialog title="ERROR MESSAGE"
+      <el-dialog center
+                 title="ERROR MESSAGE"
                  :visible.sync="isResetSelected"
                  width="30%">
-        <p style="color:black">Please select a reset item!</p>
+        <p>Please select a reset item!</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
@@ -203,7 +207,7 @@ import Clock from '@/components/Clock/index.vue'
 import qs from 'qs'
 import { ataNameEnum } from '@/globals/enums'
 import { printPage, customSortMethodForProgressColumn, changeRadio, handleTestOrder } from '@/utils/utils'
-import { getRetrievalATAandEqui, getResetATAandEqui } from '@/services/centralMaintenance/nvmData/index.js';
+import { getRetrievalATAandEqui, getResetATAandEqui } from '@/services/centralMaintenance/nvmData/index';
 
 
 export default {

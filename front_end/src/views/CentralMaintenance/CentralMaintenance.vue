@@ -17,26 +17,31 @@ export default {
         {
           name: "Failure Report",
           isActive: true,
+          realName: "FailureReport",
           routeName: "FailureList",
         },
         {
           name: "Ground Test",
           isActive: false,
+          realName: "GroundTest",
           routeName: "TestList",
         },
         {
           name: "Configuration",
           isActive: false,
+          realName: "Configuration",
           routeName: "ConfigurationSelection",
         },
         {
           name: "NVM Data",
           isActive: false,
+          realName: "NVMData",
           routeName: "NVMDataDefault",
         },
         {
           name: "Extended Functions",
           isActive: false,
+          realName: "ExtendedFunctionsDefault",
           routeName: "TimeCycles",
         },
       ],

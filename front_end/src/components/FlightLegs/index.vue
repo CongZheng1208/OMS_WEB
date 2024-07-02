@@ -1,26 +1,21 @@
 <template>
-  <el-dialog style="font-size: 15px; back"
+  <el-dialog center
+             style="font-size: 15px;"
              :visible.sync="isFlightLegsSelected"
              :show-close=false
              :close-on-click-modal=false
              width="70%">
-    <el-row style=" margin-left: 15px; margin-right: 15px;     height: 50vh; background-color: '#f1f1f1'">
+    <el-row style=" margin-left: 15px; margin-right: 15px; height: 50vh;">
       <el-table style="
               width: 100%;
-
-              background-color:  #ffffff;
               margin-top: 1vh;
               margin-bottom: 1vh;
+              background-color: rgb(46, 45, 45);
               border:  0.5px solid rgb(111, 111, 111);
             "
-                class="el-table—dialog"
+                :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
                 :data="flightLegData"
                 height="50vh"
-                :header-cell-style="{
-              background: 'rgb(200, 200, 200)',
-              color: '#010101',
-              font: '14px'
-            }"
                 :sort-method="customSortMethodForProgressColumn"
                 :empty-text="'NO DATA DISPLAY'">
         <el-table-column :width="null"
@@ -59,7 +54,7 @@
 </template>
 <script lang="ts">
 
-import { getFlightLeg } from '@/services/util/index.js';
+import { getFlightLeg } from '@/services/util/index';
 import { customSortMethodForProgressColumn } from '@/utils/utils'
 
 export default {
@@ -73,7 +68,6 @@ export default {
   created() {
     getFlightLeg().then(response => {
       this.flightLegData = response.reverse();
-
     });
   },
   methods: {

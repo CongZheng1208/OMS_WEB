@@ -99,7 +99,7 @@
 </template>
 <script lang="ts">
 import { printPage, customSortMethodForProgressColumn, handleTestOrder } from '@/utils/utils'
-import { postConfigData } from '@/services/centralMaintenance/configuration/index.js';
+import { postConfigData } from '@/services/centralMaintenance/configuration/index';
 import qs from 'qs'
 
 export default {

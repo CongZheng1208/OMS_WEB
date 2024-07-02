@@ -78,7 +78,7 @@ export default {
       );
 
       this.selectedData.push(objSelectedData);
-      console.log("this.selectedData:", this.selectedData);
+      // console.log("this.selectedData:", this.selectedData);
 
       this.dataArray = [this.selectedData[0].fde]
 

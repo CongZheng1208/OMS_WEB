@@ -1,4 +1,4 @@
-import { postTestOrder } from "@/services/centralMaintenance/groundTest/index.js";
+import { postTestOrder } from "@/services/centralMaintenance/groundTest/index";
 
 export function printPage() {
   window.print();

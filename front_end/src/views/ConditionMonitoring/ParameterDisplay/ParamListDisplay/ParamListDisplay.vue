@@ -153,20 +153,24 @@
           </div>
         </el-col>
       </el-row>
-      <el-dialog title="ERROR MESSAGE"
+      <el-dialog center
+                 title="ERROR MESSAGE"
                  :visible.sync="isParameterSelected"
                  width="30%">
-        <p style="color:black">Please select at least one parameter to show!</p>
+        <p>Please select at least one parameter to show!</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
                      @click="isParameterSelected = false">OK</el-button>
         </span>
       </el-dialog>
-      <el-dialog :visible.sync="isListOverwriten"
+      <el-dialog center
+                 :visible.sync="isListOverwriten"
                  width="30%">
         <el-row>
           <el-button type="primary"
+                     :show-close=false
+                     :close-on-click-modal=false
                      style="width: 80%; height: 20%;
                      margin: 2vh;"
                      @click="isListSaved = true">CREATE A NEW PARAMETER LIST</el-button>
@@ -176,26 +180,31 @@
                      @click="overwriteSelectedList();">OVERWRITE THE ORIGINAL LIST</el-button>
         </el-row>
       </el-dialog>
-      <el-dialog title="CREATE DISPLAY LIST"
+      <el-dialog center
+                 title="CREATE DISPLAY LIST"
                  :visible.sync="isListSaved"
                  @close="inputListName = ''"
                  width="50%"
                  :close-on-click-modal="true">
         <el-row>
           <el-col :span="6">
-            <div style="color: #000000;"> Enter List Name: </div>
+            <p> Enter List Name: </p>
           </el-col>
           <el-col :span="18">
             <el-input v-model="inputListName"
                       size="mini"
+                      style="margin-top: 1vh;"
+                      width="20vh"
                       clearable
                       placeholder="Please enter List Name:"></el-input>
-            <div style="margin-top: 10px;">
-              <div style="color: #999; font-size: 12px; text-align: left;">Name Rule: ATA-Description(20 characters)
-              </div>
-              <div style="color: #999; font-size: 12px; text-align: left;">Example: 26-temperaturecheck</div>
-            </div>
           </el-col>
+        </el-row>
+        <el-row>
+          <div style="margin-top: 10px;">
+            <div style="color: #999; font-size: 12px; text-align: left;">Name Rule: ATA-Description(20 characters)
+            </div>
+            <div style="color: #999; font-size: 12px; text-align: left;">Example: 26-temperaturecheck</div>
+          </div>
         </el-row>
         <div slot="footer"
              class="dialog-footer">
@@ -274,7 +283,6 @@ export default {
 
       this.searchInput = ""
       this.selectedList = {}
-
     },
 
     /**

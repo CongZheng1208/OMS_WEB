@@ -163,7 +163,7 @@
 import Clock from '@/components/Clock/index.vue'
 import FlightLegs from '@/components/FlightLegs/index.vue'
 import { printPage, changeRadio, customSortMethodForProgressColumn, updateCurrentTime } from '@/utils/utils'
-import { postEventPara } from '@/services/conditionMonitoring/eventMonitoring/index.js';
+import { postEventPara } from '@/services/conditionMonitoring/eventMonitoring/index';
 import qs from 'qs'
 
 

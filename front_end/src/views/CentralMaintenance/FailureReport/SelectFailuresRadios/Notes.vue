@@ -17,7 +17,8 @@
                    @click="isAddNotesSelected = true"></el-button>
       </div>
     </div>
-    <el-dialog :visible.sync="isAddNotesSelected"
+    <el-dialog center
+               :visible.sync="isAddNotesSelected"
                :show-close=false
                title="ADD NOTES">
       <el-input type="textarea"

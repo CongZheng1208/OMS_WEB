@@ -26,10 +26,6 @@
                           v-model="searchContent"
                           size="mini"
                           clearable />
-                <button @click="searchPart">
-                  <i class="el-icon-search"></i>
-                </button>
-                <button @click="clearContent">清除</button>
               </div>
             </div>
           </template>
@@ -103,14 +99,22 @@ export default {
       pageData: new PageData(),
       seletedPartIdx: '',
       selectedEquipmentIdx: [] as Array<number>,
-      searchContent: ''
+      searchContent: '',
+      hasTimeOut: undefined as NodeJS.Timeout | undefined
     }
   },
   computed: {
 
   },
   watch: {
-
+    searchContent() {
+      if (this.hasTimeOut) {
+        clearTimeout(this.hasTimeOut)
+      }
+      this.hasTimeOut = setTimeout(async () => {
+        await this.searchPart()
+      }, 500)
+    }
   },
   mounted() {
     this.pageData.get_all_part()

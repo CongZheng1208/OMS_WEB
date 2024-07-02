@@ -41,10 +41,18 @@ interface Part {
 
 class PageData {
   part_data_log_output: PartLoadLogOutput[] = [];
-  async get_log_list() {
+  async get_log_list(data: { equipment_name: string; pnn_id: string }) {
+    const req_data = {};
+    if (data.equipment_name) {
+      req_data["equipment_name"] = data.equipment_name;
+    }
+    if (data.pnn_id) {
+      req_data["pnn_id"] = data.pnn_id;
+    }
     const res = (await http({
       url: "/all_load_status",
       method: "GET",
+      params: req_data,
     })) as MyResponse<PartLoadLogOutput[]>;
 
     if (res.code === 200) {

@@ -24,9 +24,6 @@
                       v-model="searchEquipmentContent"
                       size="mini"
                       clearable />
-            <button @click="searchEquipment">
-              <i class="el-icon-search"></i>
-            </button>
           </template>
         </el-table-column>
         <el-table-column prop="part.id"
@@ -40,9 +37,6 @@
                       v-model="searchPNNContent"
                       size="mini"
                       clearable />
-            <button @click="searchPart">
-              <i class="el-icon-search"></i>
-            </button>
           </template>
         </el-table-column>
         <el-table-column prop="start_time"
@@ -114,10 +108,15 @@ export default {
 
   },
   mounted() {
-    this.pageData.get_log_list()
+    this.timer = setInterval(() => {
+      this.pageData.get_log_list({
+        equipment_name: this.searchEquipmentContent,
+        pnn_id: this.searchPNNContent
+      })
+    }, 1000)
   },
   beforeDestroy() {
-    // clearInterval(this.timer)
+    clearInterval(this.timer)
   },
   methods: {
     goback() {
@@ -127,12 +126,7 @@ export default {
       this.$router.push({ name: name })
     },
     formatDateString,
-    searchEquipment() {
-      this.pageData.search_equipment(this.searchEquipmentContent)
-    },
-    searchPart() {
-      this.pageData.search_part(this.searchPNNContent)
-    }
+
   }
 };
 </script>

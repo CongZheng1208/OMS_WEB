@@ -107,14 +107,22 @@ export default {
       pageData: new PageData(),
       seletedPartIdx: '',
       selectedEquipmentIdx: [] as Array<number>,
-      searchContent: ''
+      searchContent: '',
+      hasTimeOut: undefined as NodeJS.Timeout | undefined
     }
   },
   computed: {
 
   },
   watch: {
-
+    searchContent() {
+      if (this.hasTimeOut) {
+        clearTimeout(this.hasTimeOut)
+      }
+      this.hasTimeOut = setTimeout(async () => {
+        await this.searchPart()
+      }, 500)
+    }
   },
   mounted() {
     this.pageData.get_all_part()

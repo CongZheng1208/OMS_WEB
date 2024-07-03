@@ -160,10 +160,15 @@ export default {
 
   },
   mounted() {
-    this.pageData.get_log_list()
+    this.timer = setInterval(() => {
+      this.pageData.get_log_list({
+        equipment_name: this.searchEquipmentContent,
+        pnn_id: this.searchPNNContent
+      })
+    }, 1000)
   },
   beforeDestroy() {
-    // clearInterval(this.timer)
+    clearInterval(this.timer)
   },
   methods: {
     goback() {

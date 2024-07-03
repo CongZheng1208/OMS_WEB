@@ -64,7 +64,7 @@
                        slot="reference"
                        class="table-outer-button"
                        icon="el-icon-delete-solid"
-                       style="  position: absolute;bottom: 2vh;"> </el-button>
+                       style="  position: absolute; left:3vh; bottom: 2vh;"> </el-button>
           </div>
         </el-col>
         <el-col :span="18">
@@ -299,9 +299,9 @@ export default {
 .search-input {
   background-color: rgb(51, 50, 50);
   color: white;
-  margin-left: 2vh;
-  height: 5vh;
-  width: 15vh
+  margin-left: 1vh;
+  height: 4vh;
+  width: 12vh
 }
 
 .input-row {

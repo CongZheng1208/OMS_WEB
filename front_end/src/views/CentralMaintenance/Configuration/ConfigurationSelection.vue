@@ -1,6 +1,6 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-header height="8vh">
+    <el-header height="9vh">
       <el-row style="width: 100%;">
         <el-col :span="10">
           <div class="el-header-title"> ATA and Equipment Selection </div>

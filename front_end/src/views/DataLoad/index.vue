@@ -5,22 +5,23 @@
   </div>
 </template>
 <script lang="ts">
-import Menus from '@/components/Menus/index.vue'
+import Menus from '@/components/SubMenus/index.vue'
 export default {
   name: "DataLoad",
   components: { Menus },
   data() {
     return {
-      FailureReportTimer: "",
       menus: [
         {
           name: "targetLoad",
           isActive: true,
+          realName: "TargetLoad",
           routeName: "TargetLoad",
         },
         {
           name: "equipmentConfig",
           isActive: false,
+          realName: "EquipmentConfig",
           routeName: "EquipmentConfig",
         },
       ],
@@ -34,9 +35,6 @@ export default {
 
   },
   mounted() {
-  },
-  beforeDestroy() {
-    clearTimeout(this.FailureReportTimer)
   },
 };
 </script>

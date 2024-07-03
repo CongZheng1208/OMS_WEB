@@ -1,13 +1,10 @@
 <template>
   <div>
-    It is Other Functions.
-
+    <el-main style="height: 65vh"> It is Other Functions. </el-main>
     <el-footer>
       <div>
-
       </div>
       <div>
-
       </div>
     </el-footer>
   </div>
@@ -17,6 +14,4 @@ export default {
 
 }
 </script>
-<style>
-
-</style>
+<style></style>

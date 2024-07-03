@@ -1,5 +1,96 @@
 <template>
-  <div>
+  <div class="bg-[rgb(45, 45, 45)]">
+    <el-main>
+      <el-col :span="10"
+              style="border:  0.5px solid rgb(111, 111, 111);">
+        <el-table highlight-current-row
+                  style="width: 100%;background-color: rgb(46, 45, 45)"
+                  :sort-method="customSortMethodForProgressColumn"
+                  :header-cell-style="{
+        background: '#404040',
+        color: '#FFFFFF',
+        font: '14px'
+      }"
+                  height="70vh"
+                  :empty-text="'NO DATA DISPLAY'">
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+          <el-table-column label="Batch Part Number"
+                           :width="null"
+                           sortable
+                           :min-width="50">
+          </el-table-column>
+          <el-table-column label="Description"
+                           :width="null"
+                           :min-width="50">
+          </el-table-column>
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+        </el-table>
+      </el-col>
+      <el-col :span="7"
+              style="border:0.5px solid rgb(111, 111, 111);">
+        <el-table highlight-current-row
+                  style="width: 100%;background-color: rgb(46, 45, 45)"
+                  :sort-method="customSortMethodForProgressColumn"
+                  :header-cell-style="{
+        background: '#404040',
+        color: '#FFFFFF',
+        font: '14px'
+      }"
+                  height="70vh"
+                  :empty-text="'NO DATA DISPLAY'">
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+          <el-table-column label="ATA"
+                           :width="null"
+                           sortable
+                           :min-width="10"> </el-table-column>
+          <el-table-column label="Equipment Name"
+                           :width="null"
+                           :min-width="40"> </el-table-column>
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+        </el-table>
+      </el-col>
+      <el-col :span="7"
+              style="border:0.5px solid rgb(111, 111, 111);">
+        <el-table highlight-current-row
+                  style="width: 100%;background-color: rgb(46, 45, 45)"
+                  :sort-method="customSortMethodForProgressColumn"
+                  :header-cell-style="{
+        background: '#404040',
+        color: '#FFFFFF',
+        font: '14px'
+      }"
+                  height="70vh"
+                  :empty-text="'NO DATA DISPLAY'">
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+          <el-table-column label="Part Number"
+                           :width="null"
+                           sortable
+                           :min-width="20"> </el-table-column>
+          <el-table-column label="Description"
+                           :width="null"
+                           :min-width="30"> </el-table-column>
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+        </el-table>
+      </el-col>
+    </el-main>
+    <el-footer>
+      <div>
+        <button @click="printPage()"
+                class="footer-btn">PRINT</button>
+      </div>
+      <div class="flex gap3">
+        <button @click="gotoDataUpload()"
+                class="footer-btn">SELECT</button>
+      </div>
+    </el-footer>
+  </div>
+  <!-- <div>
     <div class="px-6 flex ">
       <div class="w-1/3 ">
         <table>
@@ -64,9 +155,10 @@
         <button @click="gotoDataUpload()" class="footer-btn">SELECT</button>
       </div>
     </el-footer>
-  </div>
+  </div> -->
 </template>
 <script lang="ts">
+import { customSortMethodForProgressColumn, printPage } from '@/utils/utils'
 
 export default {
   name: 'BatchPartSelection',
@@ -95,42 +187,9 @@ export default {
       this.$router.push({
         name: "DataUpload"
       })
-    }
+    },
+    printPage,
+    customSortMethodForProgressColumn,
   }
 };
 </script>
-<style lang='scss' scoped>
-table {
-  @apply w-full text-lg fontbold text-start border;
-  border-collapse: collapse;
-}
-
-td,
-th {
-  @apply p3 text-center;
-}
-
-
-tr {
-  border: 1px solid rgb(111, 111, 111);
-}
-
-tr:first-child {
-  @apply bg-[#404040] border-b-white border;
-}
-
-
-
-.footer-btn {
-  width: 20vh;
-  height: 5.5vh;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 1vh;
-  border-radius: 3px;
-  border: 1px solid rgb(111, 111, 111);
-  box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
-  background-color: rgb(65, 65, 65);
-  transition: box-shadow 0.3s ease background-color 0.3s ease;
-}
-</style>

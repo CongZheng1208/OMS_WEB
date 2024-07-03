@@ -1,29 +1,43 @@
 <template>
-  <div class="bg-[#333333]">
-    <Selection />
-    <div v-for="item, idx in dataloadRes"
-         class="border mx6 mb3">
-      <div class="px-6 py-4 fontbold text-lg ">
-        <span>ATA:<span>{{ ATAlist.find(v => v.key === item.equipment.ATA_id.substring(0, 2)).value }}</span></span>
-        <span class="pl12">Equipment:<span>{{ item.equipment.name }}</span></span>
-        <div class="">
-          <div>
-            <span class="w-200 inline-block">Serial Number:940405327</span>
-            <span>Load Condition:</span>
-          </div>
-          <div>
-            <span class="w-200 inline-block">Configuration Report to Update</span>
-            <span>{{ item.equipment.condition_text }}</span>
-          </div>
-          <div v-for="item2 in item.part_list">Software Part Number: <span class="text-red">{{ item2.id }}</span></span>
+  <div>
+    <el-header style="height: 8vh;">
+      <el-row style="width: 100%">
+        <el-col :span="21">
+          <div class="el-header-title"> Check Load Condition </div>
+        </el-col>
+        <el-col :span="3">
+          <Clock />
+        </el-col>
+      </el-row>
+    </el-header>
+    <el-main>
+      <div class="total-container">
+        <div class="sub-container"
+             v-for="item, idx in dataloadRes">
+          <div class="px-6 py-4 fontbold text-lg ">
+            <span>ATA:<span>{{ ATAlist.find(v => v.key === item.equipment.ATA_id.substring(0, 2)).value }}</span></span>
+            <span class="pl12">Equipment:<span>{{ item.equipment.name }}</span></span>
+            <div class="">
+              <div>
+                <span class="w-200 inline-block">Serial Number:940405327</span>
+                <span>Load Condition:</span>
+              </div>
+              <div>
+                <span class="w-200 inline-block">Configuration Report to Update</span>
+                <span>{{ item.equipment.condition_text }}</span>
+              </div>
+              <div v-for="item2 in item.part_list">Software Part Number: <span
+                      class="text-red">{{ item2.id }}</span></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <footer
-            class="fixed bottom-0 left-0 right-0 px-4 py1 flex justify-between items-center border-t  border-t-[#6F6F6F]">
+    </el-main>
+    <el-footer>
       <div>
-        <button class="footer-btn">PRINT</button>
+        <button @click="printPage()"
+                class="footer-btn">PRINT</button>
       </div>
       <div class="flex gap3">
         <button @click="goback()"
@@ -31,19 +45,21 @@
         <button @click="beginLoad()"
                 class="footer-btn">START LOAD </button>
       </div>
-    </footer>
+    </el-footer>
   </div>
 </template>
 <script lang="ts">
 import { http } from '@/utils/http';
 import Selection from './select-bar.vue';
 import { MyResponse } from '@/utils/store/response';
+import { customSortMethodForProgressColumn, printPage } from '@/utils/utils'
 import { EquipmentWithParts } from './store'
 import { ATAlist } from '../store';
+import Clock from '@/components/Clock/index.vue'
 
 export default {
   components: {
-    Selection
+    Clock
   },
   mixins: [],
   props: {
@@ -99,7 +115,8 @@ export default {
       //   })
       this.goto('LoadStatus')
       // }
-    }
+    },
+    customSortMethodForProgressColumn, printPage
   }
 };
 </script>

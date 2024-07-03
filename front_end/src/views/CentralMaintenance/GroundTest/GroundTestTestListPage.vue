@@ -152,7 +152,7 @@ export default {
       // } else {
       //   return '#66CC99';
       // }
-      return '#51cef1';
+      return '#2a7c95';
     },
 
     /**

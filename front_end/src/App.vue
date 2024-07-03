@@ -28,13 +28,13 @@ export default {
         {
           name: "Data Load",
           isActive: false,
-          realName: "dataLoad",
+          realName: "DataLoad",
           routeName: "TargetLoad",
         },
         {
           name: "Management",
           isActive: false,
-          realName: "management",
+          realName: "Management",
           routeName: "DatabaseManagement",
         }
       ],

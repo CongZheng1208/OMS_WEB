@@ -193,7 +193,7 @@
 
 .el-subheader {
   text-align: left;
-
+  height: 3vh;
   padding: 1vh;
   font-weight: bold;
 }

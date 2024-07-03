@@ -1,14 +1,14 @@
 <?php
 
-require_once ('connectConfig.php');
+    require_once('connectConfig.php');
 
-if (!$con) {
-	die("Connection failed: " . mysqli_connect_error());
-}
+	if (!$con) {
+		die("Connection failed: " . mysqli_connect_error());
+	}
 
 
-// 查询数据库中符合ID条件的数据
-$query = "SELECT 
+	// 查询数据库中符合ID条件的数据
+	$query = "SELECT 
 	           InitiatedTest_Index,ATA,InitiatedTestName,
 			   InitiatedTest_Status,StartTime,EndTime,MemberSystemName,
 			   FlightLeg,
@@ -20,19 +20,15 @@ $query = "SELECT
 
 			  FROM test_log 
 			  WHERE InitiatedTest_Status != '0'";
+	
+	$result = mysqli_query($con, $query);
 
-$result = mysqli_query($con, $query);
-
-$res = array();
-
-if ($result === FALSE) {
-	die("SQL查询失败: " . mysqli_error($connection));
-} else {
+	$res = array();
 	//查询结果的数量
-	if (mysqli_num_rows($result) > 0) {
+	if (mysqli_num_rows($result) > 0){
 		// 获取查询结果的一行
 
-		while ($row = mysqli_fetch_assoc($result)) {
+		while($row = mysqli_fetch_assoc($result)){
 			$item = new stdClass();
 
 			$item->InitiatedTest_Index = $row['InitiatedTest_Index'];
@@ -49,7 +45,7 @@ if ($result === FALSE) {
 			$item->InhibitConditions_Trigger_Index = $row['InhibitConditions_Trigger_TEXT'];
 
 
-
+		
 
 			// 根据InitiatedTest_Index到test_message表中取得ScreenId和InteractiveScreenText字段
 			$testMessageQuery = "
@@ -61,18 +57,18 @@ if ($result === FALSE) {
 			 FROM test_message 
 			 WHERE InitiatedTest_Index = {$row['InitiatedTest_Index']}";
 			$testMessageResult = mysqli_query($con, $testMessageQuery);
-
-			if (mysqli_num_rows($testMessageResult) > 0) {
-				while ($messageRow = mysqli_fetch_assoc($testMessageResult)) {
+			
+			if (mysqli_num_rows($testMessageResult) > 0){
+				while($messageRow = mysqli_fetch_assoc($testMessageResult)){
 
 					$item->TestDurationTime = $messageRow['TestDurationTime'];
-					$item->TestType = $messageRow['TestType'];
+					$item->TestType = $messageRow['TestType']; 
 					$item->ScreenId = $messageRow['ScreenId'];
-					$item->InteractiveScreenText = str_replace(array('–', '—', '•'), ' ', $messageRow['InteractiveScreenText']);
+					$item->InteractiveScreenText = str_replace(array('–', '—', '•'), ' ', $messageRow['InteractiveScreenText']); 
 					$item->ResponseMessage = @json_decode($messageRow['ResponseMessage']);
 					$item->InterferingTests_Index = $messageRow['InterferingTests_Index'];
-
-
+		
+		
 					// $item->InhibitConditions_RP_Index = $row['InhibitConditions_RP_Index'];
 					// $item->InhibitCondition_Text = $row['InhibitCondition_Text'];
 					// $item->FailingFault_Index = $row['FailingFault_Index'];
@@ -90,11 +86,8 @@ if ($result === FALSE) {
 			array_push($res, json_decode(json_encode($item)));
 		}
 	}
-}
+	echo json_encode($res);
 
-echo json_encode($res);
-
-// 关闭数据库连接
-mysqli_close($con);
+	// 关闭数据库连接
+	mysqli_close($con);
 ?>
-

@@ -1,9 +1,7 @@
 <?php
-	// $con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
-    $con = mysqli_connect("localhost", "root", "root", "OMHMS");
-    //$con=mysqli_connect("192.168.1.145", "root", "2185", "OMHMS");
-   // $con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
-	if (!$con) {
+   require_once('connectConfig.php');
+
+   if (!$con) {
 		die("Connection failed: " . mysqli_connect_error());
 	}
 
@@ -16,11 +14,11 @@
 
 	// 遍历查询结果
     while($row = mysqli_fetch_assoc($result)) {
-        $ata = $row["ata"];
+        $ata = $row["ATA"];
 
         $item = new stdClass();
 
-        $item->ata = $row["ata"];
+        $item->ata = $row["ATA"];
         $item->equipmentName = $row['equipmentName'];
 		$item->hardwareInformation = $row['hardwareInformation'];
 		$item->softwareInformation = $row['softwareInformation'];

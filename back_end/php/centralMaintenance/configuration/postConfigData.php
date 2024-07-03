@@ -1,5 +1,5 @@
 <?php
-//echo phpinfo();
+   require_once('connectConfig.php');
 class ReturnJson
 {
 	public $ata = "";
@@ -7,13 +7,9 @@ class ReturnJson
 	public $hardwareInformation = "";
 	public $softwareInformation = "";
 	public $additionalInformation = "";
+	public $isStarShowed = "";
 
 }
-
-// 在306的Centos系统里的mysql密码为123456
-$con = mysqli_connect("localhost", "root", "root", "OMHMS");
-//$con=mysqli_connect("192.168.1.145", "root", "2185", "OMHMS");
-//$con = mysqli_connect("192.168.1.10", "root", "123456", "OMHMS");
 
 $ATA = $_POST['ATA'];
 $equipmentName = $_POST['equipmentName'];
@@ -31,11 +27,12 @@ $row = mysqli_fetch_assoc($result);
 
 $item = new ReturnJson();
 
-$item->ata = $row['ata'];
+$item->ata = $row['ATA'];
 $item->equipmentName = $row['equipmentName'];
 $item->hardwareInformation = $row['hardwareInformation'];
 $item->softwareInformation = $row['softwareInformation'];
 $item->additionalInformation = $row['additionalInformation'];
+$item->isStarShowed = $row['isStarShowed'];
 
 echo json_encode($item);
 

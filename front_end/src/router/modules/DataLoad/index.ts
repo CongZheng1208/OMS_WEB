@@ -56,13 +56,12 @@ const DataLoadRoutes = {
         },
       ],
     },
-
-    // {
-    //   path: "equipmentConfig",
-    //   name: "EquipmentConfig",
-    //   component: () => import("@/views/EquipmentConfig/index.vue"),
-    //   children: [],
-    // },
+    {
+      path: "equipmentConfig",
+      name: "EquipmentConfig",
+      component: () => import("@/views/DataLoad/EquipmentConfig/index.vue"),
+      children: [],
+    },
   ],
 };
 

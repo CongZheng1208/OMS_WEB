@@ -1,11 +1,7 @@
 <template>
   <div>
-    <el-main>
-      <Selection />
-      <div >
-        <router-view></router-view>
-      </div>
-    </el-main>
+    <Selection />
+    <router-view></router-view>
   </div>
 </template>
 <script lang="ts">

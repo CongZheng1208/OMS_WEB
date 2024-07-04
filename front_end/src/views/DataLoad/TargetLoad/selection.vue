@@ -10,14 +10,14 @@
           <div class="el-header-radios">
             <div @click="changeRadio('ATAandEquipmentSelection')"
                  class="radio ">
-              <input name="param-display-radio"
+              <input name="dataload-select-radio"
                      type="radio"
                      :checked="selectedOption == 'ATAandEquipmentSelection'" />
               <label class="cursor-pointer">ATA and Equipment Selection</label>
             </div>
             <div @click="changeRadio('PartNumberSelection')"
                  class="radio">
-              <input name="param-display-radio"
+              <input name="dataload-select-radio"
                      type="radio"
                      :checked="selectedOption == 'PartNumberSelection'" />
               <label class="cursor-pointer">Part Number Selection</label>
@@ -28,7 +28,7 @@
           <div class="el-header-radios">
             <div @click="changeRadio('BatchPartSelection')"
                  class="radio">
-              <input name="param-display-radio"
+              <input name="dataload-select-radio"
                      type="radio"
                      :checked="selectedOption == 'BatchPartSelection'" />
               <label class="cursor-pointer">Batch Part Selection</label>

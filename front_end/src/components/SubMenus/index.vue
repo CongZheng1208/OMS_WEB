@@ -1,6 +1,6 @@
 <template>
   <div class='flex text-white bg-[rgb(66, 66, 66)] font-bold justify-between'>
-    <div class='text-white text-xl text-center h-13 flex flex-col justify-center hover:cursor-pointer border-b border-r border-color'
+    <div class='text-white text-l text-center h-13 flex flex-col justify-center hover:cursor-pointer border-b border-r border-color'
          v-for="(menu, index) in menus"
          :class="menu.isActive ? 'el-menu-item-active' : 'el-menu-item'"
          :style="{ width: menuItemWidth }"

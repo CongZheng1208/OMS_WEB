@@ -82,6 +82,8 @@
                 class="footer-btn">PRINT</button>
       </div>
       <div class="flex gap3">
+        <button @click="goBack()"
+                class="footer-btn">BACK</button>
         <button @click="gotoDataUpload()"
                 class="footer-btn">SELECT</button>
       </div>
@@ -183,6 +185,9 @@ export default {
     },
     async searchPart() {
       await this.pageData.search_part(this.searchContent)
+    },
+    goBack() {
+      this.$router.push({ name: "LoadStatus" });
     },
     customSortMethodForProgressColumn,
     printPage

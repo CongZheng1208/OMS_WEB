@@ -48,12 +48,6 @@ const DataLoadRoutes = {
           component: () =>
             import("@/views/DataLoad/TargetLoad/ConfirmPage/index.vue"),
         },
-        {
-          path: "failDetailPage",
-          name: "FailDetailPage",
-          component: () =>
-            import("@/views/DataLoad/TargetLoad/FailDetailPage/index.vue"),
-        },
       ],
     },
     {

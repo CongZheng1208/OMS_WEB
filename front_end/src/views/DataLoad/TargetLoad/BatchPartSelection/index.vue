@@ -85,6 +85,8 @@
                 class="footer-btn">PRINT</button>
       </div>
       <div class="flex gap3">
+        <button @click="goBack()"
+                class="footer-btn">BACK</button>
         <button @click="gotoDataUpload()"
                 class="footer-btn">SELECT</button>
       </div>
@@ -187,6 +189,9 @@ export default {
       this.$router.push({
         name: "DataUpload"
       })
+    },
+    goBack() {
+      this.$router.push({ name: "LoadStatus" });
     },
     printPage,
     customSortMethodForProgressColumn,

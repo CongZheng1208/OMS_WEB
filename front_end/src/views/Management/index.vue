@@ -5,7 +5,7 @@
   </div>
 </template>
 <script lang="ts">
-import Menus from '@/components/Menus/index.vue'
+import Menus from '@/components/SubMenus/index.vue'
 export default {
   name: "ConditionMonitoring",
   components: { Menus },
@@ -15,6 +15,7 @@ export default {
         {
           name: "Database Management",
           isActive: true,
+          realName: "",
           routeName: "DatabaseManagement",
         },
         {

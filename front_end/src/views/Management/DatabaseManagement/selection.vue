@@ -5,14 +5,14 @@
       <div>
         <div class="radio"
              @click="goto('fileImport')">
-          <input name="param-display-radio1"
+          <input name="database—management-radio"
                  type="radio"
                  :checked="displaySelected == 'fileImport'" />
           <label>File Import</label>
         </div>
         <div class="radio"
              @click="goto('avaliableFLS')">
-          <input name="param-display-radio1"
+          <input name="database—management-radio"
                  type="radio"
                  :checked="displaySelected == 'avaliableFLS'" />
           <label>Avaliable FLS</label>
@@ -22,7 +22,7 @@
     <div class="flex-1 items-end pl20">
       <div class="radio mt11"
            @click="goto('raw')">
-        <input name="maintenance"
+        <input name="database—management-radio"
                type="radio"
                :checked="true" />
         <label>Maintenance Data</label>

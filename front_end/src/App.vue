@@ -29,7 +29,7 @@ export default {
           name: "Data Load",
           isActive: false,
           realName: "DataLoad",
-          routeName: "TargetLoad",
+          routeName: "LoadStatus",
         },
         {
           name: "Management",

@@ -90,10 +90,6 @@
         <button class="footer-btn"
                 @click="goInteractiveTextPage"
                 :disabled="!['3', '8'].includes(selectedRow.InitiatedTest_Status)">RESPOND</button>
-        <!-- <button class="footer-btn"
-                @click="goViewDetailPage">VIEW DETAILS</button>
-        <button class="footer-btn"
-                @click="goInteractiveTextPage">RESPOND</button> -->
         <button class="footer-btn"
                 @click="goNewTestPage">NEW TEST</button>
         <button class="footer-btn"

@@ -1,46 +1,71 @@
 <template>
-  <div>
-    <Selection />
-    <div class=" px-6">
-      <table>
-        <tr>
-          <th>User Name</th>
-          <th>Password</th>
-          <th>Connection Type</th>
-          <th>Login Status</th>
-          <th>Last Login Time</th>
-          <th>Pemitted to Log Out</th>
-        </tr>
-        <tr v-for="item in 10"
-            class="h14 "
-            :class="item === 1 ? 'folder-color' : ''">
-          <td>User {{ item }}</td>
-          <td>**8*********</td>
-          <td>PMAT Wireless</td>
-          <td>Log out</td>
-          <td>2022/01/01 12:00:00</td>
-          <td>Yes</td>
-        </tr>
-      </table>
-    </div>
+  <div style="background-color: rgb(45, 45, 45);">
+    <el-header height="9vh">
+      <el-row style="width: 100%;">
+        <el-col :span="21">
+          <div class="el-header-title"> Account Management </div>
+        </el-col>
+        <el-col :span="3">
+          <Clock />
+        </el-col>
+      </el-row>
+    </el-header>
+    <el-main>
+      <el-row style=" border:  0.5px solid rgb(111, 111, 111);">
+        <el-table height="65vh"
+                  style="background-color: rgb(45, 45, 45);"
+                  :sort-method="customSortMethodForProgressColumn"
+                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                  :empty-text="'NO DATA DISPLAY'"
+                  v-loading="loading"
+                  element-loading-text="Data Loading..."
+                  element-loading-spinner="el-icon-loading"
+                  element-loading-background="rgba(0, 0, 0, 0.5)">
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+          <el-table-column label="User Name"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column label="Password"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column label="Connection Type"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column label="Login Status"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column label="Last Login Time"
+                           :width="null"
+                           :min-width="30"></el-table-column>
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+        </el-table>
+        <div class="
+                table-lower-bar">
+          <span class="table-lower-bar-right-text"> Total Number: {{ }}</span>
+        </div>
+      </el-row>
+    </el-main>
     <el-footer>
       <div>
-        <button class="footer-btn">PRINT</button>
+        <button class="footer-btn"
+                @click="printPage">PRINT</button>
       </div>
-      <div class="flex gap3">
-        <button class="footer-btn">EDIT</button>
-        <button class="footer-btn">DOWNLOAD</button>
+      <div>
+        <button class="footer-btn">CHANGE PASSWORD</button>
       </div>
     </el-footer>
   </div>
 </template>
 <script lang="ts">
-import Selection from './selection.vue';
+import { printPage, customSortMethodForProgressColumn } from '@/utils/utils'
+import Clock from '@/components/Clock/index.vue'
 
 export default {
   name: '',
   components: {
-    Selection
+    Clock
   },
   mixins: [],
   props: {
@@ -48,6 +73,7 @@ export default {
   },
   data() {
     return {
+      loading: true
 
     }
   },
@@ -58,45 +84,16 @@ export default {
 
   },
   mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
 
   },
   methods: {
-
+    printPage,
+    customSortMethodForProgressColumn
   }
 };
 </script>
-<style lang='scss' scoped>
-table {
-  @apply w-full text-lg fontbold text-start border;
-  border-collapse: collapse;
-}
-
-td,
-th {
-  @apply p3 text-center;
-}
-
-
-tr {
-  border: 1px solid rgb(111, 111, 111);
-}
-
-tr:first-child {
-  @apply bg-[#404040] border-b-white border;
-}
-
-
-
-.footer-btn {
-  width: 20vh;
-  height: 5.5vh;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 1vh;
-  border-radius: 3px;
-  border: 1px solid rgb(111, 111, 111);
-  box-shadow: 5px 5px 5px 0px rgba(42, 42, 42, 0.5);
-  background-color: rgb(65, 65, 65);
-  transition: box-shadow 0.3s ease background-color 0.3s ease;
-}
-</style>
+<style lang='scss'
+       scoped></style>

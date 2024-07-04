@@ -13,13 +13,13 @@ export default {
     return {
       menus: [
         {
-          name: "targetLoad",
+          name: "target Load",
           isActive: true,
           realName: "TargetLoad",
-          routeName: "TargetLoad",
+          routeName: "LoadStatus",
         },
         {
-          name: "equipmentConfig",
+          name: "equipment Config",
           isActive: false,
           realName: "EquipmentConfig",
           routeName: "EquipmentConfig",

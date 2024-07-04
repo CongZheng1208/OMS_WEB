@@ -19,10 +19,14 @@
           color: '#FFFFFF',
           font: '14px'
         }"
-                  height="70vh"
+                  height="65vh"
                   :empty-text="'NO DATA DISPLAY'"
                   row-key="index"
-                  :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+                  :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+                  v-loading="loading"
+                  element-loading-text="Data Loading..."
+                  element-loading-spinner="el-icon-loading"
+                  element-loading-background="rgba(0, 0, 0, 0.5)">
           <el-table-column :width="null"
                            :min-width="2"></el-table-column>
           <el-table-column prop="equipment.name"
@@ -30,14 +34,12 @@
                            :min-width="20">
             <template slot="header"
                       slot-scope="scope">Equipment Name <el-input
-                        style="margin-left: 2vh; margin-right: 1vh; width: 12vh;"
+                        style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
                         v-model="searchEquipmentContent"
                         placeholder="Enter key word here"
                         size="mini"
                         clearable />
-              <button @click="searchEquipment">
-                <i class="el-icon-search"></i>
-              </button>
+              <i class="el-icon-search"></i>
             </template>
           </el-table-column>
           <el-table-column prop="part.id"
@@ -49,9 +51,7 @@
                         placeholder="Enter key word here"
                         size="mini"
                         clearable />
-              <button @click="searchPart">
-                <i class="el-icon-search"></i>
-              </button>
+              <i class="el-icon-search"></i>
             </template>
           </el-table-column>
           <el-table-column prop="start_time"
@@ -75,20 +75,6 @@
                            :width="null"
                            :min-width="10">
           </el-table-column>
-          <!-- <el-table-column prop="load_progress"
-                           label="Load Progress"
-                           sortable
-                           :width="null"
-                           :min-width="10">
-            <template slot-scope="scope">
-              <el-progress :percentage="scope.row.load_progress"
-                           :color="getProgressColor(scope.row.load_progress)"
-                           :format="load_progress => `${load_progress}%`"
-                           :stroke-width=10
-                           text-color=#ffffff
-                           define-back-color=#505050
-                           stroke-linecap=square>
-              </el-progress> -->
           <el-table-column prop="load_status"
                            label="Load Status"
                            sortable
@@ -97,7 +83,8 @@
             <template slot-scope="scope">
               <div v-if="scope.row.load_status === 'Completed'">
                 <el-button class="confirm-btn"
-                           type="primary">Confirm</el-button>
+                           type="primary"
+                           @click="goConfirmPage()">Confirm</el-button>
               </div>
               <div v-else-if="scope.row.load_status === 'Failed' || scope.row.load_status === 'Confirmed'">
                 <el-button type="text"
@@ -117,6 +104,10 @@
           <el-table-column :width="null"
                            :min-width="2"></el-table-column>
         </el-table>
+        <div class="
+                table-lower-bar">
+          <span class="table-lower-bar-right-text">Number of Tests: {{ currentPageData.length }}</span>
+        </div>
       </el-row>
     </el-main>
     <el-footer>
@@ -124,17 +115,22 @@
         <button @click="printPage()"
                 class="footer-btn">PRINT</button>
       </div>
-      <div class="flex gap3">
-        <button @click="goback()"
-                class="footer-btn">BACK</button>
+      <div>
+        <button class="footer-btn"
+                @click="sendAbort">ABORT LOAD</button>
+        <button class="footer-btn"
+                @click="sendAbortAll">ABORT ALL</button>
+        <button class="footer-btn"
+                @click="goNewLoadPage">NEW LOAD</button>
       </div>
     </el-footer>
   </div>
 </template>
 <script lang="ts">
 import { PageData, formatDateString } from './store';
-import { customSortMethodForProgressColumn, printPage } from '@/utils/utils'
+import { customSortMethodForProgressColumn, printPage, handleTestOrder } from '@/utils/utils'
 import Clock from '@/components/Clock/index.vue'
+import qs from 'qs'
 
 export default {
   name: 'LoadStatus',
@@ -150,16 +146,35 @@ export default {
       searchEquipmentContent: '',
       searchPNNContent: '',
       pageData: new PageData(),
-      timer: null
+      timer: null,
+      loading: true
     }
   },
   computed: {
+    currentPageData() {
+      console.log(this.pageData.part_data_log_output)
+      this.parameterCountTotal = this.pageData.part_data_log_output.filter((item) => {
+        const equipmentNameMatch = item.equipment.name.toLowerCase().includes(this.searchEquipmentContent.toLowerCase());
+        const partIdMatch = item.part.id.toLowerCase().includes(this.searchPNNContent.toLowerCase());
+        // Return true if either equipment name or part id matches the search content
+        return equipmentNameMatch || partIdMatch;
+      }).length
 
+      return this.pageData.part_data_log_output.filter((item) => {
+        const equipmentNameMatch = item.equipment.name.toLowerCase().includes(this.searchEquipmentContent.toLowerCase());
+        const partIdMatch = item.part.id.toLowerCase().includes(this.searchPNNContent.toLowerCase());
+        // Return true if either equipment name or part id matches the search content
+        return equipmentNameMatch || partIdMatch;
+      })
+    },
   },
   watch: {
 
   },
   mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
     this.timer = setInterval(() => {
       this.pageData.get_log_list({
         equipment_name: this.searchEquipmentContent,
@@ -171,9 +186,6 @@ export default {
     clearInterval(this.timer)
   },
   methods: {
-    goback() {
-      this.$router.back()
-    },
     goto(name: string) {
       this.$router.push({ name: name })
     },
@@ -184,6 +196,52 @@ export default {
     searchPart() {
       this.pageData.search_part(this.searchPNNContent)
     },
+    goNewLoadPage() {
+      this.$router.push({ name: "ATAandEquipmentSelection" });
+    },
+    goConfirmPage() {
+      this.$router.push({ name: "ConfirmPage" });
+
+    },
+    goFailDetailPage() {
+      this.$router.push({ name: "FailDetail" });
+    },
+    /**
+ * 本函数用于向成员系统发送中止选中的测试的命令
+ */
+    sendAbort() {
+      let tmp = qs.stringify({
+        OrderType: "ABORT",
+
+        currentPage: "LoadStatus",
+        InitiatedTest_Index: "null",
+        MemberSystemID: "",
+
+        currentScreenId: "",
+        selectedOption: "",
+      });
+
+      this.handleTestOrder(tmp)
+    },
+
+    /**
+     * 本函数用于向成员系统发送全部中止的命令
+     */
+    sendAbortAll() {
+      let tmp = qs.stringify({
+        OrderType: "ABORTALL",
+
+        currentPage: "LoadStatus",
+        InitiatedTest_Index: "null",
+        MemberSystemID: "",
+
+        currentScreenId: "",
+        selectedOption: "",
+      });
+
+      this.handleTestOrder(tmp)
+    },
+
     /**
  * 本函数用于返回进度对应的进度条颜色
  * @param {number} progress - 进度值
@@ -198,7 +256,8 @@ export default {
       return '#2a7c95';
     },
     customSortMethodForProgressColumn,
-    printPage
+    printPage,
+    handleTestOrder
   }
 };
 </script>

@@ -9,24 +9,32 @@ const ManagementRoutes = {
       name: "DatabaseManagement",
       component: () =>
         import("@/views/Management/DatabaseManagement/index.vue"),
-      children: [
-        {
-          path: "fileImport",
-          name: "fileImport",
-          component: () =>
-            import(
-              "@/views/Management/DatabaseManagement/operation/file-import.vue"
-            ),
-        },
-        {
-          path: "avaliableFLS",
-          name: "avaliableFLS",
-          component: () =>
-            import(
-              "@/views/Management/DatabaseManagement/operation/avaliable-fls.vue"
-            ),
-        },
-      ],
+      // children: [
+      //   {
+      //     path: "fileImport",
+      //     name: "fileImport",
+      //     component: () =>
+      //       import(
+      //         "@/views/Management/DatabaseManagement/operation/file-import.vue"
+      //       ),
+      //   },
+      //   {
+      //     path: "avaliableFLS",
+      //     name: "avaliableFLS",
+      //     component: () =>
+      //       import(
+      //         "@/views/Management/DatabaseManagement/operation/avaliable-fls.vue"
+      //       ),
+      //   },
+      //   {
+      //     path: "maintenanceData",
+      //     name: "maintenanceData",
+      //     component: () =>
+      //       import(
+      //         "@/views/Management/DatabaseManagement/operation/maintenance-data.vue"
+      //       ),
+      //   },
+      // ],
     },
     {
       path: "airGroundDataManagement",

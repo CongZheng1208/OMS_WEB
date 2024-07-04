@@ -15,22 +15,25 @@ export default {
         {
           name: "Database Management",
           isActive: true,
-          realName: "",
+          realName: "DatabaseManagement",
           routeName: "DatabaseManagement",
         },
         {
           name: "Air-ground Data Managemant",
           isActive: false,
+          realName: "AirGroundDataManagement",
           routeName: "AirGroundDataManagement",
         },
         {
           name: "User Operation Log",
           isActive: false,
+          realName: "UserOperationLog",
           routeName: "UserOperationLog",
         },
         {
           name: "Account Management",
           isActive: false,
+          realName: "AccountManagement",
           routeName: "AccountManagement",
         },
       ],

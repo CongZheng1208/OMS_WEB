@@ -38,7 +38,7 @@
                     size="mini"
                     placeholder="FIM Code"
                     clearable />
-          <i class="el-icon-search"></i>
+          <!-- <i class="el-icon-search"></i> -->
         </template>
       </el-table-column>
       <el-table-column prop="failureNameInfo"
@@ -51,7 +51,7 @@
                     size="mini"
                     placeholder="Failure Name"
                     clearable />
-          <i class="el-icon-search"></i>
+          <!-- <i class="el-icon-search"></i> -->
         </template>
       </el-table-column>
       <el-table-column prop="failureState"

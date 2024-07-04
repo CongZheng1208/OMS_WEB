@@ -3,13 +3,13 @@
 const CentralMaintenanceRoutes = {
   path: "/centralMaintenance",
   name: "CentralMaintenance",
-  redirect:"/centralMaintenance/failureReport",
+  redirect: "/centralMaintenance/failureReport",
   component: () => import("@/views/CentralMaintenance/CentralMaintenance.vue"),
   children: [
     {
       path: "failureReport",
       name: "FailureReport",
-      redirect:"/centralMaintenance/failureReport/failureList",
+      redirect: "/centralMaintenance/failureReport/failureList",
       component: () =>
         import("@/views/CentralMaintenance/FailureReport/index.vue"),
       children: [
@@ -161,14 +161,6 @@ const CentralMaintenanceRoutes = {
               component: () =>
                 import(
                   "@/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesDefaultPage.vue"
-                ),
-            },
-            {
-              path: "timeCyclesSelect",
-              name: "TimeCyclesSelect",
-              component: () =>
-                import(
-                  "@/views/CentralMaintenance/ExtendedFunctions/modules/TimeCycles/TimeCyclesSelect.vue"
                 ),
             },
             {

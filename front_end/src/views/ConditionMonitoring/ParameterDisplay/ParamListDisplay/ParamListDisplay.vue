@@ -88,20 +88,20 @@
                             placeholder="Enter key word here"
                             size="mini"
                             clearable />
-                  <i class="el-icon-search"></i>
+                  <!-- <i class="el-icon-search"></i> -->
                 </template></el-table-column>
               <el-table-column align="right"
                                :min-width="30">
                 <template slot-scope="scope">
                   <span @click="// @ts-ignore
-                    addParam(scope.row)"
+          addParam(scope.row)"
                         v-if="!scope.row.isChecked"
                         :style="{ padding: '1vh', height: '4vh', width: '4vh', backgroundColor: 'rgb(70, 72, 73)', color: 'white' }"
                         style="transition: background-color 0.3s;"
                         @mouseenter="// @ts-ignore
-                          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
+          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
                         @mouseleave="// @ts-ignore
-                          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> + </span>
+          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> + </span>
                 </template>
               </el-table-column>
               <el-table-column :width="null"
@@ -131,13 +131,13 @@
                              :min-width="20">
               <template slot-scope="scope">
                 <span @click="// @ts-ignore
-                  removeParam(scope.row)"
+          removeParam(scope.row)"
                       :style="{ padding: '1vh', height: '4vh', width: '4vh', backgroundColor: 'rgb(70, 72, 73)', color: 'white' }"
                       style="transition: background-color 0.3s;"
                       @mouseenter="// @ts-ignore
-                        $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
+          $event.target.style.backgroundColor = 'rgb(90, 90, 90)'"
                       @mouseleave="// @ts-ignore
-                        $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> - </span>
+          $event.target.style.backgroundColor = 'rgb(70, 72, 73)'"> - </span>
               </template>
             </el-table-column>
             <el-table-column :width="null"

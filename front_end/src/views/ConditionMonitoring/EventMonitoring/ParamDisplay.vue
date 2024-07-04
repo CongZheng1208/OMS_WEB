@@ -95,7 +95,7 @@
                             size="mini"
                             placeholder="Parameter"
                             clearable />
-                  <i class="el-icon-search"></i>
+                  <!-- <i class="el-icon-search"></i> -->
                 </template>
               </el-table-column>
               <el-table-column :width="null"

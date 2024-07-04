@@ -34,7 +34,7 @@
                       size="mini"
                       placeholder="Equipment Name"
                       clearable />
-            <i class="el-icon-search"></i>
+            <!-- <i class="el-icon-search"></i> -->
           </template></el-table-column>
         <el-table-column prop="avail"
                          label="Availability"
@@ -150,14 +150,6 @@ export default {
      */
     formatCycles(row) {
       return row.cycles == "0" ? "--" : row.cycles;
-    },
-
-
-    /**
-     * 本函数用于跳转页面
-     */
-    goSelectPage() {
-      this.$router.push({ name: "TimeCyclesSelect" });
     },
 
     /**

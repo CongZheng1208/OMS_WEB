@@ -295,18 +295,6 @@
   color: rgb(174, 174, 174);
 }
 
-.table-lower-bar {
-  display: flex;
-  justify-content: flex-end;
-
-  height: 5vh;
-  /* padding: 1vh; */
-  border-bottom: 1px solid #ffffff;
-  border-left: 1px solid rgb(111, 111, 111);
-  border-right: 1px solid rgb(111, 111, 111);
-  background-color: rgb(65, 65, 65);
-}
-
 .table-outer-tc {
   position: absolute;
   bottom: 5vh;
@@ -314,13 +302,15 @@
   color: rgb(174, 174, 174);
 }
 
-.table-outer-number {
-  position: absolute;
-  bottom: 2vh;
-  right: 12vh;
-  color: white;
-
-  background-color: rgb(46, 45, 45);
+.table-lower-bar {
+  display: flex;
+  justify-content: flex-end;
+  height: 5vh;
+  /* padding: 1vh; */
+  border-bottom: 1px solid #ffffff;
+  border-left: 1px solid rgb(111, 111, 111);
+  border-right: 1px solid rgb(111, 111, 111);
+  background-color: rgb(65, 65, 65);
 }
 
 .table-lower-bar-right-text {
@@ -333,6 +323,13 @@
   color: rgb(174, 174, 174);
   margin-right: 2vh;
   align-self: center;
+}
+
+.table-lower-bar-left-text {
+  margin-left: 2vh;
+  font-weight: bold;
+  align-self: center;
+  margin-right: auto; /* Aligns the text to the left */
 }
 
 .config-note {

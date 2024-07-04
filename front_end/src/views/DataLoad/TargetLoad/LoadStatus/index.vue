@@ -39,7 +39,7 @@
                         placeholder="Enter key word here"
                         size="mini"
                         clearable />
-              <i class="el-icon-search"></i>
+              <!-- <i class="el-icon-search"></i> -->
             </template>
           </el-table-column>
           <el-table-column prop="part.id"
@@ -51,7 +51,7 @@
                         placeholder="Enter key word here"
                         size="mini"
                         clearable />
-              <i class="el-icon-search"></i>
+              <!--    <i class="el-icon-search"></i> -->
             </template>
           </el-table-column>
           <el-table-column prop="start_time"

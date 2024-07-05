@@ -152,15 +152,37 @@ export default {
       })
       postFimCodeForURL(tmp).then(response => {
 
-        const queryString = querystring.stringify(response);
-        const url = decodeURIComponent(`http://localhost:8081/MainPage?${queryString}`);
-        // console.log(url);
+        const queryString = response["file_name"];
+        console.log("queryString", queryString)
+        //const url = decodeURIComponent("http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%" + queryString + "&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+        const urlraw = `http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
+        console.log("url raw:", urlraw)
+        const url = decodeURIComponent(urlraw)
+        console.log("url now:", url);
 
-        document.getElementById('iframe').src = url;
+        document.getElementById('iframe').src = urlraw;
 
       }).catch(error => {
         console.error('Error in Postting pdf url:', error);
       });
+
+      // 在外部页面
+      window.addEventListener("message", function (event: MessageEvent<any>) {
+        // 检查origin，确定消息发送方的安全性
+        // if (event.origin !== "http://example.com") {
+        //   return; // 来源不正确时忽略消息
+        // }
+
+        console.log("从iframe收到的消息：", event.data);
+        if (event.data.hasOwnProperty("targetPage")) {
+          if (event.data.targetPage === "selectTestNew") {
+            console.log('[ this ] >', this)
+            that.$router.push({ name: "SelectTestNew" });
+          }
+          console.log("[ event.data.targetPage ] >", event.data.targetPage)
+          // window.parent.postMessage(event.data, "*");
+        }
+      }, false);
     },
 
 

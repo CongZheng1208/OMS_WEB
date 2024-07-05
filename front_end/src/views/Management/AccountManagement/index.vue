@@ -53,7 +53,8 @@
                 @click="printPage">PRINT</button>
       </div>
       <div>
-        <button class="footer-btn">CHANGE PASSWORD</button>
+        <button class="footer-btn"
+                style="width: 26vh">CHANGE PASSWORD</button>
       </div>
     </el-footer>
   </div>

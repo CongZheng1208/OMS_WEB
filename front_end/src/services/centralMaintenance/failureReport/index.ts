@@ -8,7 +8,8 @@ const API = {
 
   POST_NOTE: "centralMaintenance/FailureReportNew/postNote.php",
   POST_FIMCODE_FOR_URL:
-    "centralMaintenance/FailureReportNew/000.php",
+    // "centralMaintenance/FailureReportNew/000.php",
+    "centralMaintenance/FailureReportNew/postFimCodeForURLNew.php",
 
   ADD_NOTE: "centralMaintenance/FailureReportNew/addNote.php",
 };

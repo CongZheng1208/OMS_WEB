@@ -178,13 +178,15 @@ export default {
       let tmp = qs.stringify({
         fimCode: fimCode
       })
-      postFimCodeForURL(tmp).then((response: unknown) => {
-        const resData = response as ResData
-        const res = new ResData(resData)
-        console.log('[ response.data ] >', res)
-        const url = decodeURIComponent(`http://localhost:81/manual/detail?groupNameCode=${resData.groupNameCode}&language=${resData.language}&model=${resData.model}&path=${resData.path}&issueNumber=${resData.issueNumber}&publicationId=${resData.publicationId}`);
-        const IFrameEle = document.getElementById('iframe')! as unknown as IframeHTMLAttributes;
-        IFrameEle.src = url;
+      postFimCodeForURL(tmp).then(response => {
+
+        const queryString = response["file_name"];
+        console.log("queryString", queryString)
+        const url = "http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%" + queryString + "&issueNumber=R11&publicationId=CES-C919-sx_US-2000300"
+        console.log("url:", url);
+
+        document.getElementById('iframe').src = url;
+
       }).catch(error => {
         console.error('Error in Postting pdf url:', error);
       });

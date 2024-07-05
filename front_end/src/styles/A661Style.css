@@ -608,16 +608,16 @@
 }
 
 .footer-btn {
-  width: 22vh;
-  height: 5vh;
+  width: 20vh;
+  height: 4vh;
 
   color: white;
   font-size: 20px;
   font-weight: bold;
 
-  padding: 1vh;
+  padding: 0.5vh;
   margin-left: 1vh;
-  margin-top: 2vh;
+  margin-top: 0.5vh;
 
   border-radius: 3px;
   border: 1px solid rgb(111, 111, 111);

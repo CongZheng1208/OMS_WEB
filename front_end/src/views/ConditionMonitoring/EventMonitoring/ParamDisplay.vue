@@ -144,7 +144,8 @@
         <button v-if="displaySelected == 'summary'"
                 class="
                 footer-btn"
-                @click="isFlightLegsSelected = true">SHOW FLIGHT LEGS</button>
+                @click="isFlightLegsSelected = true"
+                style="width: 26vh">SHOW FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="goEventPage">BACK</button>
         <button v-if="displaySelected == 'snapshot'"

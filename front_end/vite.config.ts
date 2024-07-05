@@ -11,7 +11,8 @@ export default defineConfig({
     proxy: {
       // 代理 "/api" 前缀的请求到 "http://localhost:4000"
       "/oms": {
-        target: "http://192.168.0.142:8888",
+        // target: "http://192.168.0.142:8888",
+        target: "http://127.0.0.1:8888",
         changeOrigin: true, // 是否改变源
         // rewrite: (path) => path.replace(/^\/oms/, ""),
       },

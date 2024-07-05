@@ -80,7 +80,7 @@ export default {
   created() {
   },
   mounted() {
-    this.$router.push({ name: 'fileImport' })
+    // this.$router.push({ name: 'fileImport' })
   },
 }
 </script>

@@ -7,7 +7,7 @@ const instance = axios.create({
   baseURL: "/oms/php/",
 
   // GIPC部署
-  //baseURL: "http://127.0.0.1/oms/php/",
+  //baseURL: "http://127.0.0.1:8888/oms/php/",
 
   // FIDAB部署
   // baseURL: 'http://10.11.53.158:8080/fidab/app/development/OGBT/simulator/php/',

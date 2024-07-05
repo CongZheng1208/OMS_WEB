@@ -60,7 +60,7 @@
                              circle
                              slot="reference"
                              class="table-outer-button"
-                             icon="el-icon-refresh"></el-button></span>
+                             icon="el-icon-upload2"></el-button></span>
               </div>
             </el-row>
           </div>
@@ -92,11 +92,11 @@
               </el-table>
               <div class="
                 table-lower-bar">
-                <span class="table-lower-bar-left-note"> </span> <span class="table-lower-bar-right-text"> <el-button
-                             circle
+                <span class="table-lower-bar-left-text"> Number of Records: {{ }}</span> <span
+                      class="table-lower-bar-right-text"> <el-button circle
                              slot="reference"
                              class="table-outer-button"
-                             icon="el-icon-refresh"></el-button> Number of Records: {{ }}</span>
+                             icon="el-icon-remove-outline"></el-button> </span>
               </div>
             </el-row>
           </div>

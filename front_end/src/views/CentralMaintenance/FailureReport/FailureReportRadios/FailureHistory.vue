@@ -1,14 +1,15 @@
 <template>
-  <el-row style="height: 65vh; border:  0.5px solid rgb(111, 111, 111);">
+  <el-row v-if="!isPdfPageSelected"
+          style="height: 65vh; border:  0.5px solid rgb(111, 111, 111);">
     <el-table highlight-current-row
               style="width: 100%; background-color: rgb(46, 45, 45);"
               :data="filteredFailure"
               :sort-method="customSortMethodForProgressColumn"
               :header-cell-style="{
-                background: '#404040',
-                color: '#FFFFFF',
-                font: '14px'
-              }"
+    background: '#404040',
+    color: '#FFFFFF',
+    font: '14px'
+  }"
               height="65vh"
               :empty-text="'NO DATA DISPLAY'"
               row-key="index"
@@ -30,15 +31,24 @@
                        :filter-method="filterHandler"></el-table-column>
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
-                       :width="null"
-                       :min-width="50">
+                       :min-width="70">
         <template slot="header"
-                  slot-scope="scope"> FIM Code <el-input style="width: 8vh; margin-left: 2vh;margin-right: 1vh;"
+                  slot-scope="scope">
+          <span>FIM Code</span>
+          <el-input style="width: 100px; margin-left: 10px;"
                     v-model="searchFimCodeInput"
                     size="mini"
-                    placeholder="FIM Code"
+                    placeholder="Search FIM Code"
                     clearable />
-          <!-- <i class="el-icon-search"></i> -->
+        </template>
+        <template slot-scope="scope">
+          <span @click="// @ts-ignore
+    findURL(scope.row.fimcodeInfo)"
+                :style="{ padding: '8px', height: '32px', width: '32px', cursor: 'pointer' }"
+                style="transition: color 0.3s;"
+                @mouseenter="$event.target.style.textDecoration = 'underline'; $event.target.style.color = 'rgb(200, 200, 200)';"
+                @mouseleave="$event.target.style.textDecoration = 'none'; $event.target.style.color = 'rgb(255, 255, 255)';">
+            {{ scope.row.fimcodeInfo }} </span>
         </template>
       </el-table-column>
       <el-table-column prop="failureNameInfo"
@@ -213,9 +223,27 @@
                    @click="isFlightLegsSelected = true"></el-button> Number of Failures: {{ failureCountTotal }}</span>
     </div>
   </el-row>
+  <div v-else>
+    <div class="html_page">
+      <el-button class="html_close_btn"
+                 icon="el-icon-close"
+                 circle
+                 size="mini"
+                 v-on:click='isPdfPageSelected = false'>
+      </el-button>
+      <iframe id="iframe"
+              class="html_OMD">
+      </iframe>
+    </div>
+  </div>
 </template>
 <script>
 import { customSortMethodForProgressColumn } from '@/utils/utils'
+import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
+
+// @ts-ignore
+import qs from 'qs'
+
 export default {
   components: {},
   name: "ExistingFailures",
@@ -227,6 +255,7 @@ export default {
       legFilters: [],
       failureCountTotal: 0,
 
+      isPdfPageSelected: false,
       showFimCodeInput: false,
       showFailureNameInput: false,
       isFlightLegsSelected: false,
@@ -239,6 +268,7 @@ export default {
     };
   },
   created() {
+    // @ts-ignore
     this.interval = setInterval(() => {
       this.getfailureArray();
     }, 1000); // 每秒执行一次
@@ -247,10 +277,62 @@ export default {
     }, 500);
   },
   beforeDestroy() {
+    // @ts-ignore
     clearInterval(this.interval);
   },
 
   methods: {
+    // @ts-ignore
+    findURL(fimCode) {
+      const that = this
+      this.isPdfPageSelected = true
+      let tmp = qs.stringify({
+        fimCode: fimCode
+      })
+
+      console.log("tmp:", tmp)
+      console.log("targetURL is: http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+
+      postFimCodeForURL(tmp).then(response => {
+
+        // @ts-ignore
+        const queryString = response["file_name"];
+        console.log("reponse url is", queryString)
+        const urlraw = `http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
+        console.log("url raw:", urlraw)
+        // const url = decodeURIComponent(urlraw)
+        // console.log("url now:", url);
+
+        // @ts-ignore
+        document.getElementById('iframe').src = urlraw;
+
+      }).catch(error => {
+        console.error('Error in Postting pdf url:', error)
+      });
+
+      // 在外部页面
+      // @ts-ignore
+      // window.addEventListener("message", function (event: MessageEvent<any>) {
+      //   // 检查origin，确定消息发送方的安全性
+      //   // if (event.origin !== "http://example.com") {
+      //   //   return; // 来源不正确时忽略消息
+      //   // }
+
+      //   console.log("从iframe收到的消息：", event.data);
+      //   if (event.data.hasOwnProperty("targetPage")) {
+      //     if (event.data.targetPage === "selectTestNew") {
+      //       console.log('[ this ] >', this)
+      //       that.$router.push({ name: "SelectTestNew" });
+      //     }
+      //     console.log("[ event.data.targetPage ] >", event.data.targetPage)
+      //     // window.parent.postMessage(event.data, "*");
+      //   }
+      // }, false);
+    },
+
+
+
+    // @ts-ignore
     filterHandler(value, row, column) {
       const property = column['property'];
       return row[property] === value;
@@ -271,6 +353,7 @@ export default {
      */
     tableRowClicked(item) {
 
+      // @ts-ignore
       this.$store.state.failureList.selectedFailureId = item.index;
     },
     /**
@@ -281,15 +364,19 @@ export default {
      */
     getfailureArray() {
 
+      // @ts-ignore
       if (this.$store.state.failureList.resFailureData.length !== undefined) {
         //深度拷贝，不改变state中resFailureData的原始数据
         const existingFailureOri = JSON.parse(
+          // @ts-ignore
           JSON.stringify(this.$store.state.failureList.resFailureData)
         );
 
         // 创建一个新数组来存放结果
+        // @ts-ignore
         let mergedArray = existingFailureOri.reduce((acc, curr) => {
           // 检查当前对象是否与已有对象相匹配
+          // @ts-ignore
           let match = acc.find(item => item.failureNameInfo === curr.failureNameInfo && item.failureTime === curr.failureTime);
 
           // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
@@ -324,10 +411,9 @@ export default {
 
         // 输出合并后的数组
         console.log("mergedArray", mergedArray);
-
-
-
+        // @ts-ignore
         this.ataFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
+          // @ts-ignore
           const filteredItems = this.existingFailureArray.filter(item => item.ata === value);
           return {
             text: value,
@@ -336,7 +422,9 @@ export default {
           };
         });
 
+        // @ts-ignore
         this.phaseFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightPhase))).map(value => {
+          // @ts-ignore
           const filteredItems = this.existingFailureArray.filter(item => item.flightPhase === value);
           return {
             text: value,
@@ -345,7 +433,9 @@ export default {
           };
         });
 
+        // @ts-ignore
         this.legFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
+          // @ts-ignore
           const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
           return {
             text: value,
@@ -363,12 +453,16 @@ export default {
     filteredFailure() {
 
       this.failureCountTotal = this.existingFailureArray.filter((item) => {
+        // @ts-ignore
         return item.fimcodeInfo.toLowerCase().includes(this.searchFimCodeInput.toLowerCase())
+          // @ts-ignore
           && item.failureNameInfo.toLowerCase().includes(this.searchFailureNameInput.toLowerCase());
       }).length
 
       return this.existingFailureArray.filter((item) => {
+        // @ts-ignore
         return item.fimcodeInfo.toLowerCase().includes(this.searchFimCodeInput.toLowerCase())
+          // @ts-ignore
           && item.failureNameInfo.toLowerCase().includes(this.searchFailureNameInput.toLowerCase());
       });
     },

@@ -146,19 +146,23 @@ export default {
      * @param {string} fimCode 选中行对应的FIM Code
      */
     findURL(fimCode) {
+      const that = this
       this.isPdfPageSelected = true
       let tmp = qs.stringify({
         fimCode: fimCode
       })
+
+      console.log("tmp:", tmp)
+      console.log("targetURL is: http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = response["file_name"];
-        console.log("queryString", queryString)
-        //const url = decodeURIComponent("http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%" + queryString + "&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+        console.log("reponse url is", queryString)
         const urlraw = `http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
         console.log("url raw:", urlraw)
-        const url = decodeURIComponent(urlraw)
-        console.log("url now:", url);
+        // const url = decodeURIComponent(urlraw)
+        // console.log("url now:", url);
 
         document.getElementById('iframe').src = urlraw;
 

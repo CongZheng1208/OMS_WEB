@@ -1,5 +1,5 @@
 <template>
-  <div style="height:45vh">
+  <div style="height:30vh">
     <el-row>
       <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/-- --:--:-- Power On </div>
     </el-row>

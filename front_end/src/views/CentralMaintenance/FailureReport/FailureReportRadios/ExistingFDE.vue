@@ -102,7 +102,6 @@ import { postFimCodeForURL } from '@/services/centralMaintenance/failureReport';
 import { IframeHTMLAttributes } from 'vue';
 import { ResData } from './store'
 
-
 export default {
   name: "ExistingFDE",
   data() {
@@ -173,11 +172,13 @@ export default {
      */
     findURL(fimCode: string) {
       const that = this
-      fimCode = '27-21033'
+      // fimCode = '27-21033'
       this.isPdfPageSelected = true
       let tmp = qs.stringify({
         fimCode: fimCode
       })
+
+
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = response["file_name"];

@@ -25,6 +25,12 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="ataNumber"
+                             label="ATA System Name"
+                             sortable
+                             :width="null"
+                             :formatter="formatATASystemName"
+                             :min-width="50"></el-table-column>
+            <!-- <el-table-column prop="ataNumber"
                              label="ATA"
                              sortable
                              :width="null"
@@ -34,7 +40,7 @@
                              sortable
                              :width="null"
                              :min-width="50"
-                             :formatter="formatATAName"></el-table-column>
+                             :formatter="formatATAName"></el-table-column> -->
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
@@ -220,6 +226,16 @@ export default {
       //console.log("this.$store.state.groundTestList.InterferingTestIndexs", this.$store.state.groundTestList.InterferingTestIndexs)
       this.isAddedMsg = true
       this.selectedTest = row
+    },
+
+    /**
+ * 本函数用于设置EquiAvailablilty的显示格式
+ * @param {*} row table选中行信息
+ */
+    formatATASystemName(row) {
+      if (row.ataNumber && row.ataNumber.length > 3) {
+        return row.ataNumber.substring(3);
+      }
     },
 
     confirmAdd() {

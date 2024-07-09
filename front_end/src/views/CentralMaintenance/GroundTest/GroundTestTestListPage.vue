@@ -28,10 +28,16 @@
           <el-table-column :width="null"
                            :min-width="5"></el-table-column>
           <el-table-column prop="ATA"
+                           label="ATA System Name"
+                           sortable
+                           :width="null"
+                           :formatter="formatATASystemName"
+                           :min-width="80"></el-table-column>
+          <!-- <el-table-column prop="ATA"
                            label="ATA"
                            sortable
                            :width="null"
-                           :min-width="50"></el-table-column>
+                           :min-width="50"></el-table-column> -->
           <el-table-column prop="MemberSystemName"
                            label="Equipment Name"
                            sortable
@@ -51,7 +57,7 @@
           <el-table-column prop="InitiatedTest_Status"
                            label="Status"
                            :width="null"
-                           :min-width="80"
+                           :min-width="60"
                            :formatter="formatTestStatus"></el-table-column>
           <el-table-column prop="progress"
                            label="Progress"
@@ -151,6 +157,8 @@ export default {
       return '#2a7c95';
     },
 
+
+
     /**
      * 本函数用于计算StartTime属性的展示值
      */
@@ -171,6 +179,15 @@ export default {
       return testStatusEnum[tsIndex];
     },
 
+    /**
+* 本函数用于设置EquiAvailablilty的显示格式
+* @param {*} row table选中行信息
+*/
+    formatATASystemName(row) {
+      if (row.ataNumber && row.ataNumber.length > 3) {
+        return row.ataNumber.substring(3);
+      }
+    },
     /**
      * 本函数用于确定某行是否可被选中样式
      * @param {*} row table选中行信息

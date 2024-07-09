@@ -43,12 +43,12 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main style="padding:2vh">
+    <el-main style="height: 68vh; padding:2vh">
       <el-row>
         <div>
           <div class="custom-card"
                shadow="hover"
-               style="height: 60vh"
+               style="height: 66vh"
                v-if="isSuccess"
                v-loading="loading"
                element-loading-text="Data Loading..."
@@ -63,7 +63,7 @@
           </div>
           <div class="custom-card"
                shadow="hover"
-               style="height: 60vh"
+               style="height: 66vh"
                v-if="isError"
                v-loading="loading"
                element-loading-text="Data Loading..."
@@ -80,7 +80,7 @@
           </div>
           <div class="custom-card"
                shadow="hover"
-               style="height: 60vh"
+               style="height: 66vh"
                v-if="isInhibit"
                v-loading="loading"
                element-loading-text="Data Loading..."
@@ -100,7 +100,7 @@
           </div>
           <div class="custom-card"
                shadow="hover"
-               style="height: 60vh"
+               style="height: 66vh"
                v-if="isFault"
                v-loading="loading"
                element-loading-text="Data Loading..."

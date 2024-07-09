@@ -12,7 +12,7 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main style="flex: 1; padding: 0; color: white; height: 70vh;">
+    <el-main style="flex: 1; padding: 0; color: white; height: 73.5vh;">
       <div style="position: sticky; top: 0; z-index: 100">
         <!-- 选中信息的table -->
         <el-row>

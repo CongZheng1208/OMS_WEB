@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:50vh">
     <div>
       <div v-for="(item, index) in noteArray"
            :key="index">

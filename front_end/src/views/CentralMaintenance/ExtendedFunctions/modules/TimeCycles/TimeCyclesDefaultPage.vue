@@ -1,90 +1,106 @@
 <template>
   <div style="background-color: rgb(45, 45, 45);">
-    <el-row style="border:  0.5px solid rgb(111, 111, 111);">
-      <el-table height="65vh"
-                style="background-color: rgb(45, 45, 45);"
-                :data="filteredTimeCycleData"
-                :sort-method="customSortMethodForProgressColumn"
-                :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
-                :empty-text="'NO DATA DISPLAY'"
-                v-loading="loading"
-                element-loading-text="Data Loading..."
-                element-loading-spinner="el-icon-loading"
-                element-loading-background="rgba(0, 0, 0, 0.5)">
-        <el-table-column :width="null"
-                         :min-width="5"></el-table-column>
-        <el-table-column prop="ATA"
-                         label="ATA"
-                         sortable
-                         :width="null"
-                         :min-width="30"
-                         :filters="ataFilters"
-                         :filter-method="filterHandler"></el-table-column>
-        <el-table-column prop="MemberSystemName"
-                         label="Equipment Name"
-                         sortable
-                         :width="null"
-                         :min-width="100"
-                         :filters="memberSystemNameFilters"
-                         :filter-method="filterHandler">
-          <template slot="header"
-                    slot-scope="scope"> Equipment Name <el-input
-                      style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
-                      v-model="searchEquipmentNameInput"
-                      size="mini"
-                      placeholder="Equipment Name"
-                      clearable />
-            <!-- <i class="el-icon-search"></i> -->
-          </template></el-table-column>
-        <el-table-column prop="avail"
-                         label="Availability"
-                         sortable
-                         :width="null"
-                         :min-width="40"
-                         :formatter="formatAvailablilty"
-                         :filters="availFilters"
-                         :filter-method="filterHandler"></el-table-column>
-        <el-table-column prop="status"
-                         label="Status"
-                         sortable
-                         :width="null"
-                         :min-width="70">
-        </el-table-column>
-        <el-table-column prop="hours"
-                         label="Hours"
-                         :width="null"
-                         :formatter="formatHours"
-                         :min-width="30"></el-table-column>
-        <el-table-column prop="cycles"
-                         label="Cycles"
-                         :width="null"
-                         :formatter="formatCycles"
-                         :min-width="30">
-        </el-table-column>
-        <el-table-column label="Retrieval Data"
-                         :width="null"
-                         :min-width="30">
-          <template slot-scope="scope">
-            <el-button class="table-outer-button"
-                       style="background-color: rgb(60, 60, 60);color:aliceblue;  font-weight: bold; border: 1px solid rgb(111, 111, 111); "
-                       @click="sendOrder(scope.row)">Retrieval</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column :width="null"
-                         :min-width="5"></el-table-column>
-      </el-table>
-      <div class="
+    <el-main>
+      <el-row style="border:  0.5px solid rgb(111, 111, 111);">
+        <el-table height="65vh"
+                  style="background-color: rgb(45, 45, 45);"
+                  :data="filteredTimeCycleData"
+                  :sort-method="customSortMethodForProgressColumn"
+                  :header-cell-style="{ background: '#404040', color: '#FFFFFF', font: '14px' }"
+                  :empty-text="'NO DATA DISPLAY'"
+                  v-loading="loading"
+                  element-loading-text="Data Loading..."
+                  element-loading-spinner="el-icon-loading"
+                  element-loading-background="rgba(0, 0, 0, 0.5)">
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+          <el-table-column prop="ATA"
+                           label="ATA"
+                           sortable
+                           :width="null"
+                           :min-width="40"
+                           :filters="ataFilters"
+                           :filter-method="filterHandler"></el-table-column>
+          <el-table-column prop="MemberSystemName"
+                           label="Equipment Name"
+                           sortable
+                           :width="null"
+                           :min-width="100"
+                           :filters="memberSystemNameFilters"
+                           :filter-method="filterHandler">
+            <template slot="header"
+                      slot-scope="scope"> Equipment Name <el-input
+                        style="margin-left: 2vh; margin-right: 1vh; width: 15vh;"
+                        v-model="searchEquipmentNameInput"
+                        size="mini"
+                        placeholder="Equipment Name"
+                        clearable />
+              <!-- <i class="el-icon-search"></i> -->
+            </template></el-table-column>
+          <el-table-column prop="avail"
+                           label="Availability"
+                           sortable
+                           :width="null"
+                           :min-width="40"
+                           :formatter="formatAvailablilty"
+                           :filters="availFilters"
+                           :filter-method="filterHandler"></el-table-column>
+          <el-table-column prop="status"
+                           label="Status"
+                           sortable
+                           :width="null"
+                           :min-width="50">
+          </el-table-column>
+          <el-table-column prop="hours"
+                           label="Hours"
+                           :width="null"
+                           :formatter="formatHours"
+                           :min-width="30"></el-table-column>
+          <el-table-column prop="cycles"
+                           label="Cycles"
+                           :width="null"
+                           :formatter="formatCycles"
+                           :min-width="30">
+          </el-table-column>
+          <el-table-column label="Retrieval Data"
+                           :width="null"
+                           :min-width="30">
+            <template slot-scope="scope">
+              <el-button class="table-outer-button"
+                         style="background-color: rgb(60, 60, 60);color:aliceblue;  font-weight: bold; border: 1px solid rgb(111, 111, 111); "
+                         @click="sendOrder(scope.row)">Retrieval</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column :width="null"
+                           :min-width="5"></el-table-column>
+        </el-table>
+        <div class="
                 table-lower-bar">
-        <span class="table-lower-bar-left-note"> Notes: Data marked with "*" is obtained by calculating When the MS
-          compute module fails</span> <span class="table-lower-bar-right-text"> <el-button circle
-                     slot="reference"
-                     class="table-outer-button"
-                     icon="el-icon-refresh"
-                     @click="flashData"></el-button> Total Number: {{ }} Time Cycle Status: {{ }}</span>
+          <span class="table-lower-bar-left-note"> Notes: Data marked with "*" is obtained by calculating When the MS
+            compute module fails</span> <span class="table-lower-bar-right-text"> <el-tooltip class="item"
+                        effect="dark"
+                        content="Refresh Data"
+                        placement="top"> <el-button circle
+                         class="table-outer-button"
+                         icon="el-icon-refresh"
+                         @click="flashData"></el-button></el-tooltip>
+            <!-- Total Number: {{ }} Time Cycle Status: {{ }} -->
+          </span>
+        </div>
+        <div class="table-outer-tc">
+        </div>
+      </el-row>
+    </el-main>
+    <el-footer>
+      <div>
+        <button class="footer-btn"
+                @click="printPage">PRINT</button>
       </div>
-      <div class="table-outer-tc">
+      <div>
+        <button @click="sendOrderAll"
+                class="footer-btn">RETRIEVAL ALL</button>
       </div>
-    </el-row>
+    </el-footer>
   </div>
 </template>
 <script>
@@ -125,7 +141,7 @@ export default {
      * @param {*} row table选中行信息
      */
     formatAvailablilty(row) {
-      return row.avail == "1" ? "Available" : "Unavailable";
+      return row.avail == "1" ? "Unavailable" : "Available";
     },
 
     /**
@@ -232,7 +248,7 @@ export default {
           let tmp = qs.stringify({
             OrderType: "TCRETRIEVE",
             currentPage: "timeCycles",
-            selectedEquipmentID: row.memberSystemId
+            selectedEquipmentID: [row.memberSystemId]
           });
           this.handleTestOrder(tmp)
           this.$message({ message: 'Successfully retrieval', type: 'success' });
@@ -241,6 +257,14 @@ export default {
       else {
         this.$message('This equipment is currently unsupportable');
       }
+
+      getTimeCycle().then(response => {
+        this.timeCycleData = response;
+        this.createFilters()
+        // console.log(response)
+      }).catch(error => {
+        console.error('Error in getting fde list:', error);
+      });
     },
 
 
@@ -249,13 +273,22 @@ export default {
      */
     sendOrderAll() {
 
+
       let tmp = qs.stringify({
         OrderType: "TCRETRIEVE",
         currentPage: "timeCycles",
-        selectedEquipmentID: []
+        selectedEquipmentID: this.timeCycleData.filter(leg => leg.support === "1" && leg.avail === "0").map(leg => leg.memberSystemId),
       });
       this.handleTestOrder(tmp)
       this.$message({ message: 'Successfully selected', type: 'success' });
+
+      getTimeCycle().then(response => {
+        this.timeCycleData = response;
+        this.createFilters()
+        // console.log(response)
+      }).catch(error => {
+        console.error('Error in getting fde list:', error);
+      });
     },
 
     printPage,

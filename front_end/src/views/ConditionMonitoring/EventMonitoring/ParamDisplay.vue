@@ -41,8 +41,7 @@
       <el-row :gutter="2">
         <el-row v-if="displaySelected == 'summary'"
                 style="border:  0.5px solid rgb(111, 111, 111);">
-          <el-table highlight-current-row
-                    height="65vh"
+          <el-table height="65vh"
                     :data="dataForDisplay"
                     style=" background-color: rgb(46, 45, 45)"
                     :sort-method="customSortMethodForProgressColumn"
@@ -55,11 +54,11 @@
                              sortable
                              :width="null"
                              :min-width="50"></el-table-column>
-            <el-table-column prop="Time"
+            <el-table-column prop="value.RecordValues[0]"
                              label="Value"
                              :width="null"
                              :min-width="50"></el-table-column>
-            <el-table-column prop="ATA"
+            <el-table-column prop="units"
                              label="Units"
                              :width="null"
                              :min-width="30"></el-table-column>
@@ -116,7 +115,7 @@
                                label="Date/Time"
                                sortable
                                :width="null"
-                               :min-width="50"></el-table-column>
+                               :min-width="25"></el-table-column>
               <el-table-column prop="RecordValuesLeft"
                                :label="param1Label"
                                :width="null"
@@ -148,14 +147,14 @@
                 style="width: 26vh">SHOW FLIGHT LEGS</button>
         <button class="footer-btn"
                 @click="goEventPage">BACK</button>
-        <button v-if="displaySelected == 'snapshot'"
+        <!-- <button v-if="displaySelected == 'snapshot'"
                 class="
                 footer-btn"
                 @click="goPreviousEvent">PREVIOUS</button>
         <button v-if="displaySelected == 'snapshot'"
                 class="
                 footer-btn"
-                @click="goNextEvent">NEXT</button>
+                @click="goNextEvent">NEXT</button> -->
       </div>
     </el-footer>
   </div>
@@ -245,68 +244,102 @@ export default {
       }
       this.combinedRecords = [];
 
+      console.log(">??", this.selectedParams[0])
+
+
+
       // 若只有一个数据需要展示
       if (this.selectedParams.length === 1) {
-        // 当只有一个参数需要展示时
-        const rate = parseInt(this.selectedParams[0].rate, 10);
-        let recordName = this.selectedParams[0].param;
-
+        // 当只有一个参数需要展示时]
+        console.log("Oiii", this.timeStampArray)
         for (let i = 0; i < this.timeStampArray.length; i++) {
-          const timestamp = this.timeStampArray[i];
-          const record = this.selectedParams[0].records[Math.floor(i / maxRate)];
-          const recordIndex = Math.min(Math.floor(i * (rate / maxRate)), record.RecordValues.length - 1);
+
           this.combinedRecords.push({
-            RecordTime: timestamp,
-            RecordNameLeft: recordName,
-            RecordNameRight: "",
-            RecordValuesLeft: record.RecordValues[recordIndex],
+            RecordTime: this.timeStampArray[i],
+            RecordValuesLeft: this.selectedParams[0].records[Math.floor(i / 16)].RecordValues[Math.floor(i % 16)],
             RecordValuesRight: "",
           });
+
+
         }
-        this.param1Label = recordName
+        this.param1Label = this.selectedParams[0].param
       } else if (this.selectedParams.length === 2) {
-        // 当有两个参数需要展示时
-        const rate1 = parseInt(this.selectedParams[0].rate, 10);
-        const rate2 = parseInt(this.selectedParams[1].rate, 10);
-        const records1 = this.selectedParams[0].records;
-        const records2 = this.selectedParams[1].records;
-
         for (let i = 0; i < this.timeStampArray.length; i++) {
-          const timestamp = this.timeStampArray[i];
-          const recordIndex1 = Math.min(Math.floor(i * (rate1 / maxRate)), records1[0].RecordValues.length - 1);
-          const recordIndex2 = Math.min(Math.floor(i * (rate2 / maxRate)), records2[0].RecordValues.length - 1);
 
-          if (rate1 >= rate2) {
-            // 如果参数1的采样率更高或相等
-            this.combinedRecords.push({
-              RecordTime: timestamp,
-              RecordNameLeft: this.selectedParams[0].param,
-              RecordNameRight: this.selectedParams[1].param,
-              RecordValuesLeft: records1[0].RecordValues[recordIndex1],
-              RecordValuesRight: (i % (rate1 / rate2) === 0) ? records2[0].RecordValues[recordIndex2] : "--",
-            });
-            for (let j = 1; j < records2.length; j++) {
-              const index2 = Math.min(Math.floor(i * (rate2 / maxRate)), records2[j].RecordValues.length - 1);
-              this.combinedRecords[this.combinedRecords.length - 1]["RecordValuesRight_" + j] = (i % (rate1 / rate2) === 0) ? records2[j].RecordValues[index2] : "--";
-            }
-          } else {
-            // 如果参数2的采样率更高
-            this.combinedRecords.push({
-              RecordTime: timestamp,
-              RecordNameLeft: this.selectedParams[0].param,
-              RecordNameRight: this.selectedParams[1].param,
-              RecordValuesLeft: (i % (rate2 / rate1) === 0) ? records1[0].RecordValues[recordIndex1] : "--",
-              RecordValuesRight: records2[0].RecordValues[recordIndex2],
-            });
-            for (let j = 1; j < records1.length; j++) {
-              const index1 = Math.min(Math.floor(i * (rate1 / maxRate)), records1[j].RecordValues.length - 1);
-              this.combinedRecords[this.combinedRecords.length - 1]["RecordValuesLeft_" + j] = (i % (rate2 / rate1) === 0) ? records1[j].RecordValues[index1] : "--";
-            }
-          }
+          // 如果参数1的采样率更高或相等
+          this.combinedRecords.push({
+            RecordTime: this.timeStampArray[i],
+            RecordValuesLeft: this.selectedParams[0].records[Math.floor(i / 16)].RecordValues[Math.floor(i % 16)],
+            RecordValuesRight: this.selectedParams[1].records[Math.floor(i / 16)].RecordValues[Math.floor(i % 16)],
+          });
+
         }
         this.param1Label = this.selectedParams[0].param
         this.param2Label = this.selectedParams[1].param
       }
+
+
+      // if (this.selectedParams.length === 1) {
+      //   // 当只有一个参数需要展示时
+      //   const rate = parseInt(this.selectedParams[0].rate, 10);
+      //   let recordName = this.selectedParams[0].param;
+
+      //   for (let i = 0; i < this.timeStampArray.length; i++) {
+      //     const timestamp = this.timeStampArray[i];
+      //     const record = this.selectedParams[0].records[Math.floor(i / maxRate)];
+      //     const recordIndex = Math.min(Math.floor(i * (rate / maxRate)), record.RecordValues.length - 1);
+      //     this.combinedRecords.push({
+      //       RecordTime: timestamp,
+      //       RecordNameLeft: recordName,
+      //       RecordNameRight: "",
+      //       RecordValuesLeft: record.RecordValues[recordIndex],
+      //       RecordValuesRight: "",
+      //     });
+      //   }
+      //   this.param1Label = recordName
+      // } else if (this.selectedParams.length === 2) {
+      //   // 当有两个参数需要展示时
+      //   const rate1 = parseInt(this.selectedParams[0].rate, 10);
+      //   const rate2 = parseInt(this.selectedParams[1].rate, 10);
+      //   const records1 = this.selectedParams[0].records;
+      //   const records2 = this.selectedParams[1].records;
+
+      //   for (let i = 0; i < this.timeStampArray.length; i++) {
+      //     const timestamp = this.timeStampArray[i];
+      //     const recordIndex1 = Math.min(Math.floor(i * (rate1 / maxRate)), records1[0].RecordValues.length - 1);
+      //     const recordIndex2 = Math.min(Math.floor(i * (rate2 / maxRate)), records2[0].RecordValues.length - 1);
+
+      //     if (rate1 >= rate2) {
+      //       // 如果参数1的采样率更高或相等
+      //       this.combinedRecords.push({
+      //         RecordTime: timestamp,
+      //         RecordNameLeft: this.selectedParams[0].param,
+      //         RecordNameRight: this.selectedParams[1].param,
+      //         RecordValuesLeft: records1[0].RecordValues[recordIndex1],
+      //         RecordValuesRight: (i % (rate1 / rate2) === 0) ? records2[0].RecordValues[recordIndex2] : "--",
+      //       });
+      //       for (let j = 1; j < records2.length; j++) {
+      //         const index2 = Math.min(Math.floor(i * (rate2 / maxRate)), records2[j].RecordValues.length - 1);
+      //         this.combinedRecords[this.combinedRecords.length - 1]["RecordValuesRight_" + j] = (i % (rate1 / rate2) === 0) ? records2[j].RecordValues[index2] : "--";
+      //       }
+      //     } else {
+      //       // 如果参数2的采样率更高
+      //       this.combinedRecords.push({
+      //         RecordTime: timestamp,
+      //         RecordNameLeft: this.selectedParams[0].param,
+      //         RecordNameRight: this.selectedParams[1].param,
+      //         RecordValuesLeft: (i % (rate2 / rate1) === 0) ? records1[0].RecordValues[recordIndex1] : "--",
+      //         RecordValuesRight: records2[0].RecordValues[recordIndex2],
+      //       });
+      //       for (let j = 1; j < records1.length; j++) {
+      //         const index1 = Math.min(Math.floor(i * (rate1 / maxRate)), records1[j].RecordValues.length - 1);
+      //         this.combinedRecords[this.combinedRecords.length - 1]["RecordValuesLeft_" + j] = (i % (rate2 / rate1) === 0) ? records1[j].RecordValues[index1] : "--";
+      //       }
+      //     }
+      //   }
+      //   this.param1Label = this.selectedParams[0].param
+      //   this.param2Label = this.selectedParams[1].param
+      // }
     },
 
     // 辅助函数，用于格式化时间戳
@@ -362,7 +395,7 @@ export default {
 
     postEventPara(tmp).then(response => {
       this.dataForDisplay = response
-      console.log(response)
+      console.log("response", response)
     }).catch(error => {
       console.error('Error in Postting event params:', error);
     });

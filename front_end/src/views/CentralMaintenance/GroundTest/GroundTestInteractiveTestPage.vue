@@ -1,40 +1,39 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading"
        style="background-color: rgb(45, 45, 45);">
-    <el-header style="height: 8vh;"
-               <el-row
-               style="width: 100%;">
-      <el-col :span="8">
-        <div class="el-header-subcontainer">
-          <span class="el-header-dot"></span> ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
-        </div>
-        <div class="el-header-subcontainer">
-          <span class="el-header-dot"></span> Equipment Name:
-          {{ $store.state.groundTestList.currentGroundTest.MemberSystemName }}
-        </div>
-        <div class="el-header-subcontainer">
-          <span class="el-header-dot"></span> Expected Duration(mins):
-          {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
-        </div>
-      </el-col>
-      <el-col :span="13">
-        <div class="el-header-subcontainer">
-          <span class="el-header-dot"></span> Test Name:
-          {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
-        </div>
-        <div class="el-header-subcontainer">
-          <span class="el-header-dot"></span> Test Type: {{ $store.state.groundTestList.currentGroundTest.TestType }}
-        </div>
-      </el-col>
-      <el-col :span="3">
-        <Clock />
-      </el-col>
+    <el-header style="height: 8vh;">
+      <el-row style="width: 100%;">
+        <el-col :span="8">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot"></span> ATA: {{ $store.state.groundTestList.currentGroundTest.ATA }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot"></span> Equipment Name:
+            {{ $store.state.groundTestList.currentGroundTest.MemberSystemName }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot"></span> Expected Duration(mins):
+            {{ $store.state.groundTestList.currentGroundTest.TestDurationTime }}
+          </div>
+        </el-col>
+        <el-col :span="13">
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot"></span> Test Name:
+            {{ $store.state.groundTestList.currentGroundTest.InitiatedTestName }}
+          </div>
+          <div class="el-header-subcontainer">
+            <span class="el-header-dot"></span> Test Type: {{ $store.state.groundTestList.currentGroundTest.TestType }}
+          </div>
+        </el-col>
+        <el-col :span="3">
+          <Clock />
+        </el-col>
       </el-row>
     </el-header>
     <el-main style="padding:2vh">
       <el-row :gutter="20">
         <el-col :span="14">
-          <div>
+          <div style="height: 70vh">
             <div class="custom-card"
                  shadow="hover">
               <div class="custom-header">Interactive Test</div>
@@ -50,7 +49,7 @@
           </div>
         </el-col>
         <el-col :span="10">
-          <div>
+          <div style="height: 67vh">
             <div class="el-main-subtitle"
                  style="margin-top: 4vh"> Interactive Option </div>
             <div v-if="screenArray.length == 0"
@@ -83,7 +82,8 @@
         <button class="footer-btn"
                 @click="continueTest()"
                 :disabled="selectedOption == -1"> CONTINUE </button>
-        <button class="footer-btn">ABORT</button>
+        <button @click="sendAbort"
+                class="footer-btn">ABORT</button>
       </div>
     </el-footer>
   </div>
@@ -152,6 +152,25 @@ export default {
     },
 
     /**
+ * 本函数用于向成员系统发送中止选中的测试的命令
+ */
+    sendAbort() {
+      let tmp = qs.stringify({
+        OrderType: "ABORT",
+
+        currentPage: "InteractiveTest",
+        InitiatedTest_Index: [this.$store.state.groundTestList.currentGroundTest.InitiatedTest_Index],
+        MemberSystemID: "",
+
+        currentScreenId: "",
+        selectedOption: "",
+      });
+
+      this.handleTestOrder(tmp)
+    },
+
+
+    /**
      * 本函数是提交post请求后，用于递归查询下一步展示项目的index
      * 最多查询时间为5s，超时后停止递归查询
      */
@@ -164,6 +183,8 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)'
       });
 
+      console.log("yes:", this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index)
+      console.log("ono:", this.currentStepId)
 
       if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== this.currentStepId && this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== "0") {
         // 当Screen_Trigger_Index更新了且不为null时, 更新页面展示项目并停止刷新

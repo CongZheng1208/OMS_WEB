@@ -9,12 +9,24 @@
         </el-row>
       </div>
       <div class="table-outer-note">
-        <el-button circle
+        <!-- <el-tooltip content="添加笔记"
+                    placement="top"> -->
+        <el-tooltip class="item"
+                    effect="dark"
+                    content="Add Note"
+                    placement="top">
+          <el-button circle
+                     class="table-outer-button"
+                     icon="el-icon-plus"
+                     @click="isAddNotesSelected = true"></el-button>
+        </el-tooltip>
+        <!-- </el-tooltip> -->
+        <!-- <el-button circle
                    clearable
                    slot="reference"
                    class="table-outer-button"
                    icon="el-icon-circle-plus-outline"
-                   @click="isAddNotesSelected = true"></el-button>
+                   @click="isAddNotesSelected = true"></el-button> -->
       </div>
     </div>
     <el-dialog center

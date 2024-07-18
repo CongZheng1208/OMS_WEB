@@ -23,6 +23,7 @@
         <el-table-column prop="flightLeg"
                          label="Flight Leg"
                          sortable
+                         :formatter="flightLegFormatter"
                          :width="null"
                          :min-width="30"></el-table-column>
         <el-table-column prop="flightNumber"
@@ -66,6 +67,11 @@ export default {
   },
 
   created() {
+
+    // this.flightLegData = this.$store.state.failureList.flightLegData;
+
+    // console.log(" this.flightLegData:", this.flightLegData)
+
     getFlightLeg().then(response => {
       this.flightLegData = response.reverse();
     });
@@ -76,6 +82,13 @@ export default {
     },
     onConfirm() {
       this.$emit('ok')
+    },
+    flightLegFormatter(row, column) {
+      // 找出flightLeg的最大值
+      const maxFlightLeg = Math.max(...this.flightLegData.map(item => item.flightLeg));
+
+      // 对flightLeg进行格式化处理
+      return row.flightLeg - maxFlightLeg;
     },
     customSortMethodForProgressColumn
 

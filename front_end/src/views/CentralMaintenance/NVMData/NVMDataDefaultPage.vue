@@ -54,7 +54,7 @@
                                :width="null"
                                :min-width="15"></el-table-column>
               <el-table-column prop="memberSystemName"
-                               label="Equiment Name"
+                               label="Equipment Name"
                                sortable
                                :width="null"
                                :min-width="35"></el-table-column>
@@ -72,8 +72,7 @@
                                label="Elapsed Time"
                                sortable
                                :width="null"
-                               :min-width="20"
-                               :formatter="formatterElapsedTime"></el-table-column>
+                               :min-width="20"></el-table-column>
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
@@ -100,7 +99,7 @@
                                :width="null"
                                :min-width="15"></el-table-column>
               <el-table-column prop="memberSystemName"
-                               label="Equiment Name"
+                               label="Equipment Name"
                                sortable
                                :width="null"
                                :min-width="35"></el-table-column>
@@ -118,8 +117,7 @@
                                label="Elapsed Time"
                                sortable
                                :width="null"
-                               :min-width="20"
-                               :formatter="formatterElapsedTime"></el-table-column>
+                               :min-width="20"></el-table-column>
               <el-table-column :width="null"
                                :min-width="5"></el-table-column>
             </el-table>
@@ -209,7 +207,7 @@ export default {
      * 本函数用于跳转页面
      */
     goManagementPage() {
-      this.$router.push({ name: "NVMDataManagement" });
+      this.$router.push({ name: "NVMDataManagement", params: { selectedMode: this.displaySelected } });
     },
 
     handleClickRetrieval(row) {

@@ -30,17 +30,24 @@
       <el-table-column prop="fde.FDEText"
                        label="FDE Test"
                        :width="null"
-                       :min-width="65"></el-table-column>
+                       :min-width="60"></el-table-column>
       <el-table-column prop="fde.FDECode"
                        label="FDE Status"
                        :width="null"
                        :min-width="30"
                        :formatter="fdeStatusData"></el-table-column>
       <el-table-column prop="fde.FDEClass"
+                       :min-width="30"
+                       label="FDE Class">
+        <template slot-scope="scope">
+          <span :style="getCellStyle(scope.row.fde.FDEClass)">{{ scope.row.fde.FDEClass }}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="fde.FDEClass"
                        label="FDE Class"
                        :width="null"
                        :min-width="30"
-                       :formatter="fdeClassData"></el-table-column>
+                       :formatter="fdeClassData"></el-table-column> -->
       <el-table-column prop="flightPhase"
                        label="Flight Phase"
                        sortable
@@ -50,7 +57,7 @@
                        label="Date/Time"
                        sortable
                        :width="null"
-                       :min-width="30"></el-table-column>
+                       :min-width="40"></el-table-column>
       <el-table-column prop="failureNameInfo"
                        label="Failure Name"
                        :width="null"
@@ -58,6 +65,7 @@
       <el-table-column prop="flightLeg"
                        label="Flight Leg"
                        sortable
+                       :formatter="flightLegFormatter"
                        :width="null"
                        :min-width="30"></el-table-column>
       <el-table-column prop="fimcodeInfo"
@@ -110,19 +118,20 @@ export default {
       FDECodeStatusDict: {},
       isPdfPageSelected: false,
       interval: null,
-      loading: true
+      loading: false
     };
   },
   computed: {
     // ...mapState('websocketVuex', ['infoOMD']),
   },
   created() {
-    this.interval = setInterval(() => {
-      this.getExistingFDEArray();
-    }, 1000); // 每秒执行一次
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    this.getExistingFDEArray();
+    // this.interval = setInterval(() => {
+    //   this.getExistingFDEArray();
+    // }, 1000); // 每秒执行一次
+    // setTimeout(() => {
+    //   this.loading = false;
+    // }, 200);
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -156,6 +165,16 @@ export default {
       return this.FDECodeStatusDict[fpIndex].FDEStatus;
     },
 
+    getCellStyle(fdeClass) {
+      if (fdeClass === 'caution') {
+        return { color: '#EE7700' };
+      } else if (fdeClass === 'warning') {
+        return { color: '#E63F00' };
+      } else {
+        return {};
+      }
+    },
+
     /**
      * 本函数用于设置Flight Phase列中flight_phase的显示格式
      * 即将flight_phase原数据对应为state中flightPhaseEnum枚举值
@@ -164,6 +183,13 @@ export default {
     fdeClassData(row) {
       let fpIndex = row.fde.FDECode;
       return this.FDECodeStatusDict[fpIndex].FDEClass;
+    },
+
+    flightLegFormatter(row, column) {
+      // 找出flightLeg的最大值
+      const maxFlightLeg = this.$store.state.failureList.maxflightLeg;
+      // 对flightLeg进行格式化处理
+      return row.flightLeg - maxFlightLeg;
     },
 
     /**
@@ -183,7 +209,7 @@ export default {
 
         const queryString = response["file_name"];
         console.log("queryString", queryString)
-        const url = "http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%" + queryString + "&issueNumber=R11&publicationId=CES-C919-sx_US-2000300"
+        const url = "http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%" + queryString + "&issueNumber=R11&publicationId=CES-C919-sx_US-2000300"
         console.log("url:", url);
 
         document.getElementById('iframe').src = url;
@@ -283,7 +309,7 @@ export default {
         // console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
         // console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
 
-        this.existingFDEArray = unexistingResFailureDataOri.concat(existingResFailureDataOri);
+        this.existingFDEArray = existingResFailureDataOri.concat(unexistingResFailureDataOri);
       } else {
         this.existingFDEArray = []
       }

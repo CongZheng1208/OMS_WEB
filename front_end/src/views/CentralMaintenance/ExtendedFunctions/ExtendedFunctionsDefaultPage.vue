@@ -45,21 +45,7 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main>
-      <el-row :gutter="1">
-        <router-view></router-view>
-      </el-row>
-    </el-main>
-    <el-footer>
-      <div>
-        <button class="footer-btn"
-                @click="printPage">PRINT</button>
-      </div>
-      <div>
-        <button v-if="displaySelected == 'TimeCycles'"
-                class="footer-btn">RETRIEVAL ALL</button>
-      </div>
-    </el-footer>
+    <router-view></router-view>
   </div>
 </template>
 <script lang="ts">

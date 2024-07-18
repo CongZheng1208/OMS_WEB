@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-header style="height: 10vh;">
+    <el-header style="height: 14vh;">
       <el-row style="width: 100%; margin-top: 1vh;">
         <el-col :span="7">
           <div class="el-header-subcontainer">
@@ -43,7 +43,7 @@
         </el-col>
       </el-row>
     </el-header>
-    <el-main style="height: 68vh; padding:2vh">
+    <el-main style="height: 70vh; padding:2vh">
       <el-row>
         <div>
           <div class="custom-card"

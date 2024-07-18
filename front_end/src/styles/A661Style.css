@@ -95,7 +95,7 @@
   border-right: none;
   border-top: none;
 
-  /* box-shadow: 0px 0px 5px 0px #17bef1; */
+  box-shadow: 2px 2px 5px 2px #393939;
   font-size: 16px;
 }
 
@@ -247,16 +247,21 @@
 
 .transparent-table {
   max-height: 20vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+  table-layout: fixed;
+
   border-collapse: collapse;
   color: white; /* 设置字体颜色为白色 */
   background-color: transparent; /* 设置背景透明 */
-  width: 100%;
+  width: 80%;
 }
 
 .transparent-table th,
 .transparent-table td {
   text-align: left;
   border: none;
+  max-width: 20vh;
   padding: 1vh;
 }
 
@@ -333,9 +338,9 @@
 }
 
 .config-note {
-  right: 8vh;
-  position: absolute;
-  bottom: 2vh;
+  /* right: 8vh; */
+  /* position: absolute; */
+  /* bottom: 1vh; */
   color: rgb(174, 174, 174);
 }
 
@@ -420,6 +425,7 @@
 
 .custom-card {
   overflow: auto;
+  height: 65vh;
 
   background-color: #404040;
 
@@ -567,7 +573,7 @@
   color: #ffffff;
 }
 
-.main-btn:active {
+.main-btn[active] {
   box-shadow: 5px 5px 20px 0px #17bef1;
   border: 1px solid rgb(111, 111, 111);
 
@@ -582,6 +588,7 @@
 }
 
 .main-btn[disabled]:hover {
+  box-shadow: 5px 5px 20px 0px #444444;
   background-color: #a7a7a7; /* 设置禁用状态下的背景色 */
   color: #767676; /* 设置禁用状态下的文字颜色 */
   border: 1px solid rgb(111, 111, 111);

@@ -16,9 +16,9 @@
       <div style="position: sticky; top: 0; z-index: 100">
         <!-- 选中信息的table -->
         <el-row>
-          <el-table highlight-current-row
-                    class="bg-[rgb(46, 45, 45)] w-full mb-1/100"
+          <el-table class="bg-[rgb(46, 45, 45)] w-full mb-1/100"
                     :data="selectedData"
+                    style="  background-color: rgb(46, 45, 45);"
                     :header-cell-style="{
           background: '#404040',
           color: '#FFFFFF',
@@ -46,6 +46,7 @@
                              :min-width="55"></el-table-column>
             <el-table-column prop="flightLeg"
                              label="Flight Leg"
+                             :formatter="flightLegFormatter"
                              :width="null"
                              :min-width="35"></el-table-column>
             <el-table-column :width="null"
@@ -173,6 +174,17 @@ export default {
       this.$store.state.failureList.selectedFailureId = -1
       this.$router.push({ name: "FailureList" });
     },
+
+    flightLegFormatter(row, column) {
+      // 找出flightLeg的最大值
+      const maxFlightLeg = this.$store.state.failureList.maxflightLeg;
+
+      console.log("maxFlightLeg!!!!!!", maxFlightLeg)
+
+      // 对flightLeg进行格式化处理
+      return row.flightLeg - maxFlightLeg;
+    },
+
     /**
      * 本函数用于切换当前展示数据至其上一条failure数据
      *
@@ -228,17 +240,32 @@ export default {
 
       this.selectedData.push(objSelectedData);
 
-      if (this.selectedData[0].hasOwnProperty('failureMessage')) {
-        this.currFailureMessage = this.selectedData[0].failureMessage
-      } else {
-        this.currFailureMessage = "NO MESSAGE"
-      }
 
-      if (this.selectedData[0].hasOwnProperty('maintenceText')) {
-        this.currMaintenceText = this.selectedData[0].maintenceText
-      } else {
-        this.currMaintenceText = "NO TEXT"
-      }
+      this.currFailureMessage = this.selectedData[0].failureMessage
+      this.currMaintenceText = this.selectedData[0].maintenceText
+
+      console.log("selectedData:", this.selectedData[0])
+      console.log("this.selectedData[0].hasOwnProperty('failureMessage')", this.selectedData[0].hasOwnProperty('failureMessage'))
+
+      // if (this.selectedData[0].hasOwnProperty('failureMessage')) {
+      //   this.currFailureMessage = this.selectedData[0].failureMessage
+
+
+      //   console.log("currFailureMessage", this.currFailureMessage)
+
+
+      // } else {
+      //   this.currFailureMessage = "NO MESSAGE"
+      // }
+
+      // if (this.selectedData[0].hasOwnProperty('maintenceText')) {
+      //   this.currMaintenceText = this.selectedData[0].maintenceText
+
+
+      //   console.log("currMaintenceText", this.currMaintenceText)
+      // } else {
+      //   this.currMaintenceText = "NO TEXT"
+      // }
 
 
       //设置equipment_name为"FUEL"

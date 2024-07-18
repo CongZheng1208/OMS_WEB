@@ -20,7 +20,7 @@
       <el-row :gutter="2">
         <el-col :span="12">
           <div
-               style=" overflow: auto; height: 32vh; max-height: 32vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
+               style=" height: 32vh; max-height: 32vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-left: 0.5vh; margin-top: 0.5vh;">
             <div class="div-title"
                  style=" position: sticky;top: 0;"> Hardware Information</div>
             <div v-if="currentHardwareInformation.length === 0"
@@ -53,7 +53,7 @@
         </el-col>
         <el-col :span="12">
           <div
-               style=" overflow: scroll; height: 61vh; max-height: 61vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-top: 0.5vh;">
+               style=" height: 61vh; max-height: 61vh; border: 1px solid #ccc; padding: 4vh; border: 1px solid rgb(111, 111, 111); border-radius: 0.5vh; margin-top: 0.5vh;">
             <div class="div-title"
                  style=" position: sticky;top: 0;"> Software Information </div>
             <div v-if="currentSoftwareInformation.length === 0"

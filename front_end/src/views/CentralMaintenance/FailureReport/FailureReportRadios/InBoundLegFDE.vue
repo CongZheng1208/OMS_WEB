@@ -37,10 +37,18 @@
                        :width="null"
                        :min-width="30"></el-table-column>
       <el-table-column prop="FDEClass"
+                       sortable
+                       :min-width="30"
+                       label="FDE Class">
+        <template slot-scope="scope">
+          <span :style="getCellStyle(scope.row.FDEClass)">{{ scope.row.FDEClass }}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="FDEClass"
                        label="FDE Class"
                        sortable
                        :width="null"
-                       :min-width="30"></el-table-column>
+                       :min-width="30"></el-table-column> -->
       <el-table-column prop="FDETime"
                        label="Date/Time"
                        sortable
@@ -111,7 +119,7 @@ export default {
       postFlightReportArray: [],
       isPdfPageSelected: false,
       interval: null,
-      loading: true
+      loading: false
     };
   },
   computed: {
@@ -128,13 +136,16 @@ export default {
       }
     }
   },
-  created() {
-    this.interval = setInterval(() => {
-      this.getPostFlightReportArray();
-    }, 1000);
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+  mounted() {
+    // setTimeout(() => {
+    //   this.loading = false;
+    // }, 200);
+
+    this.getPostFlightReportArray();
+    // this.interval = setInterval(() => {
+    //   this.getPostFlightReportArray();
+    // }, 2000);
+
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -153,13 +164,13 @@ export default {
       })
 
       console.log("tmp:", tmp)
-      console.log("targetURL is: http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+      console.log("targetURL is: http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
 
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = response["file_name"];
         console.log("reponse url is", queryString)
-        const urlraw = `http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
+        const urlraw = `http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
         console.log("url raw:", urlraw)
         // const url = decodeURIComponent(urlraw)
         // console.log("url now:", url);
@@ -189,6 +200,16 @@ export default {
       }, false);
     },
 
+
+    getCellStyle(fdeClass) {
+      if (fdeClass === 'caution') {
+        return { color: '#EE7700' };
+      } else if (fdeClass === 'warning') {
+        return { color: '#E63F00' };
+      } else {
+        return {};
+      }
+    },
 
     /**
      * 更新store的选中行数据
@@ -221,13 +242,81 @@ export default {
     },
 
     /**
+ * 本函数用于mounted中，获取state中resFailureData数据，并处理数据，具体有：
+ * 唯一化failureName，将相同的failureName合同至一个object，分为parent和children
+ * 并将failure_name_info更新为failure_name_info+[count]格式
+ * 更新至this.existingFailureArray，用于前端合并数据的展示
+ */
+    getfailureArray() {
+
+      // @ts-ignore
+      if (this.$store.state.failureList.resFailureData.length !== undefined) {
+        //深度拷贝，不改变state中resFailureData的原始数据
+        const existingFailureOri = JSON.parse(
+          // @ts-ignore
+          JSON.stringify(this.$store.state.failureList.resFailureData)
+        );
+
+        // 创建一个新数组来存放结果
+        // @ts-ignore
+        let mergedArray = existingFailureOri.reduce((acc, curr) => {
+          // 检查当前对象是否与已有对象相匹配
+          // @ts-ignore
+          let match = acc.find(item => item.failureNameInfo === curr.failureNameInfo && item.failureTime === curr.failureTime);
+
+          // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+          if (match) {
+            if (!match.children) {
+              match.children = [];
+            }
+
+            match.children.push({
+              ata: "",
+              failureNameInfo: "",
+              failureState: "",
+              failureTime: "",
+              fault: "",
+              fde: curr.fde,
+              fimcodeInfo: "",
+              flightLeg: "",
+              flightPhase: "",
+              id: "",
+              index: curr.index,
+              maintenceText: curr.maintenceText,
+              maintenceTime: curr.maintenceTime
+            });
+          } else {
+            // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+
+        this.existingFailureArray = mergedArray
+
+        // 输出合并后的数组
+        console.log("mergedArray", mergedArray);
+
+      } else {
+        this.existingFailureArray = []
+      }
+    },
+
+    /**
      * 本函数用于mounted中，获取state中resFDEData数据, 更新至this.InBoundLegFDEsSumArray, 用于前端数据的展示
      */
     getPostFlightReportArray() {
       //深度拷贝，不改变state中resFailureData的原始数据
 
-      const postFlightReportOri = this.$store.state.failureList.resFailureData;
-      const resFDEDataOri = this.$store.state.failureList.resFDEData;
+      const postFlightReportOri = JSON.parse(
+        // @ts-ignore
+        JSON.stringify(this.$store.state.failureList.resFailureData)
+      );
+
+      const resFDEDataOri = JSON.parse(
+        // @ts-ignore
+        JSON.stringify(this.$store.state.failureList.resFDEData)
+      );
 
       postFlightReportOri.forEach(item => {
         // 检查对象是否包含fde属性
@@ -256,13 +345,65 @@ export default {
         }
       });
 
+      console.log("postFlightReportOri:", postFlightReportOri)
+      this.postFlightReportArray = []
+
       if (postFlightReportOri.length !== undefined) {
-        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg === "0" && item.fde.hasOwnProperty('FDEClass'));
+        this.postFlightReportArray = postFlightReportOri.filter(item => item.flightLeg - this.$store.state.failureList.maxflightLeg == 0 && item.fde.hasOwnProperty('FDEClass'));
       } else {
         this.postFlightReportArray = []
       }
       // console.log("postFlightReportOri is", postFlightReportOri)
-      // console.log("pfr is:", this.postFlightReportArray)
+      console.log("pfr is:", this.postFlightReportArray)
+
+      let mergedArray = []
+
+
+      mergedArray = this.postFlightReportArray.reduce((acc, curr) => {
+        // 检查当前对象是否与已有对象相匹配
+        // @ts-ignore
+        let match = acc.find(item => item.FDEText === curr.FDEText && item.FDECode === curr.FDECode);
+
+        // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+        if (match) {
+          if (!match.children) {
+            match.children = [];
+          }
+
+          match.children.push({
+            FDEClass: "",
+            FDECode: "",
+            FDEStatus: "",
+            FDEText: "",
+            FDETime: "",
+            ata: curr.ata,
+            failureNameInfo: curr.failureNameInfo,
+            failureState: curr.failureState,
+            failureTime: curr.failureTime,
+            fault: curr.fault,
+            fde: curr.fde,
+            fimcodeInfo: curr.fimcodeInfo,
+            flightLeg: curr.flightLeg,
+            flightPhase: curr.flightPhase,
+            id: curr.id,
+            index: curr.index,
+            maintenceText: curr.maintenceText,
+            maintenceTime: curr.maintenceTime,
+          });
+        } else {
+          // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+
+      this.postFlightReportArray = mergedArray
+
+      // 输出合并后的数组
+      console.log("mergedArray", this.postFlightReportArray);
+
+
+
     },
     customSortMethodForProgressColumn
   },

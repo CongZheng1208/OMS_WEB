@@ -5,6 +5,8 @@ import {
   getFDEList,
 } from "../../../services/centralMaintenance/failureReport";
 
+import { getFlightLeg } from "@/services/util/index";
+
 export default {
   // 开启命名空间
   namespaced: true,
@@ -15,6 +17,8 @@ export default {
 
     resFailureData: {},
     resFDEData: {},
+    flightLegData: {},
+    maxflightLeg: 0,
 
     acReg: "C-WXWB",
     currentTime: new Date().toLocaleTimeString(),
@@ -24,6 +28,11 @@ export default {
   mutations: {
     failurePhp(state) {
       state.resFailureData = {};
+
+      getFlightLeg().then((response) => {
+        state.maxflightLeg = Math.max(...response.map((leg) => leg.flightLeg));
+        console.log("state.maxflightLeg ", state.maxflightLeg);
+      });
 
       getFailureList()
         .then((response) => {
@@ -46,6 +55,8 @@ export default {
               resExistingFailureData.push(modifiedFailure);
               idx = idx + 1;
             }
+
+            failure.flightLeg = failure.flightLeg - state.maxflightLeg;
           });
           state.resFailureData = resExistingFailureData;
         })
@@ -67,6 +78,18 @@ export default {
           console.error("Error in getting fde list:", error);
         });
     },
+
+    // flightLegDataPhp(state) {
+    //   getFlightLeg().then((response) => {
+    //     state.flightLegData = response.reverse();
+    //     // state.maxflightLeg = ;
+    //     state.maxflightLeg = Math.max(
+    //       ...state.flightLegData.map((leg) => leg.flightLegData)
+    //     );
+    //   });
+    //   console.log(" state.flightLegData", state.flightLegData);
+    //   console.log(" state.maxflightLeg", state.maxflightLeg);
+    // },
 
     updateCurrentTime(state, time) {
       state.currentTime = time.toLocaleTimeString();

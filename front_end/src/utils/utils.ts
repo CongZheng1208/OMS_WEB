@@ -9,9 +9,19 @@ export function customSortMethodForProgressColumn(
   b: number | string
 ): number | string {
   // 判断a和b的类型
+  // if (typeof a === "string" && typeof b === "string") {
+  //   // 字符串类型，使用localeCompare进行字典序排序
+  //   return a.localeCompare(b);
+  // } else {
+  //   // 数字类型，根据数值大小排序
+  //   return a - b;
+  // }
+
   if (typeof a === "string" && typeof b === "string") {
-    // 字符串类型，使用localeCompare进行字典序排序
-    return a.localeCompare(b);
+    // 如果字符串可以转化为数字，则转换为数字进行比较
+    const numA = !isNaN(Number(a)) ? Number(a) : a;
+    const numB = !isNaN(Number(b)) ? Number(b) : b;
+    return numA - numB;
   } else {
     // 数字类型，根据数值大小排序
     return a - b;

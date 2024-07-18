@@ -26,12 +26,12 @@
                        label="ATA"
                        sortable
                        :width="null"
-                       :min-width="30"
+                       :min-width="40"
                        :filters="ataFilters"
                        :filter-method="filterHandler"></el-table-column>
       <el-table-column prop="fimcodeInfo"
                        label="FIM Code"
-                       :min-width="70">
+                       :min-width="50">
         <template slot="header"
                   slot-scope="scope">
           <span>FIM Code</span>
@@ -81,17 +81,19 @@
                        sortable
                        :width="null"
                        :min-width="50"></el-table-column>
-      <el-table-column prop="fde.FDEText"
-                       label="FDE Text"
-                       :width="null"
-                       :min-width="60"></el-table-column>
       <el-table-column prop="flightLeg"
                        label="Flight Leg"
                        sortable
                        :width="null"
+                       :formatter="flightLegFormatter"
                        :min-width="35"
                        :filters="legFilters"
                        :filter-method="filterHandler"></el-table-column>
+      <el-table-column prop="fde.FDEText"
+                       label="FDE Text"
+                       :formatter="fdeTextFormatter"
+                       :width="null"
+                       :min-width="40"></el-table-column>
       <el-table-column :width="null"
                        :min-width="5"></el-table-column>
     </el-table>
@@ -128,12 +130,12 @@
           </div>
         </el-col>
       </el-row>
-      <el-row style=" margin-left: 15px; margin-right: 15px;">
+      <el-row style=" margin-left: 15px; margin-right: 15px;  height: 50vh;">
         <el-table v-if="dialogSelected == 'ATA'"
                   :data="ataFilters"
                   style="
               width: 100%;
-              height: 30vh;
+              height: 50vh;
               background-color: rgb(46, 45, 45);
               margin-top: 1vh;
               margin-bottom: 1vh;
@@ -151,7 +153,7 @@
           <el-table-column prop="count"
                            label="Count"
                            :width="null"
-                           :min-width="55"></el-table-column>
+                           :min-width="15"></el-table-column>
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
         </el-table>
@@ -159,7 +161,7 @@
                   :data="phaseFilters"
                   style="
               width: 100%;
-              height: 30vh;
+              height: 50vh;
               margin-top: 1vh;
               margin-bottom: 1vh;
               background-color: rgb(46, 45, 45);
@@ -176,7 +178,7 @@
           <el-table-column prop="count"
                            label="Count"
                            :width="null"
-                           :min-width="55"></el-table-column>
+                           :min-width="15"></el-table-column>
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
         </el-table>
@@ -184,7 +186,7 @@
                   :data="legFilters"
                   style="
               width: 100%;
-              height: 30vh;
+              height: 50vh;
               background-color: rgb(46, 45, 45);
               margin-top: 1vh;
               margin-bottom: 1vh;
@@ -202,7 +204,7 @@
           <el-table-column prop="count"
                            label="Count"
                            :width="null"
-                           :min-width="55"></el-table-column>
+                           :min-width="15"></el-table-column>
           <el-table-column :width="null"
                            :min-width="10"></el-table-column>
         </el-table>
@@ -216,11 +218,17 @@
     <div class="
                 table-lower-bar">
       <span class="table-lower-bar-right-text">
-        <el-button circle
-                   slot="reference"
-                   class="table-outer-button"
-                   icon="el-icon-s-data"
-                   @click="isFlightLegsSelected = true"></el-button> Number of Failures: {{ failureCountTotal }}</span>
+        <el-tooltip class="item"
+                    effect="dark"
+                    content="Failures Details"
+                    placement="top">
+          <el-button circle
+                     class="table-outer-button"
+                     icon="el-icon-s-data"
+                     @click="isFlightLegsSelected = true"></el-button> </el-tooltip>
+        <!-- Number of Failures:
+        {{ failureCountTotal }} -->
+      </span>
     </div>
   </el-row>
   <div v-else>
@@ -264,17 +272,18 @@ export default {
       searchFimCodeInput: '',
       searchFailureNameInput: '',
       interval: null,
-      loading: true
+      loading: false
     };
   },
   created() {
+    this.getfailureArray();
     // @ts-ignore
-    this.interval = setInterval(() => {
-      this.getfailureArray();
-    }, 1000); // 每秒执行一次
-    setTimeout(() => {
-      this.loading = false;
-    }, 500);
+    // this.interval = setInterval(() => {
+    //   this.getfailureArray();
+    // }, 1000); // 每秒执行一次
+    // setTimeout(() => {
+    //   this.loading = false;
+    // }, 200);
   },
   beforeDestroy() {
     // @ts-ignore
@@ -291,14 +300,14 @@ export default {
       })
 
       console.log("tmp:", tmp)
-      console.log("targetURL is: http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+      console.log("targetURL is: http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
 
       postFimCodeForURL(tmp).then(response => {
 
         // @ts-ignore
         const queryString = response["file_name"];
         console.log("reponse url is", queryString)
-        const urlraw = `http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
+        const urlraw = `http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
         console.log("url raw:", urlraw)
         // const url = decodeURIComponent(urlraw)
         // console.log("url now:", url);
@@ -330,6 +339,18 @@ export default {
       // }, false);
     },
 
+    fdeTextFormatter(row, column) {
+      return row.fde && row.fde.FDEText ? row.fde.FDEText : "N/A";
+    },
+
+    flightLegFormatter(row, column) {
+      // 找出flightLeg的最大值
+      const maxFlightLeg = this.$store.state.failureList.maxflightLeg;
+
+      // 对flightLeg进行格式化处理
+      return row.flightLeg - maxFlightLeg;
+    },
+
 
 
     // @ts-ignore
@@ -337,6 +358,8 @@ export default {
       const property = column['property'];
       return row[property] === value;
     },
+
+
 
     /**
      * 本函数用于设置FDE Alert Text列中fde_text的显示格式
@@ -433,16 +456,31 @@ export default {
           };
         });
 
-        // @ts-ignore
-        this.legFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
-          // @ts-ignore
-          const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
-          return {
-            text: value,
-            value: value,
-            count: filteredItems.length
-          };
-        });
+        // 查找flightLeg的最大值
+        // const maxFlightLeg = Math.max(...this.existingFailureArray.map(obj => obj.flightLeg));
+        // 计算text，并创建 legFilters 数组
+        this.legFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg)))
+          .map(value => {
+            const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
+            return {
+              // text: (value - maxFlightLeg).toString(), // 使用每个对象的flightLeg属性减去最大值
+              text: value - this.$store.state.failureList.maxflightLeg,
+              value: value,
+              count: filteredItems.length
+            };
+          });
+
+
+        // // @ts-ignore
+        // this.legFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.flightLeg))).map(value => {
+        //   // @ts-ignore
+        //   const filteredItems = this.existingFailureArray.filter(item => item.flightLeg === value);
+        //   return {
+        //     text: value,
+        //     value: value,
+        //     count: filteredItems.length
+        //   };
+        // });
       } else {
         this.existingFailureArray = []
       }
@@ -469,7 +507,7 @@ export default {
   },
   mounted() {
 
-    this.getfailureArray();
+    // this.getfailureArray();
     // console.log("existingFailureArray:", this.existingFailureArray);
   },
 };

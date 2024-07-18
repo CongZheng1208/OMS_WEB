@@ -1,7 +1,8 @@
 <template>
   <div style="height:45vh">
     <el-row>
-      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/-- --:--:-- Power On </div>
+      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: {{ selectedData[0].failureTime }},
+        {{ selectedData[0].flightPhase }} </div>
     </el-row>
     <el-row>
       <div v-if="selectedData.length === 0"
@@ -78,7 +79,9 @@ export default {
       );
 
       this.selectedData.push(objSelectedData);
-      // console.log("this.selectedData:", this.selectedData);
+
+
+      console.log("this.selectedData:", this.selectedData);
 
       this.dataArray = [this.selectedData[0].fde]
 

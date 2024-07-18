@@ -11,6 +11,11 @@
 export default {
   name: 'Menus',
   props: ['menus'],
+  data() {
+    return {
+      currentGroundTestTimer: "",
+    }
+  },
 
   methods: {
     /**

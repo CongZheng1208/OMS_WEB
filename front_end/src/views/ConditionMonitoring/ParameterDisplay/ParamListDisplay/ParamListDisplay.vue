@@ -144,12 +144,15 @@
                              :min-width="5"></el-table-column>
           </el-table>
           <div class="table-lower-bar">
-            <span class="table-lower-bar-right-text"> <el-button circle
-                         v-if="listSelected == 2"
-                         slot="reference"
-                         class="table-outer-button"
-                         icon="el-icon-circle-plus-outline"
-                         @click="addParametersToShow"></el-button> Total Number: {{ this.addedParams.length }} </span>
+            <span class="table-lower-bar-right-text"> <el-tooltip class="item"
+                          effect="dark"
+                          content="Add Parameters"
+                          placement="top"> <el-button circle
+                           v-if="listSelected == 2"
+                           class="table-outer-button"
+                           icon="el-icon-plus"
+                           @click="addParametersToShow"></el-button> </el-tooltip> Total Number:
+              {{ this.addedParams.length }} </span>
           </div>
         </el-col>
       </el-row>

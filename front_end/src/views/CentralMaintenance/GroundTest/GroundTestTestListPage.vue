@@ -63,12 +63,12 @@
                            label="Progress"
                            sortable
                            :width="null"
-                           :min-width="80">
+                           :min-width="100">
             <template slot-scope="scope">
               <el-progress :percentage="scope.row.progress"
                            :color="getProgressColor(scope.row.progress)"
                            :format="percent => `${percent}%`"
-                           :stroke-width=14
+                           :stroke-width=9
                            text-color=#ffffff
                            define-back-color=#505050
                            stroke-linecap=square>
@@ -76,7 +76,7 @@
             </template>
           </el-table-column>
           <el-table-column :width="null"
-                           :min-width="5"></el-table-column>
+                           :min-width="2"></el-table-column>
         </el-table>
         <div class="
                 table-lower-bar">
@@ -184,8 +184,8 @@ export default {
 * @param {*} row table选中行信息
 */
     formatATASystemName(row) {
-      if (row.ataNumber && row.ataNumber.length > 3) {
-        return row.ataNumber.substring(3);
+      if (row.ATA && row.ATA.length > 3) {
+        return row.ATA.substring(3);
       }
     },
     /**
@@ -280,6 +280,11 @@ export default {
           return {
             ...test,
             progress: parseFloat(0)
+          };
+        } else if (test.InitiatedTest_Status == "8") {
+          return {
+            ...test,
+            progress: test.progress
           };
         } else {
 

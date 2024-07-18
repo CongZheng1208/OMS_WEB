@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-main style="height: 71vh">
+    <el-main style="height: 72vh">
       <div class="segment-top">
         <div class="select-item">
           <el-select v-model="currentScreen">

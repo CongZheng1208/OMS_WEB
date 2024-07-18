@@ -98,7 +98,7 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="memberSystemName"
-                             label="Equiment Name"
+                             label="Equipment Name"
                              sortable
                              :width="null"
                              :min-width="35"></el-table-column>
@@ -124,7 +124,7 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="memberSystemName"
-                             label="Equiment Name"
+                             label="Equipment Name"
                              sortable
                              :width="null"
                              :min-width="35"></el-table-column>
@@ -142,7 +142,7 @@
       <el-dialog center
                  :visible.sync="isRetrievalAddedMsg"
                  title="CONFIRM">
-        <p>Are you sure you want to ADD the parameter "{{ selectedEquiRetrieval.memberSystemName }}"?</p>
+        <p>Are you sure you want to ADD the equipment "{{ selectedEquiRetrieval.memberSystemName }}"?</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
@@ -153,7 +153,7 @@
       <el-dialog center
                  :visible.sync="isResetAddedMsg"
                  title="CONFIRM">
-        <p>Are you sure you want to ADD the parameter "{{ selectedEquiReset.memberSystemName }}"?</p>
+        <p>Are you sure you want to ADD the equipment "{{ selectedEquiReset.memberSystemName }}"?</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"
@@ -237,6 +237,11 @@ export default {
     };
   },
   created() {
+
+    this.displaySelected = this.$route.params.selectedMode;
+
+    console.log("this.displaySelected", this.displaySelected)
+
     getRetrievalATAandEqui().then(response => {
       this.ataEquiDataRetrieval = response
       Object.keys(response).forEach(key => {

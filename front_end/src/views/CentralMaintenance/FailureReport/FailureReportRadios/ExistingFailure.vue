@@ -62,16 +62,19 @@
                        :min-width="55"></el-table-column>
       <el-table-column prop="fde.FDECode"
                        label="FDE Code"
+                       :formatter="fdeCodeFormatter"
                        :width="null"
                        :min-width="35"></el-table-column>
       <el-table-column prop="fde.FDEText"
                        label="FDE Text"
                        sortable
+                       :formatter="fdeTextFormatter"
                        :width="null"
                        :min-width="60"></el-table-column>
       <el-table-column prop="flightLeg"
                        label="Flight Leg"
                        sortable
+                       :formatter="flightLegFormatter"
                        :width="null"
                        :min-width="35"></el-table-column>
       <el-table-column :width="null"
@@ -115,16 +118,17 @@ export default {
       existingFailureArray: [],
       interval: null,
       isPdfPageSelected: false,
-      loading: true
+      loading: false
     };
   },
   created() {
-    this.interval = setInterval(() => {
-      this.getfailureArray();
-    }, 1000); // 每秒执行一次
-    setTimeout(() => {
-      this.loading = false;
-    }, 500);
+    this.getfailureArray();
+    // this.interval = setInterval(() => {
+    //   this.getfailureArray();
+    // }, 1000); // 每秒执行一次
+    // setTimeout(() => {
+    //   this.loading = false;
+    // }, 200);
   },
   beforeDestroy() {
     clearInterval(this.interval!);
@@ -143,13 +147,13 @@ export default {
       })
 
       console.log("tmp:", tmp)
-      console.log("targetURL is: http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
+      console.log("targetURL is: http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
 
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = response["file_name"];
         console.log("reponse url is", queryString)
-        const urlraw = `http://localhost:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
+        const urlraw = `http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
         console.log("url raw:", urlraw)
         // const url = decodeURIComponent(urlraw)
         // console.log("url now:", url);
@@ -187,6 +191,23 @@ export default {
       let fpIndex = row.flightPhase;
       return flightPhaseEnum[fpIndex];
     },
+
+    fdeTextFormatter(row, column) {
+      return row.fde && row.fde.FDEText ? row.fde.FDEText : "N/A";
+    },
+
+    fdeCodeFormatter(row, column) {
+      return row.fde && row.fde.FDECode ? row.fde.FDECode : "N/A";
+    },
+
+    flightLegFormatter(row, column) {
+      // 找出flightLeg的最大值
+      const maxFlightLeg = this.$store.state.failureList.maxflightLeg;
+
+      // 对flightLeg进行格式化处理
+      return row.flightLeg - maxFlightLeg;
+    },
+
     /**
      * 本函数用于设置Current State列中failure_state的显示格式
      * 即将failure_state原数据对应为state中failureStateEnum枚举值
@@ -203,6 +224,7 @@ export default {
     tableRowClicked(item) {
       this.$store.state.failureList.selectedFailureId = item.index;
     },
+
     /**
      * 本函数用于mounted中，获取state中resFailureData数据，并处理数据，具体有：
      * 唯一化failureName，将相同的failureName合同至一个object，分为parent和children
@@ -247,9 +269,12 @@ export default {
           return acc;
         }, []);
         this.existingFailureArray = mergedArray
+
+
       } else {
         this.existingFailureArray = []
       }
+      console.log("!!!:", this.existingFailureArray)
     },
     customSortMethodForProgressColumn
   },

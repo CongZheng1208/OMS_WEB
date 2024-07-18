@@ -65,7 +65,9 @@ export default {
             (item) => item.InitiatedTest_Index === state.currentGroundTestID
           )
           .pop();
-        //console.log("!!!!",  state.currentGroundTest)
+        // console.log("!!!!", state.currentGroundTest);
+        console.log("!!!!", state.currentGroundTest.Screen_Trigger_Index);
+        // console.log()
       }
     },
 

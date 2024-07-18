@@ -1,7 +1,8 @@
 <template>
   <div style="height:45vh">
     <el-row>
-      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: 2024/04/-- --:--:-- Power On </div>
+      <div style="float: left; margin: 15px;  font-weight: bold;"> Count 1: {{ selectedData[0].failureTime }},
+        {{ selectedData[0].flightPhase }} </div>
     </el-row>
     <el-row>
       <div v-if="dataArray.length === 0"

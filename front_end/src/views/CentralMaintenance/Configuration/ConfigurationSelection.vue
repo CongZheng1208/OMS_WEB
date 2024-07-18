@@ -25,12 +25,12 @@
                              label="ATA"
                              sortable
                              :width="null"
-                             :min-width="15"></el-table-column>
-            <el-table-column prop="equipmentName"
+                             :min-width="50"></el-table-column>
+            <!-- <el-table-column prop="equipmentName"
                              label="System Name"
                              :width="null"
                              :min-width="35"
-                             :formatter="formatATAName"></el-table-column>
+                             :formatter="formatATAName"></el-table-column> -->
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
           </el-table>
@@ -48,7 +48,7 @@
             <el-table-column :width="null"
                              :min-width="5"></el-table-column>
             <el-table-column prop="equipmentName"
-                             label="Equiment Name"
+                             label="Equipment Name"
                              sortable
                              :width="null"
                              :min-width="35"></el-table-column>

@@ -130,7 +130,7 @@
       <el-dialog center
                  :visible.sync="isAddedMsg"
                  title="CONFIRM">
-        <p>Are you sure you want to ADD the parameter "{{ selectedTest.InitiatedTestName }}"?</p>
+        <p>Are you sure you want to ADD the test "{{ selectedTest.InitiatedTestName }}"?</p>
         <span slot="footer"
               class="dialog-footer">
           <el-button type="primary"

@@ -5,7 +5,7 @@
         <el-col :span="3">
           <div class="el-header-title"> Test Selection </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="18">
           <div class="el-header-radios">
             <div class="radio"
                  @click="changeRadio('list')">
@@ -23,9 +23,9 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="6"
+        <!-- <el-col :span="6"
                 class="el-header-radios"> Display Type: {{ displayType }} <br> Parameter Set Received at:
-          {{ currParamUpdateTime }} </el-col>
+          {{ currParamUpdateTime }} </el-col> -->
         <el-col :span="3">
           <Clock />
         </el-col>
@@ -52,7 +52,7 @@
                            label="Value"
                            sortable
                            :width="null"
-                           :min-width="10"></el-table-column>
+                           :min-width="30"></el-table-column>
           <el-table-column prop="unit"
                            label="Units"
                            sortable

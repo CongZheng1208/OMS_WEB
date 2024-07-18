@@ -274,7 +274,7 @@ export default {
       } else {
         this.existingFailureArray = []
       }
-      console.log("!!!:", this.existingFailureArray)
+      // console.log("!!!:", this.existingFailureArray)
     },
     customSortMethodForProgressColumn
   },

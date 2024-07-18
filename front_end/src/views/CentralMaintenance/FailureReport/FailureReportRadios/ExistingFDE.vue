@@ -11,7 +11,8 @@
     color: '#FFFFFF',
     font: '14px'
   }"
-              row-key="FDECode"
+              row-key="index"
+              :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
               :empty-text="'NO DATA DISPLAY'"
               @current-change="tableRowClicked"
               :row-class-name="rowClassName"
@@ -162,7 +163,13 @@ export default {
      */
     fdeStatusData(row) {
       let fpIndex = row.fde.FDECode;
-      return this.FDECodeStatusDict[fpIndex].FDEStatus;
+      console.log("fpIndex", fpIndex)
+      if (fpIndex == "") {
+        return ""
+      } else {
+        return this.FDECodeStatusDict[fpIndex].FDEStatus;
+      }
+
     },
 
     getCellStyle(fdeClass) {
@@ -260,8 +267,12 @@ export default {
      */
     getExistingFDEArray() {
 
-      const resFDEDataOri = this.$store.state.failureList.resFDEData;
-      const resFailureDataOri = this.$store.state.failureList.resFailureData;
+      const resFDEDataOri = JSON.parse(
+        // @ts-ignore
+        JSON.stringify(this.$store.state.failureList.resFDEData));
+      const resFailureDataOri = JSON.parse(
+        // @ts-ignore
+        JSON.stringify(this.$store.state.failureList.resFailureData));
 
 
       if (resFDEDataOri.length !== undefined) {
@@ -287,7 +298,7 @@ export default {
           return acc;
         }, []);
 
-        const unexistingResFailureDataOri = filteredArray.map(item => {
+        let unexistingResFailureDataOri = filteredArray.map(item => {
           return {
             ata: "--",
             failureMessage: "--",
@@ -299,8 +310,8 @@ export default {
             fimcodeInfo: "--",
             flightLeg: "--",
             flightPhase: "--",
-            id: "--",
-            index: "--",
+            id: item.id,
+            index: item.FDECode,
             maintenceText: "--",
             maintenceTime: "--",
             rp: []
@@ -308,8 +319,64 @@ export default {
         });
         // console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
         // console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
+        let mergedArray = []
+        mergedArray = existingResFailureDataOri.reduce((acc, curr) => {
+          // 检查当前对象是否与已有对象相匹配
+          // @ts-ignore
+          let match = acc.find(item => item.FDEText === curr.FDEText && item.FDECode === curr.FDECode);
 
-        this.existingFDEArray = existingResFailureDataOri.concat(unexistingResFailureDataOri);
+          // 如果有匹配的对象，将当前对象添加到匹配对象的children数组中
+          if (match) {
+            if (!match.children) {
+              match.children = [];
+            }
+            unexistingResFailureDataOri = unexistingResFailureDataOri.filter(item => {
+              return item.fde.FDECode !== match.fde.FDECode; // 删除id属性匹配得上的对象
+            });
+
+
+            match.children.push({
+              ata: curr.ata,
+              failureNameInfo: curr.failureNameInfo,
+              failureState: curr.failureState,
+              failureTime: curr.failureTime,
+              fault: curr.fault,
+              fault: curr.fde,
+              fde: {
+                FDEClass: "",
+                FDECode: "",
+                FDEStatus: "",
+                FDEText: ""
+              },
+              fimcodeInfo: curr.fimcodeInfo,
+              flightLeg: curr.flightLeg,
+              flightPhase: curr.flightPhase,
+              id: curr.id,
+              index: curr.index,
+              maintenceText: curr.maintenceText,
+              maintenceTime: curr.maintenceTime,
+              rp: curr.rp
+            });
+
+
+
+          } else {
+            // 如果没有匹配的对象，将当前对象直接添加到结果数组中
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
+
+
+        console.log("existingResFailureDataOri:", mergedArray)
+
+        console.log("unexistingResFailureDataOri:", unexistingResFailureDataOri)
+
+
+
+
+        //this.existingFDEArray = existingResFailureDataOri.concat(unexistingResFailureDataOri);
+        this.existingFDEArray = mergedArray.concat(unexistingResFailureDataOri);
       } else {
         this.existingFDEArray = []
       }

@@ -85,8 +85,7 @@
 </el-table>
 <div class="
                 table-lower-bar">
-            <span class="table-lower-bar-right-text"> Number of Flight Reports:
-              {{ postFlightReportArray.length }}</span>
+            <span class="table-lower-bar-right-text"> Number of FDEs: {{ postFlightReportArray.length }}</span>
             </div>
   </el-row>
   <div v-else>
@@ -354,11 +353,9 @@ export default {
         this.postFlightReportArray = []
       }
       // console.log("postFlightReportOri is", postFlightReportOri)
-      console.log("pfr is:", this.postFlightReportArray)
+      // console.log("pfr is:", this.postFlightReportArray)
 
       let mergedArray = []
-
-
       mergedArray = this.postFlightReportArray.reduce((acc, curr) => {
         // 检查当前对象是否与已有对象相匹配
         // @ts-ignore
@@ -400,7 +397,7 @@ export default {
       this.postFlightReportArray = mergedArray
 
       // 输出合并后的数组
-      console.log("mergedArray", this.postFlightReportArray);
+      // console.log("mergedArray", this.postFlightReportArray);
 
 
 

@@ -237,11 +237,7 @@ export default {
     };
   },
   created() {
-
     this.displaySelected = this.$route.params.selectedMode;
-
-    console.log("this.displaySelected", this.displaySelected)
-
     getRetrievalATAandEqui().then(response => {
       this.ataEquiDataRetrieval = response
       Object.keys(response).forEach(key => {

@@ -139,8 +139,6 @@ export default {
     handleRowClick(row) {
       this.selectedRow = row
       this.$store.state.groundTestList.currentGroundTestID = row.InitiatedTest_Index
-
-      console.log("select test is:", row)
     },
 
     /**
@@ -156,8 +154,6 @@ export default {
       // }
       return '#2a7c95';
     },
-
-
 
     /**
      * 本函数用于计算StartTime属性的展示值
@@ -180,9 +176,9 @@ export default {
     },
 
     /**
-* 本函数用于设置EquiAvailablilty的显示格式
-* @param {*} row table选中行信息
-*/
+    * 本函数用于设置EquiAvailablilty的显示格式
+    * @param {*} row table选中行信息
+    */
     formatATASystemName(row) {
       if (row.ATA && row.ATA.length > 3) {
         return row.ATA.substring(3);
@@ -265,12 +261,7 @@ export default {
      * 本函数用于更新测试的进度值
      */
     updateCurrentGroundTestLists() {
-      //console.log("local is")
-      //console.log(this.$store.state.groundTestList.currentActiveGroundTests)
-
       this.currentGroundTestLists = this.$store.state.groundTestList.currentActiveGroundTests.filter(item => parseInt(item.FlightLeg) == 0).map(test => {
-
-
         if (test.InitiatedTest_Status == "2" || test.InitiatedTest_Status == "9") {
           return {
             ...test,
@@ -297,8 +288,6 @@ export default {
           };
         }
       });
-
-      //console.log("this.currentGroundTestLists", this.currentGroundTestLists)
     },
 
     printPage,
@@ -313,7 +302,6 @@ export default {
 
     this.$store.state.groundTestList.currentGroundTestID = ""
     this.$store.state.groundTestList.currentGroundTest = {}
-
 
     // let tmp = qs.stringify({
     //   OrderType: "PAGEINIT",

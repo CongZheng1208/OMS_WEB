@@ -142,7 +142,6 @@ export default {
   },
   methods: {
     gotoDataUpload() {
-      console.log('[this.selectedATAId  ] >', this.selectedATAId)
       if (this.selectedATAId === undefined) {
         this.$message.error('Please select ATA')
         return

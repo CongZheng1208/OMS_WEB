@@ -163,7 +163,7 @@
 import Clock from '@/components/Clock/index.vue'
 import FlightLegs from '@/components/FlightLegs/index.vue'
 import { printPage, changeRadio, customSortMethodForProgressColumn, updateCurrentTime } from '@/utils/utils'
-import { postEventPara } from '@/services/conditionMonitoring/eventMonitoring/index';
+import { getEventData, postEventPara } from '@/services/conditionMonitoring/eventMonitoring/index';
 import qs from 'qs'
 
 
@@ -387,18 +387,26 @@ export default {
     let formattedStartTime = startTime.toLocaleString();
     let formattedEndTime = endTime.toLocaleString();
 
-    let tmp = qs.stringify({
-      Params: this.currentEvent.associatedParams,
-      StartTime: formattedStartTime,
-      EndTime: formattedEndTime
-    });
-
-    postEventPara(tmp).then(response => {
+    getEventData().then(response => {
       this.dataForDisplay = response
-      console.log("response", response)
+      console.log("response!!!!", response)
     }).catch(error => {
       console.error('Error in Postting event params:', error);
     });
+
+
+    // let tmp = qs.stringify({
+    //   Params: this.currentEvent.associatedParams,
+    //   StartTime: formattedStartTime,
+    //   EndTime: formattedEndTime
+    // });
+
+    // postEventPara(tmp).then(response => {
+    //   this.dataForDisplay = response
+    //   console.log("response", response)
+    // }).catch(error => {
+    //   console.error('Error in Postting event params:', error);
+    // });
 
 
   }

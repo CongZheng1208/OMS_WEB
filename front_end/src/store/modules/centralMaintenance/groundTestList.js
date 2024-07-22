@@ -35,7 +35,6 @@ export default {
             state.currentActiveGroundTests.push(item);
           }
         });
-        //console.log("global is:", state.currentActiveGroundTests);
       });
     },
 
@@ -50,7 +49,6 @@ export default {
         .catch((error) => {
           console.error("Error in getting groundtest list:", error);
         });
-      // console.log("global is:",state.ataAndEquiArray)
     },
 
     /**
@@ -58,16 +56,11 @@ export default {
      */
     getTextById(state) {
       if (state.currentGroundTestID !== "") {
-        //console.log("state.currentActiveGroundTests.filter(item => item.InitiatedTest_Index === state.currentGroundTestID)", state.currentActiveGroundTests.filter(item => item.InitiatedTest_Index === state.currentGroundTestID))
-        //state.currentGroundTest = state.currentActiveGroundTests.filter(item => item.InitiatedTest_Index === state.currentGroundTestID)[0];
         state.currentGroundTest = state.currentActiveGroundTests
           .filter(
             (item) => item.InitiatedTest_Index === state.currentGroundTestID
           )
           .pop();
-        // console.log("!!!!", state.currentGroundTest);
-        console.log("!!!!", state.currentGroundTest.Screen_Trigger_Index);
-        // console.log()
       }
     },
 

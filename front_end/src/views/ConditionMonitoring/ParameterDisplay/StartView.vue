@@ -235,19 +235,11 @@ export default {
      * @param {Object} parameter
      */
     addParamToShow(parameter) {
-
-      // console.log("parameter", parameter)
-      // console.log("this.showedParams", this.showedParams)
-
       this.parameterSelected = parameter
       // 如果该参数已经被添加至展示列表
-
-
       if (this.showedParamsIndex.includes(this.parameterSelected.id)) {
-        console.log("already")
         this.isParameterDeletedMsg = true;
       } else {
-        console.log("not")
         this.isParameterAddedMsg = true;
       }
     },
@@ -266,9 +258,6 @@ export default {
           this.dataYaxis[i] = [];
           this.dateXaxis[i] = [];
         }
-
-        console.log("this.parameterSelected", this.parameterSelected)
-
         this.showedParams.push(this.parameterSelected)
         this.showedParamsIndex.push(this.parameterSelected.id)
         this.dataYaxis.push([])

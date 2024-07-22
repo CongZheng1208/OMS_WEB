@@ -69,7 +69,6 @@ class PageData {
         equipment_list_id,
       },
     })) as MyResponse<any>;
-    // console.log(res);
     return res;
   }
 

@@ -163,7 +163,6 @@ export default {
      */
     fdeStatusData(row) {
       let fpIndex = row.fde.FDECode;
-      console.log("fpIndex", fpIndex)
       if (fpIndex == "") {
         return ""
       } else {
@@ -317,8 +316,6 @@ export default {
             rp: []
           };
         });
-        // console.log("unexistingResFailureDataOri is", this.unexistingResFailureDataOri);
-        // console.log("existingResFailureDataOri is", this.existingResFailureDataOri);
         let mergedArray = []
         mergedArray = existingResFailureDataOri.reduce((acc, curr) => {
           // 检查当前对象是否与已有对象相匹配
@@ -333,7 +330,6 @@ export default {
             unexistingResFailureDataOri = unexistingResFailureDataOri.filter(item => {
               return item.fde.FDECode !== match.fde.FDECode; // 删除id属性匹配得上的对象
             });
-
 
             match.children.push({
               ata: curr.ata,
@@ -366,16 +362,6 @@ export default {
           }
           return acc;
         }, []);
-
-
-        console.log("existingResFailureDataOri:", mergedArray)
-
-        console.log("unexistingResFailureDataOri:", unexistingResFailureDataOri)
-
-
-
-
-        //this.existingFDEArray = existingResFailureDataOri.concat(unexistingResFailureDataOri);
         this.existingFDEArray = mergedArray.concat(unexistingResFailureDataOri);
       } else {
         this.existingFDEArray = []

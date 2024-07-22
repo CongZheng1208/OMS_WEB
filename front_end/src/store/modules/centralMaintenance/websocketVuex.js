@@ -9,8 +9,8 @@ const handleReconnect = (commit, dispatch, url) => {
   }
   if (this.state.retryCount < MAX_RETRY_COUNT) {
     reconnectTimer = setTimeout(() => {
-      dispatch('initWebSocket', url);
-      commit('incrementRetryCount');
+      dispatch("initWebSocket", url);
+      commit("incrementRetryCount");
     }, RETRY_INTERVAL);
   } else {
     // 达到最大重试次数，进行其他处理，比如提示用户或记录日志
@@ -23,7 +23,7 @@ export default {
   state: {
     ws: null,
     infoOMD: {},
-    retryCount: 0
+    retryCount: 0,
   },
   mutations: {
     setWebSocket(state, ws) {
@@ -37,23 +37,17 @@ export default {
     },
     setInfoOMD(state, infoOMD) {
       state.infoOMD = infoOMD;
-
-      console.log("setInfoOMD is used");
-      console.log(infoOMD.path);
-      console.log(infoOMD.query);
-
       // Check if infoOMD has changed
       // Vue.$router.replace({ path: infoOMD.path, query: infoOMD.query });
-    }
+    },
   },
   actions: {
     initWebSocket({ commit, dispatch }, url) {
-      console.log('WS init:', url);
       const ws = new WebSocket(url);
 
       ws.onopen = () => {
-        commit('setWebSocket', ws);
-        commit('resetRetryCount');
+        commit("setWebSocket", ws);
+        commit("resetRetryCount");
       };
 
       ws.onclose = () => {
@@ -61,20 +55,18 @@ export default {
       };
 
       ws.onmessage = (event) => {
-        console.log('Message received:', event.data);
-
         let infoOMD = JSON.parse(event.data);
 
         if (infoOMD.path && infoOMD.query) {
-          commit('setInfoOMD', infoOMD);
+          commit("setInfoOMD", infoOMD);
         } else {
-          console.error('Received message format is not correct.');
+          console.error("Received message format is not correct.");
         }
       };
 
       ws.onerror = () => {
         // 处理连接错误
-        console.error('Connection error.');
+        console.error("Connection error.");
       };
     },
 
@@ -87,6 +79,6 @@ export default {
     },
     closeWebSocket({ state }) {
       state.ws.close();
-    }
-  }
+    },
+  },
 };

@@ -67,11 +67,6 @@ export default {
   },
 
   created() {
-
-    // this.flightLegData = this.$store.state.failureList.flightLegData;
-
-    // console.log(" this.flightLegData:", this.flightLegData)
-
     getFlightLeg().then(response => {
       this.flightLegData = response.reverse();
     });

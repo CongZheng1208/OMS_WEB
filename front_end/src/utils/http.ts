@@ -38,7 +38,6 @@ instance.interceptors.response.use(
   (error) => {
     const { response, message } = error;
     // 后续可以考虑根据message作进一步提示
-    console.log(response, message);
     return Promise.reject(error);
   }
 );

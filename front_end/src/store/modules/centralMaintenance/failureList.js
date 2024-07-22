@@ -31,7 +31,6 @@ export default {
 
       getFlightLeg().then((response) => {
         state.maxflightLeg = Math.max(...response.map((leg) => leg.flightLeg));
-        console.log("state.maxflightLeg ", state.maxflightLeg);
       });
 
       getFailureList()
@@ -71,25 +70,11 @@ export default {
       getFDEList()
         .then((response) => {
           state.resFDEData = response;
-
-          // console.log("resFDEData is:", response);
         })
         .catch((error) => {
           console.error("Error in getting fde list:", error);
         });
     },
-
-    // flightLegDataPhp(state) {
-    //   getFlightLeg().then((response) => {
-    //     state.flightLegData = response.reverse();
-    //     // state.maxflightLeg = ;
-    //     state.maxflightLeg = Math.max(
-    //       ...state.flightLegData.map((leg) => leg.flightLegData)
-    //     );
-    //   });
-    //   console.log(" state.flightLegData", state.flightLegData);
-    //   console.log(" state.maxflightLeg", state.maxflightLeg);
-    // },
 
     updateCurrentTime(state, time) {
       state.currentTime = time.toLocaleTimeString();

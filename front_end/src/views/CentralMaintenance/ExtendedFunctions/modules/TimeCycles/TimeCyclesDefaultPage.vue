@@ -223,7 +223,6 @@ export default {
       getTimeCycle().then(response => {
         this.timeCycleData = response;
         this.createFilters()
-        // console.log(response)
       }).catch(error => {
         console.error('Error in getting fde list:', error);
       });
@@ -261,7 +260,6 @@ export default {
       getTimeCycle().then(response => {
         this.timeCycleData = response;
         this.createFilters()
-        // console.log(response)
       }).catch(error => {
         console.error('Error in getting fde list:', error);
       });
@@ -285,7 +283,6 @@ export default {
       getTimeCycle().then(response => {
         this.timeCycleData = response;
         this.createFilters()
-        // console.log(response)
       }).catch(error => {
         console.error('Error in getting fde list:', error);
       });

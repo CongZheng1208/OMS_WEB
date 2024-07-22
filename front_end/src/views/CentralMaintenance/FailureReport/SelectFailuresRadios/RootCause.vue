@@ -58,16 +58,12 @@ export default {
         JSON.stringify(this.$store.state.failureList.resFailureData.find(obj => obj.index === this.$store.state.failureList.selectedFailureId))
       );
       this.selectedData.push(objSelectedData);
-      //console.log("this.selectedData in root:", this.selectedData);
-
       this.dataArray = this.selectedData[0].fault
     },
   },
 
   mounted() {
     this.getRootCauseData();
-
-
     // 监听selectedFailureId变化，当变化时重新调用getParameterData函数
     this.$watch('$store.state.failureList.selectedFailureId', (newVal, oldVal) => {
       if (newVal !== oldVal) {

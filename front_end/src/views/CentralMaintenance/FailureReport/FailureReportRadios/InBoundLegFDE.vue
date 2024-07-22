@@ -162,17 +162,10 @@ export default {
         fimCode: fimCode
       })
 
-      console.log("tmp:", tmp)
-      console.log("targetURL is: http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%2FDMC-C919-A-52-20-00-A1A-421A-A.XML&issueNumber=R11&publicationId=CES-C919-sx_US-2000300")
-
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = response["file_name"];
-        console.log("reponse url is", queryString)
         const urlraw = `http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
-        console.log("url raw:", urlraw)
-        // const url = decodeURIComponent(urlraw)
-        // console.log("url now:", url);
 
         document.getElementById('iframe').src = urlraw;
 
@@ -343,8 +336,6 @@ export default {
           item.FDETime = "";
         }
       });
-
-      console.log("postFlightReportOri:", postFlightReportOri)
       this.postFlightReportArray = []
 
       if (postFlightReportOri.length !== undefined) {
@@ -352,9 +343,6 @@ export default {
       } else {
         this.postFlightReportArray = []
       }
-      // console.log("postFlightReportOri is", postFlightReportOri)
-      // console.log("pfr is:", this.postFlightReportArray)
-
       let mergedArray = []
       mergedArray = this.postFlightReportArray.reduce((acc, curr) => {
         // 检查当前对象是否与已有对象相匹配
@@ -395,12 +383,6 @@ export default {
       }, []);
 
       this.postFlightReportArray = mergedArray
-
-      // 输出合并后的数组
-      // console.log("mergedArray", this.postFlightReportArray);
-
-
-
     },
     customSortMethodForProgressColumn
   },

@@ -151,7 +151,6 @@ export default {
           this.currentAdditionalInformation = JSON.parse(response.additionalInformation)
         }
         this.isStared = response.isStarShowed
-        console.log("isStared", this.isStared)
 
       }).catch(error => {
         console.error('Error in Postting pdf url:', error);

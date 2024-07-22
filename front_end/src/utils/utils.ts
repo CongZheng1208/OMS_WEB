@@ -41,8 +41,6 @@ export function updateCurrentTime() {
 
 //本函数用于向成员系统发送post请求
 export function handleTestOrder(tmp: Object) {
-  console.log("send msg is:", tmp);
-
   postTestOrder(tmp)
     .then((response) => {
       // 显示加载条

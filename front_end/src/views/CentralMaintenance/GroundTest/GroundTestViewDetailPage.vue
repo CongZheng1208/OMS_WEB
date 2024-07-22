@@ -193,7 +193,6 @@ export default {
     customSortMethodForProgressColumn
   },
   mounted() {
-    console.log("$store.state.groundTestList.currentGroundTest", this.$store.state.groundTestList.currentGroundTest)
     // setTimeout(() => {
     //   this.loading = false;
     // }, 100);

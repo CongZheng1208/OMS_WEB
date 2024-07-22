@@ -5,6 +5,7 @@ import { http } from "../../../utils/http";
 const API = {
   // listDisplay
   GET_EVENT: "/conditionMonitoring/eventLog/eventLogDisplay.php",
+  GET_EVENT_DATA: "/conditionMonitoring/eventLog/eventData.php",
   GET_EVENT_PARA: "/conditionMonitoring/eventLog/eventLogParameterDisplay.php",
 };
 
@@ -12,6 +13,13 @@ const API = {
 export const getEvent = () => {
   return http({
     url: API.GET_EVENT,
+    method: "GET",
+  });
+};
+
+export const getEventData = () => {
+  return http({
+    url: API.GET_EVENT_DATA,
     method: "GET",
   });
 };

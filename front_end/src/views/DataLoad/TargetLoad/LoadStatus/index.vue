@@ -152,7 +152,6 @@ export default {
   },
   computed: {
     currentPageData() {
-      console.log(this.pageData.part_data_log_output)
       this.parameterCountTotal = this.pageData.part_data_log_output.filter((item) => {
         const equipmentNameMatch = item.equipment.name.toLowerCase().includes(this.searchEquipmentContent.toLowerCase());
         const partIdMatch = item.part.id.toLowerCase().includes(this.searchPNNContent.toLowerCase());

@@ -198,8 +198,6 @@ export default {
           Tests: selectedEquipment[key].Tests,
         });
       });
-
-      // console.log("Tests is:", this.Equipments)
     },
 
     /**
@@ -213,9 +211,6 @@ export default {
       } else {
         this.Tests = row.Tests
       }
-
-      // console.log("this.$store.state.groundTestList.InterferingTestIndexs", this.$store.state.groundTestList.InterferingTestIndexs)
-      // console.log(this.Tests)
     },
 
     /**
@@ -223,7 +218,6 @@ export default {
      * @param {string} row - rawData数据的ataNumber属性
      */
     handleTestRowClick(row: string) {
-      //console.log("this.$store.state.groundTestList.InterferingTestIndexs", this.$store.state.groundTestList.InterferingTestIndexs)
       this.isAddedMsg = true
       this.selectedTest = row
     },
@@ -277,7 +271,6 @@ export default {
      * @param {*} row table选中行信息
      */
     formatATAName(row) {
-      console.log(row.ataNumber.substring(0, 2))
       return ataNameEnum[row.ataNumber.substring(0, 2)];
     },
 

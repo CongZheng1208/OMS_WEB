@@ -475,11 +475,7 @@ export default {
 
       // 检查输入是否满足格式要求
       if (regex.test(this.inputListName)) {
-
-        console.log("this.addedParams", this.addedParams)
-
         if (this.addedParams.length > 0) {
-
           let tmp = qs.stringify({
             id: "",
             ListName: this.inputListName,

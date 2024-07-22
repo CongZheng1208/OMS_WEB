@@ -309,8 +309,6 @@ export default {
         console.log("reponse url is", queryString)
         const urlraw = `http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%` + queryString + `&issueNumber=R11&publicationId=CES-C919-sx_US-2000300`
         console.log("url raw:", urlraw)
-        // const url = decodeURIComponent(urlraw)
-        // console.log("url now:", url);
 
         // @ts-ignore
         document.getElementById('iframe').src = urlraw;
@@ -432,8 +430,6 @@ export default {
 
         this.existingFailureArray = mergedArray
 
-        // 输出合并后的数组
-        console.log("mergedArray", mergedArray);
         // @ts-ignore
         this.ataFilters = Array.from(new Set(this.existingFailureArray.map(obj => obj.ata))).map(value => {
           // @ts-ignore

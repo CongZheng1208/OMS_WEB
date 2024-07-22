@@ -79,7 +79,6 @@ export default {
 
   },
   async mounted() {
-    // console.log('[ this.dataloadList ] >', this.dataloadList)
     this.dataloadRes = await this.get_data_list()
   },
   methods: {
@@ -100,7 +99,6 @@ export default {
       this.$router.push({ name: name })
     },
     async beginLoad() {
-      console.log('[ this.$router ] >', this.$router)
       const res = (await http({
         url: '/load-equipment-part',
         method: 'post',

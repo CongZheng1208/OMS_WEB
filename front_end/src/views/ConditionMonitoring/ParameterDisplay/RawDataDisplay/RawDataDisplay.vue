@@ -195,7 +195,6 @@ export default {
 
         if (response.length > 0 & this.rawDatas.length > 0) {
           if (response[0].idx != this.rawDatas[0].idx) {
-            console.log("data flushing")
             // 只有当idx更新时，才会刷新this.rawDatas
             this.rawDatas = []
             response.forEach(ele => {

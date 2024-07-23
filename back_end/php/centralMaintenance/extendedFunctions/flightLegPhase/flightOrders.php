@@ -4,7 +4,7 @@
     $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
     // 设定要连接的目标服务器和端口
-    $target_address = '192.168.1.10';
+    $target_address = '192.168.1.147';
     $target_port = 5001;
 
     // 连接到目标服务器

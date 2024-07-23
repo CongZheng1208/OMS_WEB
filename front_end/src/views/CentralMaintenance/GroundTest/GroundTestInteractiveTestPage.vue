@@ -1,6 +1,6 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading"
-       style="background-color: rgb(45, 45, 45);">
+       style="background-color: rgb(60, 60, 60);">
     <el-header style="height: 8vh;">
       <el-row style="width: 100%;">
         <el-col :span="8">
@@ -147,7 +147,7 @@ export default {
 
       } else {
         // 如果用户尚未选择任何选项，则弹出消息提示
-        this.$message({ message: 'No options have been selected yet', type: 'warning' });
+        // this.$message({ message: 'No options have been selected yet', type: 'warning' });
       }
     },
 
@@ -183,9 +183,6 @@ export default {
         background: 'rgba(0, 0, 0, 0.8)'
       });
 
-      console.log("yes:", this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index)
-      console.log("ono:", this.currentStepId)
-
       if (this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== this.currentStepId && this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index !== "0") {
         // 当Screen_Trigger_Index更新了且不为null时, 更新页面展示项目并停止刷新
 
@@ -201,7 +198,7 @@ export default {
       } else if (count >= 10) {
         // 如果时间超过5秒，也停止刷新并退出
         loading.close();
-        this.$message({ message: 'Exceeded maximum refresh time', type: 'warning' });
+        // this.$message({ message: 'Exceeded maximum refresh time', type: 'warning' });
         this.$router.push({ name: "TestList" });
         return;
 
@@ -217,8 +214,6 @@ export default {
     handleTestOrder
   },
   created() {
-    console.log("this.$store.state.groundTestList.currentGroundTest is:", this.$store.state.groundTestList.currentGroundTest)
-
     // 将当前选中测试的ScreenId按分号分开，存入数组
     let ScreenIds;
     if (this.$store.state.groundTestList.currentGroundTest.ScreenId) {
@@ -245,23 +240,15 @@ export default {
       this.screenArray.push(newObj);
     }
 
-    console.log(" this.screenArray", this.screenArray)
-    console.log(this.screenArray.length)
-
     // 如果screenArray为空，则证明该项目中没有启动测试了
     if (this.screenArray.length == 0 || this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index == "0") {
-      this.$message('No interactive test available for this project');
+      // this.$message('No interactive test available for this project');
       this.currentStepId = -1
     } else {
-      // this.currentStepId = this.screenArray[0].ScreenId
       this.currentStepId = this.$store.state.groundTestList.currentGroundTest.Screen_Trigger_Index;
-      console.log("this.currentStepId", this.currentStepId)
 
       this.currentScreem = this.screenArray.find(item => item.ScreenId === this.currentStepId).InteractiveScreenText
       this.currentOptions = this.screenArray.find(item => item.ScreenId === this.currentStepId).ResponseMessage.ResponseBlock
-
-      console.log("this.currentScreem:", this.currentScreem)
-      console.log("this.currentOptions:", this.currentOptions)
     }
   },
   mounted() {

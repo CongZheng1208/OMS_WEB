@@ -175,10 +175,6 @@ export default {
 
       // 在外部页面
       window.addEventListener("message", function (event: MessageEvent<any>) {
-        // 检查origin，确定消息发送方的安全性
-        // if (event.origin !== "http://example.com") {
-        //   return; // 来源不正确时忽略消息
-        // }
 
         console.log("从iframe收到的消息：", event.data);
         if (event.data.hasOwnProperty("targetPage")) {
@@ -209,10 +205,6 @@ export default {
      */
     tableRowClicked(item) {
       this.$store.state.failureList.selectedFailureId = item.index;
-      console.log(
-        "selectedFailureId",
-        this.$store.state.failureList.selectedFailureId
-      );
     },
 
     /**

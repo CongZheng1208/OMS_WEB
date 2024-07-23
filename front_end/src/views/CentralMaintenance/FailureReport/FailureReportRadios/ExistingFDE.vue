@@ -210,14 +210,10 @@ export default {
         fimCode: fimCode
       })
 
-
       postFimCodeForURL(tmp).then(response => {
 
         const queryString = response["file_name"];
-        console.log("queryString", queryString)
         const url = "http://192.168.1.34:81/manual/detail?groupNameCode=CES&language=sx_US&model=C919&path=%2FCES-C919-sx_US-2000300%" + queryString + "&issueNumber=R11&publicationId=CES-C919-sx_US-2000300"
-        console.log("url:", url);
-
         document.getElementById('iframe').src = url;
 
       }).catch(error => {
@@ -353,9 +349,6 @@ export default {
               maintenceTime: curr.maintenceTime,
               rp: curr.rp
             });
-
-
-
           } else {
             // 如果没有匹配的对象，将当前对象直接添加到结果数组中
             acc.push(curr);
@@ -366,17 +359,13 @@ export default {
       } else {
         this.existingFDEArray = []
       }
-
-      // console.log("existingFDEArray is", this.existingFDEArray);
     },
-
     customSortMethodForProgressColumn
   },
   mounted() {
     // 在 OMS 项目中监听 message 事件
     window.addEventListener('message', (event) => {
       if (event.origin === 'http://localhost:8081') {  // 修改为正确的 OMD 项目的地址
-        //console.log('Received message from OMD:', event.data);
         this.$router.push({ name: "SelectTestNew", params: { selectedEquipment: this.queryStringToJson(event.data) } });
       }
     });

@@ -244,23 +244,15 @@ export default {
       }
       this.combinedRecords = [];
 
-      console.log(">??", this.selectedParams[0])
-
-
-
       // 若只有一个数据需要展示
       if (this.selectedParams.length === 1) {
         // 当只有一个参数需要展示时]
-        console.log("Oiii", this.timeStampArray)
         for (let i = 0; i < this.timeStampArray.length; i++) {
-
           this.combinedRecords.push({
             RecordTime: this.timeStampArray[i],
             RecordValuesLeft: this.selectedParams[0].records[Math.floor(i / 16)].RecordValues[Math.floor(i % 16)],
             RecordValuesRight: "",
           });
-
-
         }
         this.param1Label = this.selectedParams[0].param
       } else if (this.selectedParams.length === 2) {
@@ -387,28 +379,24 @@ export default {
     let formattedStartTime = startTime.toLocaleString();
     let formattedEndTime = endTime.toLocaleString();
 
-    getEventData().then(response => {
-      this.dataForDisplay = response
-      console.log("response!!!!", response)
-    }).catch(error => {
-      console.error('Error in Postting event params:', error);
-    });
-
-
-    // let tmp = qs.stringify({
-    //   Params: this.currentEvent.associatedParams,
-    //   StartTime: formattedStartTime,
-    //   EndTime: formattedEndTime
-    // });
-
-    // postEventPara(tmp).then(response => {
-    //   this.dataForDisplay = response
-    //   console.log("response", response)
+    // getEventData().then(response => {
+    //   this.dataForDisplay = PaymentResponse
     // }).catch(error => {
     //   console.error('Error in Postting event params:', error);
     // });
 
+    let tmp = qs.stringify({
+      Params: this.currentEvent.associatedParams,
+      StartTime: formattedStartTime,
+      EndTime: formattedEndTime
+    });
 
+    postEventPara(tmp).then(response => {
+      this.dataForDisplay = response
+      // console.log("response", response)
+    }).catch(error => {
+      console.error('Error in Postting event params:', error);
+    });
   }
 }
 </script>

@@ -1,5 +1,9 @@
 <?php
-    $con=mysqli_connect("192.168.1.145", "root", "2185", "OMHMS");
+    //$con=mysqli_connect("192.168.1.145", "root", "2185", "OMHMS");
+	//$con=mysqli_connect("localhost", "root", "root", "OMHMS");
+
+	$con=mysqli_connect("192.168.1.147", "root", "Comac.000", "OMHMS");
+
 	class ReturnItem{
 		public $flightLeg=0;
 		public $flightNumber="";

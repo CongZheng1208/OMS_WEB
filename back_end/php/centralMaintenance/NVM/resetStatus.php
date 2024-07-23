@@ -27,7 +27,7 @@ if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$item = new ReturnJson();
 
-		$item->ata = $row['ATA'];
+		$item->ata = $row['ata'];
 		$item->memberSystemName = $row['memberSystemName'];
 		$item->memberSystemId = $row['memberSystemId'];
 		$item->startTime = $row['startTime'];

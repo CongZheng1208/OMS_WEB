@@ -14,7 +14,7 @@
 
 	// 遍历查询结果
     while($row = mysqli_fetch_assoc($result)) {
-        $ATA = $row["ATA"];
+        $ATA = $row["ata"];
 
         $item = new stdClass();
 

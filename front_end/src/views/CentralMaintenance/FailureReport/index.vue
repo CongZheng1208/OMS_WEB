@@ -22,8 +22,8 @@ export default {
       name: 'FailureList',
       replace: true
     })
-    this.getfailureReportPhp()
-    // this.FailureReportTimer = setInterval(this.getfailureReportPhp, 100000)
+    // this.getfailureReportPhp()
+    this.FailureReportTimer = setInterval(this.getfailureReportPhp, 1000)
   },
 
   beforeDestroy() {
